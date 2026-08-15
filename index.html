@@ -1,0 +1,2080 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#071a31"
+  >
+
+  <title>FWT Tournaments</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root{
+      --navy:#071a31;
+      --navy-soft:#0d2949;
+      --navy-light:#153f6d;
+
+      --lime:#c9df45;
+      --lime-dark:#9eb128;
+
+      --bg:#f3f5f7;
+      --card:#ffffff;
+
+      --text:#142033;
+      --muted:#697587;
+      --line:#e1e6eb;
+
+      --green:#17875f;
+      --green-bg:#eaf7f1;
+
+      --blue:#2c6599;
+      --blue-bg:#edf4fb;
+
+      --gray:#687587;
+      --gray-bg:#eef1f4;
+
+      --orange:#a06a21;
+      --orange-bg:#fff5e7;
+
+      --shadow:
+        0 12px 32px rgba(7,26,49,.07);
+
+      --shadow-hover:
+        0 18px 45px rgba(7,26,49,.13);
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      margin:0;
+
+      min-height:100vh;
+
+      background:
+        linear-gradient(
+          180deg,
+          #edf1f4 0,
+          #f6f7f9 270px,
+          #f3f5f7 100%
+        );
+
+      color:var(--text);
+
+      font-family:
+        Inter,
+        Pretendard,
+        "Noto Sans KR",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      -webkit-font-smoothing:
+        antialiased;
+    }
+
+    button{
+      font:inherit;
+    }
+
+    /* ============================
+       HERO
+    ============================ */
+
+    .hero{
+      position:relative;
+
+      overflow:hidden;
+
+      min-height:310px;
+
+      background:
+        linear-gradient(
+          118deg,
+          #051426 0%,
+          #08223e 52%,
+          #10436f 100%
+        );
+
+      color:white;
+    }
+
+    /*
+      라임 그래픽은
+      FWT T 로고 꼬리처럼 보이지 않도록
+      브랜드 로고와 떨어진 배경 요소로만 사용
+    */
+
+    .hero::before{
+      content:"";
+
+      position:absolute;
+
+      width:340px;
+      height:340px;
+
+      right:-150px;
+      top:-170px;
+
+      border:
+        58px solid rgba(201,223,69,.08);
+
+      border-radius:50%;
+    }
+
+    .hero::after{
+      content:"";
+
+      position:absolute;
+
+      width:210px;
+      height:210px;
+
+      right:75px;
+      bottom:-160px;
+
+      border:
+        42px solid rgba(255,255,255,.04);
+
+      border-radius:50%;
+    }
+
+    .hero-inner{
+      position:relative;
+      z-index:2;
+
+      width:
+        min(
+          1120px,
+          calc(100% - 40px)
+        );
+
+      margin:0 auto;
+
+      padding:
+        35px 0 52px;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:20px;
+    }
+
+    .brand-wrap{
+      display:flex;
+      align-items:center;
+
+      gap:14px;
+    }
+
+    .fwt-logo{
+      color:white;
+
+      font-size:34px;
+      line-height:1;
+
+      font-weight:950;
+      font-style:italic;
+
+      letter-spacing:-4px;
+
+      transform:
+        skew(-5deg);
+    }
+
+    .fwt-logo span{
+      color:var(--lime);
+    }
+
+    .brand-text{
+      padding-left:14px;
+
+      border-left:
+        1px solid rgba(255,255,255,.16);
+
+      color:
+        rgba(255,255,255,.62);
+
+      font-size:10px;
+      font-weight:850;
+
+      letter-spacing:1.7px;
+    }
+
+    .admin-link{
+      min-height:42px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      padding:0 14px;
+
+      border:
+        1px solid rgba(255,255,255,.13);
+
+      border-radius:10px;
+
+      background:
+        rgba(255,255,255,.06);
+
+      color:
+        rgba(255,255,255,.75);
+
+      text-decoration:none;
+
+      font-size:11px;
+      font-weight:850;
+
+      transition:.2s ease;
+    }
+
+    .admin-link:hover{
+      background:
+        rgba(255,255,255,.12);
+
+      color:white;
+    }
+
+    .hero-content{
+      max-width:720px;
+
+      padding-top:52px;
+    }
+
+    .eyebrow{
+      display:flex;
+      align-items:center;
+
+      gap:8px;
+
+      margin-bottom:13px;
+
+      color:var(--lime);
+
+      font-size:11px;
+      font-weight:950;
+
+      letter-spacing:2px;
+    }
+
+    .eyebrow::before{
+      content:"";
+
+      width:24px;
+      height:2px;
+
+      border-radius:99px;
+
+      background:var(--lime);
+    }
+
+    .hero-title{
+      margin:0;
+
+      font-size:
+        clamp(
+          36px,
+          6vw,
+          56px
+        );
+
+      line-height:1.08;
+
+      font-weight:950;
+
+      letter-spacing:-2.5px;
+    }
+
+    .hero-title em{
+      color:var(--lime);
+
+      font-style:normal;
+    }
+
+    .hero-desc{
+      max-width:570px;
+
+      margin:
+        17px 0 0;
+
+      color:
+        rgba(255,255,255,.67);
+
+      font-size:14px;
+      font-weight:550;
+
+      line-height:1.75;
+    }
+
+    /* ============================
+       MAIN
+    ============================ */
+
+    .main{
+      width:
+        min(
+          1120px,
+          calc(100% - 40px)
+        );
+
+      margin:0 auto;
+
+      padding:
+        36px 0 64px;
+    }
+
+    .overview{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+
+      gap:20px;
+
+      margin-bottom:18px;
+    }
+
+    .section-kicker{
+      margin-bottom:6px;
+
+      color:#356388;
+
+      font-size:10px;
+      font-weight:950;
+
+      letter-spacing:1.8px;
+    }
+
+    .section-title{
+      margin:0;
+
+      color:var(--navy);
+
+      font-size:28px;
+      font-weight:950;
+
+      letter-spacing:-1.2px;
+    }
+
+    .section-desc{
+      margin:
+        7px 0 0;
+
+      color:var(--muted);
+
+      font-size:12px;
+      line-height:1.6;
+    }
+
+    .summary{
+      display:flex;
+      align-items:center;
+
+      gap:7px;
+    }
+
+    .summary-item{
+      min-height:36px;
+
+      display:flex;
+      align-items:center;
+
+      padding:0 12px;
+
+      border:
+        1px solid var(--line);
+
+      border-radius:999px;
+
+      background:white;
+
+      color:#697587;
+
+      font-size:10px;
+      font-weight:850;
+    }
+
+    .summary-item strong{
+      margin-left:5px;
+
+      color:var(--navy);
+
+      font-size:14px;
+      font-weight:950;
+    }
+
+    /* ============================
+       FILTER
+    ============================ */
+
+    .filter-bar{
+      display:flex;
+
+      gap:7px;
+
+      margin-bottom:18px;
+
+      overflow-x:auto;
+
+      scrollbar-width:none;
+    }
+
+    .filter-bar::-webkit-scrollbar{
+      display:none;
+    }
+
+    .filter-btn{
+      flex:none;
+
+      min-height:42px;
+
+      padding:0 16px;
+
+      border:
+        1px solid #dce2e8;
+
+      border-radius:999px;
+
+      background:white;
+
+      color:#5f6c7c;
+
+      font-size:11px;
+      font-weight:900;
+
+      cursor:pointer;
+
+      transition:
+        .18s ease;
+    }
+
+    .filter-btn.active{
+      border-color:var(--navy);
+
+      background:var(--navy);
+
+      color:white;
+    }
+
+    /* ============================
+       GRID
+    ============================ */
+
+    .tournament-grid{
+      display:grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0,1fr)
+        );
+
+      gap:13px;
+    }
+
+    .tournament-card{
+      position:relative;
+
+      overflow:hidden;
+
+      min-height:230px;
+
+      display:flex;
+      flex-direction:column;
+
+      border:
+        1px solid var(--line);
+
+      border-radius:19px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
+
+      cursor:pointer;
+
+      transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
+    }
+
+    .tournament-card:hover{
+      transform:
+        translateY(-3px);
+
+      border-color:#cfd7df;
+
+      box-shadow:
+        var(--shadow-hover);
+    }
+
+    .tournament-card.active-event{
+      border-color:
+        #c8d796;
+    }
+
+    .card-accent{
+      height:4px;
+
+      background:#c9d1d8;
+    }
+
+    .active-event .card-accent{
+      background:
+        linear-gradient(
+          90deg,
+          var(--lime),
+          #9db726
+        );
+    }
+
+    .upcoming-event .card-accent{
+      background:
+        linear-gradient(
+          90deg,
+          #4e83ad,
+          #80a7c6
+        );
+    }
+
+    .completed-event .card-accent{
+      background:#c8cfd6;
+    }
+
+    .card-body{
+      flex:1;
+
+      display:flex;
+      flex-direction:column;
+
+      padding:19px;
+    }
+
+    .card-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:10px;
+    }
+
+    .status{
+      min-height:28px;
+
+      display:inline-flex;
+      align-items:center;
+
+      padding:0 9px;
+
+      border-radius:999px;
+
+      font-size:10px;
+      font-weight:950;
+    }
+
+    .status.active{
+      background:var(--green-bg);
+      color:var(--green);
+    }
+
+    .status.upcoming{
+      background:var(--blue-bg);
+      color:var(--blue);
+    }
+
+    .status.completed{
+      background:var(--gray-bg);
+      color:var(--gray);
+    }
+
+    .status.draft{
+      background:var(--orange-bg);
+      color:var(--orange);
+    }
+
+    .date{
+      color:#798594;
+
+      font-size:11px;
+      font-weight:750;
+    }
+
+    .event-name{
+      margin-top:17px;
+
+      color:var(--navy);
+
+      font-size:23px;
+      font-weight:950;
+
+      line-height:1.3;
+
+      letter-spacing:-.8px;
+    }
+
+    .division-name{
+      margin-top:6px;
+
+      color:#667386;
+
+      font-size:12px;
+      font-weight:750;
+    }
+
+    .meta{
+      display:flex;
+      flex-wrap:wrap;
+
+      gap:6px;
+
+      margin-top:16px;
+    }
+
+    .meta-chip{
+      min-height:29px;
+
+      display:inline-flex;
+      align-items:center;
+
+      padding:0 9px;
+
+      border-radius:7px;
+
+      background:#f3f5f7;
+
+      color:#5e6b7d;
+
+      font-size:10px;
+      font-weight:850;
+    }
+
+    .card-footer{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:12px;
+
+      margin-top:auto;
+      padding-top:19px;
+    }
+
+    .view-text{
+      color:#647184;
+
+      font-size:11px;
+      font-weight:800;
+    }
+
+    .view-arrow{
+      width:36px;
+      height:36px;
+
+      flex:none;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      border-radius:50%;
+
+      background:var(--navy);
+      color:var(--lime);
+
+      font-size:16px;
+      font-weight:950;
+
+      transition:
+        transform .18s ease;
+    }
+
+    .tournament-card:hover
+    .view-arrow{
+      transform:
+        translateX(3px);
+    }
+
+    /* ============================
+       EMPTY / ERROR
+    ============================ */
+
+    .state-box{
+      grid-column:1 / -1;
+
+      padding:70px 20px;
+
+      border:
+        1px solid var(--line);
+
+      border-radius:19px;
+
+      background:white;
+
+      text-align:center;
+
+      box-shadow:var(--shadow);
+    }
+
+    .state-icon{
+      width:48px;
+      height:48px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      margin:
+        0 auto 14px;
+
+      border-radius:14px;
+
+      background:#f0f3f5;
+
+      color:var(--navy);
+
+      font-size:20px;
+      font-weight:950;
+    }
+
+    .state-title{
+      color:var(--navy);
+
+      font-size:18px;
+      font-weight:950;
+    }
+
+    .state-desc{
+      max-width:430px;
+
+      margin:
+        7px auto 0;
+
+      color:var(--muted);
+
+      font-size:12px;
+      line-height:1.65;
+    }
+
+    /* ============================
+       LOADING
+    ============================ */
+
+    .loading{
+      grid-column:1 / -1;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      min-height:240px;
+    }
+
+    .spinner{
+      width:36px;
+      height:36px;
+
+      border:
+        4px solid #dfe5ea;
+
+      border-top-color:
+        var(--navy);
+
+      border-radius:50%;
+
+      animation:
+        spin .8s linear infinite;
+    }
+
+    @keyframes spin{
+      to{
+        transform:
+          rotate(360deg);
+      }
+    }
+
+    /* ============================
+       FOOTER
+    ============================ */
+
+    .footer{
+      width:
+        min(
+          1120px,
+          calc(100% - 40px)
+        );
+
+      margin:0 auto;
+
+      padding:
+        24px 0 32px;
+
+      border-top:
+        1px solid #dde3e8;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:15px;
+
+      color:#82909e;
+
+      font-size:9px;
+      font-weight:750;
+
+      letter-spacing:1px;
+    }
+
+    .footer strong{
+      color:var(--navy);
+    }
+
+    .footer-q{
+      color:#96aa25;
+      font-weight:950;
+    }
+
+    /* ============================
+       MOBILE
+    ============================ */
+
+    @media(max-width:720px){
+
+      .hero{
+        min-height:287px;
+      }
+
+      .hero-inner{
+        width:
+          calc(100% - 26px);
+
+        padding:
+          24px 0 42px;
+      }
+
+      .fwt-logo{
+        font-size:31px;
+      }
+
+      .brand-text{
+        display:none;
+      }
+
+      .admin-link{
+        min-height:43px;
+
+        padding:0 12px;
+
+        font-size:10px;
+      }
+
+      .hero-content{
+        padding-top:43px;
+      }
+
+      .eyebrow{
+        font-size:10px;
+      }
+
+      .hero-title{
+        font-size:39px;
+
+        letter-spacing:-2px;
+      }
+
+      .hero-desc{
+        max-width:330px;
+
+        margin-top:13px;
+
+        font-size:13px;
+      }
+
+      .main{
+        width:
+          calc(100% - 22px);
+
+        padding:
+          27px 0 50px;
+      }
+
+      .overview{
+        display:block;
+
+        margin-bottom:16px;
+      }
+
+      .section-title{
+        font-size:27px;
+      }
+
+      .section-desc{
+        font-size:13px;
+      }
+
+      .summary{
+        margin-top:14px;
+      }
+
+      .summary-item{
+        min-height:37px;
+
+        font-size:11px;
+      }
+
+      .filter-btn{
+        min-height:44px;
+
+        padding:0 17px;
+
+        font-size:12px;
+      }
+
+      .tournament-grid{
+        grid-template-columns:1fr;
+
+        gap:11px;
+      }
+
+      .tournament-card{
+        min-height:218px;
+
+        border-radius:17px;
+      }
+
+      .card-body{
+        padding:17px;
+      }
+
+      .status{
+        min-height:29px;
+
+        font-size:11px;
+      }
+
+      .date{
+        font-size:12px;
+      }
+
+      .event-name{
+        margin-top:15px;
+
+        font-size:23px;
+      }
+
+      .division-name{
+        font-size:13px;
+      }
+
+      .meta-chip{
+        min-height:31px;
+
+        padding:0 10px;
+
+        font-size:11px;
+      }
+
+      .view-text{
+        font-size:12px;
+      }
+
+      .view-arrow{
+        width:39px;
+        height:39px;
+      }
+
+      .footer{
+        width:
+          calc(100% - 22px);
+
+        padding:
+          21px 0 29px;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+<section class="hero">
+
+  <div class="hero-inner">
+
+    <nav class="nav">
+
+      <div class="brand-wrap">
+
+        <div class="fwt-logo">
+          FW<span>T</span>
+        </div>
+
+        <div class="brand-text">
+          FRIENDS WITH TENNIS
+        </div>
+
+      </div>
+
+
+      <a
+        class="admin-link"
+        href="./admin/"
+      >
+        ADMIN
+      </a>
+
+    </nav>
+
+
+    <div class="hero-content">
+
+      <div class="eyebrow">
+        FWT TOURNAMENT
+      </div>
+
+      <h1 class="hero-title">
+        Play together.<br>
+        <em>Follow every match.</em>
+      </h1>
+
+      <p class="hero-desc">
+        FWT에서 진행되는 대회의 조편성, 경기 결과,
+        순위와 본선 대진을 한곳에서 확인하세요.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<main class="main">
+
+  <section class="overview">
+
+    <div>
+
+      <div class="section-kicker">
+        TOURNAMENTS
+      </div>
+
+      <h2 class="section-title">
+        FWT 대회
+      </h2>
+
+      <p class="section-desc">
+        보고 싶은 대회를 선택하면 현재 경기 현황을 확인할 수 있습니다.
+      </p>
+
+    </div>
+
+
+    <div class="summary">
+
+      <div class="summary-item">
+        진행중
+        <strong id="activeCount">
+          0
+        </strong>
+      </div>
+
+      <div class="summary-item">
+        전체
+        <strong id="totalCount">
+          0
+        </strong>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <div class="filter-bar">
+
+    <button
+      class="filter-btn active"
+      data-filter="all"
+      type="button"
+    >
+      전체
+    </button>
+
+    <button
+      class="filter-btn"
+      data-filter="active"
+      type="button"
+    >
+      진행중
+    </button>
+
+    <button
+      class="filter-btn"
+      data-filter="upcoming"
+      type="button"
+    >
+      예정
+    </button>
+
+    <button
+      class="filter-btn"
+      data-filter="completed"
+      type="button"
+    >
+      종료
+    </button>
+
+  </div>
+
+
+  <section
+    class="tournament-grid"
+    id="tournamentGrid"
+  >
+
+    <div class="loading">
+
+      <div class="spinner"></div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<footer class="footer">
+
+  <div>
+    <strong>FWT</strong>
+    · FRIENDS WITH TENNIS
+  </div>
+
+  <div>
+    CREATED BY
+    <span class="footer-q">
+      Q
+    </span>
+  </div>
+
+</footer>
+
+
+<script>
+
+const SUPABASE_URL =
+  "https://opwuyqerisocqobbbisg.supabase.co";
+
+
+const SUPABASE_KEY =
+  "sb_publishable_Eo_zfONeGLs9ATCVg2Fk_g_y_IAJFV-";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+let tournaments = [];
+
+let currentFilter =
+  "all";
+
+
+/* ==============================
+   HTML
+============================== */
+
+function escapeHtml(value){
+
+  const div =
+    document.createElement(
+      "div"
+    );
+
+  div.textContent =
+    value ?? "";
+
+  return div.innerHTML;
+
+}
+
+
+/* ==============================
+   DATE
+============================== */
+
+function parseDate(value){
+
+  if (!value){
+    return null;
+  }
+
+
+  const date =
+    new Date(
+      `${value}T00:00:00`
+    );
+
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+    return null;
+  }
+
+
+  return date;
+
+}
+
+
+function formatDate(value){
+
+  const date =
+    parseDate(value);
+
+
+  if (!date){
+    return "날짜 미정";
+  }
+
+
+  return new Intl.DateTimeFormat(
+    "ko-KR",
+    {
+      year:"numeric",
+      month:"long",
+      day:"numeric"
+    }
+  ).format(date);
+
+}
+
+
+/* ==============================
+   EVENT STATUS
+
+   active DB 상태가 가장 우선.
+   draft인데 미래 날짜라면 예정.
+   completed면 종료.
+============================== */
+
+function getViewStatus(
+  tournament
+){
+
+  if (
+    tournament.status ===
+    "completed"
+  ){
+
+    return "completed";
+
+  }
+
+
+  if (
+    tournament.status ===
+    "active"
+  ){
+
+    return "active";
+
+  }
+
+
+  const eventDate =
+    parseDate(
+      tournament.tournament_date
+    );
+
+
+  if (eventDate){
+
+    const today =
+      new Date();
+
+
+    today.setHours(
+      0,
+      0,
+      0,
+      0
+    );
+
+
+    if (
+      eventDate >= today
+    ){
+
+      return "upcoming";
+
+    }
+
+  }
+
+
+  return "upcoming";
+
+}
+
+
+function statusText(status){
+
+  const map = {
+
+    active:
+      "진행중",
+
+    upcoming:
+      "예정",
+
+    completed:
+      "종료"
+
+  };
+
+
+  return (
+    map[status] ||
+    "예정"
+  );
+
+}
+
+
+function cardClass(status){
+
+  const map = {
+
+    active:
+      "active-event",
+
+    upcoming:
+      "upcoming-event",
+
+    completed:
+      "completed-event"
+
+  };
+
+
+  return (
+    map[status] ||
+    "upcoming-event"
+  );
+
+}
+
+
+/* ==============================
+   LABELS
+============================== */
+
+function formatMatchType(value){
+
+  const map = {
+
+    singles:"단식",
+    doubles:"복식"
+
+  };
+
+
+  return (
+    map[value] ||
+    ""
+  );
+
+}
+
+
+function formatGender(value){
+
+  const map = {
+
+    male:"남자",
+    female:"여자",
+    mixed:"혼합",
+    open:"오픈"
+
+  };
+
+
+  return (
+    map[value] ||
+    ""
+  );
+
+}
+
+
+function formatFormat(value){
+
+  const map = {
+
+    group_knockout:
+      "조별예선 + 본선",
+
+    knockout:
+      "토너먼트"
+
+  };
+
+
+  return (
+    map[value] ||
+    ""
+  );
+
+}
+
+
+/* ==============================
+   LOAD
+============================== */
+
+async function loadTournaments(){
+
+  const {
+    data:tournamentRows,
+    error:tournamentError
+  } =
+    await supabaseClient
+      .from("tournaments")
+      .select(
+        "id,name,tournament_date,status,is_public,created_at"
+      )
+      .eq(
+        "is_public",
+        true
+      )
+      .order(
+        "tournament_date",
+        {
+          ascending:false,
+          nullsFirst:false
+        }
+      )
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      );
+
+
+  if (
+    tournamentError
+  ){
+
+    throw new Error(
+      tournamentError.message
+    );
+
+  }
+
+
+  if (
+    !tournamentRows ||
+    tournamentRows.length === 0
+  ){
+
+    tournaments = [];
+
+    render();
+
+    return;
+
+  }
+
+
+  const tournamentIds =
+    tournamentRows.map(
+      row =>
+        row.id
+    );
+
+
+  const {
+    data:divisionRows,
+    error:divisionError
+  } =
+    await supabaseClient
+      .from("divisions")
+      .select(
+        "id,tournament_id,name,match_type,gender,format,sort_order"
+      )
+      .in(
+        "tournament_id",
+        tournamentIds
+      )
+      .order(
+        "sort_order",
+        {
+          ascending:true
+        }
+      );
+
+
+  if (
+    divisionError
+  ){
+
+    throw new Error(
+      divisionError.message
+    );
+
+  }
+
+
+  tournaments =
+    tournamentRows.map(
+      tournament => {
+
+        const division =
+          (divisionRows || [])
+            .find(
+              row =>
+                row.tournament_id ===
+                tournament.id
+            ) ||
+            null;
+
+
+        return {
+
+          ...tournament,
+
+          division,
+
+          viewStatus:
+            getViewStatus(
+              tournament
+            )
+
+        };
+
+      }
+    );
+
+
+  /*
+    목록 우선순위
+
+    1. 진행중
+    2. 예정
+    3. 종료
+
+    같은 상태에서는 날짜순
+  */
+
+  const order = {
+
+    active:0,
+    upcoming:1,
+    completed:2
+
+  };
+
+
+  tournaments.sort(
+    (a,b) => {
+
+      const statusDiff =
+        order[a.viewStatus]
+        -
+        order[b.viewStatus];
+
+
+      if (
+        statusDiff !== 0
+      ){
+
+        return statusDiff;
+
+      }
+
+
+      const dateA =
+        parseDate(
+          a.tournament_date
+        )?.getTime() || 0;
+
+
+      const dateB =
+        parseDate(
+          b.tournament_date
+        )?.getTime() || 0;
+
+
+      if (
+        a.viewStatus ===
+        "upcoming"
+      ){
+
+        return (
+          dateA -
+          dateB
+        );
+
+      }
+
+
+      return (
+        dateB -
+        dateA
+      );
+
+    }
+  );
+
+
+  render();
+
+}
+
+
+/* ==============================
+   SUMMARY
+============================== */
+
+function renderSummary(){
+
+  document.getElementById(
+    "activeCount"
+  ).textContent =
+    tournaments.filter(
+      tournament =>
+        tournament.viewStatus ===
+        "active"
+    ).length;
+
+
+  document.getElementById(
+    "totalCount"
+  ).textContent =
+    tournaments.length;
+
+}
+
+
+/* ==============================
+   RENDER
+============================== */
+
+function render(){
+
+  renderSummary();
+
+
+  const grid =
+    document.getElementById(
+      "tournamentGrid"
+    );
+
+
+  grid.innerHTML = "";
+
+
+  const filtered =
+    tournaments.filter(
+      tournament => {
+
+        if (
+          currentFilter ===
+          "all"
+        ){
+
+          return true;
+
+        }
+
+
+        return (
+          tournament.viewStatus ===
+          currentFilter
+        );
+
+      }
+    );
+
+
+  if (
+    filtered.length === 0
+  ){
+
+    const title =
+      tournaments.length === 0
+        ? "현재 공개된 대회가 없습니다."
+        : "해당하는 대회가 없습니다.";
+
+
+    grid.innerHTML = `
+
+      <div class="state-box">
+
+        <div class="state-icon">
+          F
+        </div>
+
+        <div class="state-title">
+          ${escapeHtml(title)}
+        </div>
+
+        <div class="state-desc">
+          새로운 FWT 대회가 공개되면 이곳에서 바로 확인할 수 있습니다.
+        </div>
+
+      </div>
+
+    `;
+
+
+    return;
+
+  }
+
+
+  filtered.forEach(
+    tournament => {
+
+      const status =
+        tournament.viewStatus;
+
+
+      const division =
+        tournament.division;
+
+
+      const card =
+        document.createElement(
+          "article"
+        );
+
+
+      card.className =
+        `tournament-card ${cardClass(status)}`;
+
+
+      card.setAttribute(
+        "tabindex",
+        "0"
+      );
+
+
+      card.setAttribute(
+        "role",
+        "link"
+      );
+
+
+      const meta = [];
+
+
+      if (
+        division?.gender
+      ){
+
+        meta.push(
+          formatGender(
+            division.gender
+          )
+        );
+
+      }
+
+
+      if (
+        division?.match_type
+      ){
+
+        meta.push(
+          formatMatchType(
+            division.match_type
+          )
+        );
+
+      }
+
+
+      if (
+        division?.format
+      ){
+
+        meta.push(
+          formatFormat(
+            division.format
+          )
+        );
+
+      }
+
+
+      card.innerHTML = `
+
+        <div class="card-accent"></div>
+
+
+        <div class="card-body">
+
+          <div class="card-top">
+
+            <span
+              class="status ${escapeHtml(status)}"
+            >
+              ${escapeHtml(
+                statusText(status)
+              )}
+            </span>
+
+            <span class="date">
+              ${escapeHtml(
+                formatDate(
+                  tournament.tournament_date
+                )
+              )}
+            </span>
+
+          </div>
+
+
+          <div class="event-name">
+            ${escapeHtml(
+              tournament.name
+            )}
+          </div>
+
+
+          ${
+            division?.name
+              ? `
+                <div class="division-name">
+                  ${escapeHtml(
+                    division.name
+                  )}
+                </div>
+              `
+              : ""
+          }
+
+
+          ${
+            meta.length > 0
+              ? `
+                <div class="meta">
+
+                  ${
+                    meta
+                      .filter(Boolean)
+                      .map(
+                        item => `
+
+                          <span class="meta-chip">
+                            ${escapeHtml(item)}
+                          </span>
+
+                        `
+                      )
+                      .join("")
+                  }
+
+                </div>
+              `
+              : ""
+          }
+
+
+          <div class="card-footer">
+
+            <div class="view-text">
+              ${
+                status ===
+                "completed"
+                  ? "대회 결과 보기"
+                  : "대회 현황 보기"
+              }
+            </div>
+
+            <div class="view-arrow">
+              →
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+
+      const openTournament =
+        function(){
+
+          location.href =
+            `./tournament.html?id=${
+              encodeURIComponent(
+                tournament.id
+              )
+            }`;
+
+        };
+
+
+      card.addEventListener(
+        "click",
+        openTournament
+      );
+
+
+      card.addEventListener(
+        "keydown",
+        function(event){
+
+          if (
+            event.key ===
+              "Enter"
+            ||
+            event.key ===
+              " "
+          ){
+
+            event.preventDefault();
+
+            openTournament();
+
+          }
+
+        }
+      );
+
+
+      grid.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+/* ==============================
+   FILTER
+============================== */
+
+document
+  .querySelectorAll(
+    ".filter-btn"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        function(){
+
+          currentFilter =
+            button.dataset.filter;
+
+
+          document
+            .querySelectorAll(
+              ".filter-btn"
+            )
+            .forEach(
+              item =>
+                item.classList.remove(
+                  "active"
+                )
+            );
+
+
+          button.classList.add(
+            "active"
+          );
+
+
+          render();
+
+        }
+      );
+
+    }
+  );
+
+
+/* ==============================
+   START
+============================== */
+
+async function start(){
+
+  try{
+
+    await loadTournaments();
+
+  }catch(error){
+
+    console.error(error);
+
+
+    document.getElementById(
+      "tournamentGrid"
+    ).innerHTML = `
+
+      <div class="state-box">
+
+        <div class="state-icon">
+          !
+        </div>
+
+        <div class="state-title">
+          대회 정보를 불러오지 못했습니다.
+        </div>
+
+        <div class="state-desc">
+          잠시 후 다시 접속해주세요.
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+start();
+
+</script>
+
+</body>
+</html>
