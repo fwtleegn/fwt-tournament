@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>조편성 | FWT Tournament</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -20,14 +21,8 @@
       --muted: #7b8492;
       --line: #e3e8ee;
 
-      --green: #178b61;
-      --green-bg: #edf8f3;
-
       --danger: #d94b4b;
-      --danger-bg: #fff1f1;
-
-      --shadow:
-        0 14px 40px rgba(20, 35, 55, 0.06);
+      --shadow: 0 14px 40px rgba(20,35,55,.06);
     }
 
     * {
@@ -46,7 +41,6 @@
         BlinkMacSystemFont,
         "Segoe UI",
         sans-serif;
-
       background: var(--bg);
       color: var(--text);
     }
@@ -62,15 +56,11 @@
 
     .topbar {
       height: 72px;
-
       display: flex;
       align-items: center;
       justify-content: space-between;
-
       padding: 0 30px;
-
       color: white;
-
       background:
         linear-gradient(
           110deg,
@@ -78,9 +68,8 @@
           #0b2848 60%,
           #10375f
         );
-
       box-shadow:
-        0 4px 22px rgba(6, 23, 43, 0.16);
+        0 4px 22px rgba(6,23,43,.16);
     }
 
     .brand {
@@ -91,13 +80,10 @@
 
     .fwt {
       position: relative;
-
       font-size: 30px;
       font-weight: 950;
       font-style: italic;
-
       letter-spacing: -3px;
-
       transform: skewX(-5deg);
     }
 
@@ -107,66 +93,44 @@
 
     .fwt::after {
       content: "";
-
       position: absolute;
-
       width: 25px;
       height: 3px;
-
       right: -23px;
       top: 12px;
-
       border-radius: 10px;
-
       background: var(--lime);
-
       transform: rotate(-10deg);
     }
 
     .top-title {
       font-size: 11px;
       font-weight: 800;
-
       letter-spacing: 1.8px;
-
       color: rgba(255,255,255,.7);
     }
 
     .back-btn {
       padding: 9px 13px;
-
-      border:
-        1px solid rgba(255,255,255,.14);
-
+      border: 1px solid rgba(255,255,255,.14);
       border-radius: 10px;
-
-      background:
-        rgba(255,255,255,.07);
-
+      background: rgba(255,255,255,.07);
       color: white;
-
       font-size: 11px;
       font-weight: 750;
     }
 
     .container {
-      width:
-        min(1180px, calc(100% - 34px));
-
+      width: min(1180px, calc(100% - 34px));
       margin: 0 auto;
-
-      padding:
-        42px 0 70px;
+      padding: 42px 0 70px;
     }
 
     .page-head {
       display: flex;
-
       justify-content: space-between;
       align-items: flex-end;
-
       gap: 24px;
-
       margin-bottom: 27px;
     }
 
@@ -174,43 +138,31 @@
       display: flex;
       align-items: center;
       gap: 8px;
-
       margin-bottom: 10px;
-
       color: var(--blue);
-
       font-size: 10px;
       font-weight: 850;
-
       letter-spacing: 2px;
     }
 
     .kicker::before {
       content: "";
-
       width: 24px;
       height: 2px;
-
       background: var(--lime);
     }
 
     h1 {
       margin: 0;
-
       color: var(--navy);
-
       font-size: 36px;
       font-weight: 900;
-
       letter-spacing: -1.8px;
     }
 
     .page-desc {
-      margin:
-        9px 0 0;
-
+      margin: 9px 0 0;
       color: var(--muted);
-
       font-size: 13px;
       line-height: 1.6;
     }
@@ -219,23 +171,15 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: flex-end;
-
       gap: 8px;
     }
 
     .chip {
-      padding:
-        8px 11px;
-
-      border:
-        1px solid var(--line);
-
+      padding: 8px 11px;
+      border: 1px solid var(--line);
       border-radius: 999px;
-
       background: white;
-
       color: #596577;
-
       font-size: 10px;
       font-weight: 800;
     }
@@ -247,27 +191,17 @@
     .toolbar {
       display: flex;
       flex-wrap: wrap;
-
       gap: 9px;
-
       margin-bottom: 18px;
     }
 
     .toolbar-btn {
       height: 42px;
-
-      padding:
-        0 15px;
-
-      border:
-        1px solid #dce2e8;
-
+      padding: 0 15px;
+      border: 1px solid #dce2e8;
       border-radius: 11px;
-
       background: white;
-
       color: #4f5c6e;
-
       font-size: 11px;
       font-weight: 800;
     }
@@ -284,72 +218,50 @@
 
     .layout {
       display: grid;
-
       grid-template-columns:
-        minmax(260px, .72fr)
-        minmax(0, 1.28fr);
-
+        minmax(260px,.72fr)
+        minmax(0,1.28fr);
       gap: 18px;
     }
 
     .card {
       overflow: hidden;
-
-      border:
-        1px solid var(--line);
-
+      border: 1px solid var(--line);
       border-radius: 20px;
-
       background: white;
-
       box-shadow: var(--shadow);
     }
 
     .card-head {
       display: flex;
-
       align-items: center;
       justify-content: space-between;
-
-      padding:
-        20px 21px;
-
-      border-bottom:
-        1px solid var(--line);
+      padding: 20px 21px;
+      border-bottom: 1px solid var(--line);
     }
 
     .card-title {
       color: var(--navy);
-
       font-size: 15px;
       font-weight: 850;
     }
 
     .card-sub {
       margin-top: 4px;
-
       color: var(--muted);
-
       font-size: 10px;
     }
 
     .count {
       display: flex;
-
       align-items: center;
       justify-content: center;
-
       min-width: 30px;
       height: 30px;
-
       padding: 0 9px;
-
       border-radius: 999px;
-
       background: #f2f5f7;
-
       color: var(--navy);
-
       font-size: 11px;
       font-weight: 900;
     }
@@ -360,24 +272,13 @@
 
     .player-row {
       display: grid;
-
-      grid-template-columns:
-        minmax(0, 1fr) 104px;
-
+      grid-template-columns: minmax(0,1fr) 105px;
       align-items: center;
-
       gap: 10px;
-
       margin-bottom: 8px;
-
-      padding:
-        11px 11px 11px 13px;
-
-      border:
-        1px solid #e2e7ec;
-
+      padding: 11px 11px 11px 13px;
+      border: 1px solid #e2e7ec;
       border-radius: 12px;
-
       background: #fff;
     }
 
@@ -387,23 +288,17 @@
 
     .player-number {
       margin-bottom: 4px;
-
       color: #a0a8b3;
-
       font-size: 8px;
       font-weight: 900;
-
       letter-spacing: 1px;
     }
 
     .player-name {
       overflow: hidden;
-
       color: #263247;
-
       font-size: 12px;
       font-weight: 850;
-
       text-overflow: ellipsis;
       white-space: nowrap;
     }
@@ -411,97 +306,59 @@
     select {
       width: 100%;
       height: 37px;
-
-      border:
-        1px solid #dbe1e7;
-
+      border: 1px solid #dbe1e7;
       border-radius: 9px;
-
       outline: none;
-
       background: #f8fafb;
-
       color: #465466;
-
       font-size: 11px;
       font-weight: 750;
-
-      padding:
-        0 7px;
-    }
-
-    select:focus {
-      border-color: #7799b9;
+      padding: 0 7px;
     }
 
     .empty {
-      padding:
-        42px 15px;
-
+      padding: 42px 15px;
       color: #99a2ae;
-
       text-align: center;
-
       font-size: 11px;
       line-height: 1.7;
     }
 
     .groups-grid {
       display: grid;
-
-      grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
+      grid-template-columns: repeat(2,minmax(0,1fr));
       gap: 12px;
-
       padding: 14px;
     }
 
     .group-card {
       overflow: hidden;
-
       min-height: 200px;
-
-      border:
-        1px solid #e1e6eb;
-
+      border: 1px solid #e1e6eb;
       border-radius: 15px;
-
       background: #fafbfc;
     }
 
     .group-head {
       display: flex;
-
       align-items: center;
       justify-content: space-between;
-
-      padding:
-        13px 14px;
-
-      border-bottom:
-        1px solid #e5e9ed;
-
+      padding: 13px 14px;
+      border-bottom: 1px solid #e5e9ed;
       background: white;
     }
 
     .group-name {
       color: var(--navy);
-
       font-size: 13px;
       font-weight: 900;
     }
 
     .group-count {
-      padding:
-        5px 8px;
-
+      padding: 5px 8px;
       border-radius: 999px;
-
       background: #f1f4f7;
-
       color: #6f7a88;
-
       font-size: 9px;
       font-weight: 850;
     }
@@ -512,22 +369,13 @@
 
     .group-player {
       display: flex;
-
       align-items: center;
       justify-content: space-between;
-
       gap: 8px;
-
       margin-bottom: 7px;
-
-      padding:
-        10px 11px;
-
-      border:
-        1px solid #e2e7ec;
-
+      padding: 10px 11px;
+      border: 1px solid #e2e7ec;
       border-radius: 10px;
-
       background: white;
     }
 
@@ -537,14 +385,10 @@
 
     .group-player-name {
       min-width: 0;
-
       overflow: hidden;
-
       color: #263247;
-
       font-size: 11px;
       font-weight: 820;
-
       text-overflow: ellipsis;
       white-space: nowrap;
     }
@@ -556,19 +400,11 @@
 
     .notice {
       margin-top: 17px;
-
-      padding:
-        14px 16px;
-
-      border:
-        1px solid #e5e9ed;
-
+      padding: 14px 16px;
+      border: 1px solid #e5e9ed;
       border-radius: 13px;
-
       background: white;
-
       color: #737e8d;
-
       font-size: 11px;
       line-height: 1.65;
     }
@@ -579,48 +415,34 @@
 
     .bottom-bar {
       display: flex;
-
       gap: 12px;
-
       margin-top: 20px;
     }
 
     .secondary-btn,
     .next-btn {
       height: 53px;
-
       border-radius: 12px;
-
       font-weight: 800;
     }
 
     .secondary-btn {
       width: 170px;
-
-      border:
-        1px solid #d8dde4;
-
+      border: 1px solid #d8dde4;
       background: white;
-
       color: #536072;
     }
 
     .next-btn {
       flex: 1;
-
       border: 0;
-
       background:
         linear-gradient(
           115deg,
           var(--navy),
           #123e6c
         );
-
       color: white;
-
-      box-shadow:
-        0 10px 26px rgba(7,26,49,.12);
     }
 
     .next-btn span {
@@ -630,20 +452,12 @@
 
     .footer {
       display: flex;
-
       justify-content: space-between;
-
       margin-top: 28px;
-
       padding-top: 18px;
-
-      border-top:
-        1px solid #e2e6eb;
-
+      border-top: 1px solid #e2e6eb;
       color: #9aa2ad;
-
       font-size: 9px;
-
       letter-spacing: 1px;
     }
 
@@ -656,16 +470,15 @@
       font-weight: 900;
     }
 
-    @media (max-width: 850px) {
+    @media (max-width:850px) {
       .layout {
         grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 650px) {
+    @media (max-width:650px) {
       .topbar {
-        padding:
-          0 17px;
+        padding: 0 17px;
       }
 
       .top-title {
@@ -673,9 +486,7 @@
       }
 
       .container {
-        width:
-          calc(100% - 26px);
-
+        width: calc(100% - 26px);
         padding-top: 30px;
       }
 
@@ -685,7 +496,6 @@
 
       .summary {
         justify-content: flex-start;
-
         margin-top: 15px;
       }
 
@@ -709,616 +519,847 @@
   </style>
 </head>
 
-
 <body>
 
-  <header class="topbar">
+<header class="topbar">
 
-    <div class="brand">
+  <div class="brand">
+    <div class="fwt">FW<span>T</span></div>
+    <div class="top-title">TOURNAMENT CONTROL</div>
+  </div>
 
-      <div class="fwt">
-        FW<span>T</span>
+  <button
+    class="back-btn"
+    onclick="window.location.href='./participant-registration.html'"
+  >
+    ← 참가자 등록
+  </button>
+
+</header>
+
+<main class="container">
+
+  <div class="page-head">
+
+    <div>
+      <div class="kicker">GROUP SETUP</div>
+
+      <h1>조편성</h1>
+
+      <p class="page-desc">
+        시드 선수를 원하는 조에 먼저 배치한 뒤 나머지 참가자를 자동 배정할 수 있습니다.
+      </p>
+    </div>
+
+    <div class="summary">
+
+      <div class="chip">
+        참가 <strong id="totalCount">0</strong>
       </div>
 
-      <div class="top-title">
-        TOURNAMENT CONTROL
+      <div class="chip">
+        조 <strong id="groupCountText">0</strong>
+      </div>
+
+      <div class="chip">
+        조별 진출 <strong id="advanceCountText">0</strong>
       </div>
 
     </div>
 
+  </div>
+
+  <div class="toolbar">
 
     <button
-      class="back-btn"
-      onclick="window.location.href='./participant-registration.html'"
+      class="toolbar-btn primary"
+      id="autoAssignButton"
     >
-      ← 참가자 등록
+      나머지 자동 배정
     </button>
 
-  </header>
+    <button
+      class="toolbar-btn"
+      id="randomAllButton"
+    >
+      전체 랜덤 배정
+    </button>
 
+    <button
+      class="toolbar-btn danger"
+      id="resetButton"
+    >
+      전체 초기화
+    </button>
 
-  <main class="container">
+  </div>
 
+  <section class="layout">
 
-    <div class="page-head">
+    <div class="card">
 
-      <div>
+      <div class="card-head">
 
-        <div class="kicker">
-          GROUP SETUP
-        </div>
-
-        <h1>
-          조편성
-        </h1>
-
-        <p class="page-desc">
-          시드 선수를 먼저 배치하거나, 나머지 참가자를 자동으로 균등 배정할 수 있습니다.
-        </p>
-
-      </div>
-
-
-      <div class="summary">
-
-        <div class="chip">
-          참가 <strong id="totalCount">0</strong>
-        </div>
-
-        <div class="chip">
-          조 <strong id="groupCountText">0</strong>
-        </div>
-
-        <div class="chip">
-          조별 진출 <strong id="advanceCountText">0</strong>
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="toolbar">
-
-      <button
-        class="toolbar-btn primary"
-        id="autoAssignButton"
-      >
-        나머지 자동 배정
-      </button>
-
-      <button
-        class="toolbar-btn"
-        id="randomAllButton"
-      >
-        전체 랜덤 배정
-      </button>
-
-      <button
-        class="toolbar-btn danger"
-        id="resetButton"
-      >
-        전체 초기화
-      </button>
-
-    </div>
-
-
-    <section class="layout">
-
-
-      <!-- LEFT -->
-
-      <div class="card">
-
-        <div class="card-head">
-
-          <div>
-
-            <div class="card-title">
-              미배정 참가자
-            </div>
-
-            <div class="card-sub">
-              원하는 조를 직접 선택할 수 있습니다.
-            </div>
-
+        <div>
+          <div class="card-title">
+            미배정 참가자
           </div>
 
-          <div
-            class="count"
-            id="unassignedCount"
-          >
-            0
+          <div class="card-sub">
+            원하는 조를 직접 선택하세요.
           </div>
-
         </div>
-
 
         <div
-          id="unassignedList"
-          class="unassigned-list"
-        ></div>
-
-      </div>
-
-
-
-      <!-- RIGHT -->
-
-      <div class="card">
-
-        <div class="card-head">
-
-          <div>
-
-            <div class="card-title">
-              현재 조편성
-            </div>
-
-            <div class="card-sub">
-              조에 배정된 참가자는 언제든 다른 조로 이동할 수 있습니다.
-            </div>
-
-          </div>
-
+          class="count"
+          id="unassignedCount"
+        >
+          0
         </div>
 
-
-        <div
-          id="groupsGrid"
-          class="groups-grid"
-        ></div>
-
       </div>
 
-    </section>
-
-
-    <div class="notice">
-
-      <strong>시드 배정 방법</strong><br />
-      시드 선수를 원하는 조에 먼저 직접 넣은 뒤
-      <b>나머지 자동 배정</b>을 누르면
-      아직 배정되지 않은 참가자만 각 조에 균등하게 분배됩니다.
+      <div
+        id="unassignedList"
+        class="unassigned-list"
+      ></div>
 
     </div>
 
+    <div class="card">
 
-    <div class="bottom-bar">
+      <div class="card-head">
 
-      <button
-        class="secondary-btn"
-        onclick="window.location.href='./participant-registration.html'"
-      >
-        이전 단계
-      </button>
+        <div>
+          <div class="card-title">
+            현재 조편성
+          </div>
 
+          <div class="card-sub">
+            배정 후에도 다른 조로 이동할 수 있습니다.
+          </div>
+        </div>
 
-      <button
-        class="next-btn"
-        id="confirmButton"
-      >
-        조편성 확정 · 대진 생성
-        <span>→</span>
-      </button>
+      </div>
+
+      <div
+        id="groupsGrid"
+        class="groups-grid"
+      ></div>
 
     </div>
 
+  </section>
 
-    <footer class="footer">
+  <div class="notice">
+    <strong>시드 배정</strong><br>
+    시드 선수를 먼저 원하는 조에 직접 넣고
+    <b>나머지 자동 배정</b>을 누르면 미배정 참가자만
+    인원이 적은 조부터 균등하게 랜덤 배정됩니다.
+  </div>
 
-      <div>
-        <strong>FWT</strong>
-        · FRIENDS WITH TENNIS
-      </div>
+  <div class="bottom-bar">
 
-      <div>
-        CREATED BY
-        <span class="q">Q</span>
-      </div>
+    <button
+      class="secondary-btn"
+      onclick="window.location.href='./participant-registration.html'"
+    >
+      이전 단계
+    </button>
 
-    </footer>
+    <button
+      class="next-btn"
+      id="confirmButton"
+    >
+      조편성 확정 · 대진 생성
+      <span>→</span>
+    </button>
 
-  </main>
+  </div>
 
+  <footer class="footer">
 
+    <div>
+      <strong>FWT</strong> · FRIENDS WITH TENNIS
+    </div>
 
-  <script>
+    <div>
+      CREATED BY
+      <span class="q">Q</span>
+    </div>
 
-    const SUPABASE_URL =
-      "https://opwuyqerisocqobbbisg.supabase.co";
+  </footer>
 
-    const SUPABASE_KEY =
-      "sb_publishable_Eo_zfONeGLs9ATCVg2Fk_g_y_IAJFV-";
+</main>
 
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
+<script>
 
+  const SUPABASE_URL =
+    "https://opwuyqerisocqobbbisg.supabase.co";
 
-    async function checkLogin() {
+  const SUPABASE_KEY =
+    "sb_publishable_Eo_zfONeGLs9ATCVg2Fk_g_y_IAJFV-";
 
-      const { data } =
-        await supabaseClient.auth.getSession();
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
 
-      if (!data.session) {
-        window.location.href = "./";
-      }
+  async function checkLogin() {
 
+    const { data } =
+      await supabaseClient.auth.getSession();
+
+    if (!data.session) {
+      window.location.href = "./";
     }
 
-    checkLogin();
+  }
 
+  checkLogin();
 
+  const tournamentRaw =
+    sessionStorage.getItem(
+      "fwtNewTournament"
+    );
 
-    const tournamentRaw =
-      sessionStorage.getItem(
-        "fwtNewTournament"
-      );
+  const entriesRaw =
+    sessionStorage.getItem(
+      "fwtNewTournamentEntries"
+    );
 
-    const entriesRaw =
-      sessionStorage.getItem(
-        "fwtNewTournamentEntries"
-      );
+  if (
+    !tournamentRaw ||
+    !entriesRaw
+  ) {
 
+    alert(
+      "대회 또는 참가자 정보가 없습니다."
+    );
 
-    if (
-      !tournamentRaw ||
-      !entriesRaw
-    ) {
+    window.location.href =
+      "./participant-registration.html";
 
-      alert(
-        "대회 또는 참가자 정보가 없습니다."
-      );
+  }
 
-      window.location.href =
-        "./participant-registration.html";
+  const tournament =
+    JSON.parse(
+      tournamentRaw
+    );
 
-    }
+  const entries =
+    JSON.parse(
+      entriesRaw
+    );
 
+  if (
+    tournament.format !==
+    "group_knockout"
+  ) {
 
-    const tournament =
-      JSON.parse(tournamentRaw);
+    window.location.href =
+      "./knockout-setup.html";
 
-    const entries =
-      JSON.parse(entriesRaw);
+  }
 
+  const groupCount =
+    Number(
+      tournament.groupCount
+    );
 
+  const advanceCount =
+    Number(
+      tournament.advanceCount
+    );
 
-    if (
-      tournament.format !==
-      "group_knockout"
-    ) {
+  const groupNames = [];
 
-      alert(
-        "이 대회는 조별리그 방식이 아닙니다.\n토너먼트 전용 대진 화면은 다음 단계에서 연결합니다."
-      );
+  for (
+    let i = 0;
+    i < groupCount;
+    i++
+  ) {
+    groupNames.push(
+      getGroupName(i)
+    );
+  }
 
-      window.location.href =
-        "./participant-registration.html";
+  let assignments =
+    Array(
+      entries.length
+    ).fill(null);
 
-    }
+  const savedAssignments =
+    sessionStorage.getItem(
+      "fwtGroupAssignments"
+    );
 
+  if (savedAssignments) {
 
+    try {
 
-    const groupCount =
-      Number(tournament.groupCount);
-
-    const advanceCount =
-      Number(tournament.advanceCount);
-
-
-
-    const groupNames = [];
-
-    for (
-      let i = 0;
-      i < groupCount;
-      i++
-    ) {
-
-      groupNames.push(
-        getGroupName(i)
-      );
-
-    }
-
-
-
-    let assignments =
-      Array(entries.length).fill(null);
-
-
-
-    const savedAssignments =
-      sessionStorage.getItem(
-        "fwtGroupAssignments"
-      );
-
-
-    if (savedAssignments) {
-
-      try {
-
-        const parsed =
-          JSON.parse(savedAssignments);
-
-        if (
-          Array.isArray(parsed) &&
-          parsed.length ===
-            entries.length
-        ) {
-
-          assignments =
-            parsed;
-
-        }
-
-      } catch (e) {}
-
-    }
-
-
-
-    function getGroupName(index) {
-
-      let number =
-        index + 1;
-
-      let result = "";
-
-      while (number > 0) {
-
-        number--;
-
-        result =
-          String.fromCharCode(
-            65 + (number % 26)
-          ) + result;
-
-        number =
-          Math.floor(
-            number / 26
-          );
-
-      }
-
-      return result + "조";
-
-    }
-
-
-
-    function entryName(entry) {
+      const parsed =
+        JSON.parse(
+          savedAssignments
+        );
 
       if (
-        entry.type === "singles"
+        Array.isArray(parsed) &&
+        parsed.length ===
+        entries.length
       ) {
+        assignments =
+          parsed;
+      }
+
+    } catch (e) {}
+
+  }
+
+  function getGroupName(index) {
+
+    let number =
+      index + 1;
+
+    let result = "";
+
+    while (number > 0) {
+
+      number--;
+
+      result =
+        String.fromCharCode(
+          65 + (number % 26)
+        ) + result;
+
+      number =
+        Math.floor(
+          number / 26
+        );
+
+    }
+
+    return result + "조";
+
+  }
+
+  function entryName(entry) {
+
+    if (
+      entry.type ===
+      "singles"
+    ) {
+
+      if (
+        entry.nickname &&
+        entry.name
+      ) {
+        return `${entry.nickname} (${entry.name})`;
+      }
+
+      return (
+        entry.nickname ||
+        entry.name ||
+        "이름 없음"
+      );
+
+    }
+
+    const p1 =
+      entry.player1.nickname ||
+      entry.player1.name ||
+      "선수1";
+
+    const p2 =
+      entry.player2.nickname ||
+      entry.player2.name ||
+      "선수2";
+
+    return `${p1} / ${p2}`;
+
+  }
+
+  function escapeHtml(value) {
+
+    const div =
+      document.createElement(
+        "div"
+      );
+
+    div.textContent =
+      value || "";
+
+    return div.innerHTML;
+
+  }
+
+  function saveAssignments() {
+
+    sessionStorage.setItem(
+      "fwtGroupAssignments",
+      JSON.stringify(
+        assignments
+      )
+    );
+
+  }
+
+  function groupOptions(
+    selected = null
+  ) {
+
+    let html =
+      `<option value="">미배정</option>`;
+
+    groupNames.forEach(
+      (name,index) => {
+
+        html += `
+          <option
+            value="${index}"
+            ${
+              selected === index
+                ? "selected"
+                : ""
+            }
+          >
+            ${name}
+          </option>
+        `;
+
+      }
+    );
+
+    return html;
+
+  }
+
+  function render() {
+
+    const unassignedList =
+      document.getElementById(
+        "unassignedList"
+      );
+
+    const groupsGrid =
+      document.getElementById(
+        "groupsGrid"
+      );
+
+    unassignedList.innerHTML = "";
+    groupsGrid.innerHTML = "";
+
+    const unassigned =
+      assignments
+        .map(
+          (group,index) => ({
+            group,
+            index
+          })
+        )
+        .filter(
+          item =>
+            item.group === null
+        );
+
+    document.getElementById(
+      "unassignedCount"
+    ).textContent =
+      unassigned.length;
+
+    document.getElementById(
+      "totalCount"
+    ).textContent =
+      entries.length;
+
+    document.getElementById(
+      "groupCountText"
+    ).textContent =
+      groupCount;
+
+    document.getElementById(
+      "advanceCountText"
+    ).textContent =
+      advanceCount;
+
+    if (
+      unassigned.length === 0
+    ) {
+
+      unassignedList.innerHTML = `
+        <div class="empty">
+          모든 참가자가 조에 배정되었습니다.
+        </div>
+      `;
+
+    } else {
+
+      unassigned.forEach(
+        item => {
+
+          const row =
+            document.createElement(
+              "div"
+            );
+
+          row.className =
+            "player-row";
+
+          row.innerHTML = `
+
+            <div>
+
+              <div class="player-number">
+                ENTRY ${String(
+                  item.index + 1
+                ).padStart(2,"0")}
+              </div>
+
+              <div class="player-name">
+                ${escapeHtml(
+                  entryName(
+                    entries[
+                      item.index
+                    ]
+                  )
+                )}
+              </div>
+
+            </div>
+
+            <select
+              onchange="
+                changeGroup(
+                  ${item.index},
+                  this.value
+                )
+              "
+            >
+              ${groupOptions()}
+            </select>
+          `;
+
+          unassignedList
+            .appendChild(
+              row
+            );
+
+        }
+      );
+
+    }
+
+    groupNames.forEach(
+      (
+        groupName,
+        groupIndex
+      ) => {
+
+        const members =
+          assignments
+            .map(
+              (group,index) => ({
+                group,
+                index
+              })
+            )
+            .filter(
+              item =>
+                item.group ===
+                groupIndex
+            );
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+        card.className =
+          "group-card";
+
+        let memberHtml = "";
 
         if (
-          entry.nickname &&
-          entry.name
+          members.length === 0
         ) {
 
-          return `${entry.nickname} (${entry.name})`;
+          memberHtml = `
+            <div class="empty">
+              아직 배정된 참가자가 없습니다.
+            </div>
+          `;
+
+        } else {
+
+          members.forEach(
+            item => {
+
+              memberHtml += `
+
+                <div class="group-player">
+
+                  <div class="group-player-name">
+                    ${escapeHtml(
+                      entryName(
+                        entries[
+                          item.index
+                        ]
+                      )
+                    )}
+                  </div>
+
+                  <select
+                    class="move-select"
+                    onchange="
+                      changeGroup(
+                        ${item.index},
+                        this.value
+                      )
+                    "
+                  >
+                    ${groupOptions(
+                      groupIndex
+                    )}
+                  </select>
+
+                </div>
+
+              `;
+
+            }
+          );
 
         }
 
-        return (
-          entry.nickname ||
-          entry.name ||
-          "이름 없음"
+        card.innerHTML = `
+
+          <div class="group-head">
+
+            <div class="group-name">
+              ${groupName}
+            </div>
+
+            <div class="group-count">
+              ${members.length}명
+            </div>
+
+          </div>
+
+          <div class="group-list">
+            ${memberHtml}
+          </div>
+        `;
+
+        groupsGrid.appendChild(
+          card
         );
 
       }
+    );
 
+    saveAssignments();
 
-      const p1 =
-        entry.player1.nickname ||
-        entry.player1.name ||
-        "선수1";
+  }
 
-      const p2 =
-        entry.player2.nickname ||
-        entry.player2.name ||
-        "선수2";
+  function changeGroup(
+    entryIndex,
+    value
+  ) {
 
+    assignments[
+      entryIndex
+    ] =
+      value === ""
+        ? null
+        : Number(value);
 
-      return `${p1} / ${p2}`;
+    render();
 
-    }
+  }
 
+  function shuffled(array) {
 
+    const copy =
+      [...array];
 
-    function saveAssignments() {
-
-      sessionStorage.setItem(
-        "fwtGroupAssignments",
-        JSON.stringify(assignments)
-      );
-
-    }
-
-
-
-    function groupOptions(
-      selected = null
+    for (
+      let i =
+        copy.length - 1;
+      i > 0;
+      i--
     ) {
 
-      let html =
-        `<option value="">미배정</option>`;
+      const j =
+        Math.floor(
+          Math.random() *
+          (i + 1)
+        );
 
-
-      groupNames.forEach(
-        (name, index) => {
-
-          html += `
-            <option
-              value="${index}"
-              ${
-                selected === index
-                  ? "selected"
-                  : ""
-              }
-            >
-              ${name}
-            </option>
-          `;
-
-        }
-      );
-
-
-      return html;
+      [
+        copy[i],
+        copy[j]
+      ] = [
+        copy[j],
+        copy[i]
+      ];
 
     }
 
+    return copy;
 
+  }
 
-    function render() {
+  function autoAssignRemaining() {
 
-      const unassignedList =
-        document.getElementById(
-          "unassignedList"
+    let indexes =
+      assignments
+        .map(
+          (group,index) => ({
+            group,
+            index
+          })
+        )
+        .filter(
+          item =>
+            item.group === null
+        )
+        .map(
+          item =>
+            item.index
         );
 
-      const groupsGrid =
-        document.getElementById(
-          "groupsGrid"
+    indexes =
+      shuffled(
+        indexes
+      );
+
+    for (
+      const entryIndex
+      of indexes
+    ) {
+
+      const counts =
+        groupNames.map(
+          (_,groupIndex) =>
+            assignments
+              .filter(
+                value =>
+                  value ===
+                  groupIndex
+              )
+              .length
         );
 
+      const min =
+        Math.min(
+          ...counts
+        );
 
-      unassignedList.innerHTML = "";
-      groupsGrid.innerHTML = "";
-
-
-      const unassigned =
-        assignments
+      const candidates =
+        counts
           .map(
-            (group, index) => ({
-              group,
+            (count,index) => ({
+              count,
               index
             })
           )
           .filter(
             item =>
-              item.group === null
+              item.count ===
+              min
           );
 
+      const selected =
+        candidates[
+          Math.floor(
+            Math.random() *
+            candidates.length
+          )
+        ].index;
 
-      document
-        .getElementById(
-          "unassignedCount"
-        )
-        .textContent =
-          unassigned.length;
+      assignments[
+        entryIndex
+      ] =
+        selected;
 
+    }
 
-      document
-        .getElementById(
-          "totalCount"
-        )
-        .textContent =
-          entries.length;
+    render();
 
+  }
 
-      document
-        .getElementById(
-          "groupCountText"
-        )
-        .textContent =
-          groupCount;
+  function randomAll() {
 
+    if (
+      !confirm(
+        "현재 조편성을 지우고 전체 참가자를 다시 랜덤 배정할까요?"
+      )
+    ) {
+      return;
+    }
 
-      document
-        .getElementById(
-          "advanceCountText"
-        )
-        .textContent =
-          advanceCount;
+    assignments =
+      Array(
+        entries.length
+      ).fill(null);
 
+    autoAssignRemaining();
 
+  }
 
-      if (
-        unassigned.length === 0
-      ) {
+  function resetAll() {
 
-        unassignedList.innerHTML = `
-          <div class="empty">
-            모든 참가자가 조에 배정되었습니다.
-          </div>
-        `;
+    if (
+      !confirm(
+        "모든 조 배정을 초기화할까요?"
+      )
+    ) {
+      return;
+    }
 
-      } else {
+    assignments =
+      Array(
+        entries.length
+      ).fill(null);
 
-        unassigned.forEach(
-          item => {
+    render();
 
-            const row =
-              document.createElement(
-                "div"
-              );
+  }
 
-            row.className =
-              "player-row";
+  function confirmGroups() {
 
+    const unassigned =
+      assignments.filter(
+        value =>
+          value === null
+      ).length;
 
-            row.innerHTML = `
+    if (
+      unassigned > 0
+    ) {
 
-              <div>
+      alert(
+        `아직 ${unassigned}명의 참가자가 미배정 상태입니다.`
+      );
 
-                <div class="player-number">
-                  ENTRY ${String(
-                    item.index + 1
-                  ).padStart(2, "0")}
-                </div>
+      return;
 
-                <div class="player-name">
-                  ${escapeHtml(
-                    entryName(
-                      entries[item.index]
-                    )
-                  )}
-                </div>
+    }
 
-              </div>
+    const groupData =
+      groupNames.map(
+        (
+          name,
+          groupIndex
+        ) => ({
 
+          name,
 
-              <select
-                onchange="
-                  changeGroup(
-                    ${item.index},
-                    this.value
-                  )
-                "
-              >
-                ${groupOptions()}
-              </select>
-
-            `;
-
-
-            unassignedList.appendChild(
-              row
-            );
-
-          }
-        );
-
-      }
-
-
-
-      groupNames.forEach(
-        (groupName, groupIndex) => {
-
-          const members =
+          members:
             assignments
               .map(
-                (group, index) => ({
+                (group,index) => ({
                   group,
                   index
                 })
@@ -1327,476 +1368,89 @@
                 item =>
                   item.group ===
                   groupIndex
-              );
+              )
+              .map(
+                item =>
+                  item.index
+              )
 
-
-          const card =
-            document.createElement(
-              "div"
-            );
-
-          card.className =
-            "group-card";
-
-
-          let memberHtml = "";
-
-
-          if (
-            members.length === 0
-          ) {
-
-            memberHtml = `
-              <div class="empty">
-                아직 배정된 참가자가 없습니다.
-              </div>
-            `;
-
-          } else {
-
-            members.forEach(
-              item => {
-
-                memberHtml += `
-
-                  <div class="group-player">
-
-                    <div class="group-player-name">
-                      ${escapeHtml(
-                        entryName(
-                          entries[item.index]
-                        )
-                      )}
-                    </div>
-
-
-                    <select
-                      class="move-select"
-                      onchange="
-                        changeGroup(
-                          ${item.index},
-                          this.value
-                        )
-                      "
-                    >
-                      ${groupOptions(
-                        groupIndex
-                      )}
-                    </select>
-
-                  </div>
-
-                `;
-
-              }
-            );
-
-          }
-
-
-          card.innerHTML = `
-
-            <div class="group-head">
-
-              <div class="group-name">
-                ${groupName}
-              </div>
-
-              <div class="group-count">
-                ${members.length}명
-              </div>
-
-            </div>
-
-
-            <div class="group-list">
-              ${memberHtml}
-            </div>
-
-          `;
-
-
-          groupsGrid.appendChild(
-            card
-          );
-
-        }
+        })
       );
 
-
-      saveAssignments();
-
-    }
-
-
-
-    function changeGroup(
-      entryIndex,
-      value
-    ) {
-
-      if (
-        value === ""
-      ) {
-
-        assignments[entryIndex] =
-          null;
-
-      } else {
-
-        assignments[entryIndex] =
-          Number(value);
-
-      }
-
-
-      render();
-
-    }
-
-
-
-    function shuffled(
-      array
-    ) {
-
-      const copy =
-        [...array];
-
-
-      for (
-        let i =
-          copy.length - 1;
-        i > 0;
-        i--
-      ) {
-
-        const j =
-          Math.floor(
-            Math.random() *
-            (i + 1)
-          );
-
-
-        [
-          copy[i],
-          copy[j]
-        ] =
-        [
-          copy[j],
-          copy[i]
-        ];
-
-      }
-
-
-      return copy;
-
-    }
-
-
-
-    function autoAssignRemaining() {
-
-      let unassignedIndexes =
-        assignments
-          .map(
-            (group, index) => ({
-              group,
-              index
-            })
-          )
-          .filter(
-            item =>
-              item.group === null
-          )
-          .map(
-            item =>
-              item.index
-          );
-
-
-      unassignedIndexes =
-        shuffled(
-          unassignedIndexes
-        );
-
-
-      for (
-        const entryIndex
-        of unassignedIndexes
-      ) {
-
-        const counts =
-          groupNames.map(
-            (_, groupIndex) =>
-              assignments
-                .filter(
-                  value =>
-                    value ===
-                    groupIndex
-                )
-                .length
-          );
-
-
-        const min =
-          Math.min(...counts);
-
-
-        const candidates =
-          counts
-            .map(
-              (count, index) => ({
-                count,
-                index
-              })
-            )
-            .filter(
-              item =>
-                item.count === min
-            );
-
-
-        const selected =
-          candidates[
-            Math.floor(
-              Math.random() *
-              candidates.length
-            )
-          ].index;
-
-
-        assignments[entryIndex] =
-          selected;
-
-      }
-
-
-      render();
-
-    }
-
-
-
-    function randomAll() {
-
-      const ok =
-        confirm(
-          "현재 조편성을 모두 지우고 전체 참가자를 다시 무작위 배정할까요?"
-        );
-
-
-      if (!ok) {
-        return;
-      }
-
-
-      assignments =
-        Array(
-          entries.length
-        ).fill(null);
-
-
-      autoAssignRemaining();
-
-    }
-
-
-
-    function resetAll() {
-
-      const ok =
-        confirm(
-          "모든 조 배정을 초기화할까요?"
-        );
-
-
-      if (!ok) {
-        return;
-      }
-
-
-      assignments =
-        Array(
-          entries.length
-        ).fill(null);
-
-
-      render();
-
-    }
-
-
-
-    function confirmGroups() {
-
-      const unassigned =
-        assignments.filter(
-          value =>
-            value === null
-        ).length;
-
-
-      if (
-        unassigned > 0
-      ) {
-
-        alert(
-          `아직 ${unassigned}명의 참가자가 미배정 상태입니다.`
-        );
-
-        return;
-
-      }
-
-
-      const counts =
-        groupNames.map(
-          (_, groupIndex) =>
-            assignments.filter(
-              value =>
-                value ===
-                groupIndex
-            ).length
-        );
-
-
-      const emptyGroups =
-        counts.filter(
-          count =>
-            count === 0
-        ).length;
-
-
-      if (
-        emptyGroups > 0
-      ) {
-
-        const proceed =
-          confirm(
-            "참가자가 한 명도 없는 조가 있습니다.\n그래도 조편성을 확정할까요?"
-          );
-
-
-        if (!proceed) {
-          return;
-        }
-
-      }
-
-
-      sessionStorage.setItem(
-        "fwtGroupAssignments",
-        JSON.stringify(
-          assignments
-        )
+    const tooSmall =
+      groupData.some(
+        group =>
+          group.members.length < 2
       );
 
-
-      const groupData =
-        groupNames.map(
-          (name, groupIndex) => ({
-            name,
-
-            members:
-              assignments
-                .map(
-                  (group, index) => ({
-                    group,
-                    index
-                  })
-                )
-                .filter(
-                  item =>
-                    item.group ===
-                    groupIndex
-                )
-                .map(
-                  item =>
-                    item.index
-                )
-          })
-        );
-
-
-      sessionStorage.setItem(
-        "fwtGroupData",
-        JSON.stringify(
-          groupData
-        )
-      );
-
+    if (tooSmall) {
 
       alert(
-        "조편성이 저장되었습니다.\n다음 단계에서 조별 예선 대진을 자동 생성합니다."
+        "2명 미만으로 구성된 조가 있습니다.\n조별리그 대진을 만들려면 각 조에 최소 2명이 필요합니다."
       );
+
+      return;
 
     }
 
-
-
-    function escapeHtml(
-      value
-    ) {
-
-      const div =
-        document.createElement(
-          "div"
-        );
-
-      div.textContent =
-        value;
-
-      return div.innerHTML;
-
-    }
-
-
-
-    document
-      .getElementById(
-        "autoAssignButton"
+    sessionStorage.setItem(
+      "fwtGroupAssignments",
+      JSON.stringify(
+        assignments
       )
-      .addEventListener(
-        "click",
-        autoAssignRemaining
-      );
+    );
 
-
-    document
-      .getElementById(
-        "randomAllButton"
+    sessionStorage.setItem(
+      "fwtGroupData",
+      JSON.stringify(
+        groupData
       )
-      .addEventListener(
-        "click",
-        randomAll
-      );
+    );
 
+    /*
+      조편성이 바뀌었으므로
+      기존에 생성된 예선 대진은 폐기
+    */
+    sessionStorage.removeItem(
+      "fwtGroupMatches"
+    );
 
-    document
-      .getElementById(
-        "resetButton"
-      )
-      .addEventListener(
-        "click",
-        resetAll
-      );
+    window.location.href =
+      "./group-matches.html";
 
+  }
 
-    document
-      .getElementById(
-        "confirmButton"
-      )
-      .addEventListener(
-        "click",
-        confirmGroups
-      );
+  document.getElementById(
+    "autoAssignButton"
+  ).addEventListener(
+    "click",
+    autoAssignRemaining
+  );
 
+  document.getElementById(
+    "randomAllButton"
+  ).addEventListener(
+    "click",
+    randomAll
+  );
 
-    render();
+  document.getElementById(
+    "resetButton"
+  ).addEventListener(
+    "click",
+    resetAll
+  );
 
-  </script>
+  document.getElementById(
+    "confirmButton"
+  ).addEventListener(
+    "click",
+    confirmGroups
+  );
+
+  render();
+
+</script>
 
 </body>
 </html>
