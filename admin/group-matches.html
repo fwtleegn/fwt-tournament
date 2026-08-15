@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>조별 예선 대진 | FWT Tournament</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --navy: #071a31;
+      --navy2: #0c294a;
+      --blue: #184a79;
+      --lime: #c9df45;
+
+      --bg: #f4f6f9;
+      --white: #ffffff;
+      --text: #172033;
+      --muted: #7b8492;
+      --line: #e3e8ee;
+
+      --soft: #f7f9fb;
+      --shadow:
+        0 14px 40px rgba(20,35,55,.06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+
+      font-family:
+        Inter,
+        Pretendard,
+        "Noto Sans KR",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      background:
+        var(--bg);
+
+      color:
+        var(--text);
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .topbar {
+      height: 72px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding:
+        0 30px;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          110deg,
+          #07182d,
+          #0b2848 60%,
+          #10375f
+        );
+
+      box-shadow:
+        0 4px 22px
+        rgba(6,23,43,.16);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+    }
+
+    .fwt {
+      position: relative;
+
+      font-size: 30px;
+      font-weight: 950;
+      font-style: italic;
+
+      letter-spacing: -3px;
+
+      transform:
+        skewX(-5deg);
+    }
+
+    .fwt span {
+      color:
+        var(--lime);
+    }
+
+    .fwt::after {
+      content: "";
+
+      position: absolute;
+
+      width: 25px;
+      height: 3px;
+
+      right: -23px;
+      top: 12px;
+
+      border-radius: 10px;
+
+      background:
+        var(--lime);
+
+      transform:
+        rotate(-10deg);
+    }
+
+    .top-title {
+      font-size: 11px;
+      font-weight: 800;
+
+      letter-spacing: 1.8px;
+
+      color:
+        rgba(255,255,255,.7);
+    }
+
+    .back-btn {
+      padding:
+        9px 13px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.14);
+
+      border-radius: 10px;
+
+      background:
+        rgba(255,255,255,.07);
+
+      color: white;
+
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    .container {
+      width:
+        min(
+          1180px,
+          calc(100% - 34px)
+        );
+
+      margin:
+        0 auto;
+
+      padding:
+        42px 0 70px;
+    }
+
+    .page-head {
+      display: flex;
+
+      justify-content:
+        space-between;
+
+      align-items:
+        flex-end;
+
+      gap: 24px;
+
+      margin-bottom:
+        26px;
+    }
+
+    .kicker {
+      display: flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      margin-bottom:
+        10px;
+
+      color:
+        var(--blue);
+
+      font-size: 10px;
+      font-weight: 850;
+
+      letter-spacing: 2px;
+    }
+
+    .kicker::before {
+      content: "";
+
+      width: 24px;
+      height: 2px;
+
+      background:
+        var(--lime);
+    }
+
+    h1 {
+      margin: 0;
+
+      color:
+        var(--navy);
+
+      font-size: 36px;
+      font-weight: 900;
+
+      letter-spacing:
+        -1.8px;
+    }
+
+    .page-desc {
+      margin:
+        9px 0 0;
+
+      color:
+        var(--muted);
+
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .summary {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 8px;
+
+      justify-content:
+        flex-end;
+    }
+
+    .chip {
+      padding:
+        8px 11px;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:
+        999px;
+
+      background:
+        white;
+
+      color:
+        #596577;
+
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .chip strong {
+      color:
+        var(--navy);
+    }
+
+    .toolbar {
+      display: flex;
+
+      gap: 9px;
+
+      flex-wrap: wrap;
+
+      margin-bottom:
+        18px;
+    }
+
+    .toolbar-btn {
+      height: 41px;
+
+      padding:
+        0 14px;
+
+      border:
+        1px solid
+        #dce2e8;
+
+      border-radius: 11px;
+
+      background:
+        white;
+
+      color:
+        #4f5c6e;
+
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .toolbar-btn.primary {
+      border-color:
+        var(--navy);
+
+      background:
+        var(--navy);
+
+      color:
+        white;
+    }
+
+    .groups {
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0,1fr)
+        );
+
+      gap: 17px;
+    }
+
+    .group-card {
+      overflow: hidden;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:
+        20px;
+
+      background:
+        white;
+
+      box-shadow:
+        var(--shadow);
+    }
+
+    .group-head {
+      display: flex;
+
+      align-items: center;
+      justify-content:
+        space-between;
+
+      padding:
+        20px 21px;
+
+      border-bottom:
+        1px solid
+        var(--line);
+    }
+
+    .group-title {
+      color:
+        var(--navy);
+
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .group-sub {
+      margin-top: 4px;
+
+      color:
+        var(--muted);
+
+      font-size: 10px;
+    }
+
+    .match-count {
+      padding:
+        6px 9px;
+
+      border-radius:
+        999px;
+
+      background:
+        #f1f4f7;
+
+      color:
+        #687585;
+
+      font-size: 9px;
+      font-weight: 850;
+    }
+
+    .matches {
+      padding:
+        13px;
+    }
+
+    .match {
+      display: grid;
+
+      grid-template-columns:
+        42px minmax(0,1fr) 70px;
+
+      align-items: center;
+
+      gap: 10px;
+
+      padding:
+        12px;
+
+      margin-bottom:
+        8px;
+
+      border:
+        1px solid
+        #e2e7ec;
+
+      border-radius:
+        12px;
+
+      background:
+        white;
+    }
+
+    .match:last-child {
+      margin-bottom: 0;
+    }
+
+    .match-no {
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      width: 38px;
+      height: 38px;
+
+      border-radius: 10px;
+
+      background:
+        #f3f6f8;
+
+      color:
+        #738091;
+
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .versus {
+      min-width: 0;
+    }
+
+    .player {
+      overflow: hidden;
+
+      color:
+        #263247;
+
+      font-size: 12px;
+      font-weight: 850;
+
+      text-overflow:
+        ellipsis;
+
+      white-space:
+        nowrap;
+    }
+
+    .vs {
+      margin:
+        4px 0;
+
+      color:
+        #a1a9b4;
+
+      font-size: 8px;
+      font-weight: 900;
+
+      letter-spacing: 1px;
+    }
+
+    .order-actions {
+      display: flex;
+
+      gap: 5px;
+
+      justify-content:
+        flex-end;
+    }
+
+    .move-btn {
+      width: 31px;
+      height: 31px;
+
+      border:
+        1px solid
+        #dce2e8;
+
+      border-radius: 8px;
+
+      background:
+        white;
+
+      color:
+        #596778;
+
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .move-btn:disabled {
+      cursor:
+        default;
+
+      opacity:
+        .25;
+    }
+
+    .info {
+      margin-top:
+        18px;
+
+      padding:
+        15px 17px;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:
+        14px;
+
+      background:
+        white;
+
+      color:
+        #747f8d;
+
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .info strong {
+      color:
+        var(--navy);
+    }
+
+    .bottom-bar {
+      display: flex;
+
+      gap: 12px;
+
+      margin-top:
+        20px;
+    }
+
+    .secondary-btn,
+    .next-btn {
+      height: 53px;
+
+      border-radius: 12px;
+
+      font-weight: 800;
+    }
+
+    .secondary-btn {
+      width: 170px;
+
+      border:
+        1px solid
+        #d8dde4;
+
+      background:
+        white;
+
+      color:
+        #536072;
+    }
+
+    .next-btn {
+      flex: 1;
+
+      border: 0;
+
+      background:
+        linear-gradient(
+          115deg,
+          var(--navy),
+          #123e6c
+        );
+
+      color:
+        white;
+
+      box-shadow:
+        0 10px 26px
+        rgba(7,26,49,.12);
+    }
+
+    .next-btn span {
+      color:
+        var(--lime);
+
+      margin-left:
+        5px;
+    }
+
+    .footer {
+      display: flex;
+
+      justify-content:
+        space-between;
+
+      margin-top:
+        28px;
+
+      padding-top:
+        18px;
+
+      border-top:
+        1px solid
+        #e2e6eb;
+
+      color:
+        #9aa2ad;
+
+      font-size: 9px;
+
+      letter-spacing: 1px;
+    }
+
+    .footer strong {
+      color:
+        var(--navy);
+    }
+
+    .footer .q {
+      color:
+        #9eb421;
+
+      font-weight:
+        900;
+    }
+
+    @media (
+      max-width: 850px
+    ) {
+
+      .groups {
+        grid-template-columns:
+          1fr;
+      }
+
+    }
+
+    @media (
+      max-width: 650px
+    ) {
+
+      .topbar {
+        padding:
+          0 17px;
+      }
+
+      .top-title {
+        display:
+          none;
+      }
+
+      .container {
+        width:
+          calc(100% - 26px);
+
+        padding-top:
+          30px;
+      }
+
+      .page-head {
+        display:
+          block;
+      }
+
+      .summary {
+        justify-content:
+          flex-start;
+
+        margin-top:
+          15px;
+      }
+
+      h1 {
+        font-size:
+          29px;
+      }
+
+      .match {
+        grid-template-columns:
+          38px minmax(0,1fr) 68px;
+      }
+
+      .bottom-bar {
+        flex-direction:
+          column-reverse;
+      }
+
+      .secondary-btn,
+      .next-btn {
+        width:
+          100%;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+  <div class="brand">
+
+    <div class="fwt">
+      FW<span>T</span>
+    </div>
+
+    <div class="top-title">
+      TOURNAMENT CONTROL
+    </div>
+
+  </div>
+
+  <button
+    class="back-btn"
+    onclick="window.location.href='./group-setup.html'"
+  >
+    ← 조편성
+  </button>
+
+</header>
+
+<main class="container">
+
+  <div class="page-head">
+
+    <div>
+
+      <div class="kicker">
+        GROUP MATCHES
+      </div>
+
+      <h1>
+        조별 예선 대진
+      </h1>
+
+      <p class="page-desc">
+        조편성을 기준으로 모든 참가자가 한 번씩 맞붙도록 풀리그 대진을 자동 생성했습니다.
+      </p>
+
+    </div>
+
+    <div class="summary">
+
+      <div class="chip">
+        <strong id="groupCountText">
+          0
+        </strong>개 조
+      </div>
+
+      <div class="chip">
+        총
+        <strong id="totalMatchesText">
+          0
+        </strong>경기
+      </div>
+
+      <div class="chip">
+        경기당
+        <strong id="durationText">
+          0
+        </strong>분
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="toolbar">
+
+    <button
+      class="toolbar-btn primary"
+      id="regenerateButton"
+    >
+      기본 순서로 다시 생성
+    </button>
+
+  </div>
+
+  <div
+    id="groups"
+    class="groups"
+  ></div>
+
+  <div class="info">
+
+    <strong>대진 생성 방식</strong><br>
+
+    각 조의 모든 참가자가 서로 한 번씩 경기하도록 자동 생성합니다.
+    인원이 홀수인 조는 라운드마다 한 명씩 쉬는 방식으로 조합합니다.
+    화살표 버튼으로 같은 조 안에서 경기 순서를 직접 변경할 수도 있습니다.
+
+  </div>
+
+  <div class="bottom-bar">
+
+    <button
+      class="secondary-btn"
+      onclick="window.location.href='./group-setup.html'"
+    >
+      이전 단계
+    </button>
+
+    <button
+      class="next-btn"
+      id="nextButton"
+    >
+      코트 · 시간 배정으로 이동
+      <span>→</span>
+    </button>
+
+  </div>
+
+  <footer class="footer">
+
+    <div>
+      <strong>FWT</strong>
+      · FRIENDS WITH TENNIS
+    </div>
+
+    <div>
+      CREATED BY
+      <span class="q">
+        Q
+      </span>
+    </div>
+
+  </footer>
+
+</main>
+
+<script>
+
+  const SUPABASE_URL =
+    "https://opwuyqerisocqobbbisg.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_Eo_zfONeGLs9ATCVg2Fk_g_y_IAJFV-";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+  async function checkLogin() {
+
+    const { data } =
+      await supabaseClient.auth.getSession();
+
+    if (!data.session) {
+      window.location.href = "./";
+    }
+
+  }
+
+  checkLogin();
+
+
+  const tournamentRaw =
+    sessionStorage.getItem(
+      "fwtNewTournament"
+    );
+
+  const entriesRaw =
+    sessionStorage.getItem(
+      "fwtNewTournamentEntries"
+    );
+
+  const groupsRaw =
+    sessionStorage.getItem(
+      "fwtGroupData"
+    );
+
+
+  if (
+    !tournamentRaw ||
+    !entriesRaw ||
+    !groupsRaw
+  ) {
+
+    alert(
+      "조편성 정보가 없습니다."
+    );
+
+    window.location.href =
+      "./group-setup.html";
+
+  }
+
+
+  const tournament =
+    JSON.parse(
+      tournamentRaw
+    );
+
+  const entries =
+    JSON.parse(
+      entriesRaw
+    );
+
+  const groupData =
+    JSON.parse(
+      groupsRaw
+    );
+
+
+  /*
+    groupsMatches 형태:
+
+    [
+      {
+        groupName: "A조",
+        matches: [
+          {
+            player1: 0,
+            player2: 1
+          }
+        ]
+      }
+    ]
+  */
+
+  let groupsMatches = [];
+
+
+  function entryName(
+    entry
+  ) {
+
+    if (
+      entry.type ===
+      "singles"
+    ) {
+
+      if (
+        entry.nickname &&
+        entry.name
+      ) {
+
+        return `${entry.nickname} (${entry.name})`;
+
+      }
+
+      return (
+        entry.nickname ||
+        entry.name ||
+        "이름 없음"
+      );
+
+    }
+
+
+    const p1 =
+      entry.player1.nickname ||
+      entry.player1.name ||
+      "선수1";
+
+    const p2 =
+      entry.player2.nickname ||
+      entry.player2.name ||
+      "선수2";
+
+    return `${p1} / ${p2}`;
+
+  }
+
+
+  function escapeHtml(
+    value
+  ) {
+
+    const div =
+      document.createElement(
+        "div"
+      );
+
+    div.textContent =
+      value || "";
+
+    return div.innerHTML;
+
+  }
+
+
+  /*
+    Circle Method
+
+    4명:
+    R1 1-4 / 2-3
+    R2 1-3 / 4-2
+    R3 1-2 / 3-4
+
+    3명:
+    가상 BYE를 하나 넣어
+    매 라운드 한 명 휴식
+  */
+
+  function generateRoundRobin(
+    memberIndexes
+  ) {
+
+    let players =
+      [...memberIndexes];
+
+
+    if (
+      players.length % 2 !== 0
+    ) {
+
+      players.push(
+        null
+      );
+
+    }
+
+
+    const count =
+      players.length;
+
+    const rounds =
+      count - 1;
+
+    const half =
+      count / 2;
+
+    const result = [];
+
+
+    for (
+      let round = 0;
+      round < rounds;
+      round++
+    ) {
+
+      const roundMatches = [];
+
+
+      for (
+        let i = 0;
+        i < half;
+        i++
+      ) {
+
+        const a =
+          players[i];
+
+        const b =
+          players[
+            count - 1 - i
+          ];
+
+
+        if (
+          a !== null &&
+          b !== null
+        ) {
+
+          roundMatches.push({
+            player1: a,
+            player2: b,
+            originalRound:
+              round + 1
+          });
+
+        }
+
+      }
+
+
+      /*
+        한 라운드 안에서는
+        참가자가 겹치지 않음
+      */
+
+      result.push(
+        ...roundMatches
+      );
+
+
+      /*
+        첫 번째 참가자는 고정,
+        나머지만 회전
+      */
+
+      const fixed =
+        players[0];
+
+      const rest =
+        players.slice(1);
+
+      rest.unshift(
+        rest.pop()
+      );
+
+      players =
+        [
+          fixed,
+          ...rest
+        ];
+
+    }
+
+
+    return result;
+
+  }
+
+
+  function generateAll() {
+
+    groupsMatches =
+      groupData.map(
+        group => ({
+
+          groupName:
+            group.name,
+
+          matches:
+            generateRoundRobin(
+              group.members
+            )
+
+        })
+      );
+
+
+    saveMatches();
+
+    render();
+
+  }
+
+
+  function saveMatches() {
+
+    sessionStorage.setItem(
+      "fwtGroupMatches",
+      JSON.stringify(
+        groupsMatches
+      )
+    );
+
+  }
+
+
+  function loadMatches() {
+
+    const saved =
+      sessionStorage.getItem(
+        "fwtGroupMatches"
+      );
+
+
+    if (saved) {
+
+      try {
+
+        const parsed =
+          JSON.parse(
+            saved
+          );
+
+
+        if (
+          Array.isArray(parsed) &&
+          parsed.length ===
+          groupData.length
+        ) {
+
+          groupsMatches =
+            parsed;
+
+          return;
+
+        }
+
+      } catch (e) {}
+
+    }
+
+
+    generateAll();
+
+  }
+
+
+  function render() {
+
+    const container =
+      document.getElementById(
+        "groups"
+      );
+
+
+    container.innerHTML =
+      "";
+
+
+    let totalMatches =
+      0;
+
+
+    groupsMatches.forEach(
+      (
+        group,
+        groupIndex
+      ) => {
+
+        totalMatches +=
+          group.matches.length;
+
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+
+        card.className =
+          "group-card";
+
+
+        let matchesHtml =
+          "";
+
+
+        group.matches.forEach(
+          (
+            match,
+            matchIndex
+          ) => {
+
+            const player1 =
+              entryName(
+                entries[
+                  match.player1
+                ]
+              );
+
+
+            const player2 =
+              entryName(
+                entries[
+                  match.player2
+                ]
+              );
+
+
+            matchesHtml += `
+
+              <div class="match">
+
+                <div class="match-no">
+                  ${matchIndex + 1}
+                </div>
+
+                <div class="versus">
+
+                  <div class="player">
+                    ${escapeHtml(
+                      player1
+                    )}
+                  </div>
+
+                  <div class="vs">
+                    VS
+                  </div>
+
+                  <div class="player">
+                    ${escapeHtml(
+                      player2
+                    )}
+                  </div>
+
+                </div>
+
+                <div class="order-actions">
+
+                  <button
+                    class="move-btn"
+                    onclick="
+                      moveMatch(
+                        ${groupIndex},
+                        ${matchIndex},
+                        -1
+                      )
+                    "
+                    ${
+                      matchIndex === 0
+                        ? "disabled"
+                        : ""
+                    }
+                    title="위로"
+                  >
+                    ↑
+                  </button>
+
+
+                  <button
+                    class="move-btn"
+                    onclick="
+                      moveMatch(
+                        ${groupIndex},
+                        ${matchIndex},
+                        1
+                      )
+                    "
+                    ${
+                      matchIndex ===
+                      group.matches.length - 1
+                        ? "disabled"
+                        : ""
+                    }
+                    title="아래로"
+                  >
+                    ↓
+                  </button>
+
+                </div>
+
+              </div>
+
+            `;
+
+          }
+        );
+
+
+        card.innerHTML = `
+
+          <div class="group-head">
+
+            <div>
+
+              <div class="group-title">
+                ${escapeHtml(
+                  group.groupName
+                )}
+              </div>
+
+              <div class="group-sub">
+                풀리그 예선
+              </div>
+
+            </div>
+
+            <div class="match-count">
+              ${group.matches.length}경기
+            </div>
+
+          </div>
+
+          <div class="matches">
+            ${matchesHtml}
+          </div>
+
+        `;
+
+
+        container.appendChild(
+          card
+        );
+
+      }
+    );
+
+
+    document.getElementById(
+      "groupCountText"
+    ).textContent =
+      groupsMatches.length;
+
+
+    document.getElementById(
+      "totalMatchesText"
+    ).textContent =
+      totalMatches;
+
+
+    document.getElementById(
+      "durationText"
+    ).textContent =
+      tournament.matchDuration ||
+      "-";
+
+
+    saveMatches();
+
+  }
+
+
+  function moveMatch(
+    groupIndex,
+    matchIndex,
+    direction
+  ) {
+
+    const matches =
+      groupsMatches[
+        groupIndex
+      ].matches;
+
+
+    const newIndex =
+      matchIndex +
+      direction;
+
+
+    if (
+      newIndex < 0 ||
+      newIndex >=
+      matches.length
+    ) {
+      return;
+    }
+
+
+    [
+      matches[matchIndex],
+      matches[newIndex]
+    ] = [
+      matches[newIndex],
+      matches[matchIndex]
+    ];
+
+
+    render();
+
+  }
+
+
+  document.getElementById(
+    "regenerateButton"
+  ).addEventListener(
+    "click",
+    function() {
+
+      const ok =
+        confirm(
+          "수동으로 변경한 경기 순서를 지우고 기본 대진 순서로 다시 만들까요?"
+        );
+
+
+      if (!ok) {
+        return;
+      }
+
+
+      generateAll();
+
+    }
+  );
+
+
+  document.getElementById(
+    "nextButton"
+  ).addEventListener(
+    "click",
+    function() {
+
+      saveMatches();
+
+      /*
+        다음 화면 파일명까지
+        미리 연결해 둠.
+
+        schedule-setup.html을
+        만들면 이전 파일 수정 없이
+        바로 이어짐.
+      */
+
+      window.location.href =
+        "./schedule-setup.html";
+
+    }
+  );
+
+
+  loadMatches();
+
+  render();
+
+</script>
+
+</body>
+</html>
