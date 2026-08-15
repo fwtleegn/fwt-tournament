@@ -25,7 +25,7 @@
       --lime:#c9df45;
 
       --bg:#f3f5f7;
-      --card:#fff;
+      --card:#ffffff;
 
       --text:#182437;
       --muted:#667487;
@@ -56,9 +56,7 @@
 
     body{
       margin:0;
-
       min-height:100vh;
-
       background:var(--bg);
       color:var(--text);
 
@@ -85,7 +83,6 @@
 
     .top{
       position:relative;
-
       overflow:hidden;
 
       color:white;
@@ -128,15 +125,13 @@
 
       margin:0 auto;
 
-      padding:
-        22px 0 30px;
+      padding:22px 0 30px;
     }
 
     .nav{
       display:flex;
       align-items:center;
       justify-content:space-between;
-
       gap:15px;
     }
 
@@ -150,7 +145,6 @@
       font-weight:950;
 
       letter-spacing:-4px;
-
       transform:skew(-5deg);
     }
 
@@ -190,7 +184,6 @@
     .live-line{
       display:flex;
       align-items:center;
-
       gap:8px;
 
       margin-bottom:10px;
@@ -199,7 +192,6 @@
 
       font-size:10px;
       font-weight:950;
-
       letter-spacing:1.5px;
     }
 
@@ -208,7 +200,6 @@
       height:7px;
 
       border-radius:50%;
-
       background:var(--lime);
 
       box-shadow:
@@ -217,7 +208,6 @@
 
     .event-title{
       margin:0;
-
       max-width:800px;
 
       font-size:
@@ -228,16 +218,13 @@
         );
 
       line-height:1.12;
-
       font-weight:950;
-
       letter-spacing:-1.8px;
     }
 
     .event-meta{
       display:flex;
       flex-wrap:wrap;
-
       gap:7px;
 
       margin-top:15px;
@@ -273,7 +260,6 @@
     .tab-wrap{
       position:sticky;
       top:0;
-
       z-index:100;
 
       border-bottom:
@@ -282,8 +268,7 @@
       background:
         rgba(255,255,255,.96);
 
-      backdrop-filter:
-        blur(10px);
+      backdrop-filter:blur(10px);
     }
 
     .tabs{
@@ -296,11 +281,9 @@
       margin:0 auto;
 
       display:flex;
-
       gap:4px;
 
       overflow-x:auto;
-
       scrollbar-width:none;
     }
 
@@ -318,8 +301,8 @@
       padding:0 17px;
 
       border:0;
-
       background:transparent;
+
       color:#718092;
 
       font-size:12px;
@@ -341,8 +324,7 @@
 
       height:3px;
 
-      border-radius:
-        4px 4px 0 0;
+      border-radius:4px 4px 0 0;
 
       background:var(--lime);
     }
@@ -360,16 +342,7 @@
 
       margin:0 auto;
 
-      padding:
-        25px 0 60px;
-    }
-
-    .view{
-      display:none;
-    }
-
-    .view.active{
-      display:block;
+      padding:25px 0 60px;
     }
 
     .section{
@@ -393,7 +366,6 @@
 
       font-size:9px;
       font-weight:950;
-
       letter-spacing:1.5px;
     }
 
@@ -404,7 +376,6 @@
 
       font-size:22px;
       font-weight:950;
-
       letter-spacing:-.8px;
     }
 
@@ -416,7 +387,7 @@
     }
 
     /* =============================
-       LIVE SUMMARY
+       CURRENT STAGE
     ============================= */
 
     .stage-hero{
@@ -508,7 +479,7 @@
     }
 
     /* =============================
-       COURTS LIVE
+       COURTS
     ============================= */
 
     .court-grid{
@@ -603,7 +574,6 @@
 
       font-size:16px;
       font-weight:950;
-
       line-height:1.4;
     }
 
@@ -617,13 +587,12 @@
     }
 
     /* =============================
-       MATCHES
+       GROUP MATCHES
     ============================= */
 
     .group-stack{
       display:flex;
       flex-direction:column;
-
       gap:12px;
     }
 
@@ -647,8 +616,7 @@
 
       gap:10px;
 
-      padding:
-        14px 15px;
+      padding:14px 15px;
 
       border-bottom:
         1px solid #e7ebef;
@@ -741,7 +709,6 @@
 
       font-size:9px;
       font-weight:900;
-
       text-align:center;
     }
 
@@ -790,8 +757,7 @@
     }
 
     .standing-head{
-      padding:
-        14px 15px;
+      padding:14px 15px;
 
       border-bottom:
         1px solid #e7ebef;
@@ -939,8 +905,7 @@
       display:flex;
       justify-content:space-between;
 
-      padding:
-        8px 9px;
+      padding:8px 9px;
 
       border-bottom:
         1px solid #e8ecf0;
@@ -962,8 +927,7 @@
 
       gap:8px;
 
-      padding:
-        8px 10px;
+      padding:8px 10px;
 
       border-bottom:
         1px solid #edf0f2;
@@ -1003,12 +967,9 @@
     ============================= */
 
     .champion{
-      display:none;
-
       margin-bottom:19px;
 
-      padding:
-        25px 18px;
+      padding:25px 18px;
 
       border:
         1px solid #e7d996;
@@ -1025,10 +986,6 @@
       text-align:center;
 
       box-shadow:var(--shadow);
-    }
-
-    .champion.show{
-      display:block;
     }
 
     .champion-label{
@@ -1049,7 +1006,7 @@
     }
 
     /* =============================
-       STATE
+       EMPTY / ERROR / LOADING
     ============================= */
 
     .empty{
@@ -1112,6 +1069,8 @@
       text-align:center;
 
       color:#657386;
+
+      line-height:1.7;
     }
 
     .error strong{
@@ -1196,11 +1155,9 @@
     @media(max-width:700px){
 
       .top-inner{
-        width:
-          calc(100% - 24px);
+        width:calc(100% - 24px);
 
-        padding:
-          19px 0 25px;
+        padding:19px 0 25px;
       }
 
       .fwt{
@@ -1228,8 +1185,7 @@
       }
 
       .tabs{
-        width:
-          calc(100% - 8px);
+        width:calc(100% - 8px);
       }
 
       .tab{
@@ -1241,11 +1197,9 @@
       }
 
       .main{
-        width:
-          calc(100% - 22px);
+        width:calc(100% - 22px);
 
-        padding:
-          20px 0 48px;
+        padding:20px 0 48px;
       }
 
       .section-title{
@@ -1305,8 +1259,7 @@
 
         min-height:72px;
 
-        padding:
-          9px 7px;
+        padding:9px 7px;
       }
 
       .round{
@@ -1340,7 +1293,6 @@
       .bracket-name{
         font-size:13px;
       }
-
     }
 
     @media(max-width:380px){
@@ -1348,9 +1300,7 @@
       .court-grid{
         grid-template-columns:1fr;
       }
-
     }
-
   </style>
 </head>
 
@@ -1491,35 +1441,17 @@ const tournamentId =
   params.get("id");
 
 
-let tournament =
-  null;
+let tournament = null;
+let division = null;
 
-let division =
-  null;
+let courts = [];
+let entries = [];
+let groups = [];
+let groupEntries = [];
+let matches = [];
 
-let courts =
-  [];
-
-let entries =
-  [];
-
-let groups =
-  [];
-
-let groupEntries =
-  [];
-
-let matches =
-  [];
-
-let currentView =
-  "live";
-
-let initialized =
-  false;
-
-let refreshTimer =
-  null;
+let currentView = "live";
+let refreshTimer = null;
 
 
 /* ==============================
@@ -1537,7 +1469,6 @@ function escapeHtml(value){
     value ?? "";
 
   return div.innerHTML;
-
 }
 
 
@@ -1556,7 +1487,6 @@ function entryName(id){
     ||
     "알 수 없음"
   );
-
 }
 
 
@@ -1570,7 +1500,6 @@ function groupName(id){
     ||
     "-"
   );
-
 }
 
 
@@ -1584,7 +1513,6 @@ function courtName(id){
     ||
     "-"
   );
-
 }
 
 
@@ -1618,7 +1546,6 @@ function formatDate(value){
       day:"numeric"
     }
   ).format(date);
-
 }
 
 
@@ -1639,7 +1566,6 @@ function stageLabel(stage){
     stage ||
     "-"
   );
-
 }
 
 
@@ -1661,7 +1587,6 @@ function statusLabel(status){
     status ||
     "-"
   );
-
 }
 
 
@@ -1671,7 +1596,6 @@ function matchTypeLabel(value){
     singles:"단식",
     doubles:"복식"
   }[value] || value || "";
-
 }
 
 
@@ -1683,7 +1607,6 @@ function genderLabel(value){
     mixed:"혼합",
     open:"오픈"
   }[value] || value || "";
-
 }
 
 
@@ -1696,7 +1619,6 @@ function finished(match){
   ].includes(
     match.status
   );
-
 }
 
 
@@ -1711,9 +1633,15 @@ async function loadData(){
     throw new Error(
       "대회 주소가 올바르지 않습니다."
     );
-
   }
 
+
+  /*
+    공개/비공개 조건 없음.
+
+    URL의 tournament id만으로
+    해당 대회를 조회한다.
+  */
 
   const {
     data:tournamentRow,
@@ -1722,28 +1650,35 @@ async function loadData(){
     await supabaseClient
       .from("tournaments")
       .select(
-        "id,name,tournament_date,status,is_public"
+        "id,name,tournament_date,status"
       )
       .eq(
         "id",
         tournamentId
       )
-      .eq(
-        "is_public",
-        true
-      )
-      .single();
+      .maybeSingle();
 
 
   if (
-    tournamentError ||
-    !tournamentRow
+    tournamentError
   ){
 
-    throw new Error(
-      "공개되지 않았거나 존재하지 않는 대회입니다."
+    console.error(
+      "Tournament load error:",
+      tournamentError
     );
 
+    throw new Error(
+      `대회 정보를 불러올 수 없습니다. (${tournamentError.message})`
+    );
+  }
+
+
+  if (!tournamentRow){
+
+    throw new Error(
+      "존재하지 않는 대회입니다."
+    );
   }
 
 
@@ -1773,16 +1708,34 @@ async function loadData(){
 
 
   if (
-    divisionError ||
-    !divisionRows?.length
+    divisionError
+  ){
+
+    console.error(
+      "Division load error:",
+      divisionError
+    );
+
+    throw new Error(
+      `대회 부문 정보를 불러올 수 없습니다. (${divisionError.message})`
+    );
+  }
+
+
+  if (
+    !divisionRows ||
+    !divisionRows.length
   ){
 
     throw new Error(
-      "대회 부문 정보를 찾을 수 없습니다."
+      "이 대회에는 아직 경기 부문이 생성되지 않았습니다."
     );
-
   }
 
+
+  /*
+    현재 시스템은 대회당 첫 번째 division을 사용.
+  */
 
   division =
     divisionRows[0];
@@ -1868,19 +1821,30 @@ async function loadData(){
 
 
   if (courtResult.error){
-    throw courtResult.error;
+    throw new Error(
+      courtResult.error.message
+    );
   }
+
 
   if (entryResult.error){
-    throw entryResult.error;
+    throw new Error(
+      entryResult.error.message
+    );
   }
+
 
   if (groupResult.error){
-    throw groupResult.error;
+    throw new Error(
+      groupResult.error.message
+    );
   }
 
+
   if (matchResult.error){
-    throw matchResult.error;
+    throw new Error(
+      matchResult.error.message
+    );
   }
 
 
@@ -1911,7 +1875,8 @@ async function loadData(){
 
     const groupIds =
       groups.map(
-        group => group.id
+        group =>
+          group.id
       );
 
 
@@ -1937,7 +1902,10 @@ async function loadData(){
 
 
     if (error){
-      throw error;
+
+      throw new Error(
+        error.message
+      );
     }
 
 
@@ -1947,9 +1915,7 @@ async function loadData(){
   }else{
 
     groupEntries = [];
-
   }
-
 }
 
 
@@ -1967,7 +1933,7 @@ function getCurrentStage(){
     );
 
 
-  const knockout =
+  const knockoutMatches =
     matches.filter(
       match =>
         match.stage !==
@@ -1983,8 +1949,8 @@ function getCurrentStage(){
     );
 
 
-  const final =
-    knockout.find(
+  const finalMatch =
+    knockoutMatches.find(
       match =>
         match.stage ===
         "final"
@@ -1992,10 +1958,11 @@ function getCurrentStage(){
 
 
   if (
-    final &&
-    finished(final)
+    finalMatch
     &&
-    final.winner_entry_id
+    finished(finalMatch)
+    &&
+    finalMatch.winner_entry_id
   ){
 
     return {
@@ -2004,7 +1971,6 @@ function getCurrentStage(){
       title:"대회 종료",
       desc:"모든 경기가 종료되었습니다."
     };
-
   }
 
 
@@ -2020,27 +1986,26 @@ function getCurrentStage(){
       title:"조별 예선 진행 중",
       desc:"현재 조별 예선 경기가 진행되고 있습니다."
     };
-
   }
 
 
   if (
-    groupComplete &&
-    knockout.length === 0
+    groupComplete
+    &&
+    knockoutMatches.length === 0
   ){
 
     return {
       type:"standings",
       view:"standings",
       title:"예선 종료",
-      desc:"조별 예선이 종료되었습니다. 본선 진출 결과를 확인하세요."
+      desc:"조별 예선이 종료되었습니다. 조별 순위를 확인할 수 있습니다."
     };
-
   }
 
 
   if (
-    knockout.length > 0
+    knockoutMatches.length > 0
   ){
 
     return {
@@ -2049,7 +2014,6 @@ function getCurrentStage(){
       title:"본선 진행 중",
       desc:"본선 토너먼트가 진행되고 있습니다."
     };
-
   }
 
 
@@ -2057,9 +2021,8 @@ function getCurrentStage(){
     type:"preparation",
     view:"preliminary",
     title:"대회 준비 중",
-    desc:"대진이 준비되고 있습니다."
+    desc:"대진 및 경기 정보가 준비되고 있습니다."
   };
-
 }
 
 
@@ -2086,7 +2049,7 @@ function renderHeader(){
   document.getElementById(
     "liveText"
   ).textContent =
-    stage.title.toUpperCase();
+    stage.title;
 
 
   document.getElementById(
@@ -2101,11 +2064,17 @@ function renderHeader(){
       )}
     </span>
 
-    <span class="event-chip">
-      ${escapeHtml(
-        division.name
-      )}
-    </span>
+    ${
+      division.name
+        ? `
+          <span class="event-chip">
+            ${escapeHtml(
+              division.name
+            )}
+          </span>
+        `
+        : ""
+    }
 
     <span class="event-chip">
       ${escapeHtml(
@@ -2121,7 +2090,6 @@ function renderHeader(){
     </span>
 
   `;
-
 }
 
 
@@ -2143,18 +2111,6 @@ function getStats(){
     ).length;
 
 
-  const waiting =
-    matches.filter(
-      match =>
-        [
-          "waiting",
-          "pending"
-        ].includes(
-          match.status
-        )
-    ).length;
-
-
   const complete =
     matches.filter(
       finished
@@ -2164,15 +2120,13 @@ function getStats(){
   return {
     total,
     playing,
-    waiting,
     complete
   };
-
 }
 
 
 /* ==============================
-   COURT LIVE
+   COURTS
 ============================== */
 
 function renderCourts(){
@@ -2184,7 +2138,6 @@ function renderCourts(){
         등록된 코트 정보가 없습니다.
       </div>
     `;
-
   }
 
 
@@ -2223,7 +2176,7 @@ function renderCourts(){
                       </div>
 
                       <div class="court-empty">
-                        대기
+                        비어있음
                       </div>
 
                     </div>
@@ -2235,7 +2188,6 @@ function renderCourts(){
                   </div>
 
                 `;
-
               }
 
 
@@ -2257,44 +2209,52 @@ function renderCourts(){
 
                   </div>
 
+
                   <div class="court-stage">
+
                     ${
                       match.stage ===
                       "group"
-                        ? escapeHtml(
+
+                        ? `${escapeHtml(
                             groupName(
                               match.group_id
                             )
-                          )
-                          +
-                          " · 예선"
+                          )} · 예선`
+
                         : escapeHtml(
                             stageLabel(
                               match.stage
                             )
                           )
                     }
+
                   </div>
 
+
                   <div class="court-players">
+
                     ${escapeHtml(
                       entryName(
                         match.entry1_id
                       )
                     )}
+
                     <br>
+
                     vs
+
                     ${escapeHtml(
                       entryName(
                         match.entry2_id
                       )
                     )}
+
                   </div>
 
                 </div>
 
               `;
-
             }
           )
           .join("")
@@ -2303,7 +2263,6 @@ function renderCourts(){
     </div>
 
   `;
-
 }
 
 
@@ -2320,7 +2279,6 @@ function renderPreliminary(){
         아직 조편성 정보가 없습니다.
       </div>
     `;
-
   }
 
 
@@ -2380,6 +2338,7 @@ function renderPreliminary(){
 
                 </div>
 
+
                 <div class="match-list">
 
                   ${
@@ -2399,6 +2358,7 @@ function renderPreliminary(){
                                 <div class="round">
                                   R${match.round_number || "-"}
                                 </div>
+
 
                                 <div class="match-main">
 
@@ -2426,24 +2386,30 @@ function renderPreliminary(){
 
                                   </div>
 
+
                                   <div class="match-info">
 
                                     ${
                                       match.status ===
                                       "playing"
+
                                         ? `${escapeHtml(
                                             courtName(
                                               match.court_id
                                             )
                                           )} · 경기중`
-                                        : statusLabel(
-                                            match.status
+
+                                        : escapeHtml(
+                                            statusLabel(
+                                              match.status
+                                            )
                                           )
                                     }
 
                                   </div>
 
                                 </div>
+
 
                                 <div
                                   class="score ${
@@ -2455,13 +2421,17 @@ function renderPreliminary(){
 
                                   ${
                                     done
-                                      &&
+                                    &&
                                     match.score1 !== null
-                                      &&
+                                    &&
                                     match.score2 !== null
+
                                       ? `${match.score1} - ${match.score2}`
-                                      : statusLabel(
-                                          match.status
+
+                                      : escapeHtml(
+                                          statusLabel(
+                                            match.status
+                                          )
                                         )
                                   }
 
@@ -2470,9 +2440,9 @@ function renderPreliminary(){
                               </div>
 
                             `;
-
                           }
                         ).join("")
+
                       :
                         `
                           <div class="empty">
@@ -2486,7 +2456,6 @@ function renderPreliminary(){
               </section>
 
             `;
-
           }
         ).join("")
       }
@@ -2494,17 +2463,14 @@ function renderPreliminary(){
     </div>
 
   `;
-
 }
 
 
 /* ==============================
-   STANDINGS CALC
+   STANDINGS
 ============================== */
 
-function calculateGroupStanding(
-  group
-){
+function calculateGroupStanding(group){
 
   const members =
     groupEntries
@@ -2543,7 +2509,7 @@ function calculateGroupStanding(
     );
 
 
-  const groupMatches =
+  const completedMatches =
     matches.filter(
       match =>
         match.stage ===
@@ -2561,7 +2527,7 @@ function calculateGroupStanding(
     );
 
 
-  groupMatches.forEach(
+  completedMatches.forEach(
     match => {
 
       const a =
@@ -2585,15 +2551,15 @@ function calculateGroupStanding(
 
 
       const s1 =
-        Number(
-          match.score1 || 0
-        );
+        match.score1 === null
+          ? 0
+          : Number(match.score1);
 
 
       const s2 =
-        Number(
-          match.score2 || 0
-        );
+        match.score2 === null
+          ? 0
+          : Number(match.score2);
 
 
       a.scored += s1;
@@ -2618,9 +2584,7 @@ function calculateGroupStanding(
 
         b.wins++;
         a.losses++;
-
       }
-
     }
   );
 
@@ -2631,10 +2595,16 @@ function calculateGroupStanding(
       row.diff =
         row.scored -
         row.conceded;
-
     }
   );
 
+
+  /*
+    기본 순위
+    1. 승수
+    2. 득실
+    3. 득점
+  */
 
   table.sort(
     (a,b) => {
@@ -2657,19 +2627,91 @@ function calculateGroupStanding(
         b.scored -
         a.scored
       );
-
     }
   );
 
 
-  return table;
+  /*
+    승/득실/득점까지 완전히 같은
+    정확히 두 명의 동률이면
+    상대전적 승자를 위로 배치.
+  */
 
+  for (
+    let i = 0;
+    i < table.length - 1;
+    i++
+  ){
+
+    const a =
+      table[i];
+
+    const b =
+      table[i + 1];
+
+
+    const same =
+      a.wins === b.wins
+      &&
+      a.diff === b.diff
+      &&
+      a.scored === b.scored;
+
+
+    if (!same){
+      continue;
+    }
+
+
+    const tiedPlayers =
+      table.filter(
+        row =>
+          row.wins === a.wins
+          &&
+          row.diff === a.diff
+          &&
+          row.scored === a.scored
+      );
+
+
+    if (
+      tiedPlayers.length !== 2
+    ){
+      continue;
+    }
+
+
+    const headToHead =
+      completedMatches.find(
+        match =>
+          (
+            match.entry1_id === a.entryId
+            &&
+            match.entry2_id === b.entryId
+          )
+          ||
+          (
+            match.entry1_id === b.entryId
+            &&
+            match.entry2_id === a.entryId
+          )
+      );
+
+
+    if (
+      headToHead?.winner_entry_id ===
+      b.entryId
+    ){
+
+      table[i] = b;
+      table[i + 1] = a;
+    }
+  }
+
+
+  return table;
 }
 
-
-/* ==============================
-   STANDINGS
-============================== */
 
 function renderStandings(){
 
@@ -2680,7 +2722,6 @@ function renderStandings(){
         조별 순위 정보가 없습니다.
       </div>
     `;
-
   }
 
 
@@ -2770,10 +2811,8 @@ function renderStandings(){
         </section>
 
       `;
-
     }
   ).join("");
-
 }
 
 
@@ -2781,14 +2820,45 @@ function renderStandings(){
    KNOCKOUT
 ============================== */
 
+function knockoutRoundOrder(stage){
+
+  return {
+    round32:1,
+    round16:2,
+    quarterfinal:3,
+    semifinal:4,
+    final:5
+  }[stage] || 99;
+}
+
+
 function renderKnockout(){
 
   const knockout =
-    matches.filter(
-      match =>
-        match.stage !==
-        "group"
-    );
+    matches
+      .filter(
+        match =>
+          match.stage !==
+          "group"
+      )
+      .sort(
+        (a,b) =>
+          knockoutRoundOrder(
+            a.stage
+          )
+          -
+          knockoutRoundOrder(
+            b.stage
+          )
+          ||
+          Number(
+            a.match_number || 0
+          )
+          -
+          Number(
+            b.match_number || 0
+          )
+      );
 
 
   if (!knockout.length){
@@ -2798,24 +2868,23 @@ function renderKnockout(){
         아직 본선 대진이 생성되지 않았습니다.
       </div>
     `;
-
   }
 
 
-  const roundNumbers =
+  const stages =
     [
       ...new Set(
         knockout.map(
           match =>
-            Number(
-              match.round_number
-            )
+            match.stage
         )
       )
     ]
       .sort(
         (a,b) =>
-          a - b
+          knockoutRoundOrder(a)
+          -
+          knockoutRoundOrder(b)
       );
 
 
@@ -2826,26 +2895,24 @@ function renderKnockout(){
       <div class="bracket">
 
         ${
-          roundNumbers.map(
-            roundNumber => {
+          stages.map(
+            stage => {
 
               const roundMatches =
                 knockout
                   .filter(
                     match =>
-                      Number(
-                        match.round_number
-                      ) ===
-                      roundNumber
+                      match.stage ===
+                      stage
                   )
                   .sort(
                     (a,b) =>
                       Number(
-                        a.match_number
+                        a.match_number || 0
                       )
                       -
                       Number(
-                        b.match_number
+                        b.match_number || 0
                       )
                   );
 
@@ -2856,11 +2923,10 @@ function renderKnockout(){
 
                   <div class="bracket-round-title">
                     ${escapeHtml(
-                      stageLabel(
-                        roundMatches[0]?.stage
-                      )
+                      stageLabel(stage)
                     )}
                   </div>
+
 
                   <div class="bracket-matches">
 
@@ -2869,11 +2935,15 @@ function renderKnockout(){
                         match => {
 
                           const winner1 =
+                            match.winner_entry_id
+                            &&
                             match.winner_entry_id ===
                             match.entry1_id;
 
 
                           const winner2 =
+                            match.winner_entry_id
+                            &&
                             match.winner_entry_id ===
                             match.entry2_id;
 
@@ -2885,15 +2955,32 @@ function renderKnockout(){
                               <div class="bracket-match-head">
 
                                 <span>
-                                  ${match.match_number}경기
+                                  ${
+                                    match.match_number
+                                      ? `${match.match_number}경기`
+                                      : stageLabel(match.stage)
+                                  }
                                 </span>
 
                                 <span>
-                                  ${escapeHtml(
-                                    statusLabel(
-                                      match.status
-                                    )
-                                  )}
+
+                                  ${
+                                    match.status ===
+                                    "playing"
+
+                                      ? `${escapeHtml(
+                                          courtName(
+                                            match.court_id
+                                          )
+                                        )} · 경기중`
+
+                                      : escapeHtml(
+                                          statusLabel(
+                                            match.status
+                                          )
+                                        )
+                                  }
+
                                 </span>
 
                               </div>
@@ -2962,7 +3049,6 @@ function renderKnockout(){
                             </article>
 
                           `;
-
                         }
                       ).join("")
                     }
@@ -2972,7 +3058,6 @@ function renderKnockout(){
                 </section>
 
               `;
-
             }
           ).join("")
         }
@@ -2982,7 +3067,6 @@ function renderKnockout(){
     </div>
 
   `;
-
 }
 
 
@@ -3001,19 +3085,20 @@ function championHtml(){
 
 
   if (
-    !final ||
-    !finished(final) ||
+    !final
+    ||
+    !finished(final)
+    ||
     !final.winner_entry_id
   ){
 
     return "";
-
   }
 
 
   return `
 
-    <section class="champion show">
+    <section class="champion">
 
       <div class="champion-label">
         FWT CHAMPION
@@ -3030,12 +3115,11 @@ function championHtml(){
     </section>
 
   `;
-
 }
 
 
 /* ==============================
-   LIVE VIEW
+   LIVE
 ============================== */
 
 function renderLive(){
@@ -3063,6 +3147,7 @@ function renderLive(){
         <div class="section-head">
 
           <div>
+
             <div class="section-kicker">
               PRELIMINARY
             </div>
@@ -3070,6 +3155,7 @@ function renderLive(){
             <h2 class="section-title">
               예선 현황
             </h2>
+
           </div>
 
         </div>
@@ -3097,6 +3183,7 @@ function renderLive(){
         <div class="section-head">
 
           <div>
+
             <div class="section-kicker">
               KNOCKOUT
             </div>
@@ -3104,6 +3191,7 @@ function renderLive(){
             <h2 class="section-title">
               본선 대진
             </h2>
+
           </div>
 
         </div>
@@ -3126,6 +3214,7 @@ function renderLive(){
         <div class="section-head">
 
           <div>
+
             <div class="section-kicker">
               GROUP STANDINGS
             </div>
@@ -3133,6 +3222,7 @@ function renderLive(){
             <h2 class="section-title">
               조별 순위
             </h2>
+
           </div>
 
         </div>
@@ -3143,6 +3233,35 @@ function renderLive(){
 
     `;
 
+  }else{
+
+    focusContent = `
+
+      <section class="section">
+
+        <div class="section-head">
+
+          <div>
+
+            <div class="section-kicker">
+              TOURNAMENT
+            </div>
+
+            <h2 class="section-title">
+              대회 준비
+            </h2>
+
+          </div>
+
+        </div>
+
+        <div class="empty">
+          아직 생성된 경기 대진이 없습니다.
+        </div>
+
+      </section>
+
+    `;
   }
 
 
@@ -3246,7 +3365,6 @@ function renderLive(){
     ${focusContent}
 
   `;
-
 }
 
 
@@ -3272,7 +3390,6 @@ function renderCurrentView(){
 
     html =
       renderLive();
-
   }
 
 
@@ -3310,7 +3427,6 @@ function renderCurrentView(){
       </section>
 
     `;
-
   }
 
 
@@ -3348,7 +3464,6 @@ function renderCurrentView(){
       </section>
 
     `;
-
   }
 
 
@@ -3388,7 +3503,6 @@ function renderCurrentView(){
       </section>
 
     `;
-
   }
 
 
@@ -3400,7 +3514,7 @@ function renderCurrentView(){
       <div class="refresh-line">
 
         <span>
-          자동 갱신 중
+          15초마다 자동 갱신
         </span>
 
         <button
@@ -3439,7 +3553,6 @@ function renderCurrentView(){
     "click",
     refreshData
   );
-
 }
 
 
@@ -3447,9 +3560,7 @@ function renderCurrentView(){
    TAB
 ============================== */
 
-function setView(
-  view
-){
+function setView(view){
 
   currentView =
     view;
@@ -3467,7 +3578,6 @@ function setView(
           tab.dataset.view ===
           view
         );
-
       }
     );
 
@@ -3479,7 +3589,6 @@ function setView(
     top:0,
     behavior:"smooth"
   });
-
 }
 
 
@@ -3497,10 +3606,8 @@ document
           setView(
             tab.dataset.view
           );
-
         }
       );
-
     }
   );
 
@@ -3521,10 +3628,10 @@ async function refreshData(){
 
   }catch(error){
 
-    console.error(error);
-
+    console.error(
+      error
+    );
   }
-
 }
 
 
@@ -3532,14 +3639,18 @@ async function refreshData(){
    ERROR
 ============================== */
 
-function renderError(
-  message
-){
+function renderError(message){
 
   document.getElementById(
     "eventTitle"
   ).textContent =
     "FWT Tournament";
+
+
+  document.getElementById(
+    "liveText"
+  ).textContent =
+    "FWT TOURNAMENT";
 
 
   document.getElementById(
@@ -3569,13 +3680,12 @@ function renderError(
           font-weight:900;
         "
       >
-        대회 목록으로 돌아가기
+        ← 대회 목록으로 돌아가기
       </a>
 
     </div>
 
   `;
-
 }
 
 
@@ -3593,11 +3703,11 @@ async function start(){
 
 
     /*
-      최초 진입할 때만
-      현재 단계에 맞는 화면을 자동 선택.
+      처음 접속할 때만
+      현재 진행단계에 맞는 화면 선택.
 
-      이후 15초 갱신에서는
-      사용자가 보고 있는 탭을 유지.
+      이후 자동 새로고침에서는
+      사용자가 선택한 탭을 유지한다.
     */
 
     const stage =
@@ -3616,7 +3726,6 @@ async function start(){
 
       currentView =
         "live";
-
     }
 
 
@@ -3632,16 +3741,11 @@ async function start(){
             tab.dataset.view ===
             currentView
           );
-
         }
       );
 
 
     renderCurrentView();
-
-
-    initialized =
-      true;
 
 
     refreshTimer =
@@ -3650,18 +3754,18 @@ async function start(){
         15000
       );
 
-
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     renderError(
       error?.message ||
-      "알 수 없는 오류"
+      "알 수 없는 오류가 발생했습니다."
     );
-
   }
-
 }
 
 
