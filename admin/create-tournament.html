@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>새 대회 만들기 | FWT Tournament</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --navy: #071a31;
+      --navy2: #0c294a;
+      --blue: #184a79;
+      --lime: #c9df45;
+
+      --bg: #f4f6f9;
+      --white: #ffffff;
+      --text: #172033;
+      --muted: #7b8492;
+      --line: #e3e8ee;
+
+      --danger: #d94b4b;
+      --danger-bg: #fff1f1;
+
+      --shadow: 0 14px 40px rgba(20, 35, 55, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family:
+        Inter,
+        Pretendard,
+        "Noto Sans KR",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    /* TOP BAR */
+
+    .topbar {
+      height: 72px;
+      background:
+        linear-gradient(
+          110deg,
+          #07182d,
+          #0b2848 60%,
+          #10375f
+        );
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      box-shadow: 0 4px 22px rgba(6, 23, 43, 0.16);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+    }
+
+    .fwt {
+      position: relative;
+      font-size: 30px;
+      font-weight: 950;
+      font-style: italic;
+      letter-spacing: -3px;
+      transform: skewX(-5deg);
+    }
+
+    .fwt span {
+      color: var(--lime);
+    }
+
+    .fwt::after {
+      content: "";
+      position: absolute;
+      width: 25px;
+      height: 3px;
+      right: -23px;
+      top: 12px;
+      border-radius: 10px;
+      background: var(--lime);
+      transform: rotate(-10deg);
+    }
+
+    .top-title {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+      color: rgba(255,255,255,.7);
+    }
+
+    .back-btn {
+      padding: 9px 13px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 10px;
+      background: rgba(255,255,255,.07);
+      color: white;
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    /* MAIN */
+
+    .container {
+      width: min(900px, calc(100% - 34px));
+      margin: 0 auto;
+      padding: 42px 0 70px;
+    }
+
+    .page-head {
+      margin-bottom: 28px;
+    }
+
+    .kicker {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--blue);
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 24px;
+      height: 2px;
+      background: var(--lime);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 36px;
+      letter-spacing: -1.8px;
+      color: var(--navy);
+    }
+
+    .page-desc {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* CARD */
+
+    .card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .card-head {
+      padding: 21px 23px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .card-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 25px;
+      height: 25px;
+      border-radius: 8px;
+      background: var(--navy);
+      color: var(--lime);
+      font-size: 11px;
+      font-weight: 900;
+      margin-right: 8px;
+    }
+
+    .card-title {
+      display: inline;
+      font-size: 15px;
+      font-weight: 850;
+      color: var(--navy);
+    }
+
+    .card-body {
+      padding: 23px;
+    }
+
+    .field {
+      margin-bottom: 21px;
+    }
+
+    .field:last-child {
+      margin-bottom: 0;
+    }
+
+    label.field-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #364154;
+    }
+
+    .hint {
+      display: block;
+      margin-top: 6px;
+      color: #9aa2ad;
+      font-size: 10px;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    select {
+      width: 100%;
+      height: 50px;
+      border: 1px solid #dce1e7;
+      border-radius: 11px;
+      padding: 0 14px;
+      outline: none;
+      background: #fbfcfd;
+      font-size: 14px;
+      transition: .15s;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #6d91b5;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(23,73,120,.06);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    /* OPTION CARDS */
+
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 11px;
+    }
+
+    .option input {
+      display: none;
+    }
+
+    .option label {
+      display: block;
+      height: 100%;
+      padding: 16px;
+      border: 1px solid #dfe4ea;
+      border-radius: 13px;
+      cursor: pointer;
+      background: #fff;
+      transition: .15s;
+    }
+
+    .option-title {
+      font-size: 13px;
+      font-weight: 820;
+      color: #29354a;
+    }
+
+    .option-desc {
+      margin-top: 5px;
+      color: #9099a7;
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    .option input:checked + label {
+      border-color: var(--navy);
+      background: #f4f7fa;
+      box-shadow: inset 0 0 0 1px var(--navy);
+    }
+
+    .option input:checked + label .option-title {
+      color: var(--navy);
+    }
+
+    /* BUTTON OPTION */
+
+    .segmented {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .seg-option input {
+      display: none;
+    }
+
+    .seg-option label {
+      display: inline-flex;
+      min-width: 90px;
+      height: 42px;
+      padding: 0 15px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #dfe4ea;
+      border-radius: 10px;
+      background: white;
+      color: #687386;
+      font-size: 12px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .seg-option input:checked + label {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: white;
+    }
+
+    /* COURTS */
+
+    .court-add {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 9px;
+    }
+
+    .add-btn {
+      border: 0;
+      border-radius: 11px;
+      padding: 0 18px;
+      background: var(--navy);
+      color: white;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .court-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .court-chip {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 10px 9px 13px;
+      border: 1px solid #dfe4ea;
+      border-radius: 999px;
+      background: #f8fafb;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .court-edit,
+    .court-delete {
+      border: 0;
+      background: transparent;
+      padding: 2px;
+      font-size: 11px;
+    }
+
+    .court-edit {
+      color: var(--blue);
+    }
+
+    .court-delete {
+      color: var(--danger);
+    }
+
+    .court-empty {
+      color: #9ba4af;
+      font-size: 11px;
+      padding: 8px 0;
+    }
+
+    /* CONDITIONAL */
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* BOTTOM */
+
+    .bottom-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 8px;
+    }
+
+    .secondary-btn,
+    .next-btn {
+      height: 52px;
+      border-radius: 12px;
+      font-weight: 800;
+    }
+
+    .secondary-btn {
+      width: 140px;
+      border: 1px solid #d8dde4;
+      background: white;
+      color: #536072;
+    }
+
+    .next-btn {
+      flex: 1;
+      border: 0;
+      background:
+        linear-gradient(
+          115deg,
+          var(--navy),
+          #123e6c
+        );
+      color: white;
+      box-shadow: 0 10px 26px rgba(7,26,49,.12);
+    }
+
+    .next-btn span {
+      color: var(--lime);
+      margin-left: 5px;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid #e2e6eb;
+      display: flex;
+      justify-content: space-between;
+      color: #9aa2ad;
+      font-size: 9px;
+      letter-spacing: 1px;
+    }
+
+    .footer strong {
+      color: var(--navy);
+    }
+
+    .footer .q {
+      color: #9eb421;
+      font-weight: 900;
+    }
+
+    @media (max-width: 650px) {
+      .topbar {
+        padding: 0 17px;
+      }
+
+      .top-title {
+        display: none;
+      }
+
+      .container {
+        width: calc(100% - 26px);
+        padding-top: 30px;
+      }
+
+      h1 {
+        font-size: 29px;
+      }
+
+      .option-grid,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        border-radius: 16px;
+      }
+
+      .card-body {
+        padding: 19px 17px;
+      }
+
+      .bottom-bar {
+        flex-direction: column-reverse;
+      }
+
+      .secondary-btn,
+      .next-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+
+    <div class="brand">
+      <div class="fwt">
+        FW<span>T</span>
+      </div>
+
+      <div class="top-title">
+        TOURNAMENT CONTROL
+      </div>
+    </div>
+
+    <button
+      class="back-btn"
+      onclick="window.location.href='./dashboard.html'"
+    >
+      ← 대시보드
+    </button>
+
+  </header>
+
+
+  <main class="container">
+
+    <div class="page-head">
+
+      <div class="kicker">
+        CREATE TOURNAMENT
+      </div>
+
+      <h1>
+        새 대회 만들기
+      </h1>
+
+      <p class="page-desc">
+        기본 정보를 설정한 뒤 참가자 등록과 대진 구성을 진행합니다.
+      </p>
+
+    </div>
+
+
+    <!-- BASIC -->
+
+    <section class="card">
+
+      <div class="card-head">
+        <span class="card-number">1</span>
+        <div class="card-title">
+          기본 정보
+        </div>
+      </div>
+
+      <div class="card-body">
+
+        <div class="field">
+
+          <label class="field-label">
+            대회명
+          </label>
+
+          <input
+            id="tournamentName"
+            type="text"
+            placeholder="예: FWT SINGLES #1"
+          />
+
+        </div>
+
+
+        <div class="field">
+
+          <label class="field-label">
+            대회 날짜
+          </label>
+
+          <input
+            id="tournamentDate"
+            type="date"
+          />
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- FORMAT -->
+
+    <section class="card">
+
+      <div class="card-head">
+        <span class="card-number">2</span>
+        <div class="card-title">
+          진행 방식
+        </div>
+      </div>
+
+      <div class="card-body">
+
+        <div class="option-grid">
+
+          <div class="option">
+
+            <input
+              id="groupKnockout"
+              name="format"
+              type="radio"
+              value="group_knockout"
+              checked
+            />
+
+            <label for="groupKnockout">
+
+              <div class="option-title">
+                조별리그 + 토너먼트
+              </div>
+
+              <div class="option-desc">
+                조별 예선을 진행한 후
+                상위 참가자가 본선 토너먼트에 진출합니다.
+              </div>
+
+            </label>
+
+          </div>
+
+
+          <div class="option">
+
+            <input
+              id="knockout"
+              name="format"
+              type="radio"
+              value="knockout"
+            />
+
+            <label for="knockout">
+
+              <div class="option-title">
+                토너먼트
+              </div>
+
+              <div class="option-desc">
+                참가자 전원이 바로 토너먼트에 배치됩니다.
+                부족한 자리는 BYE 처리가 가능합니다.
+              </div>
+
+            </label>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- EVENT -->
+
+    <section class="card">
+
+      <div class="card-head">
+        <span class="card-number">3</span>
+        <div class="card-title">
+          종목 설정
+        </div>
+      </div>
+
+
+      <div class="card-body">
+
+        <div class="field">
+
+          <label class="field-label">
+            경기 유형
+          </label>
+
+          <div class="segmented">
+
+            <div class="seg-option">
+              <input
+                type="radio"
+                id="singles"
+                name="matchType"
+                value="singles"
+                checked
+              />
+              <label for="singles">
+                단식
+              </label>
+            </div>
+
+
+            <div class="seg-option">
+              <input
+                type="radio"
+                id="doubles"
+                name="matchType"
+                value="doubles"
+              />
+              <label for="doubles">
+                복식
+              </label>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="field">
+
+          <label class="field-label">
+            부문
+          </label>
+
+          <div class="segmented">
+
+            <div class="seg-option">
+              <input
+                type="radio"
+                id="male"
+                name="gender"
+                value="male"
+                checked
+              />
+              <label for="male">
+                남자
+              </label>
+            </div>
+
+            <div class="seg-option">
+              <input
+                type="radio"
+                id="female"
+                name="gender"
+                value="female"
+              />
+              <label for="female">
+                여자
+              </label>
+            </div>
+
+            <div class="seg-option">
+              <input
+                type="radio"
+                id="mixed"
+                name="gender"
+                value="mixed"
+              />
+              <label for="mixed">
+                혼합
+              </label>
+            </div>
+
+            <div class="seg-option">
+              <input
+                type="radio"
+                id="open"
+                name="gender"
+                value="open"
+              />
+              <label for="open">
+                오픈
+              </label>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- GROUP -->
+
+    <section
+      class="card"
+      id="groupSettings"
+    >
+
+      <div class="card-head">
+
+        <span class="card-number">4</span>
+
+        <div class="card-title">
+          조별리그 설정
+        </div>
+
+      </div>
+
+
+      <div class="card-body">
+
+        <div class="two-col">
+
+          <div class="field">
+
+            <label class="field-label">
+              조 개수
+            </label>
+
+            <input
+              id="groupCount"
+              type="number"
+              min="1"
+              value="4"
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label class="field-label">
+              조별 본선 진출
+            </label>
+
+            <input
+              id="advanceCount"
+              type="number"
+              min="1"
+              value="2"
+            />
+
+          </div>
+
+        </div>
+
+        <span class="hint">
+          참가자 수와 조별 인원은 다음 단계에서 참가자 등록 후 조정할 수 있습니다.
+        </span>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- COURT -->
+
+    <section class="card">
+
+      <div class="card-head">
+
+        <span class="card-number">5</span>
+
+        <div class="card-title">
+          사용 코트
+        </div>
+
+      </div>
+
+
+      <div class="card-body">
+
+        <div class="court-add">
+
+          <input
+            id="courtInput"
+            type="text"
+            placeholder="예: 6번 코트 / 센터코트 / A코트"
+          />
+
+          <button
+            type="button"
+            class="add-btn"
+            id="addCourtButton"
+          >
+            + 추가
+          </button>
+
+        </div>
+
+
+        <div
+          id="courtList"
+          class="court-list"
+        >
+          <div class="court-empty">
+            아직 등록된 코트가 없습니다.
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- TIME -->
+
+    <section class="card">
+
+      <div class="card-head">
+
+        <span class="card-number">6</span>
+
+        <div class="card-title">
+          경기 설정
+        </div>
+
+      </div>
+
+
+      <div class="card-body">
+
+        <div class="field">
+
+          <label class="field-label">
+            기본 경기시간
+          </label>
+
+          <select id="matchDuration">
+
+            <option value="20">
+              20분
+            </option>
+
+            <option value="25">
+              25분
+            </option>
+
+            <option
+              value="30"
+              selected
+            >
+              30분
+            </option>
+
+            <option value="40">
+              40분
+            </option>
+
+            <option value="45">
+              45분
+            </option>
+
+            <option value="60">
+              60분
+            </option>
+
+          </select>
+
+          <span class="hint">
+            대회 생성 이후 경기별 시간과 코트는 다시 수정할 수 있습니다.
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- BUTTONS -->
+
+    <div class="bottom-bar">
+
+      <button
+        class="secondary-btn"
+        onclick="window.location.href='./dashboard.html'"
+      >
+        취소
+      </button>
+
+      <button
+        class="next-btn"
+        id="nextButton"
+      >
+        참가자 등록으로 이동
+        <span>→</span>
+      </button>
+
+    </div>
+
+
+    <footer class="footer">
+
+      <div>
+        <strong>FWT</strong>
+        · FRIENDS WITH TENNIS
+      </div>
+
+      <div>
+        CREATED BY
+        <span class="q">Q</span>
+      </div>
+
+    </footer>
+
+  </main>
+
+
+
+  <script>
+
+    /* ==============================
+       SUPABASE
+    ============================== */
+
+    const SUPABASE_URL =
+      "https://opwuyqerisocqobbbisg.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_Eo_zfONeGLs9ATCVg2Fk_g_y_IAJFV-";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    /* ==============================
+       LOGIN CHECK
+    ============================== */
+
+    async function checkLogin() {
+
+      const { data } =
+        await supabaseClient.auth.getSession();
+
+      if (!data.session) {
+        window.location.href = "./";
+      }
+
+    }
+
+    checkLogin();
+
+
+    /* ==============================
+       FORMAT
+    ============================== */
+
+    const groupSettings =
+      document.getElementById(
+        "groupSettings"
+      );
+
+    const formatRadios =
+      document.querySelectorAll(
+        'input[name="format"]'
+      );
+
+    formatRadios.forEach(
+      radio => {
+
+        radio.addEventListener(
+          "change",
+          function () {
+
+            if (
+              this.value === "knockout"
+            ) {
+
+              groupSettings.classList.add(
+                "hidden"
+              );
+
+            } else {
+
+              groupSettings.classList.remove(
+                "hidden"
+              );
+
+            }
+
+          }
+        );
+
+      }
+    );
+
+
+    /* ==============================
+       COURTS
+    ============================== */
+
+    let courts = [];
+
+    const courtInput =
+      document.getElementById(
+        "courtInput"
+      );
+
+    const courtList =
+      document.getElementById(
+        "courtList"
+      );
+
+    const addCourtButton =
+      document.getElementById(
+        "addCourtButton"
+      );
+
+
+    function renderCourts() {
+
+      courtList.innerHTML = "";
+
+
+      if (courts.length === 0) {
+
+        courtList.innerHTML =
+          '<div class="court-empty">아직 등록된 코트가 없습니다.</div>';
+
+        return;
+
+      }
+
+
+      courts.forEach(
+        (court, index) => {
+
+          const chip =
+            document.createElement(
+              "div"
+            );
+
+          chip.className =
+            "court-chip";
+
+
+          chip.innerHTML = `
+            <span>${escapeHtml(court)}</span>
+
+            <button
+              type="button"
+              class="court-edit"
+              onclick="editCourt(${index})"
+            >
+              수정
+            </button>
+
+            <button
+              type="button"
+              class="court-delete"
+              onclick="deleteCourt(${index})"
+            >
+              ×
+            </button>
+          `;
+
+
+          courtList.appendChild(
+            chip
+          );
+
+        }
+      );
+
+    }
+
+
+    function addCourt() {
+
+      const name =
+        courtInput.value.trim();
+
+
+      if (!name) {
+        return;
+      }
+
+
+      if (courts.includes(name)) {
+
+        alert(
+          "이미 등록된 코트입니다."
+        );
+
+        return;
+
+      }
+
+
+      courts.push(name);
+
+      courtInput.value = "";
+
+      renderCourts();
+
+      courtInput.focus();
+
+    }
+
+
+    function editCourt(index) {
+
+      const current =
+        courts[index];
+
+      const newName =
+        prompt(
+          "코트 이름을 수정하세요.",
+          current
+        );
+
+
+      if (newName === null) {
+        return;
+      }
+
+
+      const value =
+        newName.trim();
+
+
+      if (!value) {
+        return;
+      }
+
+
+      courts[index] =
+        value;
+
+      renderCourts();
+
+    }
+
+
+    function deleteCourt(index) {
+
+      courts.splice(
+        index,
+        1
+      );
+
+      renderCourts();
+
+    }
+
+
+    addCourtButton.addEventListener(
+      "click",
+      addCourt
+    );
+
+
+    courtInput.addEventListener(
+      "keydown",
+      function (event) {
+
+        if (event.key === "Enter") {
+
+          event.preventDefault();
+
+          addCourt();
+
+        }
+
+      }
+    );
+
+
+    /* ==============================
+       HTML ESCAPE
+    ============================== */
+
+    function escapeHtml(value) {
+
+      const div =
+        document.createElement(
+          "div"
+        );
+
+      div.textContent = value;
+
+      return div.innerHTML;
+
+    }
+
+
+    /* ==============================
+       NEXT
+    ============================== */
+
+    document
+      .getElementById("nextButton")
+      .addEventListener(
+        "click",
+        function () {
+
+          const name =
+            document
+              .getElementById(
+                "tournamentName"
+              )
+              .value
+              .trim();
+
+
+          const date =
+            document
+              .getElementById(
+                "tournamentDate"
+              )
+              .value;
+
+
+          const format =
+            document.querySelector(
+              'input[name="format"]:checked'
+            ).value;
+
+
+          const matchType =
+            document.querySelector(
+              'input[name="matchType"]:checked'
+            ).value;
+
+
+          const gender =
+            document.querySelector(
+              'input[name="gender"]:checked'
+            ).value;
+
+
+          if (!name) {
+
+            alert(
+              "대회명을 입력해주세요."
+            );
+
+            return;
+
+          }
+
+
+          if (!date) {
+
+            alert(
+              "대회 날짜를 선택해주세요."
+            );
+
+            return;
+
+          }
+
+
+          if (
+            courts.length === 0
+          ) {
+
+            alert(
+              "사용할 코트를 최소 1개 등록해주세요."
+            );
+
+            return;
+
+          }
+
+
+          const tournamentData = {
+
+            name,
+            date,
+            format,
+            matchType,
+            gender,
+
+            groupCount:
+              format ===
+              "group_knockout"
+                ? Number(
+                    document
+                      .getElementById(
+                        "groupCount"
+                      )
+                      .value
+                  )
+                : null,
+
+            advanceCount:
+              format ===
+              "group_knockout"
+                ? Number(
+                    document
+                      .getElementById(
+                        "advanceCount"
+                      )
+                      .value
+                  )
+                : null,
+
+            courts,
+
+            matchDuration:
+              Number(
+                document
+                  .getElementById(
+                    "matchDuration"
+                  )
+                  .value
+              )
+
+          };
+
+
+          sessionStorage.setItem(
+            "fwtNewTournament",
+            JSON.stringify(
+              tournamentData
+            )
+          );
+
+
+          alert(
+            "기본 설정이 저장되었습니다.\n다음 단계에서 참가자 등록 화면을 연결합니다."
+          );
+
+        }
+      );
+
+  </script>
+
+</body>
+</html>
