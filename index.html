@@ -21,10 +21,7 @@
     :root{
       --navy:#071a31;
       --navy-soft:#0d2949;
-      --navy-light:#153f6d;
-
       --lime:#c9df45;
-      --lime-dark:#9eb128;
 
       --bg:#f3f5f7;
       --card:#ffffff;
@@ -41,9 +38,6 @@
 
       --gray:#687587;
       --gray-bg:#eef1f4;
-
-      --orange:#a06a21;
-      --orange-bg:#fff5e7;
 
       --shadow:
         0 12px 32px rgba(7,26,49,.07);
@@ -62,7 +56,6 @@
 
     body{
       margin:0;
-
       min-height:100vh;
 
       background:
@@ -84,8 +77,7 @@
         "Segoe UI",
         sans-serif;
 
-      -webkit-font-smoothing:
-        antialiased;
+      -webkit-font-smoothing:antialiased;
     }
 
     button{
@@ -98,7 +90,6 @@
 
     .hero{
       position:relative;
-
       overflow:hidden;
 
       min-height:310px;
@@ -160,8 +151,7 @@
 
       margin:0 auto;
 
-      padding:
-        35px 0 52px;
+      padding:35px 0 52px;
     }
 
     .nav{
@@ -190,8 +180,7 @@
 
       letter-spacing:-4px;
 
-      transform:
-        skew(-5deg);
+      transform:skew(-5deg);
     }
 
     .fwt-logo span{
@@ -237,15 +226,6 @@
 
       font-size:11px;
       font-weight:850;
-
-      transition:.2s ease;
-    }
-
-    .admin-link:hover{
-      background:
-        rgba(255,255,255,.12);
-
-      color:white;
     }
 
     .hero-content{
@@ -307,8 +287,7 @@
     .hero-desc{
       max-width:570px;
 
-      margin:
-        17px 0 0;
+      margin:17px 0 0;
 
       color:
         rgba(255,255,255,.67);
@@ -332,8 +311,7 @@
 
       margin:0 auto;
 
-      padding:
-        36px 0 64px;
+      padding:36px 0 64px;
     }
 
     .overview{
@@ -369,8 +347,7 @@
     }
 
     .section-desc{
-      margin:
-        7px 0 0;
+      margin:7px 0 0;
 
       color:var(--muted);
 
@@ -455,9 +432,6 @@
       font-weight:900;
 
       cursor:pointer;
-
-      transition:
-        .18s ease;
     }
 
     .filter-btn.active{
@@ -486,7 +460,6 @@
 
     .tournament-card{
       position:relative;
-
       overflow:hidden;
 
       min-height:230px;
@@ -512,18 +485,15 @@
     }
 
     .tournament-card:hover{
-      transform:
-        translateY(-3px);
+      transform:translateY(-3px);
 
       border-color:#cfd7df;
 
-      box-shadow:
-        var(--shadow-hover);
+      box-shadow:var(--shadow-hover);
     }
 
     .tournament-card.active-event{
-      border-color:
-        #c8d796;
+      border-color:#c8d796;
     }
 
     .card-accent{
@@ -664,6 +634,7 @@
       gap:12px;
 
       margin-top:auto;
+
       padding-top:19px;
     }
 
@@ -691,19 +662,10 @@
 
       font-size:16px;
       font-weight:950;
-
-      transition:
-        transform .18s ease;
-    }
-
-    .tournament-card:hover
-    .view-arrow{
-      transform:
-        translateX(3px);
     }
 
     /* ============================
-       EMPTY / ERROR
+       STATE
     ============================ */
 
     .state-box{
@@ -731,8 +693,7 @@
       align-items:center;
       justify-content:center;
 
-      margin:
-        0 auto 14px;
+      margin:0 auto 14px;
 
       border-radius:14px;
 
@@ -754,18 +715,13 @@
     .state-desc{
       max-width:430px;
 
-      margin:
-        7px auto 0;
+      margin:7px auto 0;
 
       color:var(--muted);
 
       font-size:12px;
       line-height:1.65;
     }
-
-    /* ============================
-       LOADING
-    ============================ */
 
     .loading{
       grid-column:1 / -1;
@@ -795,8 +751,7 @@
 
     @keyframes spin{
       to{
-        transform:
-          rotate(360deg);
+        transform:rotate(360deg);
       }
     }
 
@@ -813,8 +768,7 @@
 
       margin:0 auto;
 
-      padding:
-        24px 0 32px;
+      padding:24px 0 32px;
 
       border-top:
         1px solid #dde3e8;
@@ -853,11 +807,9 @@
       }
 
       .hero-inner{
-        width:
-          calc(100% - 26px);
+        width:calc(100% - 26px);
 
-        padding:
-          24px 0 42px;
+        padding:24px 0 42px;
       }
 
       .fwt-logo{
@@ -899,11 +851,9 @@
       }
 
       .main{
-        width:
-          calc(100% - 22px);
+        width:calc(100% - 22px);
 
-        padding:
-          27px 0 50px;
+        padding:27px 0 50px;
       }
 
       .overview{
@@ -992,18 +942,13 @@
       }
 
       .footer{
-        width:
-          calc(100% - 22px);
+        width:calc(100% - 22px);
 
-        padding:
-          21px 0 29px;
+        padding:21px 0 29px;
       }
-
     }
-
   </style>
 </head>
-
 
 <body>
 
@@ -1025,7 +970,6 @@
 
       </div>
 
-
       <a
         class="admin-link"
         href="./admin/"
@@ -1034,7 +978,6 @@
       </a>
 
     </nav>
-
 
     <div class="hero-content">
 
@@ -1078,7 +1021,6 @@
       </p>
 
     </div>
-
 
     <div class="summary">
 
@@ -1193,7 +1135,7 @@ let currentFilter =
 
 
 /* ==============================
-   HTML
+   HELPERS
 ============================== */
 
 function escapeHtml(value){
@@ -1207,13 +1149,8 @@ function escapeHtml(value){
     value ?? "";
 
   return div.innerHTML;
-
 }
 
-
-/* ==============================
-   DATE
-============================== */
 
 function parseDate(value){
 
@@ -1238,7 +1175,6 @@ function parseDate(value){
 
 
   return date;
-
 }
 
 
@@ -1261,56 +1197,88 @@ function formatDate(value){
       day:"numeric"
     }
   ).format(date);
+}
 
+
+function finished(match){
+
+  return [
+    "completed",
+    "bye",
+    "walkover"
+  ].includes(
+    match.status
+  );
 }
 
 
 /* ==============================
-   STATUS
+   REAL TOURNAMENT STATUS
 ============================== */
 
-function getViewStatus(
-  tournament
+/*
+  여기서부터가 이번 수정의 핵심.
+
+  tournaments.status는 목록 상태 판정에
+  사용하지 않는다.
+
+  실제 matches 데이터를 기준으로:
+
+  경기 없음
+  -> 예정
+
+  경기가 하나라도 생성됨
+  + 결승 미완료
+  -> 진행중
+
+  결승 완료
+  + winner_entry_id 존재
+  -> 종료
+*/
+
+function getRealStatus(
+  matches
 ){
 
   if (
-    tournament.status ===
-    "completed"
+    !matches ||
+    matches.length === 0
   ){
 
-    return "completed";
-
+    return "upcoming";
   }
+
+
+  const finalMatch =
+    matches.find(
+      match =>
+        match.stage ===
+        "final"
+    );
 
 
   if (
-    tournament.status ===
-    "active"
+    finalMatch
+    &&
+    finished(finalMatch)
+    &&
+    finalMatch.winner_entry_id
   ){
 
-    return "active";
-
+    return "completed";
   }
 
 
-  return "upcoming";
-
+  return "active";
 }
 
 
 function statusText(status){
 
   const map = {
-
-    active:
-      "진행중",
-
-    upcoming:
-      "예정",
-
-    completed:
-      "종료"
-
+    active:"진행중",
+    upcoming:"예정",
+    completed:"종료"
   };
 
 
@@ -1318,23 +1286,15 @@ function statusText(status){
     map[status] ||
     "예정"
   );
-
 }
 
 
 function cardClass(status){
 
   const map = {
-
-    active:
-      "active-event",
-
-    upcoming:
-      "upcoming-event",
-
-    completed:
-      "completed-event"
-
+    active:"active-event",
+    upcoming:"upcoming-event",
+    completed:"completed-event"
   };
 
 
@@ -1342,7 +1302,6 @@ function cardClass(status){
     map[status] ||
     "upcoming-event"
   );
-
 }
 
 
@@ -1353,10 +1312,8 @@ function cardClass(status){
 function formatMatchType(value){
 
   const map = {
-
     singles:"단식",
     doubles:"복식"
-
   };
 
 
@@ -1364,19 +1321,16 @@ function formatMatchType(value){
     map[value] ||
     ""
   );
-
 }
 
 
 function formatGender(value){
 
   const map = {
-
     male:"남자",
     female:"여자",
     mixed:"혼합",
     open:"오픈"
-
   };
 
 
@@ -1384,20 +1338,17 @@ function formatGender(value){
     map[value] ||
     ""
   );
-
 }
 
 
 function formatFormat(value){
 
   const map = {
-
     group_knockout:
       "조별예선 + 본선",
 
     knockout:
       "토너먼트"
-
   };
 
 
@@ -1405,23 +1356,14 @@ function formatFormat(value){
     map[value] ||
     ""
   );
-
 }
 
 
 /* ==============================
-   LOAD
+   LOAD TOURNAMENTS
 ============================== */
 
 async function loadTournaments(){
-
-  /*
-    중요:
-    is_public 조건을 사용하지 않는다.
-
-    DB에 존재하는 모든 대회를
-    공개 목록에 표시한다.
-  */
 
   const {
     data:tournamentRows,
@@ -1430,7 +1372,7 @@ async function loadTournaments(){
     await supabaseClient
       .from("tournaments")
       .select(
-        "id,name,tournament_date,status,created_at"
+        "id,name,tournament_date,created_at"
       )
       .order(
         "tournament_date",
@@ -1454,7 +1396,6 @@ async function loadTournaments(){
     throw new Error(
       tournamentError.message
     );
-
   }
 
 
@@ -1468,7 +1409,6 @@ async function loadTournaments(){
     render();
 
     return;
-
   }
 
 
@@ -1478,6 +1418,10 @@ async function loadTournaments(){
         row.id
     );
 
+
+  /*
+    대회별 division 조회
+  */
 
   const {
     data:divisionRows,
@@ -1507,55 +1451,142 @@ async function loadTournaments(){
     throw new Error(
       divisionError.message
     );
-
   }
 
+
+  const allDivisionRows =
+    divisionRows || [];
+
+
+  const divisionIds =
+    allDivisionRows.map(
+      division =>
+        division.id
+    );
+
+
+  /*
+    실제 경기 데이터 조회
+
+    상태 판정에 필요한 필드만 가져온다.
+  */
+
+  let matchRows = [];
+
+
+  if (
+    divisionIds.length > 0
+  ){
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("matches")
+        .select(
+          "id,division_id,stage,status,winner_entry_id"
+        )
+        .in(
+          "division_id",
+          divisionIds
+        );
+
+
+    if (error){
+
+      throw new Error(
+        error.message
+      );
+    }
+
+
+    matchRows =
+      data || [];
+  }
+
+
+  /*
+    대회별 데이터 결합
+  */
 
   tournaments =
     tournamentRows.map(
       tournament => {
 
+        /*
+          현재 관리 시스템은
+          첫 번째 division을 대표 부문으로 사용.
+        */
+
         const division =
-          (divisionRows || [])
-            .find(
+          allDivisionRows.find(
+            row =>
+              row.tournament_id ===
+              tournament.id
+          )
+          ||
+          null;
+
+
+        /*
+          해당 대회에 속한 모든 division id
+        */
+
+        const tournamentDivisionIds =
+          allDivisionRows
+            .filter(
               row =>
                 row.tournament_id ===
                 tournament.id
-            ) ||
-            null;
+            )
+            .map(
+              row =>
+                row.id
+            );
+
+
+        /*
+          해당 대회의 모든 경기
+        */
+
+        const tournamentMatches =
+          matchRows.filter(
+            match =>
+              tournamentDivisionIds.includes(
+                match.division_id
+              )
+          );
+
+
+        const viewStatus =
+          getRealStatus(
+            tournamentMatches
+          );
 
 
         return {
-
           ...tournament,
-
           division,
-
-          viewStatus:
-            getViewStatus(
-              tournament
-            )
-
+          matches:tournamentMatches,
+          viewStatus
         };
-
       }
     );
 
 
   /*
-    정렬 우선순위
+    정렬
 
     1. 진행중
     2. 예정
     3. 종료
   */
 
-  const order = {
-
+  const statusOrder = {
     active:0,
     upcoming:1,
     completed:2
-
   };
 
 
@@ -1563,9 +1594,13 @@ async function loadTournaments(){
     (a,b) => {
 
       const statusDiff =
-        order[a.viewStatus]
+        statusOrder[
+          a.viewStatus
+        ]
         -
-        order[b.viewStatus];
+        statusOrder[
+          b.viewStatus
+        ];
 
 
       if (
@@ -1573,21 +1608,28 @@ async function loadTournaments(){
       ){
 
         return statusDiff;
-
       }
 
 
       const dateA =
         parseDate(
           a.tournament_date
-        )?.getTime() || 0;
+        )?.getTime()
+        ||
+        0;
 
 
       const dateB =
         parseDate(
           b.tournament_date
-        )?.getTime() || 0;
+        )?.getTime()
+        ||
+        0;
 
+
+      /*
+        예정대회는 가까운 날짜부터.
+      */
 
       if (
         a.viewStatus ===
@@ -1598,21 +1640,22 @@ async function loadTournaments(){
           dateA -
           dateB
         );
-
       }
 
+
+      /*
+        진행중/종료는 최근 날짜부터.
+      */
 
       return (
         dateB -
         dateA
       );
-
     }
   );
 
 
   render();
-
 }
 
 
@@ -1636,7 +1679,6 @@ function renderSummary(){
     "totalCount"
   ).textContent =
     tournaments.length;
-
 }
 
 
@@ -1668,7 +1710,6 @@ function render(){
         ){
 
           return true;
-
         }
 
 
@@ -1676,7 +1717,6 @@ function render(){
           tournament.viewStatus ===
           currentFilter
         );
-
       }
     );
 
@@ -1713,7 +1753,6 @@ function render(){
 
 
     return;
-
   }
 
 
@@ -1762,7 +1801,6 @@ function render(){
             division.gender
           )
         );
-
       }
 
 
@@ -1775,7 +1813,6 @@ function render(){
             division.match_type
           )
         );
-
       }
 
 
@@ -1788,14 +1825,12 @@ function render(){
             division.format
           )
         );
-
       }
 
 
       card.innerHTML = `
 
         <div class="card-accent"></div>
-
 
         <div class="card-body">
 
@@ -1869,13 +1904,23 @@ function render(){
           <div class="card-footer">
 
             <div class="view-text">
+
               ${
                 status ===
                 "completed"
+
                   ? "대회 결과 보기"
-                  : "대회 현황 보기"
+
+                  : status ===
+                    "active"
+
+                    ? "LIVE 대회 현황 보기"
+
+                    : "대회 정보 보기"
               }
+
             </div>
+
 
             <div class="view-arrow">
               →
@@ -1897,7 +1942,6 @@ function render(){
                 tournament.id
               )
             }`;
-
         };
 
 
@@ -1912,19 +1956,15 @@ function render(){
         function(event){
 
           if (
-            event.key ===
-              "Enter"
+            event.key === "Enter"
             ||
-            event.key ===
-              " "
+            event.key === " "
           ){
 
             event.preventDefault();
 
             openTournament();
-
           }
-
         }
       );
 
@@ -1932,10 +1972,8 @@ function render(){
       grid.appendChild(
         card
       );
-
     }
   );
-
 }
 
 
@@ -1976,10 +2014,8 @@ document
 
 
           render();
-
         }
       );
-
     }
   );
 
@@ -1996,7 +2032,10 @@ async function start(){
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "FWT tournament list error:",
+      error
+    );
 
 
     document.getElementById(
@@ -2020,9 +2059,7 @@ async function start(){
       </div>
 
     `;
-
   }
-
 }
 
 
