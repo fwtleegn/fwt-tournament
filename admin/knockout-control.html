@@ -1,0 +1,3917 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>본선 경기 운영 | FWT Tournament</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --navy:#071a31;
+      --navy2:#0c294a;
+      --blue:#184a79;
+      --lime:#c9df45;
+
+      --bg:#f4f6f9;
+      --white:#ffffff;
+      --text:#172033;
+      --muted:#5f6d7e;
+      --line:#e1e6eb;
+
+      --green:#178b61;
+      --green-soft:#edf8f3;
+
+      --orange:#9d651d;
+      --orange-soft:#fff8ed;
+
+      --gold:#9b7515;
+      --gold-soft:#fff9e8;
+
+      --red:#c94e4e;
+
+      --shadow:
+        0 10px 30px rgba(20,35,55,.055);
+    }
+
+    * {
+      box-sizing:border-box;
+    }
+
+    html,
+    body {
+      margin:0;
+      min-height:100%;
+
+      background:var(--bg);
+      color:var(--text);
+
+      font-family:
+        Inter,
+        Pretendard,
+        "Noto Sans KR",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    }
+
+    button,
+    input {
+      font:inherit;
+    }
+
+    button {
+      cursor:pointer;
+    }
+
+    .topbar {
+      height:68px;
+      padding:0 24px;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      color:white;
+
+      background:
+        linear-gradient(
+          110deg,
+          #07182d,
+          #0b2848 60%,
+          #10375f
+        );
+
+      box-shadow:
+        0 4px 18px rgba(6,23,43,.14);
+    }
+
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:22px;
+    }
+
+    .fwt {
+      font-size:29px;
+      font-weight:950;
+      font-style:italic;
+      letter-spacing:-3px;
+    }
+
+    .fwt span {
+      color:var(--lime);
+    }
+
+    .top-title {
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:1.8px;
+      color:rgba(255,255,255,.72);
+    }
+
+    .back-btn {
+      padding:9px 13px;
+
+      border:
+        1px solid rgba(255,255,255,.16);
+
+      border-radius:10px;
+
+      background:
+        rgba(255,255,255,.07);
+
+      color:white;
+
+      font-size:12px;
+      font-weight:750;
+    }
+
+    .container {
+      width:
+        min(
+          1280px,
+          calc(100% - 34px)
+        );
+
+      margin:0 auto;
+
+      padding:32px 0 64px;
+    }
+
+    .head {
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+
+      gap:20px;
+
+      margin-bottom:18px;
+    }
+
+    .kicker {
+      margin-bottom:7px;
+
+      color:var(--blue);
+
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:1.8px;
+    }
+
+    h1 {
+      margin:0;
+
+      color:var(--navy);
+
+      font-size:34px;
+      font-weight:900;
+      letter-spacing:-1.5px;
+    }
+
+    .desc {
+      margin:7px 0 0;
+
+      color:var(--muted);
+
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .head-actions {
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:9px;
+    }
+
+    .stats {
+      display:flex;
+      flex-wrap:wrap;
+      gap:7px;
+    }
+
+    .stat {
+      padding:8px 11px;
+
+      border:1px solid var(--line);
+      border-radius:999px;
+
+      background:white;
+
+      color:#526073;
+
+      font-size:11px;
+      font-weight:800;
+    }
+
+    .stat strong {
+      color:var(--navy);
+
+      font-size:13px;
+    }
+
+    .bracket-btn {
+      height:42px;
+
+      padding:0 17px;
+
+      border:0;
+      border-radius:9px;
+
+      background:var(--navy);
+
+      color:white;
+
+      font-size:12px;
+      font-weight:850;
+    }
+
+    .bracket-btn span {
+      color:var(--lime);
+      margin-left:4px;
+    }
+
+    /* CHAMPION */
+
+    .champion {
+      display:none;
+
+      margin-bottom:18px;
+
+      padding:24px 20px;
+
+      border:1px solid #ecd990;
+      border-radius:18px;
+
+      text-align:center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #fffdf5,
+          #fff8dd
+        );
+
+      box-shadow:
+        0 14px 35px rgba(128,96,13,.08);
+    }
+
+    .champion.show {
+      display:block;
+    }
+
+    .champion-kicker {
+      margin-bottom:6px;
+
+      color:var(--gold);
+
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:2px;
+    }
+
+    .champion-title {
+      color:var(--navy);
+
+      font-size:20px;
+      font-weight:900;
+    }
+
+    .champion-name {
+      margin-top:8px;
+
+      color:var(--navy);
+
+      font-size:30px;
+      font-weight:950;
+      letter-spacing:-1px;
+    }
+
+    /* SECTIONS */
+
+    .section-title {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      margin:22px 0 10px;
+    }
+
+    .section-title-main {
+      color:var(--navy);
+
+      font-size:18px;
+      font-weight:900;
+    }
+
+    .section-title-sub {
+      color:#687587;
+
+      font-size:11px;
+      font-weight:700;
+    }
+
+    /* COURTS */
+
+    .courts {
+      display:grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(220px,1fr)
+        );
+
+      gap:9px;
+    }
+
+    .court {
+      overflow:hidden;
+
+      border:1px solid var(--line);
+      border-radius:14px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
+    }
+
+    .court-inner {
+      min-height:82px;
+      padding:12px 13px;
+    }
+
+    .court-top {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:8px;
+
+      margin-bottom:8px;
+    }
+
+    .court-name {
+      color:var(--navy);
+
+      font-size:15px;
+      font-weight:900;
+    }
+
+    .court-status {
+      padding:5px 8px;
+
+      border-radius:999px;
+
+      background:#f0f3f6;
+
+      color:#5d6979;
+
+      font-size:10px;
+      font-weight:850;
+    }
+
+    .court-status.live {
+      background:var(--green-soft);
+      color:var(--green);
+    }
+
+    .court-empty {
+      color:#657184;
+
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .court-round {
+      margin-bottom:4px;
+
+      color:var(--navy2);
+
+      font-size:12px;
+      font-weight:900;
+    }
+
+    .court-match {
+      overflow:hidden;
+
+      color:#202d41;
+
+      font-size:14px;
+      font-weight:850;
+
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .court-actions {
+      display:flex;
+      gap:6px;
+
+      margin-top:9px;
+    }
+
+    .court-btn {
+      height:36px;
+
+      padding:0 9px;
+
+      border:1px solid #d9e0e6;
+      border-radius:8px;
+
+      background:white;
+
+      color:#526073;
+
+      font-size:11px;
+      font-weight:800;
+    }
+
+    .court-btn.finish {
+      flex:1;
+
+      border:0;
+
+      background:var(--navy);
+
+      color:white;
+    }
+
+    /* READY MATCHES */
+
+    .ready-card {
+      overflow:hidden;
+
+      border:1px solid var(--line);
+      border-radius:16px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
+    }
+
+    .ready-list {
+      padding:8px;
+    }
+
+    .ready-row {
+      display:grid;
+
+      grid-template-columns:
+        70px minmax(0,1fr) 110px;
+
+      align-items:center;
+
+      gap:10px;
+
+      min-height:68px;
+
+      padding:9px 10px;
+
+      border-bottom:1px solid #e8ecf0;
+    }
+
+    .ready-row:last-child {
+      border-bottom:0;
+    }
+
+    .round-badge {
+      height:42px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      border-radius:10px;
+
+      background:#eef2f6;
+
+      color:var(--navy);
+
+      font-size:14px;
+      font-weight:900;
+    }
+
+    .ready-info {
+      min-width:0;
+    }
+
+    .ready-match-no {
+      margin-bottom:3px;
+
+      color:#536174;
+
+      font-size:11px;
+      font-weight:800;
+    }
+
+    .ready-players {
+      overflow:hidden;
+
+      color:#202d41;
+
+      font-size:15px;
+      font-weight:850;
+
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .assign-btn {
+      height:43px;
+
+      border:0;
+      border-radius:9px;
+
+      background:
+        linear-gradient(
+          115deg,
+          var(--navy),
+          #123e6c
+        );
+
+      color:white;
+
+      font-size:12px;
+      font-weight:850;
+    }
+
+    /* PENDING */
+
+    .pending-card {
+      overflow:hidden;
+
+      border:1px solid var(--line);
+      border-radius:16px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
+    }
+
+    .pending-list {
+      padding:8px;
+    }
+
+    .pending-row {
+      display:grid;
+
+      grid-template-columns:
+        70px minmax(0,1fr);
+
+      align-items:center;
+
+      gap:10px;
+
+      min-height:57px;
+
+      padding:8px 10px;
+
+      border-bottom:1px solid #e9edf1;
+    }
+
+    .pending-row:last-child {
+      border-bottom:0;
+    }
+
+    .pending-text {
+      color:#526073;
+
+      font-size:13px;
+      font-weight:750;
+      line-height:1.5;
+    }
+
+    /* COMPLETED */
+
+    .completed-card {
+      overflow:hidden;
+
+      border:1px solid var(--line);
+      border-radius:16px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
+    }
+
+    .completed-list {
+      padding:8px;
+    }
+
+    .completed-row {
+      display:grid;
+
+      grid-template-columns:
+        70px minmax(0,1fr) auto;
+
+      align-items:center;
+
+      gap:10px;
+
+      min-height:70px;
+
+      padding:9px 10px;
+
+      border-bottom:1px solid #e8ecf0;
+    }
+
+    .completed-row:last-child {
+      border-bottom:0;
+    }
+
+    .completed-main {
+      min-width:0;
+    }
+
+    .completed-players {
+      color:#263247;
+
+      font-size:14px;
+      font-weight:850;
+    }
+
+    .completed-meta {
+      margin-top:3px;
+
+      color:#667386;
+
+      font-size:10px;
+      font-weight:750;
+    }
+
+    .completed-actions {
+      display:flex;
+      gap:6px;
+
+      margin-top:7px;
+    }
+
+    .small-btn {
+      height:32px;
+
+      padding:0 9px;
+
+      border:1px solid #dce2e8;
+      border-radius:8px;
+
+      background:white;
+
+      color:#526073;
+
+      font-size:10px;
+      font-weight:800;
+    }
+
+    .small-btn.restore {
+      border-color:#ecd4b3;
+
+      background:var(--orange-soft);
+
+      color:var(--orange);
+    }
+
+    .score {
+      min-width:49px;
+
+      padding:8px 9px;
+
+      border-radius:8px;
+
+      background:var(--green-soft);
+
+      color:var(--green);
+
+      text-align:center;
+
+      font-size:14px;
+      font-weight:900;
+    }
+
+    .empty {
+      padding:28px 15px;
+
+      text-align:center;
+
+      color:#657184;
+
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    /* MODAL */
+
+    .modal-wrap {
+      display:none;
+
+      position:fixed;
+      inset:0;
+
+      z-index:100;
+
+      align-items:center;
+      justify-content:center;
+
+      padding:18px;
+
+      background:
+        rgba(4,17,31,.60);
+    }
+
+    .modal-wrap.show {
+      display:flex;
+    }
+
+    .modal {
+      width:min(460px,100%);
+      max-height:calc(100vh - 36px);
+
+      overflow-y:auto;
+
+      padding:22px;
+
+      border-radius:19px;
+
+      background:white;
+
+      box-shadow:
+        0 30px 80px rgba(0,0,0,.24);
+    }
+
+    .modal-title {
+      color:var(--navy);
+
+      font-size:21px;
+      font-weight:900;
+    }
+
+    .modal-desc {
+      margin:7px 0 16px;
+
+      color:#596778;
+
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    .selected-match {
+      padding:13px 14px;
+
+      margin-bottom:15px;
+
+      border:1px solid #e1e6eb;
+      border-radius:11px;
+
+      background:#f7f9fb;
+
+      color:#263247;
+
+      font-size:15px;
+      font-weight:850;
+      line-height:1.6;
+    }
+
+    .selected-match strong {
+      color:var(--navy);
+    }
+
+    .court-picker {
+      display:grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0,1fr)
+        );
+
+      gap:8px;
+    }
+
+    .court-choice {
+      min-height:64px;
+
+      padding:10px;
+
+      border:1px solid #dce2e8;
+      border-radius:11px;
+
+      background:white;
+
+      color:var(--navy);
+
+      font-size:14px;
+      font-weight:900;
+    }
+
+    .court-choice small {
+      display:block;
+
+      margin-top:4px;
+
+      color:#667386;
+
+      font-size:11px;
+      font-weight:750;
+    }
+
+    .court-choice:disabled {
+      cursor:not-allowed;
+
+      background:#f1f3f5;
+
+      color:#929ba7;
+    }
+
+    .score-grid {
+      display:grid;
+
+      grid-template-columns:
+        1fr 30px 1fr;
+
+      align-items:end;
+
+      gap:9px;
+    }
+
+    .score-player {
+      min-height:36px;
+
+      margin-bottom:7px;
+
+      color:#354255;
+
+      font-size:12px;
+      font-weight:850;
+    }
+
+    .score-input {
+      width:100%;
+      height:54px;
+
+      border:1px solid #d9e0e6;
+      border-radius:11px;
+
+      outline:none;
+
+      text-align:center;
+
+      font-size:23px;
+      font-weight:900;
+    }
+
+    .score-dash {
+      height:54px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      color:#7e8997;
+
+      font-size:20px;
+      font-weight:900;
+    }
+
+    .modal-bottom {
+      display:flex;
+      gap:8px;
+
+      margin-top:18px;
+    }
+
+    .modal-btn {
+      flex:1;
+
+      min-height:47px;
+
+      border-radius:10px;
+
+      font-size:13px;
+      font-weight:850;
+    }
+
+    .cancel {
+      border:1px solid #dce2e8;
+
+      background:white;
+
+      color:#536071;
+    }
+
+    .confirm {
+      border:0;
+
+      background:var(--navy);
+
+      color:white;
+    }
+
+    /* FOOTER */
+
+    .footer {
+      display:flex;
+      justify-content:space-between;
+
+      margin-top:26px;
+      padding-top:17px;
+
+      border-top:1px solid #e2e6eb;
+
+      color:#7c8795;
+
+      font-size:10px;
+      letter-spacing:1px;
+    }
+
+    .footer strong {
+      color:var(--navy);
+    }
+
+    .q {
+      color:#91a719;
+      font-weight:900;
+    }
+
+    /* MOBILE */
+
+    @media(max-width:700px) {
+
+      .topbar {
+        height:64px;
+        padding:0 14px;
+      }
+
+      .top-title {
+        display:none;
+      }
+
+      .container {
+        width:calc(100% - 22px);
+
+        padding:24px 0 50px;
+      }
+
+      .head {
+        display:block;
+      }
+
+      .head-actions {
+        align-items:stretch;
+
+        margin-top:13px;
+      }
+
+      h1 {
+        font-size:30px;
+      }
+
+      .desc {
+        font-size:14px;
+      }
+
+      .stat {
+        font-size:12px;
+      }
+
+      .stat strong {
+        font-size:14px;
+      }
+
+      .bracket-btn {
+        width:100%;
+        min-height:47px;
+
+        font-size:14px;
+      }
+
+      .champion {
+        padding:22px 14px;
+      }
+
+      .champion-title {
+        font-size:18px;
+      }
+
+      .champion-name {
+        font-size:27px;
+      }
+
+      .section-title-main {
+        font-size:19px;
+      }
+
+      .section-title-sub {
+        font-size:12px;
+      }
+
+      /* 모바일 코트 2열 */
+
+      .courts {
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(0,1fr)
+          );
+
+        gap:7px;
+      }
+
+      .court-inner {
+        min-height:91px;
+
+        padding:10px;
+      }
+
+      .court-name {
+        font-size:15px;
+      }
+
+      .court-status {
+        padding:4px 6px;
+
+        font-size:10px;
+      }
+
+      .court-round {
+        font-size:12px;
+      }
+
+      .court-match {
+        font-size:14px;
+      }
+
+      .court-empty {
+        font-size:13px;
+      }
+
+      .court-btn {
+        min-width:0;
+
+        height:38px;
+
+        padding:0 5px;
+
+        font-size:11px;
+      }
+
+      /* 경기 목록 */
+
+      .ready-row {
+        grid-template-columns:
+          58px minmax(0,1fr) 91px;
+
+        gap:7px;
+
+        padding:9px 8px;
+      }
+
+      .round-badge {
+        height:43px;
+
+        font-size:14px;
+      }
+
+      .ready-match-no {
+        font-size:11px;
+      }
+
+      .ready-players {
+        font-size:15px;
+      }
+
+      .assign-btn {
+        height:44px;
+
+        font-size:12px;
+      }
+
+      .pending-row {
+        grid-template-columns:
+          58px minmax(0,1fr);
+
+        gap:7px;
+      }
+
+      .pending-text {
+        font-size:14px;
+      }
+
+      .completed-row {
+        grid-template-columns:
+          58px minmax(0,1fr) auto;
+
+        gap:7px;
+      }
+
+      .completed-players {
+        font-size:14px;
+      }
+
+      .small-btn {
+        height:35px;
+
+        font-size:11px;
+      }
+
+      .score {
+        font-size:14px;
+      }
+
+      .modal-title {
+        font-size:22px;
+      }
+
+      .court-choice {
+        min-height:66px;
+
+        font-size:15px;
+      }
+
+    }
+
+    @media(max-width:430px) {
+
+      .court-actions {
+        flex-direction:column;
+      }
+
+      .court-btn {
+        width:100%;
+      }
+
+      .completed-row {
+        grid-template-columns:
+          51px minmax(0,1fr) auto;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+<header class="topbar">
+
+  <div class="brand">
+
+    <div class="fwt">
+      FW<span>T</span>
+    </div>
+
+    <div class="top-title">
+      KNOCKOUT CONTROL
+    </div>
+
+  </div>
+
+  <button
+    class="back-btn"
+    onclick="location.href='./knockout-bracket.html'"
+  >
+    ← 본선 대진
+  </button>
+
+</header>
+
+
+<main class="container">
+
+  <div class="head">
+
+    <div>
+
+      <div class="kicker">
+        KNOCKOUT MATCH CONTROL
+      </div>
+
+      <h1>
+        본선 경기 운영
+      </h1>
+
+      <p class="desc">
+        본선 경기의 코트를 배정하고 승자를 다음 라운드로 자동 진출시킵니다.
+      </p>
+
+    </div>
+
+
+    <div class="head-actions">
+
+      <div class="stats">
+
+        <div class="stat">
+          전체
+          <strong id="totalCount">0</strong>
+        </div>
+
+        <div class="stat">
+          경기중
+          <strong id="liveCount">0</strong>
+        </div>
+
+        <div class="stat">
+          대기
+          <strong id="waitingCount">0</strong>
+        </div>
+
+        <div class="stat">
+          완료
+          <strong id="completedCount">0</strong>
+        </div>
+
+      </div>
+
+      <button
+        class="bracket-btn"
+        onclick="location.href='./knockout-bracket.html'"
+      >
+        본선 대진표 보기
+        <span>→</span>
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- 우승자 -->
+
+  <section
+    class="champion"
+    id="champion"
+  >
+
+    <div class="champion-kicker">
+      FWT CHAMPION
+    </div>
+
+    <div class="champion-title">
+      대회 우승
+    </div>
+
+    <div
+      class="champion-name"
+      id="championName"
+    ></div>
+
+  </section>
+
+
+  <!-- 코트 -->
+
+  <div class="section-title">
+
+    <div class="section-title-main">
+      코트 현황
+    </div>
+
+    <div class="section-title-sub">
+      본선 경기
+    </div>
+
+  </div>
+
+
+  <section
+    class="courts"
+    id="courts"
+  ></section>
+
+
+  <!-- 진행 가능 경기 -->
+
+  <div class="section-title">
+
+    <div class="section-title-main">
+      진행 가능 경기
+    </div>
+
+    <div class="section-title-sub">
+      지금 코트 배정 가능
+    </div>
+
+  </div>
+
+
+  <section class="ready-card">
+
+    <div
+      class="ready-list"
+      id="readyList"
+    ></div>
+
+  </section>
+
+
+  <!-- 다음 라운드 대기 -->
+
+  <div class="section-title">
+
+    <div class="section-title-main">
+      다음 라운드 대기
+    </div>
+
+    <div class="section-title-sub">
+      이전 경기 승자 대기
+    </div>
+
+  </div>
+
+
+  <section class="pending-card">
+
+    <div
+      class="pending-list"
+      id="pendingList"
+    ></div>
+
+  </section>
+
+
+  <!-- 완료 경기 -->
+
+  <div class="section-title">
+
+    <div class="section-title-main">
+      완료 경기
+    </div>
+
+    <div class="section-title-sub">
+      결과 수정 가능
+    </div>
+
+  </div>
+
+
+  <section class="completed-card">
+
+    <div
+      class="completed-list"
+      id="completedList"
+    ></div>
+
+  </section>
+
+
+  <footer class="footer">
+
+    <div>
+      <strong>FWT</strong>
+      · FRIENDS WITH TENNIS
+    </div>
+
+    <div>
+      CREATED BY
+      <span class="q">Q</span>
+    </div>
+
+  </footer>
+
+</main>
+
+
+<!-- 코트 배정 모달 -->
+
+<div
+  class="modal-wrap"
+  id="courtModal"
+>
+
+  <div class="modal">
+
+    <div class="modal-title">
+      코트 배정
+    </div>
+
+    <div class="modal-desc">
+      빈 코트를 누르면 즉시 본선 경기가 시작됩니다.
+    </div>
+
+    <div
+      class="selected-match"
+      id="courtModalMatch"
+    ></div>
+
+    <div
+      class="court-picker"
+      id="courtPicker"
+    ></div>
+
+    <div class="modal-bottom">
+
+      <button
+        class="modal-btn cancel"
+        id="cancelCourt"
+      >
+        취소
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- 점수 입력 모달 -->
+
+<div
+  class="modal-wrap"
+  id="scoreModal"
+>
+
+  <div class="modal">
+
+    <div class="modal-title">
+      경기 결과 입력
+    </div>
+
+    <div
+      class="modal-desc"
+      id="scoreModalInfo"
+    ></div>
+
+    <div class="score-grid">
+
+      <div>
+
+        <div
+          class="score-player"
+          id="scorePlayer1"
+        ></div>
+
+        <input
+          class="score-input"
+          id="score1"
+          type="number"
+          min="0"
+        >
+
+      </div>
+
+      <div class="score-dash">
+        :
+      </div>
+
+      <div>
+
+        <div
+          class="score-player"
+          id="scorePlayer2"
+        ></div>
+
+        <input
+          class="score-input"
+          id="score2"
+          type="number"
+          min="0"
+        >
+
+      </div>
+
+    </div>
+
+    <div class="modal-bottom">
+
+      <button
+        class="modal-btn cancel"
+        id="cancelScore"
+      >
+        취소
+      </button>
+
+      <button
+        class="modal-btn confirm"
+        id="saveScore"
+      >
+        결과 확정
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+  "https://opwuyqerisocqobbbisg.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_Eo_zfONeGLs9ATCVg2Fk_g_y_IAJFV-";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+async function checkLogin() {
+
+  const { data } =
+    await supabaseClient.auth.getSession();
+
+  if (!data.session) {
+    location.href = "./";
+  }
+
+}
+
+
+checkLogin();
+
+
+const tournament =
+  JSON.parse(
+    sessionStorage.getItem(
+      "fwtNewTournament"
+    ) || "null"
+  );
+
+
+const entries =
+  JSON.parse(
+    sessionStorage.getItem(
+      "fwtNewTournamentEntries"
+    ) || "null"
+  );
+
+
+const storedRaw =
+  sessionStorage.getItem(
+    "fwtKnockoutBracket"
+  );
+
+
+if (
+  !tournament ||
+  !entries ||
+  !storedRaw
+) {
+
+  alert(
+    "본선 대진 정보가 없습니다."
+  );
+
+  location.href =
+    "./knockout-bracket.html";
+
+}
+
+
+let storedBracket;
+
+
+try {
+
+  storedBracket =
+    JSON.parse(
+      storedRaw
+    );
+
+} catch(e) {
+
+  storedBracket =
+    null;
+
+}
+
+
+if (
+  !storedBracket ||
+  !storedBracket.data ||
+  !Array.isArray(
+    storedBracket.data.rounds
+  )
+) {
+
+  alert(
+    "본선 대진 데이터가 올바르지 않습니다."
+  );
+
+  location.href =
+    "./knockout-bracket.html";
+
+}
+
+
+const bracketSignature =
+  storedBracket.signature;
+
+
+let bracketData =
+  storedBracket.data;
+
+
+const courts =
+  Array.isArray(
+    tournament.courts
+  )
+    ? tournament.courts
+    : [];
+
+
+let selectedCourtMatchId =
+  null;
+
+let selectedScoreMatchId =
+  null;
+
+
+/* ========================================
+   기본 함수
+======================================== */
+
+function escapeHtml(value) {
+
+  const div =
+    document.createElement(
+      "div"
+    );
+
+  div.textContent =
+    value ?? "";
+
+  return div.innerHTML;
+
+}
+
+
+function shortEntryName(entry) {
+
+  if (!entry) {
+    return "알 수 없음";
+  }
+
+
+  if (
+    entry.type === "singles"
+  ) {
+
+    return (
+      entry.nickname ||
+      entry.name ||
+      "이름 없음"
+    );
+
+  }
+
+
+  const p1 =
+    entry.player1?.nickname ||
+    entry.player1?.name ||
+    "선수1";
+
+
+  const p2 =
+    entry.player2?.nickname ||
+    entry.player2?.name ||
+    "선수2";
+
+
+  return `${p1}/${p2}`;
+
+}
+
+
+function roundNameFromIndex(
+  roundIndex
+) {
+
+  const size =
+    bracketData.bracketSize /
+    Math.pow(
+      2,
+      roundIndex
+    );
+
+
+  if (
+    size === 2
+  ) {
+    return "결승";
+  }
+
+
+  if (
+    size === 4
+  ) {
+    return "4강";
+  }
+
+
+  if (
+    size === 8
+  ) {
+    return "8강";
+  }
+
+
+  if (
+    size === 16
+  ) {
+    return "16강";
+  }
+
+
+  if (
+    size === 32
+  ) {
+    return "32강";
+  }
+
+
+  return `${size}강`;
+
+}
+
+
+function allMatches() {
+
+  return bracketData.rounds.flat();
+
+}
+
+
+function getMatch(
+  matchId
+) {
+
+  return allMatches().find(
+    match =>
+      match.id ===
+      matchId
+  );
+
+}
+
+
+/* ========================================
+   저장
+======================================== */
+
+function saveBracket() {
+
+  sessionStorage.setItem(
+    "fwtKnockoutBracket",
+    JSON.stringify({
+
+      signature:
+        bracketSignature,
+
+      data:
+        bracketData
+
+    })
+  );
+
+}
+
+
+/* ========================================
+   다음 경기 찾기
+======================================== */
+
+function getNextMatch(
+  roundIndex,
+  matchIndex
+) {
+
+  const nextRound =
+    bracketData.rounds[
+      roundIndex + 1
+    ];
+
+
+  if (!nextRound) {
+    return null;
+  }
+
+
+  return nextRound[
+    Math.floor(
+      matchIndex / 2
+    )
+  ] || null;
+
+}
+
+
+/* ========================================
+   다음 경기 슬롯
+======================================== */
+
+function setWinnerIntoNextMatch(
+  match
+) {
+
+  if (
+    match.winner === null ||
+    match.winner === undefined
+  ) {
+
+    return;
+
+  }
+
+
+  const next =
+    getNextMatch(
+      match.roundIndex,
+      match.matchIndex
+    );
+
+
+  if (!next) {
+    return;
+  }
+
+
+  if (
+    match.matchIndex % 2 === 0
+  ) {
+
+    next.player1 =
+      match.winner;
+
+  } else {
+
+    next.player2 =
+      match.winner;
+
+  }
+
+
+  normalizeMatchStatus(
+    next
+  );
+
+}
+
+
+/* ========================================
+   상태 정리
+======================================== */
+
+function normalizeMatchStatus(
+  match
+) {
+
+  if (
+    match.status ===
+    "completed"
+    ||
+    match.status ===
+    "playing"
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    match.player1 !== null
+    &&
+    match.player1 !== undefined
+    &&
+    match.player2 !== null
+    &&
+    match.player2 !== undefined
+  ) {
+
+    match.status =
+      "waiting";
+
+    return;
+
+  }
+
+
+  /*
+    첫 라운드 한쪽만 선수 존재 =
+    BYE
+  */
+
+  if (
+    match.roundIndex === 0
+    &&
+    (
+      (
+        match.player1 !== null
+        &&
+        match.player1 !== undefined
+      )
+      ||
+      (
+        match.player2 !== null
+        &&
+        match.player2 !== undefined
+      )
+    )
+  ) {
+
+    match.status =
+      "bye";
+
+
+    match.winner =
+      (
+        match.player1 !== null
+        &&
+        match.player1 !== undefined
+      )
+        ? match.player1
+        : match.player2;
+
+
+    return;
+
+  }
+
+
+  match.status =
+    "pending";
+
+}
+
+
+/* ========================================
+   전체 진행 관계 재계산
+
+   이전 라운드의 winner를
+   다음 라운드 슬롯에 반영
+======================================== */
+
+function rebuildProgression() {
+
+  /*
+    1. 첫 라운드 BYE 정리
+  */
+
+  bracketData.rounds[0]
+    .forEach(
+      match => {
+
+        normalizeMatchStatus(
+          match
+        );
+
+      }
+    );
+
+
+  /*
+    2. 라운드별 승자 전달
+  */
+
+  for (
+    let r = 0;
+    r <
+      bracketData.rounds.length - 1;
+    r++
+  ) {
+
+    const round =
+      bracketData.rounds[r];
+
+
+    round.forEach(
+      match => {
+
+        if (
+          match.status ===
+          "completed"
+          ||
+          match.status ===
+          "bye"
+        ) {
+
+          setWinnerIntoNextMatch(
+            match
+          );
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /*
+    3. 모든 경기 상태 정리
+  */
+
+  bracketData.rounds.forEach(
+    round => {
+
+      round.forEach(
+        match => {
+
+          normalizeMatchStatus(
+            match
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+  saveBracket();
+
+}
+
+
+/* ========================================
+   하위 라운드 초기화
+
+   앞 라운드 결과가 수정되거나 취소될 때
+   이후 경기의 잘못된 결과가 남지 않도록 함.
+======================================== */
+
+function resetDownstreamFrom(
+  match
+) {
+
+  let currentRoundIndex =
+    match.roundIndex;
+
+  let currentMatchIndex =
+    match.matchIndex;
+
+
+  while (
+    currentRoundIndex <
+    bracketData.rounds.length - 1
+  ) {
+
+    const nextRoundIndex =
+      currentRoundIndex + 1;
+
+
+    const nextMatchIndex =
+      Math.floor(
+        currentMatchIndex / 2
+      );
+
+
+    const nextMatch =
+      bracketData.rounds[
+        nextRoundIndex
+      ][
+        nextMatchIndex
+      ];
+
+
+    if (!nextMatch) {
+      break;
+    }
+
+
+    /*
+      해당 슬롯을 제거.
+    */
+
+    if (
+      currentMatchIndex % 2 === 0
+    ) {
+
+      nextMatch.player1 =
+        null;
+
+    } else {
+
+      nextMatch.player2 =
+        null;
+
+    }
+
+
+    /*
+      이미 이후 경기가 진행됐을 수도 있으므로
+      결과 전체 초기화.
+    */
+
+    nextMatch.status =
+      "pending";
+
+    nextMatch.winner =
+      null;
+
+    nextMatch.score1 =
+      null;
+
+    nextMatch.score2 =
+      null;
+
+    nextMatch.court =
+      null;
+
+
+    currentRoundIndex =
+      nextRoundIndex;
+
+    currentMatchIndex =
+      nextMatchIndex;
+
+  }
+
+}
+
+
+/* ========================================
+   코트 관련
+======================================== */
+
+function getPlayingMatchOnCourt(
+  courtName
+) {
+
+  return allMatches().find(
+    match =>
+      match.status ===
+        "playing"
+      &&
+      match.court ===
+        courtName
+  );
+
+}
+
+
+function isCourtBusy(
+  courtName
+) {
+
+  return Boolean(
+    getPlayingMatchOnCourt(
+      courtName
+    )
+  );
+
+}
+
+
+function getPlayingMatchForPlayer(
+  playerIndex,
+  excludeId = null
+) {
+
+  return allMatches().find(
+    match => {
+
+      if (
+        excludeId &&
+        match.id ===
+          excludeId
+      ) {
+
+        return false;
+
+      }
+
+
+      if (
+        match.status !==
+        "playing"
+      ) {
+
+        return false;
+
+      }
+
+
+      return (
+        match.player1 ===
+          playerIndex
+        ||
+        match.player2 ===
+          playerIndex
+      );
+
+    }
+  );
+
+}
+
+
+/* ========================================
+   코트 모달
+======================================== */
+
+function openCourtModal(
+  matchId
+) {
+
+  const match =
+    getMatch(
+      matchId
+    );
+
+
+  if (
+    !match ||
+    match.status !==
+      "waiting"
+  ) {
+
+    return;
+
+  }
+
+
+  const p1Busy =
+    getPlayingMatchForPlayer(
+      match.player1,
+      match.id
+    );
+
+
+  if (p1Busy) {
+
+    alert(
+      `${shortEntryName(
+        entries[
+          match.player1
+        ]
+      )} 참가자가 현재 ${p1Busy.court}에서 경기 중입니다.`
+    );
+
+    return;
+
+  }
+
+
+  const p2Busy =
+    getPlayingMatchForPlayer(
+      match.player2,
+      match.id
+    );
+
+
+  if (p2Busy) {
+
+    alert(
+      `${shortEntryName(
+        entries[
+          match.player2
+        ]
+      )} 참가자가 현재 ${p2Busy.court}에서 경기 중입니다.`
+    );
+
+    return;
+
+  }
+
+
+  selectedCourtMatchId =
+    matchId;
+
+
+  document.getElementById(
+    "courtModalMatch"
+  ).innerHTML = `
+
+    <strong>
+      ${roundNameFromIndex(
+        match.roundIndex
+      )}
+      · ${match.matchIndex + 1}경기
+    </strong>
+
+    <br>
+
+    ${escapeHtml(
+      shortEntryName(
+        entries[
+          match.player1
+        ]
+      )
+    )}
+
+    &nbsp; vs &nbsp;
+
+    ${escapeHtml(
+      shortEntryName(
+        entries[
+          match.player2
+        ]
+      )
+    )}
+
+  `;
+
+
+  renderCourtPicker();
+
+
+  document.getElementById(
+    "courtModal"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+function renderCourtPicker() {
+
+  const box =
+    document.getElementById(
+      "courtPicker"
+    );
+
+
+  box.innerHTML = "";
+
+
+  if (
+    courts.length === 0
+  ) {
+
+    box.innerHTML = `
+      <div class="empty">
+        등록된 코트가 없습니다.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  courts.forEach(
+    courtName => {
+
+      const playing =
+        getPlayingMatchOnCourt(
+          courtName
+        );
+
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.className =
+        "court-choice";
+
+
+      if (playing) {
+
+        button.disabled =
+          true;
+
+
+        button.innerHTML = `
+
+          ${escapeHtml(
+            courtName
+          )}
+
+          <small>
+            경기중
+          </small>
+
+        `;
+
+      } else {
+
+        button.innerHTML = `
+
+          ${escapeHtml(
+            courtName
+          )}
+
+          <small>
+            빈 코트
+          </small>
+
+        `;
+
+
+        button.addEventListener(
+          "click",
+          function() {
+
+            startMatch(
+              selectedCourtMatchId,
+              courtName
+            );
+
+          }
+        );
+
+      }
+
+
+      box.appendChild(
+        button
+      );
+
+    }
+  );
+
+}
+
+
+function closeCourtModal() {
+
+  selectedCourtMatchId =
+    null;
+
+
+  document.getElementById(
+    "courtModal"
+  ).classList.remove(
+    "show"
+  );
+
+}
+
+
+/* ========================================
+   경기 시작
+======================================== */
+
+function startMatch(
+  matchId,
+  courtName
+) {
+
+  const match =
+    getMatch(
+      matchId
+    );
+
+
+  if (
+    !match ||
+    match.status !==
+      "waiting"
+  ) {
+
+    closeCourtModal();
+
+    render();
+
+    return;
+
+  }
+
+
+  if (
+    isCourtBusy(
+      courtName
+    )
+  ) {
+
+    alert(
+      `${courtName} 코트는 현재 경기 중입니다.`
+    );
+
+    renderCourtPicker();
+
+    return;
+
+  }
+
+
+  const p1Busy =
+    getPlayingMatchForPlayer(
+      match.player1,
+      match.id
+    );
+
+
+  const p2Busy =
+    getPlayingMatchForPlayer(
+      match.player2,
+      match.id
+    );
+
+
+  if (p1Busy) {
+
+    alert(
+      `${shortEntryName(
+        entries[
+          match.player1
+        ]
+      )} 참가자가 현재 ${p1Busy.court}에서 경기 중입니다.`
+    );
+
+    closeCourtModal();
+
+    return;
+
+  }
+
+
+  if (p2Busy) {
+
+    alert(
+      `${shortEntryName(
+        entries[
+          match.player2
+        ]
+      )} 참가자가 현재 ${p2Busy.court}에서 경기 중입니다.`
+    );
+
+    closeCourtModal();
+
+    return;
+
+  }
+
+
+  match.status =
+    "playing";
+
+  match.court =
+    courtName;
+
+  match.score1 =
+    null;
+
+  match.score2 =
+    null;
+
+  match.winner =
+    null;
+
+
+  saveBracket();
+
+  closeCourtModal();
+
+  render();
+
+}
+
+
+/* ========================================
+   경기중 → 대기
+======================================== */
+
+function cancelPlaying(
+  matchId
+) {
+
+  const match =
+    getMatch(
+      matchId
+    );
+
+
+  if (!match) {
+    return;
+  }
+
+
+  if (
+    !confirm(
+      "이 경기를 다시 대기 상태로 돌릴까요?"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  match.status =
+    "waiting";
+
+  match.court =
+    null;
+
+  match.score1 =
+    null;
+
+  match.score2 =
+    null;
+
+  match.winner =
+    null;
+
+
+  saveBracket();
+
+  render();
+
+}
+
+
+/* ========================================
+   점수 모달
+======================================== */
+
+function openScore(
+  matchId
+) {
+
+  const match =
+    getMatch(
+      matchId
+    );
+
+
+  if (
+    !match ||
+    match.status !==
+      "playing"
+  ) {
+
+    return;
+
+  }
+
+
+  selectedScoreMatchId =
+    matchId;
+
+
+  document.getElementById(
+    "scoreModalInfo"
+  ).textContent =
+    `${roundNameFromIndex(
+      match.roundIndex
+    )} · ${match.matchIndex + 1}경기 · ${match.court}`;
+
+
+  document.getElementById(
+    "scorePlayer1"
+  ).textContent =
+    shortEntryName(
+      entries[
+        match.player1
+      ]
+    );
+
+
+  document.getElementById(
+    "scorePlayer2"
+  ).textContent =
+    shortEntryName(
+      entries[
+        match.player2
+      ]
+    );
+
+
+  document.getElementById(
+    "score1"
+  ).value = "";
+
+
+  document.getElementById(
+    "score2"
+  ).value = "";
+
+
+  document.getElementById(
+    "scoreModal"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+function closeScore() {
+
+  selectedScoreMatchId =
+    null;
+
+
+  document.getElementById(
+    "scoreModal"
+  ).classList.remove(
+    "show"
+  );
+
+}
+
+
+/* ========================================
+   경기 완료
+======================================== */
+
+function finishMatch() {
+
+  if (
+    !selectedScoreMatchId
+  ) {
+
+    return;
+
+  }
+
+
+  const raw1 =
+    document.getElementById(
+      "score1"
+    ).value;
+
+
+  const raw2 =
+    document.getElementById(
+      "score2"
+    ).value;
+
+
+  if (
+    raw1 === "" ||
+    raw2 === ""
+  ) {
+
+    alert(
+      "양쪽 점수를 모두 입력해주세요."
+    );
+
+    return;
+
+  }
+
+
+  const score1 =
+    Number(raw1);
+
+
+  const score2 =
+    Number(raw2);
+
+
+  if (
+    !Number.isFinite(
+      score1
+    )
+    ||
+    !Number.isFinite(
+      score2
+    )
+    ||
+    score1 < 0
+    ||
+    score2 < 0
+  ) {
+
+    alert(
+      "올바른 점수를 입력해주세요."
+    );
+
+    return;
+
+  }
+
+
+  /*
+    본선은 반드시 승자가 필요하므로
+    동점 저장 불가.
+  */
+
+  if (
+    score1 ===
+    score2
+  ) {
+
+    alert(
+      "본선 경기는 동점으로 종료할 수 없습니다."
+    );
+
+    return;
+
+  }
+
+
+  const match =
+    getMatch(
+      selectedScoreMatchId
+    );
+
+
+  if (!match) {
+    return;
+  }
+
+
+  match.score1 =
+    score1;
+
+  match.score2 =
+    score2;
+
+  match.status =
+    "completed";
+
+
+  match.winner =
+    score1 > score2
+      ? match.player1
+      : match.player2;
+
+
+  setWinnerIntoNextMatch(
+    match
+  );
+
+
+  rebuildProgression();
+
+  closeScore();
+
+  render();
+
+}
+
+
+/* ========================================
+   완료 경기 결과 수정
+
+   본선에서는 승자가 바뀔 수 있으므로
+   이후 라운드를 안전하게 초기화함.
+======================================== */
+
+function editCompleted(
+  matchId
+) {
+
+  const match =
+    getMatch(
+      matchId
+    );
+
+
+  if (!match) {
+    return;
+  }
+
+
+  const first =
+    prompt(
+      `${shortEntryName(
+        entries[
+          match.player1
+        ]
+      )} 점수`,
+      match.score1
+    );
+
+
+  if (
+    first === null
+  ) {
+    return;
+  }
+
+
+  const second =
+    prompt(
+      `${shortEntryName(
+        entries[
+          match.player2
+        ]
+      )} 점수`,
+      match.score2
+    );
+
+
+  if (
+    second === null
+  ) {
+    return;
+  }
+
+
+  const score1 =
+    Number(first);
+
+
+  const score2 =
+    Number(second);
+
+
+  if (
+    first.trim() === ""
+    ||
+    second.trim() === ""
+    ||
+    !Number.isFinite(score1)
+    ||
+    !Number.isFinite(score2)
+    ||
+    score1 < 0
+    ||
+    score2 < 0
+  ) {
+
+    alert(
+      "올바른 점수를 입력해주세요."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    score1 === score2
+  ) {
+
+    alert(
+      "본선 경기는 동점으로 저장할 수 없습니다."
+    );
+
+    return;
+
+  }
+
+
+  const oldWinner =
+    match.winner;
+
+
+  const newWinner =
+    score1 > score2
+      ? match.player1
+      : match.player2;
+
+
+  /*
+    승자가 바뀐다면 이후 대진에 영향 발생.
+  */
+
+  if (
+    oldWinner !==
+    newWinner
+  ) {
+
+    const ok =
+      confirm(
+        "승자가 변경됩니다.\n이 경기 이후에 이미 입력된 본선 경기 결과가 있다면 초기화될 수 있습니다.\n계속할까요?"
+      );
+
+
+    if (!ok) {
+      return;
+    }
+
+
+    resetDownstreamFrom(
+      match
+    );
+
+  }
+
+
+  match.score1 =
+    score1;
+
+  match.score2 =
+    score2;
+
+  match.winner =
+    newWinner;
+
+  match.status =
+    "completed";
+
+
+  rebuildProgression();
+
+  render();
+
+}
+
+
+/* ========================================
+   완료 → 대기 복구
+======================================== */
+
+function restoreCompleted(
+  matchId
+) {
+
+  const match =
+    getMatch(
+      matchId
+    );
+
+
+  if (!match) {
+    return;
+  }
+
+
+  const isFinal =
+    match.roundIndex ===
+    bracketData.rounds.length - 1;
+
+
+  let message =
+    "이 경기 결과를 취소하고 다시 대기 경기로 복구할까요?";
+
+
+  if (!isFinal) {
+
+    message +=
+      "\n\n이 경기의 승자가 다음 라운드에 진출해 있으므로 이후 본선 대진이나 결과가 초기화될 수 있습니다.";
+
+  }
+
+
+  if (
+    !confirm(
+      message
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  resetDownstreamFrom(
+    match
+  );
+
+
+  match.status =
+    "waiting";
+
+  match.winner =
+    null;
+
+  match.score1 =
+    null;
+
+  match.score2 =
+    null;
+
+  match.court =
+    null;
+
+
+  rebuildProgression();
+
+  render();
+
+}
+
+
+/* ========================================
+   코트 렌더
+======================================== */
+
+function renderCourts() {
+
+  const box =
+    document.getElementById(
+      "courts"
+    );
+
+
+  box.innerHTML = "";
+
+
+  if (
+    courts.length === 0
+  ) {
+
+    box.innerHTML = `
+      <div class="empty">
+        등록된 코트가 없습니다.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  courts.forEach(
+    courtName => {
+
+      const playing =
+        getPlayingMatchOnCourt(
+          courtName
+        );
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "court";
+
+
+      if (!playing) {
+
+        card.innerHTML = `
+
+          <div class="court-inner">
+
+            <div class="court-top">
+
+              <div class="court-name">
+                ${escapeHtml(
+                  courtName
+                )}
+              </div>
+
+              <div class="court-status">
+                빈 코트
+              </div>
+
+            </div>
+
+            <div class="court-empty">
+              본선 경기 대기
+            </div>
+
+          </div>
+
+        `;
+
+      } else {
+
+        card.innerHTML = `
+
+          <div class="court-inner">
+
+            <div class="court-top">
+
+              <div class="court-name">
+                ${escapeHtml(
+                  courtName
+                )}
+              </div>
+
+              <div class="court-status live">
+                경기중
+              </div>
+
+            </div>
+
+            <div class="court-round">
+
+              ${roundNameFromIndex(
+                playing.roundIndex
+              )}
+
+              · ${playing.matchIndex + 1}경기
+
+            </div>
+
+            <div class="court-match">
+
+              ${escapeHtml(
+                shortEntryName(
+                  entries[
+                    playing.player1
+                  ]
+                )
+              )}
+
+              vs
+
+              ${escapeHtml(
+                shortEntryName(
+                  entries[
+                    playing.player2
+                  ]
+                )
+              )}
+
+            </div>
+
+            <div class="court-actions">
+
+              <button
+                class="court-btn"
+                onclick="
+                  cancelPlaying(
+                    '${playing.id}'
+                  )
+                "
+              >
+                대기로
+              </button>
+
+              <button
+                class="court-btn finish"
+                onclick="
+                  openScore(
+                    '${playing.id}'
+                  )
+                "
+              >
+                경기 완료
+              </button>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+
+
+      box.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+/* ========================================
+   진행 가능 경기
+======================================== */
+
+function renderReady() {
+
+  const box =
+    document.getElementById(
+      "readyList"
+    );
+
+
+  const ready =
+    allMatches().filter(
+      match =>
+        match.status ===
+        "waiting"
+    );
+
+
+  box.innerHTML = "";
+
+
+  if (
+    ready.length === 0
+  ) {
+
+    const hasPlaying =
+      allMatches().some(
+        match =>
+          match.status ===
+          "playing"
+      );
+
+
+    box.innerHTML = `
+
+      <div class="empty">
+
+        ${
+          hasPlaying
+            ? "현재 진행 중인 경기가 완료되면 다음 경기가 자동으로 열립니다."
+            : "현재 코트 배정 가능한 경기가 없습니다."
+        }
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  ready.forEach(
+    match => {
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+
+      row.className =
+        "ready-row";
+
+
+      row.innerHTML = `
+
+        <div class="round-badge">
+
+          ${roundNameFromIndex(
+            match.roundIndex
+          )}
+
+        </div>
+
+
+        <div class="ready-info">
+
+          <div class="ready-match-no">
+
+            ${match.matchIndex + 1}경기
+
+          </div>
+
+          <div class="ready-players">
+
+            ${escapeHtml(
+              shortEntryName(
+                entries[
+                  match.player1
+                ]
+              )
+            )}
+
+            &nbsp;vs&nbsp;
+
+            ${escapeHtml(
+              shortEntryName(
+                entries[
+                  match.player2
+                ]
+              )
+            )}
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="assign-btn"
+          onclick="
+            openCourtModal(
+              '${match.id}'
+            )
+          "
+        >
+          코트 배정
+        </button>
+
+      `;
+
+
+      box.appendChild(
+        row
+      );
+
+    }
+  );
+
+}
+
+
+/* ========================================
+   다음 라운드 대기
+======================================== */
+
+function renderPending() {
+
+  const box =
+    document.getElementById(
+      "pendingList"
+    );
+
+
+  const pending =
+    allMatches().filter(
+      match =>
+        match.status ===
+        "pending"
+    );
+
+
+  box.innerHTML = "";
+
+
+  if (
+    pending.length === 0
+  ) {
+
+    box.innerHTML = `
+
+      <div class="empty">
+        진출자 대기 중인 경기가 없습니다.
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  pending.forEach(
+    match => {
+
+      const p1 =
+        match.player1 !== null
+        &&
+        match.player1 !== undefined
+          ? shortEntryName(
+              entries[
+                match.player1
+              ]
+            )
+          : (
+              match.source1 ||
+              "승자 대기"
+            );
+
+
+      const p2 =
+        match.player2 !== null
+        &&
+        match.player2 !== undefined
+          ? shortEntryName(
+              entries[
+                match.player2
+              ]
+            )
+          : (
+              match.source2 ||
+              "승자 대기"
+            );
+
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+
+      row.className =
+        "pending-row";
+
+
+      row.innerHTML = `
+
+        <div class="round-badge">
+
+          ${roundNameFromIndex(
+            match.roundIndex
+          )}
+
+        </div>
+
+
+        <div class="pending-text">
+
+          ${escapeHtml(
+            p1
+          )}
+
+          &nbsp; vs &nbsp;
+
+          ${escapeHtml(
+            p2
+          )}
+
+        </div>
+
+      `;
+
+
+      box.appendChild(
+        row
+      );
+
+    }
+  );
+
+}
+
+
+/* ========================================
+   완료 경기
+======================================== */
+
+function renderCompleted() {
+
+  const box =
+    document.getElementById(
+      "completedList"
+    );
+
+
+  const completed =
+    allMatches()
+      .filter(
+        match =>
+          match.status ===
+          "completed"
+      )
+      .reverse();
+
+
+  box.innerHTML = "";
+
+
+  if (
+    completed.length === 0
+  ) {
+
+    box.innerHTML = `
+
+      <div class="empty">
+        아직 완료된 본선 경기가 없습니다.
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  completed.forEach(
+    match => {
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+
+      row.className =
+        "completed-row";
+
+
+      row.innerHTML = `
+
+        <div class="round-badge">
+
+          ${roundNameFromIndex(
+            match.roundIndex
+          )}
+
+        </div>
+
+
+        <div class="completed-main">
+
+          <div class="completed-players">
+
+            ${escapeHtml(
+              shortEntryName(
+                entries[
+                  match.player1
+                ]
+              )
+            )}
+
+            vs
+
+            ${escapeHtml(
+              shortEntryName(
+                entries[
+                  match.player2
+                ]
+              )
+            )}
+
+          </div>
+
+
+          <div class="completed-meta">
+
+            ${match.matchIndex + 1}경기
+
+            ${
+              match.court
+                ? ` · ${escapeHtml(
+                    match.court
+                  )}`
+                : ""
+            }
+
+            · 승자
+
+            ${escapeHtml(
+              shortEntryName(
+                entries[
+                  match.winner
+                ]
+              )
+            )}
+
+          </div>
+
+
+          <div class="completed-actions">
+
+            <button
+              class="small-btn"
+              onclick="
+                editCompleted(
+                  '${match.id}'
+                )
+              "
+            >
+              결과 수정
+            </button>
+
+
+            <button
+              class="small-btn restore"
+              onclick="
+                restoreCompleted(
+                  '${match.id}'
+                )
+              "
+            >
+              대기로 복구
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="score">
+
+          ${match.score1}
+          :
+          ${match.score2}
+
+        </div>
+
+      `;
+
+
+      box.appendChild(
+        row
+      );
+
+    }
+  );
+
+}
+
+
+/* ========================================
+   우승자
+======================================== */
+
+function renderChampion() {
+
+  const finalRound =
+    bracketData.rounds[
+      bracketData.rounds.length - 1
+    ];
+
+
+  if (
+    !finalRound ||
+    finalRound.length === 0
+  ) {
+
+    return;
+
+  }
+
+
+  const final =
+    finalRound[0];
+
+
+  const championBox =
+    document.getElementById(
+      "champion"
+    );
+
+
+  if (
+    final.status ===
+    "completed"
+    &&
+    final.winner !== null
+    &&
+    final.winner !== undefined
+  ) {
+
+    document.getElementById(
+      "championName"
+    ).textContent =
+      shortEntryName(
+        entries[
+          final.winner
+        ]
+      );
+
+
+    championBox.classList.add(
+      "show"
+    );
+
+  } else {
+
+    championBox.classList.remove(
+      "show"
+    );
+
+  }
+
+}
+
+
+/* ========================================
+   통계
+======================================== */
+
+function renderStats() {
+
+  /*
+    BYE는 실제 경기 수에서 제외
+  */
+
+  const realMatches =
+    allMatches().filter(
+      match =>
+        match.status !==
+          "bye"
+        &&
+        !(
+          match.roundIndex === 0
+          &&
+          match.player1 === null
+          &&
+          match.player2 === null
+        )
+    );
+
+
+  const total =
+    realMatches.length;
+
+
+  const live =
+    realMatches.filter(
+      match =>
+        match.status ===
+        "playing"
+    ).length;
+
+
+  const waiting =
+    realMatches.filter(
+      match =>
+        match.status ===
+        "waiting"
+    ).length;
+
+
+  const completed =
+    realMatches.filter(
+      match =>
+        match.status ===
+        "completed"
+    ).length;
+
+
+  document.getElementById(
+    "totalCount"
+  ).textContent =
+    total;
+
+
+  document.getElementById(
+    "liveCount"
+  ).textContent =
+    live;
+
+
+  document.getElementById(
+    "waitingCount"
+  ).textContent =
+    waiting;
+
+
+  document.getElementById(
+    "completedCount"
+  ).textContent =
+    completed;
+
+}
+
+
+/* ========================================
+   전체 렌더
+======================================== */
+
+function render() {
+
+  rebuildProgression();
+
+  renderStats();
+
+  renderChampion();
+
+  renderCourts();
+
+  renderReady();
+
+  renderPending();
+
+  renderCompleted();
+
+}
+
+
+/* ========================================
+   모달 이벤트
+======================================== */
+
+document.getElementById(
+  "cancelCourt"
+).addEventListener(
+  "click",
+  closeCourtModal
+);
+
+
+document.getElementById(
+  "cancelScore"
+).addEventListener(
+  "click",
+  closeScore
+);
+
+
+document.getElementById(
+  "saveScore"
+).addEventListener(
+  "click",
+  finishMatch
+);
+
+
+document.getElementById(
+  "courtModal"
+).addEventListener(
+  "click",
+  function(event) {
+
+    if (
+      event.target ===
+      this
+    ) {
+
+      closeCourtModal();
+
+    }
+
+  }
+);
+
+
+document.getElementById(
+  "scoreModal"
+).addEventListener(
+  "click",
+  function(event) {
+
+    if (
+      event.target ===
+      this
+    ) {
+
+      closeScore();
+
+    }
+
+  }
+);
+
+
+/* ========================================
+   START
+======================================== */
+
+render();
+
+</script>
+
+</body>
+</html>
