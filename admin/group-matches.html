@@ -24,12 +24,6 @@
       --green:#178b61;
       --green-soft:#edf8f3;
 
-      --orange:#99631c;
-      --orange-soft:#fff7eb;
-
-      --red:#c64b4b;
-      --red-soft:#fff2f2;
-
       --shadow:
         0 12px 35px rgba(20,35,55,.06);
     }
@@ -66,7 +60,9 @@
       opacity:.48;
     }
 
-    /* HEADER */
+    /* ==============================
+       HEADER
+    ============================== */
 
     .topbar {
       min-height:72px;
@@ -99,7 +95,6 @@
 
       font-weight:950;
       font-style:italic;
-
       letter-spacing:-4px;
 
       transform:skew(-5deg);
@@ -128,7 +123,9 @@
       font-weight:850;
     }
 
-    /* PAGE */
+    /* ==============================
+       PAGE
+    ============================== */
 
     .container {
       width:
@@ -159,7 +156,6 @@
 
       font-size:11px;
       font-weight:950;
-
       letter-spacing:2px;
     }
 
@@ -170,7 +166,6 @@
 
       font-size:34px;
       font-weight:950;
-
       letter-spacing:-1.5px;
     }
 
@@ -212,7 +207,9 @@
       font-weight:950;
     }
 
-    /* NOTICE */
+    /* ==============================
+       NOTICE
+    ============================== */
 
     .notice {
       margin-bottom:14px;
@@ -223,12 +220,10 @@
       border-radius:13px;
 
       background:var(--green-soft);
-
       color:#396451;
 
       font-size:12px;
       font-weight:750;
-
       line-height:1.65;
     }
 
@@ -236,7 +231,6 @@
       border-color:#d9e3b0;
 
       background:#f8fae9;
-
       color:#58641c;
     }
 
@@ -244,7 +238,9 @@
       color:var(--navy);
     }
 
-    /* GROUPS */
+    /* ==============================
+       GROUP
+    ============================== */
 
     .groups {
       display:flex;
@@ -271,7 +267,7 @@
 
       gap:10px;
 
-      padding:16px 18px;
+      padding:17px 18px;
 
       border-bottom:1px solid #e7ebef;
 
@@ -281,16 +277,20 @@
     .group-name {
       color:var(--navy);
 
-      font-size:18px;
+      font-size:19px;
       font-weight:950;
     }
 
     .group-meta {
       color:#687587;
 
-      font-size:11px;
-      font-weight:800;
+      font-size:12px;
+      font-weight:850;
     }
+
+    /* ==============================
+       ROUND
+    ============================== */
 
     .rounds {
       padding:10px;
@@ -316,7 +316,9 @@
       align-items:center;
       justify-content:space-between;
 
-      padding:10px 12px;
+      gap:10px;
+
+      padding:12px 13px;
 
       background:#f7f9fb;
 
@@ -326,39 +328,45 @@
     .round-title {
       color:var(--navy);
 
-      font-size:13px;
-      font-weight:900;
+      font-size:14px;
+      font-weight:950;
     }
 
     .round-rest {
-      color:#7a8492;
+      color:#526073;
 
-      font-size:10px;
-      font-weight:750;
+      font-size:12px;
+      font-weight:900;
+
+      white-space:nowrap;
     }
 
+    /* ==============================
+       MATCH
+    ============================== */
+
     .match-list {
-      padding:8px;
+      padding:9px;
     }
 
     .match-row {
       display:grid;
 
       grid-template-columns:
-        42px minmax(0,1fr) auto;
+        44px minmax(0,1fr);
 
       align-items:center;
 
-      gap:10px;
+      gap:11px;
 
-      min-height:63px;
+      min-height:72px;
 
-      padding:8px 9px;
+      padding:10px 11px;
 
-      margin-bottom:6px;
+      margin-bottom:7px;
 
       border:1px solid #e5e9ed;
-      border-radius:10px;
+      border-radius:11px;
 
       background:white;
     }
@@ -368,20 +376,19 @@
     }
 
     .match-number {
-      width:37px;
-      height:37px;
+      width:40px;
+      height:40px;
 
       display:flex;
       align-items:center;
       justify-content:center;
 
-      border-radius:9px;
+      border-radius:10px;
 
       background:#eef2f6;
-
       color:var(--navy);
 
-      font-size:12px;
+      font-size:13px;
       font-weight:950;
     }
 
@@ -393,7 +400,9 @@
       display:grid;
 
       grid-template-columns:
-        minmax(0,1fr) auto minmax(0,1fr);
+        minmax(0,1fr)
+        30px
+        minmax(0,1fr);
 
       align-items:center;
 
@@ -403,10 +412,12 @@
     .player {
       overflow:hidden;
 
-      color:#28364a;
+      color:#1d2b40;
 
-      font-size:13px;
-      font-weight:900;
+      font-size:16px;
+      font-weight:950;
+
+      letter-spacing:-.25px;
 
       text-overflow:ellipsis;
       white-space:nowrap;
@@ -417,41 +428,43 @@
     }
 
     .vs {
-      color:#8a95a3;
+      color:#7d8999;
 
       font-size:10px;
-      font-weight:900;
+      font-weight:950;
+
+      text-align:center;
     }
 
     .match-sub {
       display:flex;
       align-items:center;
+      flex-wrap:wrap;
 
       gap:6px;
 
-      margin-top:5px;
+      margin-top:7px;
 
-      color:#718092;
+      color:#657386;
 
-      font-size:10px;
-      font-weight:700;
+      font-size:11px;
+      font-weight:750;
     }
 
     .status-badge {
       display:inline-flex;
       align-items:center;
 
-      min-height:23px;
+      min-height:25px;
 
-      padding:0 7px;
+      padding:0 8px;
 
       border-radius:999px;
 
       background:#eef2f5;
+      color:#5f6d80;
 
-      color:#637083;
-
-      font-size:9px;
+      font-size:10px;
       font-weight:900;
     }
 
@@ -465,39 +478,15 @@
       color:#14784f;
     }
 
-    .status-badge.waiting {
-      background:#eef3f7;
-      color:#566579;
-    }
-
-    .order-actions {
-      display:flex;
-
-      gap:5px;
-    }
-
-    .order-btn {
-      width:34px;
-      height:34px;
-
-      display:flex;
-      align-items:center;
-      justify-content:center;
-
-      border:1px solid #d9e0e6;
-      border-radius:8px;
-
-      background:white;
-      color:#526073;
-
-      font-size:13px;
-      font-weight:950;
-    }
-
-    /* BUTTONS */
+    /* ==============================
+       BOTTOM
+    ============================== */
 
     .bottom {
-      display:flex;
+      display:grid;
+
+      grid-template-columns:
+        190px minmax(0,1fr);
 
       gap:10px;
 
@@ -505,7 +494,6 @@
     }
 
     .previous,
-    .regenerate,
     .next {
       height:56px;
       min-height:56px;
@@ -516,17 +504,6 @@
     }
 
     .previous {
-      width:170px;
-
-      border:1px solid #d8dee5;
-
-      background:white;
-      color:#526073;
-    }
-
-    .regenerate {
-      width:190px;
-
       border:1px solid #d8dee5;
 
       background:white;
@@ -534,8 +511,6 @@
     }
 
     .next {
-      flex:1;
-
       border:0;
 
       background:
@@ -556,7 +531,9 @@
       color:var(--lime);
     }
 
-    /* LOADING */
+    /* ==============================
+       LOADING
+    ============================== */
 
     .loading-overlay {
       display:none;
@@ -630,7 +607,9 @@
       line-height:1.6;
     }
 
-    /* FOOTER */
+    /* ==============================
+       FOOTER
+    ============================== */
 
     .footer {
       display:flex;
@@ -656,7 +635,9 @@
       font-weight:900;
     }
 
-    /* MOBILE */
+    /* ==============================
+       MOBILE
+    ============================== */
 
     @media(max-width:700px) {
 
@@ -709,83 +690,102 @@
       }
 
       .group-head {
-        padding:14px;
+        padding:15px;
       }
 
       .group-name {
-        font-size:18px;
+        font-size:20px;
       }
 
       .group-meta {
-        font-size:12px;
-      }
-
-      .round-head {
-        padding:11px;
-      }
-
-      .round-title {
-        font-size:14px;
-      }
-
-      .round-rest {
-        font-size:11px;
-      }
-
-      .match-row {
-        grid-template-columns:
-          40px minmax(0,1fr);
-
-        gap:8px;
-
-        min-height:85px;
-
-        padding:9px;
-      }
-
-      .match-number {
-        width:38px;
-        height:38px;
-
         font-size:13px;
       }
 
-      .player {
+      .rounds {
+        padding:10px;
+      }
+
+      .round-head {
+        padding:13px 12px;
+      }
+
+      .round-title {
+        font-size:15px;
+      }
+
+      /*
+        기존보다 휴식자 이름 확대
+      */
+
+      .round-rest {
+        font-size:13px;
+        font-weight:950;
+      }
+
+      /*
+        화살표 제거 후
+        선수명에 화면 전체 사용
+      */
+
+      .match-row {
+        grid-template-columns:
+          43px minmax(0,1fr);
+
+        gap:10px;
+
+        min-height:78px;
+
+        padding:11px 10px;
+      }
+
+      .match-number {
+        width:41px;
+        height:41px;
+
         font-size:14px;
+      }
+
+      .match-players {
+        grid-template-columns:
+          minmax(0,1fr)
+          25px
+          minmax(0,1fr);
+
+        gap:5px;
+      }
+
+      .player {
+        font-size:17px;
+        font-weight:950;
+
+        letter-spacing:-.45px;
+      }
+
+      .vs {
+        font-size:10px;
       }
 
       .match-sub {
-        font-size:11px;
+        margin-top:8px;
+
+        font-size:12px;
       }
 
-      .order-actions {
-        grid-column:1 / -1;
+      .status-badge {
+        min-height:27px;
 
-        display:grid;
+        padding:0 8px;
 
-        grid-template-columns:
-          1fr 1fr;
-
-        gap:7px;
-      }
-
-      .order-btn {
-        width:100%;
-
-        height:44px;
-        min-height:44px;
-
-        font-size:14px;
+        font-size:10px;
       }
 
       .bottom {
-        flex-direction:column-reverse;
+        grid-template-columns:1fr;
 
         gap:9px;
       }
 
       .previous,
-      .regenerate,
       .next {
         width:100%;
 
@@ -798,6 +798,7 @@
       }
 
     }
+
   </style>
 </head>
 
@@ -808,6 +809,7 @@
   <div class="fwt-logo">
     FW<span>T</span>
   </div>
+
 
   <button
     class="back-btn"
@@ -882,15 +884,6 @@
       onclick="location.href='./group-setup.html'"
     >
       이전 단계
-    </button>
-
-
-    <button
-      class="regenerate"
-      id="regenerateButton"
-      type="button"
-    >
-      대진 다시 생성
     </button>
 
 
@@ -1012,17 +1005,9 @@ if (
 
 let busy = false;
 
-
-/*
-  TRUE가 되는 순간부터
-  이 페이지에서는 기존 예선 DB를
-  절대 DELETE / INSERT 하지 않는다.
-*/
 let dbMatchesExist = false;
 
-
 let existingDbStatuses = [];
-
 
 let groupMatches = [];
 
@@ -1159,7 +1144,6 @@ function setBusy(
 
   [
     "previousButton",
-    "regenerateButton",
     "confirmButton"
   ]
     .forEach(
@@ -1180,23 +1164,6 @@ function setBusy(
 
       }
     );
-
-
-  /*
-    DB 경기가 이미 존재하면
-    regenerate는 항상 잠금.
-  */
-
-  if (
-    dbMatchesExist
-  ) {
-
-    document.getElementById(
-      "regenerateButton"
-    ).disabled =
-      true;
-
-  }
 
 
   document.getElementById(
@@ -1393,58 +1360,7 @@ function createRoundRobin(
 
 
 /* =====================================
-   GENERATE LOCAL ONLY
-===================================== */
-
-function generateLocalMatches() {
-
-  /*
-    안전장치.
-    DB 경기가 존재하는 상태에서는
-    절대 새 대진으로 바꾸지 않는다.
-  */
-
-  if (
-    dbMatchesExist
-  ) {
-
-    alert(
-      "이미 DB에 조별 예선 경기가 저장되어 있어 대진을 다시 생성할 수 없습니다."
-    );
-
-    return;
-
-  }
-
-
-  groupMatches =
-    groupData.map(
-      group => ({
-
-        groupName:
-          group.name,
-
-        dbGroupId:
-          group.dbGroupId,
-
-        rounds:
-          createRoundRobin(
-            group.members || []
-          )
-
-      })
-    );
-
-
-  saveSession();
-
-  render();
-
-}
-
-
-/* =====================================
-   SESSION COMPATIBILITY
+   SESSION
 ===================================== */
 
 function saveSession() {
@@ -1460,7 +1376,7 @@ function saveSession() {
 
 
 /* =====================================
-   REST PLAYER FROM DB ROUND
+   REST PLAYER
 ===================================== */
 
 function detectRestEntry(
@@ -1517,7 +1433,7 @@ function detectRestEntry(
 
 
 /* =====================================
-   LOAD DB MATCHES
+   LOAD DB
 ===================================== */
 
 async function loadExistingMatches() {
@@ -1559,7 +1475,7 @@ async function loadExistingMatches() {
 
 
   /*
-    DB에 아직 예선 경기가 없는 최초 상태
+    최초 대진 생성 전
   */
 
   if (
@@ -1575,49 +1491,23 @@ async function loadExistingMatches() {
       [];
 
 
-    /*
-      임시로 만들어두었던 대진이 있으면
-      sessionStorage 복원.
-    */
+    groupMatches =
+      groupData.map(
+        group => ({
 
-    const saved =
-      JSON.parse(
-        sessionStorage.getItem(
-          "fwtGroupMatches"
-        ) || "null"
+          groupName:
+            group.name,
+
+          dbGroupId:
+            group.dbGroupId,
+
+          rounds:
+            createRoundRobin(
+              group.members || []
+            )
+
+        })
       );
-
-
-    if (
-      Array.isArray(saved) &&
-      saved.length ===
-        groupData.length
-    ) {
-
-      groupMatches =
-        saved;
-
-    } else {
-
-      groupMatches =
-        groupData.map(
-          group => ({
-
-            groupName:
-              group.name,
-
-            dbGroupId:
-              group.dbGroupId,
-
-            rounds:
-              createRoundRobin(
-                group.members || []
-              )
-
-          })
-        );
-
-    }
 
 
     saveSession();
@@ -1630,8 +1520,7 @@ async function loadExistingMatches() {
 
 
   /*
-    여기로 들어오면 DB 대진 존재.
-    이후부터 절대 기존 경기를 삭제하지 않는다.
+    DB에 대진이 있으면 보호모드
   */
 
   dbMatchesExist =
@@ -1675,12 +1564,11 @@ async function loadExistingMatches() {
       group => {
 
         const groupRows =
-          matchRows
-            .filter(
-              row =>
-                row.group_id ===
-                group.dbGroupId
-            );
+          matchRows.filter(
+            row =>
+              row.group_id ===
+              group.dbGroupId
+          );
 
 
         const roundNumbers =
@@ -1714,43 +1602,14 @@ async function loadExistingMatches() {
                       roundNumber
                   )
                   .sort(
-                    (a,b) => {
-
-                      const sortA =
-                        Number(
-                          a.sort_order || 0
-                        );
-
-
-                      const sortB =
-                        Number(
-                          b.sort_order || 0
-                        );
-
-
-                      if (
-                        sortA !== sortB
-                      ) {
-
-                        return (
-                          sortA -
-                          sortB
-                        );
-
-                      }
-
-
-                      return (
-                        Number(
-                          a.match_number || 0
-                        )
-                        -
-                        Number(
-                          b.match_number || 0
-                        )
-                      );
-
-                    }
+                    (a,b) =>
+                      Number(
+                        a.sort_order || 0
+                      )
+                      -
+                      Number(
+                        b.sort_order || 0
+                      )
                   );
 
 
@@ -1871,12 +1730,6 @@ function updateProtectionUI() {
     );
 
 
-  const regenerate =
-    document.getElementById(
-      "regenerateButton"
-    );
-
-
   const confirmButton =
     document.getElementById(
       "confirmButton"
@@ -1886,10 +1739,6 @@ function updateProtectionUI() {
   if (
     dbMatchesExist
   ) {
-
-    regenerate.disabled =
-      true;
-
 
     const hasProgress =
       existingDbStatuses.some(
@@ -1913,12 +1762,11 @@ function updateProtectionUI() {
         ? `
           <strong>DB 경기 보호 중.</strong>
           이미 진행 또는 완료된 예선 경기가 있습니다.
-          이 화면에서는 기존 대진과 경기 결과를 삭제하거나 다시 생성하지 않습니다.
+          기존 대진과 경기 결과는 그대로 유지됩니다.
         `
         : `
           <strong>DB 대진 저장 완료.</strong>
           이미 조별 예선 경기가 생성되어 있으므로 기존 대진을 그대로 사용합니다.
-          대진 재생성은 잠겨 있습니다.
         `;
 
 
@@ -1926,10 +1774,6 @@ function updateProtectionUI() {
       `경기 운영으로 이동 <span>→</span>`;
 
   } else {
-
-    regenerate.disabled =
-      false;
-
 
     notice.classList.remove(
       "protected"
@@ -1947,128 +1791,6 @@ function updateProtectionUI() {
       `대진 확정 · 경기 운영 <span>→</span>`;
 
   }
-
-}
-
-
-/* =====================================
-   FLATTEN
-===================================== */
-
-function flattenMatches() {
-
-  const result = [];
-
-
-  groupMatches.forEach(
-    group => {
-
-      group.rounds.forEach(
-        round => {
-
-          round.matches.forEach(
-            match => {
-
-              result.push({
-
-                group,
-
-                round,
-
-                match
-
-              });
-
-            }
-          );
-
-        }
-      );
-
-    }
-  );
-
-
-  return result;
-
-}
-
-
-/* =====================================
-   MOVE LOCAL MATCH
-===================================== */
-
-function moveMatch(
-  groupIndex,
-  roundIndex,
-  matchIndex,
-  direction
-) {
-
-  if (
-    busy
-  ) {
-
-    return;
-
-  }
-
-
-  /*
-    DB가 생성된 뒤 순서를 이 페이지에서
-    변경하는 것도 막는다.
-  */
-
-  if (
-    dbMatchesExist
-  ) {
-
-    alert(
-      "이미 DB에 저장된 예선 대진은 이 화면에서 순서를 변경할 수 없습니다."
-    );
-
-    return;
-
-  }
-
-
-  const matches =
-    groupMatches[
-      groupIndex
-    ].rounds[
-      roundIndex
-    ].matches;
-
-
-  const targetIndex =
-    matchIndex +
-    direction;
-
-
-  if (
-    targetIndex < 0 ||
-    targetIndex >=
-      matches.length
-  ) {
-
-    return;
-
-  }
-
-
-  [
-    matches[matchIndex],
-    matches[targetIndex]
-  ] =
-  [
-    matches[targetIndex],
-    matches[matchIndex]
-  ];
-
-
-  saveSession();
-
-  render();
 
 }
 
@@ -2093,10 +1815,7 @@ function render() {
 
 
   groupMatches.forEach(
-    (
-      group,
-      groupIndex
-    ) => {
+    group => {
 
       const groupCard =
         document.createElement(
@@ -2152,10 +1871,7 @@ function render() {
 
 
       group.rounds.forEach(
-        (
-          round,
-          roundIndex
-        ) => {
+        round => {
 
           const block =
             document.createElement(
@@ -2311,77 +2027,7 @@ function render() {
 
                 </div>
 
-
-                <div class="order-actions">
-
-                  <button
-                    class="order-btn up"
-                    type="button"
-                    ${
-                      dbMatchesExist ||
-                      matchIndex === 0
-                        ? "disabled"
-                        : ""
-                    }
-                  >
-                    ↑
-                  </button>
-
-                  <button
-                    class="order-btn down"
-                    type="button"
-                    ${
-                      dbMatchesExist ||
-                      matchIndex ===
-                        round.matches.length - 1
-                        ? "disabled"
-                        : ""
-                    }
-                  >
-                    ↓
-                  </button>
-
-                </div>
-
               `;
-
-
-              row
-                .querySelector(
-                  ".up"
-                )
-                .addEventListener(
-                  "click",
-                  function() {
-
-                    moveMatch(
-                      groupIndex,
-                      roundIndex,
-                      matchIndex,
-                      -1
-                    );
-
-                  }
-                );
-
-
-              row
-                .querySelector(
-                  ".down"
-                )
-                .addEventListener(
-                  "click",
-                  function() {
-
-                    moveMatch(
-                      groupIndex,
-                      roundIndex,
-                      matchIndex,
-                      1
-                    );
-
-                  }
-                );
 
 
               list.appendChild(
@@ -2426,7 +2072,7 @@ function render() {
 
 
 /* =====================================
-   VALIDATE LOCAL
+   VALIDATE
 ===================================== */
 
 function validateLocalMatches() {
@@ -2513,17 +2159,15 @@ function validateLocalMatches() {
 
 
 /* =====================================
-   FIRST-TIME INSERT ONLY
+   FIRST INSERT ONLY
 ===================================== */
 
 async function insertMatchesFirstTime() {
 
   /*
-    가장 중요한 안전 검사.
-    INSERT 직전에 DB를 다시 확인한다.
-
-    다른 탭/기기에서 이미 생성했어도
-    중복 INSERT하지 않는다.
+    INSERT 직전에 다시 확인.
+    기존 경기가 하나라도 있으면
+    절대 새로 생성하지 않는다.
   */
 
   const {
@@ -2533,7 +2177,7 @@ async function insertMatchesFirstTime() {
     await supabaseClient
       .from("matches")
       .select(
-        "id,status"
+        "id"
       )
       .eq(
         "division_id",
@@ -2563,10 +2207,6 @@ async function insertMatchesFirstTime() {
     existing &&
     existing.length > 0
   ) {
-
-    /*
-      절대 DELETE하지 않는다.
-    */
 
     dbMatchesExist =
       true;
@@ -2676,7 +2316,7 @@ async function insertMatchesFirstTime() {
       .from("matches")
       .insert(rows)
       .select(
-        "id,group_id,round_number,match_number,entry1_id,entry2_id,status,sort_order"
+        "id,status"
       );
 
 
@@ -2706,86 +2346,6 @@ async function insertMatchesFirstTime() {
   }
 
 
-  /*
-    UUID를 현재 브라우저 데이터에도 연결.
-  */
-
-  const key =
-    (
-      groupId,
-      round,
-      entry1,
-      entry2
-    ) =>
-      [
-        groupId,
-        round,
-        entry1,
-        entry2
-      ].join("|");
-
-
-  const map =
-    new Map();
-
-
-  savedMatches.forEach(
-    row => {
-
-      map.set(
-        key(
-          row.group_id,
-          Number(
-            row.round_number
-          ),
-          row.entry1_id,
-          row.entry2_id
-        ),
-        row.id
-      );
-
-    }
-  );
-
-
-  groupMatches.forEach(
-    group => {
-
-      group.rounds.forEach(
-        round => {
-
-          round.matches.forEach(
-            match => {
-
-              match.dbMatchId =
-                map.get(
-                  key(
-                    group.dbGroupId,
-                    round.roundNumber,
-                    entries[
-                      match.entry1Index
-                    ].dbEntryId,
-                    entries[
-                      match.entry2Index
-                    ].dbEntryId
-                  )
-                ) ||
-                null;
-
-
-              match.status =
-                "waiting";
-
-            }
-          );
-
-        }
-      );
-
-    }
-  );
-
-
   dbMatchesExist =
     true;
 
@@ -2795,9 +2355,6 @@ async function insertMatchesFirstTime() {
       row =>
         row.status
     );
-
-
-  saveSession();
 
 
   return {
@@ -2823,16 +2380,13 @@ async function confirmMatches() {
 
 
   /*
-    이미 DB 경기가 있다면
-    아무것도 쓰지 않고 바로 이동.
+    이미 대진이 DB에 있으면
+    DB 수정 없이 바로 이동
   */
 
   if (
     dbMatchesExist
   ) {
-
-    saveSession();
-
 
     location.href =
       "./match-control.html";
@@ -2876,11 +2430,6 @@ async function confirmMatches() {
       await insertMatchesFirstTime();
 
 
-    /*
-      만약 다른 곳에서 이미 생성돼 있었다면
-      다시 불러오기만 한다.
-    */
-
     if (
       result.alreadyExists
     ) {
@@ -2890,14 +2439,10 @@ async function confirmMatches() {
     }
 
 
-    /*
-      여기서는 예선 결과를 삭제하지 않는다.
-      본선 관련 session만 제거.
-    */
-
     sessionStorage.removeItem(
       "fwtKnockoutQualifiers"
     );
+
 
     sessionStorage.removeItem(
       "fwtKnockoutBracket"
@@ -2931,65 +2476,8 @@ async function confirmMatches() {
 
 
 /* =====================================
-   REGENERATE
+   EVENT
 ===================================== */
-
-function regenerate() {
-
-  if (
-    busy
-  ) {
-
-    return;
-
-  }
-
-
-  /*
-    DB에 경기 하나라도 있으면
-    무조건 차단.
-  */
-
-  if (
-    dbMatchesExist
-  ) {
-
-    alert(
-      "이미 DB에 조별 예선 경기가 저장되어 있어 대진을 다시 생성할 수 없습니다.\n\n경기 결과 보호를 위해 기존 대진은 유지됩니다."
-    );
-
-    return;
-
-  }
-
-
-  if (
-    !confirm(
-      "아직 DB에 저장되지 않은 현재 대진을 다시 자동 생성할까요?"
-    )
-  ) {
-
-    return;
-
-  }
-
-
-  generateLocalMatches();
-
-}
-
-
-/* =====================================
-   EVENTS
-===================================== */
-
-document.getElementById(
-  "regenerateButton"
-).addEventListener(
-  "click",
-  regenerate
-);
-
 
 document.getElementById(
   "confirmButton"
