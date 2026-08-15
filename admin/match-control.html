@@ -17,7 +17,6 @@
 
       --bg:#f4f6f9;
       --white:#ffffff;
-
       --text:#172033;
       --muted:#667386;
       --line:#e2e7ec;
@@ -27,6 +26,9 @@
 
       --orange:#9d651d;
       --orange-soft:#fff8ed;
+
+      --red:#c64b4b;
+      --red-soft:#fff2f2;
 
       --shadow:
         0 10px 30px rgba(20,35,55,.055);
@@ -63,73 +65,89 @@
       cursor:pointer;
     }
 
+    /* HEADER */
+
     .topbar {
-      height:68px;
-      padding:0 24px;
+      min-height:72px;
+
+      padding:0 20px;
 
       display:flex;
       align-items:center;
       justify-content:space-between;
-
-      color:white;
 
       background:
         linear-gradient(
           110deg,
-          #07182d,
-          #0b2848 60%,
-          #10375f
+          #06172b,
+          #0a2848 62%,
+          #103b67
         );
+
+      box-shadow:
+        0 5px 20px rgba(6,23,43,.16);
     }
 
-    .brand {
-      display:flex;
-      align-items:center;
-      gap:22px;
-    }
+    .fwt-logo {
+      color:white;
 
-    .fwt {
-      font-size:29px;
+      font-size:31px;
+      line-height:1;
+
       font-weight:950;
       font-style:italic;
-      letter-spacing:-3px;
+      letter-spacing:-4px;
+
+      transform:skew(-5deg);
     }
 
-    .fwt span {
+    .fwt-logo span {
       color:var(--lime);
     }
 
-    .top-title {
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:1.8px;
-      color:rgba(255,255,255,.72);
+    .top-actions {
+      display:flex;
+      gap:7px;
     }
 
-    .back-btn {
-      padding:9px 13px;
+    .header-btn {
+      min-height:44px;
 
-      border:1px solid rgba(255,255,255,.16);
+      padding:0 14px;
+
+      border:
+        1px solid rgba(255,255,255,.15);
+
       border-radius:10px;
 
-      background:rgba(255,255,255,.07);
+      background:
+        rgba(255,255,255,.08);
+
       color:white;
 
       font-size:12px;
-      font-weight:750;
+      font-weight:850;
     }
 
+    /* PAGE */
+
     .container {
-      width:min(1280px,calc(100% - 34px));
+      width:
+        min(
+          1280px,
+          calc(100% - 34px)
+        );
+
       margin:0 auto;
 
-      padding:32px 0 64px;
+      padding:32px 0 60px;
     }
 
     .head {
       display:flex;
-      align-items:flex-end;
       justify-content:space-between;
+      align-items:flex-end;
+
       gap:20px;
 
       margin-bottom:18px;
@@ -141,8 +159,8 @@
       color:var(--blue);
 
       font-size:11px;
-      font-weight:900;
-      letter-spacing:1.8px;
+      font-weight:950;
+      letter-spacing:2px;
     }
 
     h1 {
@@ -151,7 +169,7 @@
       color:var(--navy);
 
       font-size:34px;
-      font-weight:900;
+      font-weight:950;
       letter-spacing:-1.5px;
     }
 
@@ -161,19 +179,21 @@
       color:#5f6c7e;
 
       font-size:13px;
-      line-height:1.55;
+      line-height:1.6;
     }
 
     .head-right {
       display:flex;
       flex-direction:column;
       align-items:flex-end;
-      gap:10px;
+
+      gap:9px;
     }
 
     .stats {
       display:flex;
       flex-wrap:wrap;
+
       gap:7px;
     }
 
@@ -184,20 +204,21 @@
       border-radius:999px;
 
       background:white;
-
       color:#526073;
 
       font-size:11px;
-      font-weight:800;
+      font-weight:850;
     }
 
     .stat strong {
       color:var(--navy);
-      font-size:13px;
+
+      font-size:14px;
     }
 
     .standings-btn {
-      height:43px;
+      min-height:46px;
+
       padding:0 18px;
 
       border:0;
@@ -207,13 +228,15 @@
       color:white;
 
       font-size:13px;
-      font-weight:850;
+      font-weight:900;
     }
 
     .standings-btn span {
-      color:var(--lime);
       margin-left:5px;
+      color:var(--lime);
     }
+
+    /* SECTION */
 
     .section-title {
       display:flex;
@@ -226,24 +249,28 @@
     .section-title-main {
       color:var(--navy);
 
-      font-size:17px;
-      font-weight:900;
+      font-size:18px;
+      font-weight:950;
     }
 
     .section-title-sub {
       color:#6b7788;
 
       font-size:11px;
-      font-weight:700;
+      font-weight:750;
     }
+
+    /* COURTS */
 
     .courts {
       display:grid;
+
       grid-template-columns:
         repeat(
           auto-fit,
           minmax(220px,1fr)
         );
+
       gap:9px;
     }
 
@@ -254,19 +281,22 @@
       border-radius:14px;
 
       background:white;
+
       box-shadow:var(--shadow);
     }
 
     .court-inner {
-      min-height:82px;
+      min-height:101px;
+
       padding:12px 13px;
     }
 
     .court-top {
       display:flex;
-      align-items:center;
       justify-content:space-between;
-      gap:8px;
+      align-items:center;
+
+      gap:7px;
 
       margin-bottom:8px;
     }
@@ -275,7 +305,7 @@
       color:var(--navy);
 
       font-size:15px;
-      font-weight:900;
+      font-weight:950;
     }
 
     .court-status {
@@ -296,22 +326,12 @@
     }
 
     .court-empty {
+      padding-top:6px;
+
       color:#677487;
 
-      font-size:12px;
-      font-weight:700;
-    }
-
-    .court-match-line {
-      overflow:hidden;
-
-      color:#202d41;
-
-      font-size:14px;
-      font-weight:850;
-
-      text-overflow:ellipsis;
-      white-space:nowrap;
+      font-size:13px;
+      font-weight:750;
     }
 
     .court-group {
@@ -320,20 +340,38 @@
       color:var(--navy2);
 
       font-size:12px;
+      font-weight:950;
+    }
+
+    .court-match-line {
+      overflow:hidden;
+
+      color:#202d41;
+
+      font-size:14px;
       font-weight:900;
+
+      text-overflow:ellipsis;
+      white-space:nowrap;
     }
 
     .court-actions {
-      display:flex;
+      display:grid;
+
+      grid-template-columns:
+        .78fr 1.35fr;
+
       gap:6px;
 
       margin-top:9px;
     }
 
     .court-btn {
-      height:34px;
+      min-width:0;
+      height:42px;
+      min-height:42px;
 
-      padding:0 10px;
+      padding:0 7px;
 
       border:1px solid #d9e0e6;
       border-radius:8px;
@@ -342,17 +380,19 @@
       color:#526073;
 
       font-size:11px;
-      font-weight:800;
+      font-weight:850;
     }
 
     .court-btn.finish {
-      flex:1;
-
       border:0;
 
       background:var(--navy);
       color:white;
+
+      font-size:12px;
     }
+
+    /* NEXT */
 
     .next-card {
       overflow:hidden;
@@ -361,6 +401,7 @@
       border-radius:16px;
 
       background:white;
+
       box-shadow:var(--shadow);
     }
 
@@ -372,12 +413,13 @@
       display:grid;
 
       grid-template-columns:
-        65px minmax(0,1fr) 115px;
+        65px minmax(0,1fr) 120px;
 
       align-items:center;
+
       gap:10px;
 
-      min-height:66px;
+      min-height:67px;
 
       padding:10px 11px;
 
@@ -389,7 +431,7 @@
     }
 
     .group-badge {
-      height:38px;
+      height:39px;
 
       display:flex;
       align-items:center;
@@ -401,24 +443,36 @@
       color:var(--navy);
 
       font-size:14px;
-      font-weight:900;
+      font-weight:950;
+    }
+
+    .next-main {
+      min-width:0;
     }
 
     .next-players {
-      min-width:0;
       overflow:hidden;
 
       color:#202d41;
 
       font-size:15px;
-      font-weight:850;
+      font-weight:900;
 
       text-overflow:ellipsis;
       white-space:nowrap;
     }
 
+    .next-sub {
+      margin-top:3px;
+
+      color:#718092;
+
+      font-size:10px;
+      font-weight:750;
+    }
+
     .assign-btn {
-      height:40px;
+      min-height:42px;
 
       border:0;
       border-radius:9px;
@@ -433,8 +487,10 @@
       color:white;
 
       font-size:12px;
-      font-weight:850;
+      font-weight:900;
     }
+
+    /* FULL WAITING */
 
     .waiting-toggle-wrap {
       margin-top:10px;
@@ -442,7 +498,9 @@
 
     .waiting-toggle {
       width:100%;
-      height:48px;
+
+      height:52px;
+      min-height:52px;
 
       border:1px solid #dce2e8;
       border-radius:11px;
@@ -451,11 +509,7 @@
       color:var(--navy);
 
       font-size:13px;
-      font-weight:850;
-    }
-
-    .waiting-toggle span {
-      margin-left:5px;
+      font-weight:900;
     }
 
     .full-waiting {
@@ -469,6 +523,7 @@
       border-radius:16px;
 
       background:white;
+
       box-shadow:var(--shadow);
     }
 
@@ -478,6 +533,7 @@
 
     .waiting-tabs {
       display:flex;
+
       gap:6px;
 
       overflow-x:auto;
@@ -494,7 +550,9 @@
     .tab-btn {
       flex-shrink:0;
 
-      height:38px;
+      height:40px;
+      min-height:40px;
+
       padding:0 14px;
 
       border:1px solid #dce2e8;
@@ -504,11 +562,12 @@
       color:#4d5a6c;
 
       font-size:12px;
-      font-weight:850;
+      font-weight:900;
     }
 
     .tab-btn.active {
       border-color:var(--navy);
+
       background:var(--navy);
       color:white;
     }
@@ -524,9 +583,10 @@
         65px minmax(0,1fr) 110px;
 
       align-items:center;
+
       gap:10px;
 
-      min-height:62px;
+      min-height:63px;
 
       padding:9px 10px;
 
@@ -541,21 +601,22 @@
       color:var(--navy);
 
       font-size:13px;
-      font-weight:900;
+      font-weight:950;
     }
 
     .waiting-players {
-      min-width:0;
       overflow:hidden;
 
       color:#263247;
 
       font-size:14px;
-      font-weight:800;
+      font-weight:850;
 
       text-overflow:ellipsis;
       white-space:nowrap;
     }
+
+    /* COMPLETED */
 
     .completed-card {
       margin-top:13px;
@@ -566,6 +627,7 @@
       border-radius:16px;
 
       background:white;
+
       box-shadow:var(--shadow);
     }
 
@@ -582,13 +644,14 @@
     .card-title {
       color:var(--navy);
 
-      font-size:16px;
-      font-weight:900;
+      font-size:17px;
+      font-weight:950;
     }
 
     .count {
       min-width:31px;
       height:31px;
+
       padding:0 9px;
 
       display:flex;
@@ -601,7 +664,7 @@
       color:var(--navy);
 
       font-size:12px;
-      font-weight:900;
+      font-weight:950;
     }
 
     .completed-list {
@@ -615,6 +678,7 @@
         minmax(0,1fr) auto;
 
       align-items:center;
+
       gap:12px;
 
       padding:11px 12px;
@@ -636,25 +700,27 @@
       color:var(--navy);
 
       font-size:12px;
-      font-weight:900;
+      font-weight:950;
     }
 
     .completed-name {
       color:#263247;
 
       font-size:14px;
-      font-weight:850;
+      font-weight:900;
     }
 
     .completed-actions {
       display:flex;
+
       gap:6px;
 
-      margin-top:7px;
+      margin-top:8px;
     }
 
     .small-btn {
-      height:31px;
+      min-height:36px;
+
       padding:0 10px;
 
       border:1px solid #dce2e8;
@@ -664,20 +730,20 @@
       color:#536071;
 
       font-size:10px;
-      font-weight:800;
+      font-weight:850;
     }
 
     .small-btn.restore {
-      color:var(--orange);
-
       border-color:#ecd4b3;
+
       background:var(--orange-soft);
+      color:var(--orange);
     }
 
     .score {
-      min-width:48px;
+      min-width:54px;
 
-      padding:7px 9px;
+      padding:8px 10px;
 
       border-radius:8px;
 
@@ -686,8 +752,8 @@
 
       text-align:center;
 
-      font-size:13px;
-      font-weight:900;
+      font-size:14px;
+      font-weight:950;
     }
 
     .empty {
@@ -701,43 +767,22 @@
       line-height:1.6;
     }
 
-    .footer {
-      display:flex;
-      justify-content:space-between;
-
-      margin-top:26px;
-      padding-top:17px;
-
-      border-top:1px solid #e2e6eb;
-
-      color:#7c8795;
-
-      font-size:10px;
-      letter-spacing:1px;
-    }
-
-    .footer strong {
-      color:var(--navy);
-    }
-
-    .q {
-      color:#91a719;
-      font-weight:900;
-    }
+    /* MODAL */
 
     .modal-wrap {
       display:none;
 
       position:fixed;
       inset:0;
-      z-index:100;
+
+      z-index:300;
 
       align-items:center;
       justify-content:center;
 
       padding:18px;
 
-      background:rgba(4,17,31,.6);
+      background:rgba(4,17,31,.62);
     }
 
     .modal-wrap.show {
@@ -756,14 +801,15 @@
 
       background:white;
 
-      box-shadow:0 30px 80px rgba(0,0,0,.24);
+      box-shadow:
+        0 30px 80px rgba(0,0,0,.24);
     }
 
     .modal-title {
       color:var(--navy);
 
       font-size:21px;
-      font-weight:900;
+      font-weight:950;
     }
 
     .modal-desc {
@@ -786,23 +832,23 @@
       color:#263247;
 
       font-size:15px;
-      font-weight:850;
-      line-height:1.6;
-    }
+      font-weight:900;
 
-    .selected-match strong {
-      color:var(--navy);
+      line-height:1.6;
     }
 
     .court-picker {
       display:grid;
+
       grid-template-columns:
         repeat(2,minmax(0,1fr));
+
       gap:8px;
     }
 
     .court-choice {
       min-height:64px;
+
       padding:10px;
 
       border:1px solid #dce2e8;
@@ -812,7 +858,7 @@
       color:var(--navy);
 
       font-size:14px;
-      font-weight:900;
+      font-weight:950;
     }
 
     .court-choice small {
@@ -840,22 +886,26 @@
         1fr 30px 1fr;
 
       align-items:end;
+
       gap:9px;
     }
 
     .score-player {
-      min-height:36px;
+      min-height:37px;
+
       margin-bottom:7px;
 
       color:#354255;
 
       font-size:12px;
-      font-weight:850;
+      font-weight:900;
     }
 
     .score-input {
       width:100%;
-      height:54px;
+
+      height:58px;
+      min-height:58px;
 
       border:1px solid #d9e0e6;
       border-radius:11px;
@@ -864,12 +914,12 @@
 
       text-align:center;
 
-      font-size:23px;
-      font-weight:900;
+      font-size:24px;
+      font-weight:950;
     }
 
     .score-dash {
-      height:54px;
+      height:58px;
 
       display:flex;
       align-items:center;
@@ -878,24 +928,28 @@
       color:#7e8997;
 
       font-size:20px;
-      font-weight:900;
+      font-weight:950;
     }
 
     .modal-bottom {
-      display:flex;
+      display:grid;
+
+      grid-template-columns:
+        .8fr 1.2fr;
+
       gap:8px;
 
       margin-top:18px;
     }
 
     .modal-btn {
-      flex:1;
-      height:46px;
+      height:52px;
+      min-height:52px;
 
       border-radius:10px;
 
       font-size:13px;
-      font-weight:850;
+      font-weight:900;
     }
 
     .cancel {
@@ -905,26 +959,124 @@
       color:#536071;
     }
 
-    .confirm {
+    .confirm-btn {
       border:0;
 
       background:var(--navy);
       color:white;
     }
 
+    /* LOADING */
+
+    .loading-overlay {
+      display:none;
+
+      position:fixed;
+      inset:0;
+
+      z-index:500;
+
+      align-items:center;
+      justify-content:center;
+
+      background:rgba(4,17,31,.56);
+    }
+
+    .loading-overlay.show {
+      display:flex;
+    }
+
+    .loading-box {
+      width:min(320px,calc(100% - 36px));
+
+      padding:23px;
+
+      border-radius:16px;
+
+      background:white;
+
+      text-align:center;
+    }
+
+    .spinner {
+      width:36px;
+      height:36px;
+
+      margin:0 auto 13px;
+
+      border:4px solid #e5e9ed;
+      border-top-color:var(--navy);
+
+      border-radius:50%;
+
+      animation:spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform:rotate(360deg);
+      }
+    }
+
+    .loading-title {
+      color:var(--navy);
+
+      font-size:15px;
+      font-weight:950;
+    }
+
+    /* FOOTER */
+
+    .footer {
+      display:flex;
+      justify-content:space-between;
+
+      margin-top:26px;
+      padding-top:17px;
+
+      border-top:1px solid #e2e6eb;
+
+      color:#7c8795;
+
+      font-size:10px;
+      letter-spacing:1px;
+    }
+
+    .footer strong {
+      color:var(--navy);
+    }
+
+    .q {
+      color:#91a719;
+      font-weight:950;
+    }
+
+    /* MOBILE */
+
     @media(max-width:700px) {
 
       .topbar {
-        height:64px;
+        min-height:72px;
+
         padding:0 14px;
       }
 
-      .top-title {
-        display:none;
+      .fwt-logo {
+        font-size:30px;
+      }
+
+      .header-btn {
+        height:46px;
+        min-height:46px;
+
+        padding:0 11px;
+
+        font-size:11px;
       }
 
       .container {
         width:calc(100% - 22px);
+
         padding:24px 0 50px;
       }
 
@@ -934,6 +1086,7 @@
 
       .head-right {
         margin-top:13px;
+
         align-items:stretch;
       }
 
@@ -945,28 +1098,19 @@
         font-size:14px;
       }
 
-      .stats {
-        justify-content:flex-start;
-      }
-
       .stat {
-        padding:8px 10px;
         font-size:12px;
-      }
-
-      .stat strong {
-        font-size:14px;
       }
 
       .standings-btn {
         width:100%;
-        min-height:48px;
+
+        height:54px;
+        min-height:54px;
+
+        flex:none;
 
         font-size:14px;
-      }
-
-      .section-title {
-        margin:20px 0 9px;
       }
 
       .section-title-main {
@@ -977,14 +1121,20 @@
         font-size:12px;
       }
 
+      /*
+        코트: 모바일 2열 고정
+      */
+
       .courts {
         grid-template-columns:
           repeat(2,minmax(0,1fr));
+
         gap:7px;
       }
 
       .court-inner {
-        min-height:91px;
+        min-height:118px;
+
         padding:10px;
       }
 
@@ -994,6 +1144,7 @@
 
       .court-status {
         padding:4px 6px;
+
         font-size:10px;
       }
 
@@ -1009,52 +1160,79 @@
         font-size:13px;
       }
 
-      .court-btn {
-        min-width:0;
-        height:38px;
+      /*
+        핵심 현장 버튼
+      */
 
-        padding:0 6px;
+      .court-btn {
+        height:46px;
+        min-height:46px;
+
+        flex:none;
+
+        padding:0 5px;
 
         font-size:11px;
       }
 
+      .court-btn.finish {
+        font-size:12px;
+      }
+
       .next-match {
         grid-template-columns:
-          52px minmax(0,1fr) 94px;
+          50px minmax(0,1fr);
 
         gap:8px;
 
-        min-height:68px;
-        padding:9px 8px;
+        min-height:102px;
+
+        padding:9px;
       }
 
       .group-badge {
-        height:42px;
-        font-size:15px;
+        height:43px;
+
+        font-size:14px;
       }
 
       .next-players {
         font-size:15px;
       }
 
+      .next-sub {
+        font-size:11px;
+      }
+
       .assign-btn {
-        height:43px;
-        font-size:12px;
+        grid-column:1 / -1;
+
+        width:100%;
+
+        height:50px;
+        min-height:50px;
+
+        flex:none;
+
+        font-size:13px;
       }
 
       .waiting-toggle {
-        height:50px;
+        height:54px;
+        min-height:54px;
+
         font-size:14px;
       }
 
       .waiting-row {
         grid-template-columns:
-          48px minmax(0,1fr) 90px;
+          48px minmax(0,1fr);
 
         gap:7px;
 
-        min-height:64px;
-        padding:9px 8px;
+        min-height:100px;
+
+        padding:9px;
       }
 
       .waiting-group {
@@ -1065,8 +1243,18 @@
         font-size:14px;
       }
 
+      .waiting-row .assign-btn {
+        grid-column:1 / -1;
+      }
+
       .card-title {
-        font-size:17px;
+        font-size:18px;
+      }
+
+      .completed {
+        grid-template-columns:1fr;
+
+        gap:8px;
       }
 
       .completed-group {
@@ -1074,54 +1262,86 @@
       }
 
       .completed-name {
-        font-size:14px;
-      }
-
-      .small-btn {
-        height:35px;
-        font-size:11px;
+        font-size:15px;
       }
 
       .score {
-        font-size:14px;
+        width:100%;
+
+        font-size:15px;
       }
 
-      .modal-title {
-        font-size:22px;
+      .completed-actions {
+        display:grid;
+
+        grid-template-columns:1fr 1fr;
+      }
+
+      .small-btn {
+        width:100%;
+
+        height:44px;
+        min-height:44px;
+
+        font-size:11px;
+      }
+
+      .modal {
+        padding:18px;
       }
 
       .court-choice {
         min-height:66px;
-        font-size:15px;
+      }
+
+      .modal-btn {
+        height:54px;
+        min-height:54px;
+
+        font-size:14px;
       }
 
     }
 
+    @media(max-width:370px) {
+
+      .courts {
+        grid-template-columns:1fr;
+      }
+
+    }
   </style>
 </head>
+
 
 <body>
 
 <header class="topbar">
 
-  <div class="brand">
-
-    <div class="fwt">
-      FW<span>T</span>
-    </div>
-
-    <div class="top-title">
-      TOURNAMENT CONTROL
-    </div>
-
+  <div class="fwt-logo">
+    FW<span>T</span>
   </div>
 
-  <button
-    class="back-btn"
-    onclick="location.href='./group-matches.html'"
-  >
-    ← 예선 대진
-  </button>
+
+  <div class="top-actions">
+
+    <button
+      class="header-btn"
+      id="refreshButton"
+      type="button"
+    >
+      새로고침
+    </button>
+
+    <button
+      class="header-btn"
+      type="button"
+      onclick="location.href='./dashboard.html'"
+    >
+      대시보드
+    </button>
+
+  </div>
 
 </header>
 
@@ -1141,7 +1361,7 @@
       </h1>
 
       <p class="desc">
-        빈 코트에 다음 경기를 배정하고 경기 결과를 관리합니다.
+        빈 코트에 다음 경기를 배정하고 경기 결과를 입력합니다.
       </p>
 
     </div>
@@ -1158,7 +1378,7 @@
 
         <div class="stat">
           경기중
-          <strong id="liveCount">0</strong>
+          <strong id="playingCount">0</strong>
         </div>
 
         <div class="stat">
@@ -1173,9 +1393,11 @@
 
       </div>
 
+
       <button
         class="standings-btn"
-        onclick="location.href='./group-standings.html'"
+        type="button"
+        onclick="goStandings()"
       >
         조별 순위 보기
         <span>→</span>
@@ -1186,6 +1408,8 @@
   </div>
 
 
+  <!-- COURTS -->
+
   <div class="section-title">
 
     <div class="section-title-main">
@@ -1193,7 +1417,7 @@
     </div>
 
     <div class="section-title-sub">
-      현재 경기 상황
+      실시간 DB 저장
     </div>
 
   </div>
@@ -1205,6 +1429,8 @@
   ></section>
 
 
+  <!-- NEXT -->
+
   <div class="section-title">
 
     <div class="section-title-main">
@@ -1212,7 +1438,7 @@
     </div>
 
     <div class="section-title-sub">
-      조별 우선 경기
+      각 조에서 가장 앞선 대기 경기
     </div>
 
   </div>
@@ -1228,16 +1454,17 @@
   </section>
 
 
+  <!-- FULL WAITING -->
+
   <div class="waiting-toggle-wrap">
 
     <button
       class="waiting-toggle"
       id="waitingToggle"
+      type="button"
     >
-      전체 대기 경기 보기
-      <span id="waitingArrow">
-        ▼
-      </span>
+      전체 대기 경기
+      <span id="waitingToggleCount">0</span>개 보기
     </button>
 
   </div>
@@ -1261,12 +1488,14 @@
   </section>
 
 
+  <!-- COMPLETED -->
+
   <section class="completed-card">
 
     <div class="card-head">
 
       <div class="card-title">
-        완료 경기
+        완료된 경기
       </div>
 
       <div
@@ -1277,6 +1506,7 @@
       </div>
 
     </div>
+
 
     <div
       class="completed-list"
@@ -1303,6 +1533,8 @@
 </main>
 
 
+<!-- COURT MODAL -->
+
 <div
   class="modal-wrap"
   id="courtModal"
@@ -1315,7 +1547,7 @@
     </div>
 
     <div class="modal-desc">
-      빈 코트를 누르면 즉시 경기가 시작됩니다.
+      빈 코트를 선택하면 즉시 경기중 상태로 변경됩니다.
     </div>
 
     <div
@@ -1332,7 +1564,8 @@
 
       <button
         class="modal-btn cancel"
-        id="cancelCourt"
+        type="button"
+        onclick="closeCourtModal()"
       >
         취소
       </button>
@@ -1344,6 +1577,8 @@
 </div>
 
 
+<!-- SCORE MODAL -->
+
 <div
   class="modal-wrap"
   id="scoreModal"
@@ -1351,14 +1586,20 @@
 
   <div class="modal">
 
-    <div class="modal-title">
-      경기 결과 입력
+    <div
+      class="modal-title"
+      id="scoreModalTitle"
+    >
+      경기 결과
     </div>
 
     <div
       class="modal-desc"
-      id="scoreModalInfo"
-    ></div>
+      id="scoreModalDesc"
+    >
+      최종 점수를 입력하세요.
+    </div>
+
 
     <div class="score-grid">
 
@@ -1371,16 +1612,19 @@
 
         <input
           class="score-input"
+          id="score1"
           type="number"
           min="0"
-          id="score1"
+          inputmode="numeric"
         >
 
       </div>
 
+
       <div class="score-dash">
-        :
+        -
       </div>
+
 
       <div>
 
@@ -1391,31 +1635,59 @@
 
         <input
           class="score-input"
+          id="score2"
           type="number"
           min="0"
-          id="score2"
+          inputmode="numeric"
         >
 
       </div>
 
     </div>
 
+
     <div class="modal-bottom">
 
       <button
         class="modal-btn cancel"
-        id="cancelScore"
+        type="button"
+        onclick="closeScoreModal()"
       >
         취소
       </button>
 
+
       <button
-        class="modal-btn confirm"
-        id="saveScore"
+        class="modal-btn confirm-btn"
+        id="saveScoreButton"
+        type="button"
       >
         경기 완료
       </button>
 
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- LOADING -->
+
+<div
+  class="loading-overlay"
+  id="loadingOverlay"
+>
+
+  <div class="loading-box">
+
+    <div class="spinner"></div>
+
+    <div
+      class="loading-title"
+      id="loadingTitle"
+    >
+      저장 중입니다
     </div>
 
   </div>
@@ -1428,6 +1700,7 @@
 const SUPABASE_URL =
   "https://opwuyqerisocqobbbisg.supabase.co";
 
+
 const SUPABASE_KEY =
   "sb_publishable_Eo_zfONeGLs9ATCVg2Fk_g_y_IAJFV-";
 
@@ -1437,21 +1710,6 @@ const supabaseClient =
     SUPABASE_URL,
     SUPABASE_KEY
   );
-
-
-async function checkLogin() {
-
-  const { data } =
-    await supabaseClient.auth.getSession();
-
-  if (!data.session) {
-    location.href = "./";
-  }
-
-}
-
-
-checkLogin();
 
 
 const tournament =
@@ -1470,126 +1728,81 @@ const entries =
   );
 
 
-const matchGroups =
+const groupData =
   JSON.parse(
     sessionStorage.getItem(
-      "fwtGroupMatches"
+      "fwtGroupData"
     ) || "null"
   );
 
 
 if (
   !tournament ||
-  !entries ||
-  !matchGroups
+  !tournament.tournamentId ||
+  !tournament.divisionId ||
+  !Array.isArray(entries) ||
+  !Array.isArray(groupData)
 ) {
 
   alert(
-    "예선 대진 정보가 없습니다."
+    "대회 운영 정보가 없습니다."
   );
 
   location.href =
-    "./group-matches.html";
+    "./dashboard.html";
 
 }
 
 
 const courts =
   Array.isArray(
-    tournament.courts
+    tournament.courtRecords
   )
-    ? tournament.courts
-    : [];
+  ? tournament.courtRecords
+  : [];
 
 
 let matches = [];
 
+
+let busy = false;
+
+
 let selectedCourtMatchId =
   null;
 
-let selectedFinishMatchId =
+
+let selectedScoreMatchId =
   null;
 
-let waitingExpanded =
+
+let scoreMode =
+  "finish";
+
+
+let waitingOpen =
   false;
 
-let activeGroupFilter =
-  "all";
+
+let waitingFilter =
+  "ALL";
 
 
-function createDrawSignature() {
+/* =====================================
+   HELPERS
+===================================== */
 
-  return JSON.stringify(
+function escapeHtml(value) {
 
-    matchGroups.map(
-      group => ({
-
-        groupName:
-          group.groupName,
-
-        matches:
-          group.matches.map(
-            match => [
-              match.player1,
-              match.player2
-            ]
-          )
-
-      })
-    )
-
-  );
-
-}
-
-
-const currentDrawSignature =
-  createDrawSignature();
-
-
-function entryName(entry) {
-
-  if (!entry) {
-    return "알 수 없음";
-  }
-
-
-  if (
-    entry.type === "singles"
-  ) {
-
-    if (
-      entry.nickname &&
-      entry.name
-    ) {
-
-      return `${entry.nickname} (${entry.name})`;
-
-    }
-
-
-    return (
-      entry.nickname ||
-      entry.name ||
-      "이름 없음"
+  const div =
+    document.createElement(
+      "div"
     );
 
-  }
+  div.textContent =
+    value ?? "";
 
-
-  const p1 =
-    entry.player1?.nickname ||
-    entry.player1?.name ||
-    "선수1";
-
-
-  const p2 =
-    entry.player2?.nickname ||
-    entry.player2?.name ||
-    "선수2";
-
-
-  return `${p1} / ${p2}`;
+  return div.innerHTML;
 
 }
 
@@ -1597,12 +1810,15 @@ function entryName(entry) {
 function shortEntryName(entry) {
 
   if (!entry) {
+
     return "알 수 없음";
+
   }
 
 
   if (
-    entry.type === "singles"
+    entry.type ===
+    "singles"
   ) {
 
     return (
@@ -1631,192 +1847,50 @@ function shortEntryName(entry) {
 }
 
 
-function escapeHtml(value) {
+function entryName(index) {
 
-  const div =
-    document.createElement(
-      "div"
-    );
-
-  div.textContent =
-    value ?? "";
-
-  return div.innerHTML;
-
-}
-
-
-function createInitialMatches() {
-
-  matches = [];
-
-
-  matchGroups.forEach(
-    (
-      group,
-      groupIndex
-    ) => {
-
-      group.matches.forEach(
-        (
-          match,
-          matchIndex
-        ) => {
-
-          matches.push({
-
-            id:
-              `G${groupIndex}-M${matchIndex}`,
-
-            groupName:
-              group.groupName,
-
-            groupIndex:
-              groupIndex,
-
-            order:
-              matchIndex,
-
-            player1:
-              match.player1,
-
-            player2:
-              match.player2,
-
-            status:
-              "waiting",
-
-            court:
-              null,
-
-            score1:
-              null,
-
-            score2:
-              null
-
-          });
-
-        }
-      );
-
-    }
-  );
-
-
-  saveState();
-
-}
-
-
-function saveState() {
-
-  sessionStorage.setItem(
-    "fwtMatchControlState",
-    JSON.stringify({
-
-      signature:
-        currentDrawSignature,
-
-      matches:
-        matches
-
-    })
+  return shortEntryName(
+    entries[index]
   );
 
 }
 
 
-function stateMatchesCurrentDraw(
-  parsed
+function getEntryIndexById(
+  entryId
 ) {
 
-  if (
-    !parsed ||
-    typeof parsed !== "object"
-  ) {
-
-    return false;
-
-  }
-
-
-  if (
-    parsed.signature !==
-    currentDrawSignature
-  ) {
-
-    return false;
-
-  }
-
-
-  if (
-    !Array.isArray(
-      parsed.matches
-    )
-  ) {
-
-    return false;
-
-  }
-
-
-  const expectedCount =
-    matchGroups.reduce(
-      (
-        total,
-        group
-      ) =>
-        total +
-        group.matches.length,
-      0
-    );
-
-
-  return (
-    parsed.matches.length ===
-    expectedCount
+  return entries.findIndex(
+    entry =>
+      entry.dbEntryId ===
+      entryId
   );
 
 }
 
 
-function loadState() {
+function getGroupById(
+  groupId
+) {
 
-  const raw =
-    sessionStorage.getItem(
-      "fwtMatchControlState"
-    );
+  return groupData.find(
+    group =>
+      group.dbGroupId ===
+      groupId
+  );
 
-
-  if (raw) {
-
-    try {
-
-      const parsed =
-        JSON.parse(raw);
+}
 
 
-      if (
-        stateMatchesCurrentDraw(
-          parsed
-        )
-      ) {
+function getCourtById(
+  courtId
+) {
 
-        matches =
-          parsed.matches;
-
-        return;
-
-      }
-
-    } catch(e) {}
-
-  }
-
-
-  createInitialMatches();
+  return courts.find(
+    court =>
+      court.id ===
+      courtId
+  );
 
 }
 
@@ -1831,8 +1905,302 @@ function getMatch(id) {
 }
 
 
+function matchPlayers(match) {
+
+  return (
+    `${entryName(
+      match.player1
+    )} vs ${entryName(
+      match.player2
+    )}`
+  );
+
+}
+
+
+/* =====================================
+   AUTH
+===================================== */
+
+async function checkLogin() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .auth
+      .getSession();
+
+
+  if (
+    error ||
+    !data.session
+  ) {
+
+    location.href =
+      "./";
+
+    return false;
+
+  }
+
+
+  return true;
+
+}
+
+
+/* =====================================
+   BUSY
+===================================== */
+
+function setBusy(
+  state,
+  title = "저장 중입니다"
+) {
+
+  busy =
+    state;
+
+
+  document.getElementById(
+    "loadingTitle"
+  ).textContent =
+    title;
+
+
+  document.getElementById(
+    "loadingOverlay"
+  ).classList.toggle(
+    "show",
+    state
+  );
+
+
+  document.getElementById(
+    "refreshButton"
+  ).disabled =
+    state;
+
+}
+
+
+/* =====================================
+   DB LOAD
+===================================== */
+
+async function loadMatches() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("matches")
+      .select(
+        "id,group_id,court_id,round_number,match_number,entry1_id,entry2_id,status,score1,score2,winner_entry_id,started_at,completed_at,sort_order"
+      )
+      .eq(
+        "division_id",
+        tournament.divisionId
+      )
+      .eq(
+        "stage",
+        "group"
+      )
+      .order(
+        "sort_order",
+        {
+          ascending:true
+        }
+      );
+
+
+  if (error) {
+
+    throw new Error(
+      "경기 조회 실패: "
+      +
+      error.message
+    );
+
+  }
+
+
+  matches =
+    (data || [])
+      .map(
+        row => {
+
+          const player1 =
+            getEntryIndexById(
+              row.entry1_id
+            );
+
+
+          const player2 =
+            getEntryIndexById(
+              row.entry2_id
+            );
+
+
+          const group =
+            getGroupById(
+              row.group_id
+            );
+
+
+          const court =
+            getCourtById(
+              row.court_id
+            );
+
+
+          return {
+
+            id:
+              row.id,
+
+            dbMatchId:
+              row.id,
+
+            groupId:
+              row.group_id,
+
+            groupName:
+              group?.name ||
+              "조 미상",
+
+            player1,
+
+            player2,
+
+            entry1Id:
+              row.entry1_id,
+
+            entry2Id:
+              row.entry2_id,
+
+            status:
+              row.status,
+
+            courtId:
+              row.court_id,
+
+            court:
+              court?.name ||
+              null,
+
+            score1:
+              row.score1,
+
+            score2:
+              row.score2,
+
+            winnerEntryId:
+              row.winner_entry_id,
+
+            roundNumber:
+              row.round_number,
+
+            matchNumber:
+              row.match_number,
+
+            order:
+              row.sort_order,
+
+            startedAt:
+              row.started_at,
+
+            completedAt:
+              row.completed_at
+
+          };
+
+        }
+      )
+      .filter(
+        match =>
+          match.player1 >= 0 &&
+          match.player2 >= 0
+      );
+
+
+  saveCompatibilityState();
+
+}
+
+
+/* =====================================
+   기존 GROUP-STANDINGS 호환
+===================================== */
+
+function saveCompatibilityState() {
+
+  sessionStorage.setItem(
+    "fwtMatchControlState",
+    JSON.stringify({
+
+      signature:
+        `db-${tournament.divisionId}`,
+
+      matches:
+        matches.map(
+          match => ({
+
+            id:
+              match.id,
+
+            dbMatchId:
+              match.dbMatchId,
+
+            groupName:
+              match.groupName,
+
+            groupIndex:
+              groupData.findIndex(
+                group =>
+                  group.name ===
+                  match.groupName
+              ),
+
+            order:
+              match.order,
+
+            player1:
+              match.player1,
+
+            player2:
+              match.player2,
+
+            status:
+              match.status,
+
+            court:
+              match.court,
+
+            score1:
+              match.score1,
+
+            score2:
+              match.score2
+
+          })
+        )
+
+    })
+  );
+
+}
+
+
+/* =====================================
+   COURT / PLAYER STATUS
+===================================== */
+
 function getPlayingMatchOnCourt(
-  courtName
+  courtId
 ) {
 
   return matches.find(
@@ -1840,38 +2208,38 @@ function getPlayingMatchOnCourt(
       match.status ===
         "playing"
       &&
-      match.court ===
-        courtName
+      match.courtId ===
+        courtId
   );
 
 }
 
 
 function isCourtBusy(
-  courtName
+  courtId
 ) {
 
   return Boolean(
     getPlayingMatchOnCourt(
-      courtName
+      courtId
     )
   );
 
 }
 
 
-function getPlayingMatchForPlayer(
-  playerIndex,
-  excludeMatchId = null
+function getPlayingMatchForEntry(
+  entryIndex,
+  excludeId = null
 ) {
 
   return matches.find(
     match => {
 
       if (
-        excludeMatchId &&
+        excludeId &&
         match.id ===
-          excludeMatchId
+        excludeId
       ) {
 
         return false;
@@ -1891,10 +2259,10 @@ function getPlayingMatchForPlayer(
 
       return (
         match.player1 ===
-          playerIndex
+          entryIndex
         ||
         match.player2 ===
-          playerIndex
+          entryIndex
       );
 
     }
@@ -1903,14 +2271,357 @@ function getPlayingMatchForPlayer(
 }
 
 
+function canStartMatch(match) {
+
+  if (
+    getPlayingMatchForEntry(
+      match.player1,
+      match.id
+    )
+  ) {
+
+    return false;
+
+  }
+
+
+  if (
+    getPlayingMatchForEntry(
+      match.player2,
+      match.id
+    )
+  ) {
+
+    return false;
+
+  }
+
+
+  return true;
+
+}
+
+
+/* =====================================
+   DB UPDATE
+===================================== */
+
+async function updateMatch(
+  matchId,
+  values
+) {
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("matches")
+      .update(values)
+      .eq(
+        "id",
+        matchId
+      );
+
+
+  if (error) {
+
+    throw new Error(
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   START MATCH
+===================================== */
+
+async function assignCourt(
+  matchId,
+  courtId
+) {
+
+  if (busy) {
+    return;
+  }
+
+
+  const match =
+    getMatch(matchId);
+
+
+  const court =
+    getCourtById(courtId);
+
+
+  if (
+    !match ||
+    !court
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    isCourtBusy(courtId)
+  ) {
+
+    alert(
+      "이미 사용 중인 코트입니다."
+    );
+
+    renderCourtPicker();
+
+    return;
+
+  }
+
+
+  const p1Busy =
+    getPlayingMatchForEntry(
+      match.player1,
+      match.id
+    );
+
+
+  if (p1Busy) {
+
+    alert(
+      `${entryName(
+        match.player1
+      )} 참가자가 이미 ${p1Busy.court}에서 경기 중입니다.`
+    );
+
+    return;
+
+  }
+
+
+  const p2Busy =
+    getPlayingMatchForEntry(
+      match.player2,
+      match.id
+    );
+
+
+  if (p2Busy) {
+
+    alert(
+      `${entryName(
+        match.player2
+      )} 참가자가 이미 ${p2Busy.court}에서 경기 중입니다.`
+    );
+
+    return;
+
+  }
+
+
+  try {
+
+    setBusy(
+      true,
+      "코트 배정 중"
+    );
+
+
+    const now =
+      new Date()
+        .toISOString();
+
+
+    await updateMatch(
+      match.id,
+      {
+
+        status:
+          "playing",
+
+        court_id:
+          court.id,
+
+        started_at:
+          now,
+
+        completed_at:
+          null
+
+      }
+    );
+
+
+    /*
+      첫 실제 경기 시작 시
+      대회 상태도 active로 변경
+    */
+
+    await supabaseClient
+      .from("tournaments")
+      .update({
+
+        status:
+          "active"
+
+      })
+      .eq(
+        "id",
+        tournament.tournamentId
+      )
+      .eq(
+        "status",
+        "draft"
+      );
+
+
+    match.status =
+      "playing";
+
+    match.courtId =
+      court.id;
+
+    match.court =
+      court.name;
+
+    match.startedAt =
+      now;
+
+
+    closeCourtModal();
+
+
+    saveCompatibilityState();
+
+    renderAll();
+
+
+    setBusy(false);
+
+
+  } catch(error) {
+
+    setBusy(false);
+
+
+    alert(
+      "코트를 배정하지 못했습니다.\n\n"
+      +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   RETURN TO WAITING
+===================================== */
+
+async function returnToWaiting(
+  matchId
+) {
+
+  if (busy) {
+    return;
+  }
+
+
+  const match =
+    getMatch(matchId);
+
+
+  if (!match) {
+    return;
+  }
+
+
+  if (
+    !confirm(
+      `${matchPlayers(match)}\n\n이 경기를 다시 대기 상태로 돌릴까요?`
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  try {
+
+    setBusy(
+      true,
+      "대기 상태로 변경 중"
+    );
+
+
+    await updateMatch(
+      match.id,
+      {
+
+        status:
+          "waiting",
+
+        court_id:
+          null,
+
+        started_at:
+          null
+
+      }
+    );
+
+
+    match.status =
+      "waiting";
+
+    match.courtId =
+      null;
+
+    match.court =
+      null;
+
+    match.startedAt =
+      null;
+
+
+    saveCompatibilityState();
+
+    renderAll();
+
+
+    setBusy(false);
+
+
+  } catch(error) {
+
+    setBusy(false);
+
+
+    alert(
+      "변경하지 못했습니다.\n\n"
+      +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   COURT MODAL
+===================================== */
+
 function openCourtModal(
   matchId
 ) {
 
   const match =
-    getMatch(
-      matchId
-    );
+    getMatch(matchId);
 
 
   if (
@@ -1925,42 +2636,41 @@ function openCourtModal(
 
 
   const p1Busy =
-    getPlayingMatchForPlayer(
+    getPlayingMatchForEntry(
       match.player1,
       match.id
     );
 
 
-  if (p1Busy) {
-
-    alert(
-      `${entryName(
-        entries[
-          match.player1
-        ]
-      )} 선수가 현재 ${p1Busy.court}에서 경기 중입니다.`
-    );
-
-    return;
-
-  }
-
-
   const p2Busy =
-    getPlayingMatchForPlayer(
+    getPlayingMatchForEntry(
       match.player2,
       match.id
     );
 
 
-  if (p2Busy) {
+  if (
+    p1Busy ||
+    p2Busy
+  ) {
+
+    const blocked =
+      p1Busy
+        ? entryName(
+            match.player1
+          )
+        : entryName(
+            match.player2
+          );
+
+
+    const live =
+      p1Busy ||
+      p2Busy;
+
 
     alert(
-      `${entryName(
-        entries[
-          match.player2
-        ]
-      )} 선수가 현재 ${p2Busy.court}에서 경기 중입니다.`
+      `${blocked} 참가자가 현재 ${live.court}에서 경기 중입니다.`
     );
 
     return;
@@ -1985,21 +2695,7 @@ function openCourtModal(
     <br>
 
     ${escapeHtml(
-      entryName(
-        entries[
-          match.player1
-        ]
-      )
-    )}
-
-    &nbsp; vs &nbsp;
-
-    ${escapeHtml(
-      entryName(
-        entries[
-          match.player2
-        ]
-      )
+      matchPlayers(match)
     )}
 
   `;
@@ -2033,9 +2729,11 @@ function renderCourtPicker() {
   ) {
 
     box.innerHTML = `
+
       <div class="empty">
         등록된 코트가 없습니다.
       </div>
+
     `;
 
     return;
@@ -2044,11 +2742,11 @@ function renderCourtPicker() {
 
 
   courts.forEach(
-    courtName => {
+    court => {
 
       const playing =
         getPlayingMatchOnCourt(
-          courtName
+          court.id
         );
 
 
@@ -2056,6 +2754,10 @@ function renderCourtPicker() {
         document.createElement(
           "button"
         );
+
+
+      button.type =
+        "button";
 
 
       button.className =
@@ -2071,11 +2773,15 @@ function renderCourtPicker() {
         button.innerHTML = `
 
           ${escapeHtml(
-            courtName
+            court.name
           )}
 
           <small>
-            경기중
+            ${escapeHtml(
+              matchPlayers(
+                playing
+              )
+            )}
           </small>
 
         `;
@@ -2085,11 +2791,11 @@ function renderCourtPicker() {
         button.innerHTML = `
 
           ${escapeHtml(
-            courtName
+            court.name
           )}
 
           <small>
-            빈 코트
+            사용 가능
           </small>
 
         `;
@@ -2099,9 +2805,9 @@ function renderCourtPicker() {
           "click",
           function() {
 
-            startMatch(
+            assignCourt(
               selectedCourtMatchId,
-              courtName
+              court.id
             );
 
           }
@@ -2135,126 +2841,17 @@ function closeCourtModal() {
 }
 
 
-function startMatch(
+/* =====================================
+   SCORE MODAL
+===================================== */
+
+function openScoreModal(
   matchId,
-  courtName
+  mode = "finish"
 ) {
 
   const match =
-    getMatch(
-      matchId
-    );
-
-
-  if (
-    !match ||
-    match.status !==
-      "waiting"
-  ) {
-
-    closeCourtModal();
-    render();
-
-    return;
-
-  }
-
-
-  if (
-    isCourtBusy(
-      courtName
-    )
-  ) {
-
-    alert(
-      `${courtName} 코트는 현재 경기 중입니다.`
-    );
-
-    renderCourtPicker();
-
-    return;
-
-  }
-
-
-  const p1Busy =
-    getPlayingMatchForPlayer(
-      match.player1,
-      match.id
-    );
-
-
-  if (p1Busy) {
-
-    alert(
-      `${entryName(
-        entries[
-          match.player1
-        ]
-      )} 선수가 현재 ${p1Busy.court}에서 경기 중입니다.`
-    );
-
-    closeCourtModal();
-
-    return;
-
-  }
-
-
-  const p2Busy =
-    getPlayingMatchForPlayer(
-      match.player2,
-      match.id
-    );
-
-
-  if (p2Busy) {
-
-    alert(
-      `${entryName(
-        entries[
-          match.player2
-        ]
-      )} 선수가 현재 ${p2Busy.court}에서 경기 중입니다.`
-    );
-
-    closeCourtModal();
-
-    return;
-
-  }
-
-
-  match.status =
-    "playing";
-
-  match.court =
-    courtName;
-
-  match.score1 =
-    null;
-
-  match.score2 =
-    null;
-
-
-  saveState();
-
-  closeCourtModal();
-
-  render();
-
-}
-
-
-function cancelPlaying(
-  matchId
-) {
-
-  const match =
-    getMatch(
-      matchId
-    );
+    getMatch(matchId);
 
 
   if (!match) {
@@ -2262,115 +2859,35 @@ function cancelPlaying(
   }
 
 
-  if (
-    !confirm(
-      "이 경기를 다시 대기 상태로 돌릴까요?"
-    )
-  ) {
-    return;
-  }
-
-
-  match.status =
-    "waiting";
-
-  match.court =
-    null;
-
-  match.score1 =
-    null;
-
-  match.score2 =
-    null;
-
-
-  saveState();
-
-  render();
-
-}
-
-
-function restoreCompleted(
-  matchId
-) {
-
-  const match =
-    getMatch(
-      matchId
-    );
-
-
-  if (!match) {
-    return;
-  }
-
-
-  if (
-    !confirm(
-      "경기 결과를 취소하고 다시 대기 경기로 복구할까요?\n점수와 코트 배정이 초기화됩니다."
-    )
-  ) {
-    return;
-  }
-
-
-  match.status =
-    "waiting";
-
-  match.court =
-    null;
-
-  match.score1 =
-    null;
-
-  match.score2 =
-    null;
-
-
-  saveState();
-
-  render();
-
-}
-
-
-function openScore(
-  matchId
-) {
-
-  const match =
-    getMatch(
-      matchId
-    );
-
-
-  if (
-    !match ||
-    match.status !==
-      "playing"
-  ) {
-    return;
-  }
-
-
-  selectedFinishMatchId =
+  selectedScoreMatchId =
     matchId;
 
 
+  scoreMode =
+    mode;
+
+
   document.getElementById(
-    "scoreModalInfo"
+    "scoreModalTitle"
   ).textContent =
-    `${match.groupName} · ${match.court}`;
+    mode === "edit"
+      ? "경기 결과 수정"
+      : "경기 완료";
+
+
+  document.getElementById(
+    "scoreModalDesc"
+  ).textContent =
+    mode === "edit"
+      ? "수정할 최종 점수를 입력하세요."
+      : "최종 점수를 입력하면 코트가 즉시 비워집니다.";
 
 
   document.getElementById(
     "scorePlayer1"
   ).textContent =
     entryName(
-      entries[
-        match.player1
-      ]
+      match.player1
     );
 
 
@@ -2378,20 +2895,30 @@ function openScore(
     "scorePlayer2"
   ).textContent =
     entryName(
-      entries[
-        match.player2
-      ]
+      match.player2
     );
 
 
   document.getElementById(
     "score1"
-  ).value = "";
+  ).value =
+    match.score1 ??
+    "";
 
 
   document.getElementById(
     "score2"
-  ).value = "";
+  ).value =
+    match.score2 ??
+    "";
+
+
+  document.getElementById(
+    "saveScoreButton"
+  ).textContent =
+    mode === "edit"
+      ? "수정 저장"
+      : "경기 완료";
 
 
   document.getElementById(
@@ -2403,9 +2930,9 @@ function openScore(
 }
 
 
-function closeScore() {
+function closeScoreModal() {
 
-  selectedFinishMatchId =
+  selectedScoreMatchId =
     null;
 
 
@@ -2418,11 +2945,24 @@ function closeScore() {
 }
 
 
-function finishMatch() {
+/* =====================================
+   SAVE SCORE
+===================================== */
 
-  if (
-    !selectedFinishMatchId
-  ) {
+async function saveScore() {
+
+  if (busy) {
+    return;
+  }
+
+
+  const match =
+    getMatch(
+      selectedScoreMatchId
+    );
+
+
+  if (!match) {
     return;
   }
 
@@ -2462,17 +3002,14 @@ function finishMatch() {
 
 
   if (
-    !Number.isFinite(score1)
-    ||
-    !Number.isFinite(score2)
-    ||
-    score1 < 0
-    ||
+    !Number.isInteger(score1) ||
+    !Number.isInteger(score2) ||
+    score1 < 0 ||
     score2 < 0
   ) {
 
     alert(
-      "올바른 점수를 입력해주세요."
+      "점수는 0 이상의 정수로 입력해주세요."
     );
 
     return;
@@ -2484,57 +3021,132 @@ function finishMatch() {
     score1 === score2
   ) {
 
-    if (
-      !confirm(
-        "동점으로 결과를 저장할까요?"
-      )
-    ) {
+    alert(
+      "동점으로 경기 완료할 수 없습니다."
+    );
 
-      return;
-
-    }
+    return;
 
   }
 
 
-  const match =
-    getMatch(
-      selectedFinishMatchId
+  const winnerEntryId =
+    score1 > score2
+      ? match.entry1Id
+      : match.entry2Id;
+
+
+  try {
+
+    setBusy(
+      true,
+      scoreMode === "edit"
+        ? "결과 수정 중"
+        : "경기 완료 처리 중"
     );
 
 
-  if (!match) {
-    return;
+    const completedAt =
+      scoreMode === "edit"
+        ? (
+            match.completedAt ||
+            new Date()
+              .toISOString()
+          )
+        : new Date()
+            .toISOString();
+
+
+    await updateMatch(
+      match.id,
+      {
+
+        status:
+          "completed",
+
+        score1:
+          score1,
+
+        score2:
+          score2,
+
+        winner_entry_id:
+          winnerEntryId,
+
+        court_id:
+          null,
+
+        completed_at:
+          completedAt
+
+      }
+    );
+
+
+    match.status =
+      "completed";
+
+    match.score1 =
+      score1;
+
+    match.score2 =
+      score2;
+
+    match.winnerEntryId =
+      winnerEntryId;
+
+    match.courtId =
+      null;
+
+    match.court =
+      null;
+
+    match.completedAt =
+      completedAt;
+
+
+    closeScoreModal();
+
+
+    saveCompatibilityState();
+
+    renderAll();
+
+
+    setBusy(false);
+
+
+  } catch(error) {
+
+    setBusy(false);
+
+
+    alert(
+      "결과를 저장하지 못했습니다.\n\n"
+      +
+      error.message
+    );
+
   }
-
-
-  match.score1 =
-    score1;
-
-  match.score2 =
-    score2;
-
-  match.status =
-    "completed";
-
-
-  saveState();
-
-  closeScore();
-
-  render();
 
 }
 
 
-function editCompleted(
+/* =====================================
+   RESTORE COMPLETED
+===================================== */
+
+async function restoreCompleted(
   matchId
 ) {
 
+  if (busy) {
+    return;
+  }
+
+
   const match =
-    getMatch(
-      matchId
-    );
+    getMatch(matchId);
 
 
   if (!match) {
@@ -2542,92 +3154,150 @@ function editCompleted(
   }
 
 
-  const first =
-    prompt(
-      `${entryName(
-        entries[
-          match.player1
-        ]
-      )} 점수`,
-      match.score1
+  if (
+    !confirm(
+      `${matchPlayers(match)}\n\n완료 결과를 취소하고 다시 대기 경기로 돌릴까요?`
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  try {
+
+    setBusy(
+      true,
+      "경기 복원 중"
     );
 
 
-  if (
-    first === null
-  ) {
-    return;
-  }
+    await updateMatch(
+      match.id,
+      {
 
+        status:
+          "waiting",
 
-  const second =
-    prompt(
-      `${entryName(
-        entries[
-          match.player2
-        ]
-      )} 점수`,
-      match.score2
+        court_id:
+          null,
+
+        score1:
+          null,
+
+        score2:
+          null,
+
+        winner_entry_id:
+          null,
+
+        started_at:
+          null,
+
+        completed_at:
+          null
+
+      }
     );
 
 
-  if (
-    second === null
-  ) {
-    return;
-  }
+    match.status =
+      "waiting";
+
+    match.courtId =
+      null;
+
+    match.court =
+      null;
+
+    match.score1 =
+      null;
+
+    match.score2 =
+      null;
+
+    match.winnerEntryId =
+      null;
+
+    match.startedAt =
+      null;
+
+    match.completedAt =
+      null;
 
 
-  if (
-    first.trim() === "" ||
-    second.trim() === ""
-  ) {
+    saveCompatibilityState();
 
-    return;
-
-  }
+    renderAll();
 
 
-  const score1 =
-    Number(first);
+    setBusy(false);
 
 
-  const score2 =
-    Number(second);
+  } catch(error) {
 
+    setBusy(false);
 
-  if (
-    !Number.isFinite(score1)
-    ||
-    !Number.isFinite(score2)
-    ||
-    score1 < 0
-    ||
-    score2 < 0
-  ) {
 
     alert(
-      "올바른 점수를 입력해주세요."
+      "경기를 복원하지 못했습니다.\n\n"
+      +
+      error.message
     );
 
-    return;
-
   }
-
-
-  match.score1 =
-    score1;
-
-  match.score2 =
-    score2;
-
-
-  saveState();
-
-  render();
 
 }
 
+
+/* =====================================
+   STATS
+===================================== */
+
+function renderStats() {
+
+  document.getElementById(
+    "totalCount"
+  ).textContent =
+    matches.length;
+
+
+  document.getElementById(
+    "playingCount"
+  ).textContent =
+    matches.filter(
+      match =>
+        match.status ===
+        "playing"
+    ).length;
+
+
+  document.getElementById(
+    "waitingCount"
+  ).textContent =
+    matches.filter(
+      match =>
+        match.status ===
+        "waiting"
+    ).length;
+
+
+  document.getElementById(
+    "completedCount"
+  ).textContent =
+    matches.filter(
+      match =>
+        match.status ===
+        "completed"
+    ).length;
+
+}
+
+
+/* =====================================
+   RENDER COURTS
+===================================== */
 
 function renderCourts() {
 
@@ -2645,9 +3315,11 @@ function renderCourts() {
   ) {
 
     box.innerHTML = `
+
       <div class="empty">
         등록된 코트가 없습니다.
       </div>
+
     `;
 
     return;
@@ -2656,11 +3328,11 @@ function renderCourts() {
 
 
   courts.forEach(
-    courtName => {
+    court => {
 
-      const playing =
+      const match =
         getPlayingMatchOnCourt(
-          courtName
+          court.id
         );
 
 
@@ -2674,7 +3346,7 @@ function renderCourts() {
         "court";
 
 
-      if (!playing) {
+      if (!match) {
 
         card.innerHTML = `
 
@@ -2684,7 +3356,7 @@ function renderCourts() {
 
               <div class="court-name">
                 ${escapeHtml(
-                  courtName
+                  court.name
                 )}
               </div>
 
@@ -2694,8 +3366,9 @@ function renderCourts() {
 
             </div>
 
+
             <div class="court-empty">
-              경기 대기
+              다음 경기를 배정할 수 있습니다.
             </div>
 
           </div>
@@ -2712,7 +3385,7 @@ function renderCourts() {
 
               <div class="court-name">
                 ${escapeHtml(
-                  courtName
+                  court.name
                 )}
               </div>
 
@@ -2722,54 +3395,33 @@ function renderCourts() {
 
             </div>
 
+
             <div class="court-group">
               ${escapeHtml(
-                playing.groupName
+                match.groupName
               )}
             </div>
+
 
             <div class="court-match-line">
-
               ${escapeHtml(
-                shortEntryName(
-                  entries[
-                    playing.player1
-                  ]
-                )
+                matchPlayers(match)
               )}
-
-              vs
-
-              ${escapeHtml(
-                shortEntryName(
-                  entries[
-                    playing.player2
-                  ]
-                )
-              )}
-
             </div>
+
 
             <div class="court-actions">
 
               <button
-                class="court-btn"
-                onclick="
-                  cancelPlaying(
-                    '${playing.id}'
-                  )
-                "
+                class="court-btn waiting"
+                type="button"
               >
                 대기로
               </button>
 
               <button
                 class="court-btn finish"
-                onclick="
-                  openScore(
-                    '${playing.id}'
-                  )
-                "
+                type="button"
               >
                 경기 완료
               </button>
@@ -2779,6 +3431,39 @@ function renderCourts() {
           </div>
 
         `;
+
+
+        card
+          .querySelector(
+            ".waiting"
+          )
+          .addEventListener(
+            "click",
+            function() {
+
+              returnToWaiting(
+                match.id
+              );
+
+            }
+          );
+
+
+        card
+          .querySelector(
+            ".finish"
+          )
+          .addEventListener(
+            "click",
+            function() {
+
+              openScoreModal(
+                match.id,
+                "finish"
+              );
+
+            }
+          );
 
       }
 
@@ -2793,28 +3478,61 @@ function renderCourts() {
 }
 
 
-function getNextMatchesByGroup() {
+/* =====================================
+   NEXT MATCH PER GROUP
+===================================== */
+
+function getNextMatches() {
 
   const result = [];
 
 
-  matchGroups.forEach(
+  groupData.forEach(
     group => {
 
-      const next =
-        matches.find(
+      const waiting =
+        matches
+          .filter(
+            match =>
+              match.groupName ===
+                group.name
+              &&
+              match.status ===
+                "waiting"
+          )
+          .sort(
+            (a,b) =>
+              Number(a.order || 0)
+              -
+              Number(b.order || 0)
+          );
+
+
+      if (
+        waiting.length === 0
+      ) {
+
+        return;
+
+      }
+
+
+      /*
+        가능하면 현재 다른 경기 중인
+        참가자가 없는 경기 우선.
+      */
+
+      const available =
+        waiting.find(
           match =>
-            match.groupName ===
-              group.groupName
-            &&
-            match.status ===
-              "waiting"
+            canStartMatch(match)
         );
 
 
-      if (next) {
-        result.push(next);
-      }
+      result.push(
+        available ||
+        waiting[0]
+      );
 
     }
   );
@@ -2825,7 +3543,7 @@ function getNextMatchesByGroup() {
 }
 
 
-function renderNextMatches() {
+function renderNext() {
 
   const box =
     document.getElementById(
@@ -2833,11 +3551,11 @@ function renderNextMatches() {
     );
 
 
-  const nextMatches =
-    getNextMatchesByGroup();
-
-
   box.innerHTML = "";
+
+
+  const nextMatches =
+    getNextMatches();
 
 
   if (
@@ -2845,9 +3563,11 @@ function renderNextMatches() {
   ) {
 
     box.innerHTML = `
+
       <div class="empty">
-        현재 조별 대기 경기가 없습니다.
+        현재 대기 중인 경기가 없습니다.
       </div>
+
     `;
 
     return;
@@ -2868,6 +3588,10 @@ function renderNextMatches() {
         "next-match";
 
 
+      const blocked =
+        !canStartMatch(match);
+
+
       row.innerHTML = `
 
         <div class="group-badge">
@@ -2876,40 +3600,59 @@ function renderNextMatches() {
           )}
         </div>
 
-        <div class="next-players">
 
-          ${escapeHtml(
-            shortEntryName(
-              entries[
-                match.player1
-              ]
-            )
-          )}
+        <div class="next-main">
 
-          &nbsp;vs&nbsp;
+          <div class="next-players">
+            ${escapeHtml(
+              matchPlayers(match)
+            )}
+          </div>
 
-          ${escapeHtml(
-            shortEntryName(
-              entries[
-                match.player2
-              ]
-            )
-          )}
+          <div class="next-sub">
+            ${
+              blocked
+                ? "참가자 경기중 · 현재 배정 불가"
+                : "코트 배정 가능"
+            }
+          </div>
 
         </div>
 
+
         <button
           class="assign-btn"
-          onclick="
-            openCourtModal(
-              '${match.id}'
-            )
-          "
+          type="button"
+          ${
+            blocked
+              ? "disabled"
+              : ""
+          }
         >
           코트 배정
         </button>
 
       `;
+
+
+      if (!blocked) {
+
+        row
+          .querySelector(
+            ".assign-btn"
+          )
+          .addEventListener(
+            "click",
+            function() {
+
+              openCourtModal(
+                match.id
+              );
+
+            }
+          );
+
+      }
 
 
       box.appendChild(
@@ -2922,15 +3665,9 @@ function renderNextMatches() {
 }
 
 
-function getGroupNames() {
-
-  return matchGroups.map(
-    group =>
-      group.groupName
-  );
-
-}
-
+/* =====================================
+   FULL WAITING
+===================================== */
 
 function renderWaitingTabs() {
 
@@ -2943,24 +3680,23 @@ function renderWaitingTabs() {
   box.innerHTML = "";
 
 
-  const groups =
+  const filters =
     [
       {
-        key:"all",
+        value:"ALL",
         label:"전체"
       },
-
-      ...getGroupNames().map(
-        name => ({
-          key:name,
-          label:name
+      ...groupData.map(
+        group => ({
+          value:group.name,
+          label:group.name
         })
       )
     ];
 
 
-  groups.forEach(
-    item => {
+  filters.forEach(
+    filter => {
 
       const button =
         document.createElement(
@@ -2968,36 +3704,36 @@ function renderWaitingTabs() {
         );
 
 
+      button.type =
+        "button";
+
+
       button.className =
-        "tab-btn";
-
-
-      if (
-        activeGroupFilter ===
-        item.key
-      ) {
-
-        button.classList.add(
-          "active"
+        "tab-btn"
+        +
+        (
+          waitingFilter ===
+          filter.value
+            ? " active"
+            : ""
         );
-
-      }
 
 
       button.textContent =
-        item.label;
+        filter.label;
 
 
       button.addEventListener(
         "click",
         function() {
 
-          activeGroupFilter =
-            item.key;
+          waitingFilter =
+            filter.value;
+
 
           renderWaitingTabs();
 
-          renderFullWaiting();
+          renderWaitingList();
 
         }
       );
@@ -3013,7 +3749,7 @@ function renderWaitingTabs() {
 }
 
 
-function renderFullWaiting() {
+function renderWaitingList() {
 
   const box =
     document.getElementById(
@@ -3021,30 +3757,37 @@ function renderFullWaiting() {
     );
 
 
+  box.innerHTML = "";
+
+
   let waiting =
-    matches.filter(
-      match =>
-        match.status ===
+    matches
+      .filter(
+        match =>
+          match.status ===
           "waiting"
-    );
+      )
+      .sort(
+        (a,b) =>
+          Number(a.order || 0)
+          -
+          Number(b.order || 0)
+      );
 
 
   if (
-    activeGroupFilter !==
-    "all"
+    waitingFilter !==
+    "ALL"
   ) {
 
     waiting =
       waiting.filter(
         match =>
           match.groupName ===
-          activeGroupFilter
+          waitingFilter
       );
 
   }
-
-
-  box.innerHTML = "";
 
 
   if (
@@ -3052,9 +3795,11 @@ function renderFullWaiting() {
   ) {
 
     box.innerHTML = `
+
       <div class="empty">
-        해당 조의 대기 경기가 없습니다.
+        해당 조건의 대기 경기가 없습니다.
       </div>
+
     `;
 
     return;
@@ -3075,6 +3820,10 @@ function renderFullWaiting() {
         "waiting-row";
 
 
+      const blocked =
+        !canStartMatch(match);
+
+
       row.innerHTML = `
 
         <div class="waiting-group">
@@ -3083,40 +3832,51 @@ function renderFullWaiting() {
           )}
         </div>
 
+
         <div class="waiting-players">
-
           ${escapeHtml(
-            shortEntryName(
-              entries[
-                match.player1
-              ]
-            )
+            matchPlayers(match)
           )}
-
-          &nbsp;vs&nbsp;
-
-          ${escapeHtml(
-            shortEntryName(
-              entries[
-                match.player2
-              ]
-            )
-          )}
-
         </div>
+
 
         <button
           class="assign-btn"
-          onclick="
-            openCourtModal(
-              '${match.id}'
-            )
-          "
+          type="button"
+          ${
+            blocked
+              ? "disabled"
+              : ""
+          }
         >
-          코트 배정
+          ${
+            blocked
+              ? "경기중"
+              : "코트 배정"
+          }
         </button>
 
       `;
+
+
+      if (!blocked) {
+
+        row
+          .querySelector(
+            ".assign-btn"
+          )
+          .addEventListener(
+            "click",
+            function() {
+
+              openCourtModal(
+                match.id
+              );
+
+            }
+          );
+
+      }
 
 
       box.appendChild(
@@ -3129,6 +3889,10 @@ function renderFullWaiting() {
 }
 
 
+/* =====================================
+   COMPLETED
+===================================== */
+
 function renderCompleted() {
 
   const box =
@@ -3137,12 +3901,45 @@ function renderCompleted() {
     );
 
 
+  box.innerHTML = "";
+
+
   const completed =
-    matches.filter(
-      match =>
-        match.status ===
+    matches
+      .filter(
+        match =>
+          match.status ===
           "completed"
-    );
+      )
+      .sort(
+        (a,b) => {
+
+          if (
+            a.completedAt &&
+            b.completedAt
+          ) {
+
+            return (
+              new Date(
+                b.completedAt
+              )
+              -
+              new Date(
+                a.completedAt
+              )
+            );
+
+          }
+
+
+          return (
+            Number(b.order || 0)
+            -
+            Number(a.order || 0)
+          );
+
+        }
+      );
 
 
   document.getElementById(
@@ -3151,17 +3948,16 @@ function renderCompleted() {
     completed.length;
 
 
-  box.innerHTML = "";
-
-
   if (
     completed.length === 0
   ) {
 
     box.innerHTML = `
+
       <div class="empty">
         아직 완료된 경기가 없습니다.
       </div>
+
     `;
 
     return;
@@ -3169,284 +3965,313 @@ function renderCompleted() {
   }
 
 
-  completed
-    .slice()
-    .reverse()
-    .forEach(
-      match => {
+  completed.forEach(
+    match => {
 
-        const row =
-          document.createElement(
-            "div"
-          );
-
-
-        row.className =
-          "completed";
-
-
-        row.innerHTML = `
-
-          <div>
-
-            <div class="completed-group">
-
-              ${escapeHtml(
-                match.groupName
-              )}
-
-              ${
-                match.court
-                  ? ` · ${escapeHtml(
-                      match.court
-                    )}`
-                  : ""
-              }
-
-            </div>
-
-            <div class="completed-name">
-
-              ${escapeHtml(
-                shortEntryName(
-                  entries[
-                    match.player1
-                  ]
-                )
-              )}
-
-              vs
-
-              ${escapeHtml(
-                shortEntryName(
-                  entries[
-                    match.player2
-                  ]
-                )
-              )}
-
-            </div>
-
-            <div class="completed-actions">
-
-              <button
-                class="small-btn"
-                onclick="
-                  editCompleted(
-                    '${match.id}'
-                  )
-                "
-              >
-                결과 수정
-              </button>
-
-              <button
-                class="small-btn restore"
-                onclick="
-                  restoreCompleted(
-                    '${match.id}'
-                  )
-                "
-              >
-                대기로 복구
-              </button>
-
-            </div>
-
-          </div>
-
-          <div class="score">
-
-            ${match.score1}
-            :
-            ${match.score2}
-
-          </div>
-
-        `;
-
-
-        box.appendChild(
-          row
+      const row =
+        document.createElement(
+          "div"
         );
 
-      }
-    );
+
+      row.className =
+        "completed";
+
+
+      row.innerHTML = `
+
+        <div>
+
+          <div class="completed-group">
+            ${escapeHtml(
+              match.groupName
+            )}
+          </div>
+
+
+          <div class="completed-name">
+            ${escapeHtml(
+              matchPlayers(match)
+            )}
+          </div>
+
+
+          <div class="completed-actions">
+
+            <button
+              class="small-btn edit"
+              type="button"
+            >
+              결과 수정
+            </button>
+
+
+            <button
+              class="small-btn restore"
+              type="button"
+            >
+              대기로 복원
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="score">
+          ${match.score1}
+          -
+          ${match.score2}
+        </div>
+
+      `;
+
+
+      row
+        .querySelector(
+          ".edit"
+        )
+        .addEventListener(
+          "click",
+          function() {
+
+            openScoreModal(
+              match.id,
+              "edit"
+            );
+
+          }
+        );
+
+
+      row
+        .querySelector(
+          ".restore"
+        )
+        .addEventListener(
+          "click",
+          function() {
+
+            restoreCompleted(
+              match.id
+            );
+
+          }
+        );
+
+
+      box.appendChild(
+        row
+      );
+
+    }
+  );
 
 }
 
 
-function renderStats() {
+/* =====================================
+   RENDER
+===================================== */
 
-  const total =
-    matches.length;
+function renderAll() {
+
+  renderStats();
+
+  renderCourts();
+
+  renderNext();
+
+  renderWaitingTabs();
+
+  renderWaitingList();
+
+  renderCompleted();
 
 
   const waiting =
     matches.filter(
       match =>
         match.status ===
-          "waiting"
-    ).length;
-
-
-  const live =
-    matches.filter(
-      match =>
-        match.status ===
-          "playing"
-    ).length;
-
-
-  const completed =
-    matches.filter(
-      match =>
-        match.status ===
-          "completed"
+        "waiting"
     ).length;
 
 
   document.getElementById(
-    "totalCount"
-  ).textContent =
-    total;
-
-
-  document.getElementById(
-    "waitingCount"
+    "waitingToggleCount"
   ).textContent =
     waiting;
 
+}
+
+
+/* =====================================
+   WAITING TOGGLE
+===================================== */
+
+function toggleWaiting() {
+
+  waitingOpen =
+    !waitingOpen;
+
 
   document.getElementById(
-    "liveCount"
-  ).textContent =
-    live;
-
-
-  document.getElementById(
-    "completedCount"
-  ).textContent =
-    completed;
+    "fullWaiting"
+  ).classList.toggle(
+    "show",
+    waitingOpen
+  );
 
 
   document.getElementById(
     "waitingToggle"
-  ).firstChild.textContent =
-    `전체 대기 경기 ${waiting}개 보기 `;
+  ).innerHTML =
+    waitingOpen
+      ? `전체 대기 경기 <span>${matches.filter(m => m.status === "waiting").length}</span>개 닫기`
+      : `전체 대기 경기 <span>${matches.filter(m => m.status === "waiting").length}</span>개 보기`;
 
 }
 
 
-function render() {
+/* =====================================
+   STANDINGS
+===================================== */
 
-  renderStats();
+function goStandings() {
 
-  renderCourts();
+  saveCompatibilityState();
 
-  renderNextMatches();
 
-  renderWaitingTabs();
-
-  renderFullWaiting();
-
-  renderCompleted();
+  location.href =
+    "./group-standings.html";
 
 }
 
+
+/* =====================================
+   REFRESH
+===================================== */
+
+async function refreshMatches() {
+
+  if (busy) {
+    return;
+  }
+
+
+  try {
+
+    setBusy(
+      true,
+      "DB 경기정보 새로고침 중"
+    );
+
+
+    await loadMatches();
+
+
+    renderAll();
+
+
+    setBusy(false);
+
+
+  } catch(error) {
+
+    setBusy(false);
+
+
+    alert(
+      "경기정보를 불러오지 못했습니다.\n\n"
+      +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   EVENTS
+===================================== */
 
 document.getElementById(
   "waitingToggle"
 ).addEventListener(
   "click",
-  function() {
-
-    waitingExpanded =
-      !waitingExpanded;
+  toggleWaiting
+);
 
 
-    document.getElementById(
-      "fullWaiting"
-    ).classList.toggle(
-      "show",
-      waitingExpanded
+document.getElementById(
+  "saveScoreButton"
+).addEventListener(
+  "click",
+  saveScore
+);
+
+
+document.getElementById(
+  "refreshButton"
+).addEventListener(
+  "click",
+  refreshMatches
+);
+
+
+/* =====================================
+   START
+===================================== */
+
+async function start() {
+
+  const loggedIn =
+    await checkLogin();
+
+
+  if (!loggedIn) {
+    return;
+  }
+
+
+  try {
+
+    setBusy(
+      true,
+      "경기정보 불러오는 중"
     );
 
 
-    document.getElementById(
-      "waitingArrow"
-    ).textContent =
-      waitingExpanded
-        ? "▲"
-        : "▼";
+    await loadMatches();
+
+
+    renderAll();
+
+
+    setBusy(false);
+
+
+  } catch(error) {
+
+    console.error(error);
+
+
+    setBusy(false);
+
+
+    alert(
+      "경기 운영 정보를 불러오지 못했습니다.\n\n"
+      +
+      error.message
+    );
 
   }
-);
+
+}
 
 
-document.getElementById(
-  "cancelCourt"
-).addEventListener(
-  "click",
-  closeCourtModal
-);
-
-
-document.getElementById(
-  "cancelScore"
-).addEventListener(
-  "click",
-  closeScore
-);
-
-
-document.getElementById(
-  "saveScore"
-).addEventListener(
-  "click",
-  finishMatch
-);
-
-
-document.getElementById(
-  "courtModal"
-).addEventListener(
-  "click",
-  function(event) {
-
-    if (
-      event.target === this
-    ) {
-
-      closeCourtModal();
-
-    }
-
-  }
-);
-
-
-document.getElementById(
-  "scoreModal"
-).addEventListener(
-  "click",
-  function(event) {
-
-    if (
-      event.target === this
-    ) {
-
-      closeScore();
-
-    }
-
-  }
-);
-
-
-loadState();
-
-render();
+start();
 
 </script>
 
