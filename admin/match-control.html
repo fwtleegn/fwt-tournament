@@ -13,26 +13,15 @@
       --navy:#071a31;
       --blue:#184a79;
       --lime:#c9df45;
-
       --bg:#f4f6f9;
       --white:#fff;
-
       --text:#172033;
       --muted:#7b8492;
       --line:#e3e8ee;
-
       --green:#178b61;
       --green-soft:#edf8f3;
-
-      --orange:#bd7418;
-      --orange-soft:#fff6e8;
-
       --red:#d94b4b;
-      --red-soft:#fff0f0;
-
-      --shadow:
-        0 14px 40px
-        rgba(20,35,55,.06);
+      --shadow:0 14px 40px rgba(20,35,55,.06);
     }
 
     * {
@@ -42,10 +31,8 @@
     body {
       margin:0;
       min-height:100vh;
-
       background:var(--bg);
       color:var(--text);
-
       font-family:
         Inter,
         Pretendard,
@@ -69,20 +56,16 @@
     .topbar {
       height:72px;
       padding:0 30px;
-
       display:flex;
       align-items:center;
       justify-content:space-between;
-
       color:white;
-
-      background:
-        linear-gradient(
-          110deg,
-          #07182d,
-          #0b2848 60%,
-          #10375f
-        );
+      background:linear-gradient(
+        110deg,
+        #07182d,
+        #0b2848 60%,
+        #10375f
+      );
     }
 
     .brand {
@@ -111,33 +94,18 @@
 
     .back-btn {
       padding:9px 13px;
-
-      border:
-        1px solid
-        rgba(255,255,255,.15);
-
+      border:1px solid rgba(255,255,255,.15);
       border-radius:10px;
-
-      background:
-        rgba(255,255,255,.07);
-
+      background:rgba(255,255,255,.07);
       color:white;
-
       font-size:11px;
       font-weight:750;
     }
 
     .container {
-      width:
-        min(
-          1280px,
-          calc(100% - 34px)
-        );
-
+      width:min(1280px,calc(100% - 34px));
       margin:auto;
-
-      padding:
-        38px 0 70px;
+      padding:38px 0 70px;
     }
 
     .head {
@@ -199,21 +167,15 @@
     .courts {
       display:grid;
       grid-template-columns:
-        repeat(
-          auto-fit,
-          minmax(240px,1fr)
-        );
+        repeat(auto-fit,minmax(240px,1fr));
       gap:12px;
     }
 
     .court {
       overflow:hidden;
-
       border:1px solid var(--line);
       border-radius:17px;
-
       background:white;
-
       box-shadow:var(--shadow);
     }
 
@@ -221,11 +183,8 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-
       padding:15px 16px;
-
-      border-bottom:
-        1px solid var(--line);
+      border-bottom:1px solid var(--line);
     }
 
     .court-name {
@@ -255,16 +214,12 @@
 
     .empty-court {
       height:145px;
-
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:center;
-
       text-align:center;
-
       color:#9ca5b0;
-
       font-size:11px;
       line-height:1.7;
     }
@@ -279,16 +234,10 @@
 
     .live-player {
       padding:10px 11px;
-
-      border:
-        1px solid #e2e7ec;
-
+      border:1px solid #e2e7ec;
       border-radius:10px;
-
       background:#fafbfc;
-
       color:#263247;
-
       font-size:12px;
       font-weight:850;
     }
@@ -310,16 +259,10 @@
     .court-btn {
       flex:1;
       height:38px;
-
       border-radius:9px;
-
-      border:
-        1px solid #dce2e8;
-
+      border:1px solid #dce2e8;
       background:white;
-
       color:#536071;
-
       font-size:10px;
       font-weight:800;
     }
@@ -332,24 +275,18 @@
 
     .layout {
       display:grid;
-
       grid-template-columns:
         minmax(0,1.25fr)
         minmax(310px,.75fr);
-
       gap:18px;
-
       margin-top:13px;
     }
 
     .card {
       overflow:hidden;
-
       border:1px solid var(--line);
       border-radius:18px;
-
       background:white;
-
       box-shadow:var(--shadow);
     }
 
@@ -357,11 +294,8 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-
       padding:18px 19px;
-
-      border-bottom:
-        1px solid var(--line);
+      border-bottom:1px solid var(--line);
     }
 
     .card-title {
@@ -379,17 +313,12 @@
     .count {
       min-width:29px;
       height:29px;
-
       padding:0 9px;
-
       display:flex;
       align-items:center;
       justify-content:center;
-
       border-radius:999px;
-
       background:#f2f5f7;
-
       font-size:10px;
       font-weight:900;
       color:var(--navy);
@@ -402,22 +331,14 @@
 
     .match-row {
       display:grid;
-
       grid-template-columns:
         minmax(0,1fr) 130px;
-
       gap:10px;
-
       align-items:center;
-
       padding:11px 12px;
       margin-bottom:8px;
-
-      border:
-        1px solid #e2e7ec;
-
+      border:1px solid #e2e7ec;
       border-radius:12px;
-
       background:white;
     }
 
@@ -448,18 +369,11 @@
     select {
       min-width:0;
       flex:1;
-
       height:35px;
-
-      border:
-        1px solid #dbe1e7;
-
+      border:1px solid #dbe1e7;
       border-radius:8px;
-
       background:#f8fafb;
-
       color:#465466;
-
       font-size:10px;
       font-weight:750;
     }
@@ -467,13 +381,10 @@
     .start-btn {
       width:43px;
       height:35px;
-
       border:0;
       border-radius:8px;
-
       background:var(--navy);
       color:white;
-
       font-size:9px;
       font-weight:850;
     }
@@ -483,15 +394,10 @@
       align-items:center;
       justify-content:space-between;
       gap:10px;
-
       padding:11px 12px;
       margin-bottom:8px;
-
-      border:
-        1px solid #e1e7e4;
-
+      border:1px solid #e1e7e4;
       border-radius:12px;
-
       background:#fbfdfc;
     }
 
@@ -501,14 +407,10 @@
 
     .score {
       flex-shrink:0;
-
       padding:6px 9px;
-
       border-radius:8px;
-
       background:var(--green-soft);
       color:var(--green);
-
       font-size:11px;
       font-weight:900;
     }
@@ -524,15 +426,10 @@
     .footer {
       display:flex;
       justify-content:space-between;
-
       margin-top:28px;
       padding-top:18px;
-
-      border-top:
-        1px solid #e2e6eb;
-
+      border-top:1px solid #e2e6eb;
       color:#9aa2ad;
-
       font-size:9px;
       letter-spacing:1px;
     }
@@ -546,23 +443,15 @@
       font-weight:900;
     }
 
-    /* SCORE MODAL */
-
     .modal-wrap {
       display:none;
-
       position:fixed;
       inset:0;
-
       z-index:100;
-
       align-items:center;
       justify-content:center;
-
       padding:20px;
-
-      background:
-        rgba(4,17,31,.55);
+      background:rgba(4,17,31,.55);
     }
 
     .modal-wrap.show {
@@ -571,16 +460,10 @@
 
     .modal {
       width:min(430px,100%);
-
       padding:24px;
-
       border-radius:20px;
-
       background:white;
-
-      box-shadow:
-        0 30px 80px
-        rgba(0,0,0,.23);
+      box-shadow:0 30px 80px rgba(0,0,0,.23);
     }
 
     .modal-title {
@@ -600,9 +483,7 @@
       display:grid;
       grid-template-columns:
         1fr 34px 1fr;
-
       align-items:center;
-
       gap:10px;
     }
 
@@ -616,17 +497,11 @@
     .score-input {
       width:100%;
       height:53px;
-
-      border:
-        1px solid #dce2e8;
-
+      border:1px solid #dce2e8;
       border-radius:11px;
-
       text-align:center;
-
       font-size:22px;
       font-weight:900;
-
       outline:none;
     }
 
@@ -651,9 +526,7 @@
     }
 
     .cancel {
-      border:
-        1px solid #dce2e8;
-
+      border:1px solid #dce2e8;
       background:white;
       color:#596677;
     }
@@ -665,15 +538,12 @@
     }
 
     @media(max-width:900px) {
-
       .layout {
         grid-template-columns:1fr;
       }
-
     }
 
     @media(max-width:650px) {
-
       .topbar {
         padding:0 17px;
       }
@@ -706,7 +576,6 @@
       .match-row {
         grid-template-columns:1fr;
       }
-
     }
   </style>
 </head>
@@ -729,13 +598,11 @@
 
 </header>
 
-
 <main class="container">
 
   <div class="head">
 
     <div>
-
       <div class="kicker">
         MATCH CONTROL
       </div>
@@ -747,7 +614,6 @@
       <p class="desc">
         시간표 없이 실제 비는 코트에 다음 경기를 배정합니다.
       </p>
-
     </div>
 
     <div class="stats">
@@ -772,7 +638,6 @@
 
   </div>
 
-
   <div class="section-title">
     코트 현황
   </div>
@@ -781,7 +646,6 @@
     class="courts"
     id="courts"
   ></section>
-
 
   <div class="layout">
 
@@ -815,7 +679,6 @@
 
     </div>
 
-
     <div class="card">
 
       <div class="card-head">
@@ -848,7 +711,6 @@
 
   </div>
 
-
   <footer class="footer">
 
     <div>
@@ -863,8 +725,6 @@
 
 </main>
 
-
-<!-- SCORE MODAL -->
 
 <div
   class="modal-wrap"
@@ -1018,15 +878,59 @@ let selectedFinishMatchId =
   null;
 
 
+/*
+  현재 대진의 고유 서명.
+  참가자/조/대진이 바뀌면
+  이 값도 달라짐.
+*/
+
+function createDrawSignature() {
+
+  const compact =
+    matchGroups.map(
+      group => ({
+        groupName:
+          group.groupName,
+
+        matches:
+          group.matches.map(
+            match => [
+              match.player1,
+              match.player2
+            ]
+          )
+      })
+    );
+
+  return JSON.stringify(
+    compact
+  );
+
+}
+
+
+const currentDrawSignature =
+  createDrawSignature();
+
+
 function entryName(entry) {
 
-  if (entry.type === "singles") {
+  if (!entry) {
+    return "알 수 없음";
+  }
+
+  if (
+    entry.type ===
+    "singles"
+  ) {
 
     if (
       entry.nickname &&
       entry.name
     ) {
+
       return `${entry.nickname} (${entry.name})`;
+
     }
 
     return (
@@ -1037,13 +941,16 @@ function entryName(entry) {
 
   }
 
+
   const p1 =
-    entry.player1.nickname ||
-    entry.player1.name;
+    entry.player1?.nickname ||
+    entry.player1?.name ||
+    "선수1";
 
   const p2 =
-    entry.player2.nickname ||
-    entry.player2.name;
+    entry.player2?.nickname ||
+    entry.player2?.name ||
+    "선수2";
 
   return `${p1} / ${p2}`;
 
@@ -1053,6 +960,7 @@ function entryName(entry) {
 function createInitialMatches() {
 
   matches = [];
+
 
   matchGroups.forEach(
     (group,gIndex) => {
@@ -1094,6 +1002,7 @@ function createInitialMatches() {
     }
   );
 
+
   saveState();
 
 }
@@ -1101,12 +1010,77 @@ function createInitialMatches() {
 
 function saveState() {
 
+  const state = {
+
+    signature:
+      currentDrawSignature,
+
+    matches:
+      matches
+
+  };
+
+
   sessionStorage.setItem(
     "fwtMatchControlState",
     JSON.stringify(
-      matches
+      state
     )
   );
+
+}
+
+
+function stateMatchesCurrentDraw(
+  parsed
+) {
+
+  if (
+    !parsed ||
+    typeof parsed !== "object"
+  ) {
+    return false;
+  }
+
+
+  if (
+    parsed.signature !==
+    currentDrawSignature
+  ) {
+    return false;
+  }
+
+
+  if (
+    !Array.isArray(
+      parsed.matches
+    )
+  ) {
+    return false;
+  }
+
+
+  const expectedCount =
+    matchGroups.reduce(
+      (
+        total,
+        group
+      ) =>
+        total +
+        group.matches.length,
+      0
+    );
+
+
+  if (
+    parsed.matches.length !==
+    expectedCount
+  ) {
+    return false;
+  }
+
+
+  return true;
 
 }
 
@@ -1118,6 +1092,7 @@ function loadState() {
       "fwtMatchControlState"
     );
 
+
   if (raw) {
 
     try {
@@ -1125,12 +1100,15 @@ function loadState() {
       const parsed =
         JSON.parse(raw);
 
+
       if (
-        Array.isArray(parsed)
+        stateMatchesCurrentDraw(
+          parsed
+        )
       ) {
 
         matches =
-          parsed;
+          parsed.matches;
 
         return;
 
@@ -1139,6 +1117,12 @@ function loadState() {
     } catch(e) {}
 
   }
+
+
+  /*
+    과거 대회 또는 과거 테스트 상태이면
+    자동으로 새 상태를 생성
+  */
 
   createInitialMatches();
 
@@ -1169,22 +1153,46 @@ function isCourtBusy(court) {
 }
 
 
-function playerIsPlaying(
-  playerIndex
+/*
+  특정 선수가 현재 실제 경기 중인지 확인.
+
+  현재 시작하려는 경기 자신은 제외.
+*/
+
+function getPlayingMatchForPlayer(
+  playerIndex,
+  excludeMatchId = null
 ) {
 
-  return matches.some(
-    match =>
-      match.status ===
+  return matches.find(
+    match => {
+
+      if (
+        excludeMatchId &&
+        match.id ===
+        excludeMatchId
+      ) {
+        return false;
+      }
+
+
+      if (
+        match.status !==
         "playing"
-      &&
-      (
+      ) {
+        return false;
+      }
+
+
+      return (
         match.player1 ===
           playerIndex
         ||
         match.player2 ===
           playerIndex
-      )
+      );
+
+    }
   );
 
 }
@@ -1206,8 +1214,43 @@ function startMatch(
   }
 
 
+  const match =
+    getMatch(
+      matchId
+    );
+
+
+  if (!match) {
+
+    alert(
+      "경기 정보를 찾을 수 없습니다."
+    );
+
+    return;
+
+  }
+
+
   if (
-    isCourtBusy(court)
+    match.status !==
+    "waiting"
+  ) {
+
+    alert(
+      "현재 대기 상태의 경기가 아닙니다."
+    );
+
+    render();
+
+    return;
+
+  }
+
+
+  if (
+    isCourtBusy(
+      court
+    )
   ) {
 
     alert(
@@ -1219,27 +1262,47 @@ function startMatch(
   }
 
 
-  const match =
-    getMatch(matchId);
-
-
-  if (!match) {
-    return;
-  }
+  const player1Busy =
+    getPlayingMatchForPlayer(
+      match.player1,
+      match.id
+    );
 
 
   if (
-    playerIsPlaying(
-      match.player1
-    )
-    ||
-    playerIsPlaying(
-      match.player2
-    )
+    player1Busy
   ) {
 
     alert(
-      "이 경기의 참가자 중 현재 다른 코트에서 경기 중인 선수가 있습니다."
+      `${entryName(
+        entries[
+          match.player1
+        ]
+      )} 선수가 현재 ${player1Busy.court}에서 경기 중입니다.`
+    );
+
+    return;
+
+  }
+
+
+  const player2Busy =
+    getPlayingMatchForPlayer(
+      match.player2,
+      match.id
+    );
+
+
+  if (
+    player2Busy
+  ) {
+
+    alert(
+      `${entryName(
+        entries[
+          match.player2
+        ]
+      )} 선수가 현재 ${player2Busy.court}에서 경기 중입니다.`
     );
 
     return;
@@ -1275,13 +1338,26 @@ function cancelPlaying(
 
 
   const match =
-    getMatch(matchId);
+    getMatch(
+      matchId
+    );
+
+
+  if (!match) {
+    return;
+  }
 
 
   match.status =
     "waiting";
 
   match.court =
+    null;
+
+  match.score1 =
+    null;
+
+  match.score2 =
     null;
 
 
@@ -1297,11 +1373,27 @@ function openScore(
 ) {
 
   const match =
-    getMatch(matchId);
+    getMatch(
+      matchId
+    );
 
 
   if (!match) {
     return;
+  }
+
+
+  if (
+    match.status !==
+    "playing"
+  ) {
+
+    alert(
+      "현재 경기 중인 경기가 아닙니다."
+    );
+
+    return;
+
   }
 
 
@@ -1371,6 +1463,7 @@ function closeScore() {
   selectedFinishMatchId =
     null;
 
+
   document.getElementById(
     "scoreModal"
   ).classList.remove(
@@ -1393,6 +1486,7 @@ function finishMatch() {
     document.getElementById(
       "score1"
     ).value;
+
 
   const value2 =
     document.getElementById(
@@ -1422,6 +1516,22 @@ function finishMatch() {
 
 
   if (
+    !Number.isFinite(score1) ||
+    !Number.isFinite(score2) ||
+    score1 < 0 ||
+    score2 < 0
+  ) {
+
+    alert(
+      "올바른 점수를 입력해주세요."
+    );
+
+    return;
+
+  }
+
+
+  if (
     score1 === score2
   ) {
 
@@ -1442,6 +1552,16 @@ function finishMatch() {
     );
 
 
+  if (!match) {
+    return;
+  }
+
+
+  /*
+    여기서 playing → completed로
+    확실하게 변경.
+  */
+
   match.score1 =
     score1;
 
@@ -1450,12 +1570,6 @@ function finishMatch() {
 
   match.status =
     "completed";
-
-
-  /*
-    경기 종료 후 코트 정보는
-    결과 기록용으로 그대로 남김
-  */
 
 
   saveState();
@@ -1472,7 +1586,9 @@ function editCompleted(
 ) {
 
   const match =
-    getMatch(matchId);
+    getMatch(
+      matchId
+    );
 
 
   if (!match) {
@@ -1482,7 +1598,11 @@ function editCompleted(
 
   const s1 =
     prompt(
-      `${entryName(entries[match.player1])} 점수`,
+      `${entryName(
+        entries[
+          match.player1
+        ]
+      )} 점수`,
       match.score1
     );
 
@@ -1496,7 +1616,11 @@ function editCompleted(
 
   const s2 =
     prompt(
-      `${entryName(entries[match.player2])} 점수`,
+      `${entryName(
+        entries[
+          match.player2
+        ]
+      )} 점수`,
       match.score2
     );
 
@@ -1540,7 +1664,10 @@ function courtOptions() {
     court => {
 
       const busy =
-        isCourtBusy(court);
+        isCourtBusy(
+          court
+        );
+
 
       html += `
         <option
@@ -1568,8 +1695,10 @@ function escapeHtml(value) {
       "div"
     );
 
+
   div.textContent =
-    value || "";
+    value ?? "";
+
 
   return div.innerHTML;
 
@@ -1760,7 +1889,7 @@ function renderWaiting() {
     matches.filter(
       match =>
         match.status ===
-          "waiting"
+        "waiting"
     );
 
 
@@ -1876,7 +2005,7 @@ function renderCompleted() {
     matches.filter(
       match =>
         match.status ===
-          "completed"
+        "completed"
     );
 
 
@@ -1996,7 +2125,7 @@ function renderStats() {
     matches.filter(
       match =>
         match.status ===
-          "waiting"
+        "waiting"
     ).length;
 
 
@@ -2004,7 +2133,7 @@ function renderStats() {
     matches.filter(
       match =>
         match.status ===
-          "playing"
+        "playing"
     ).length;
 
 
@@ -2012,7 +2141,7 @@ function renderStats() {
     matches.filter(
       match =>
         match.status ===
-          "completed"
+        "completed"
     ).length;
 
 
@@ -2090,12 +2219,9 @@ document.getElementById(
   function(event) {
 
     if (
-      event.target ===
-      this
+      event.target === this
     ) {
-
       closeScore();
-
     }
 
   }
