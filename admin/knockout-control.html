@@ -216,14 +216,12 @@
 
     .bracket-btn {
       height:42px;
-
       padding:0 17px;
 
       border:0;
       border-radius:9px;
 
       background:var(--navy);
-
       color:white;
 
       font-size:12px;
@@ -235,7 +233,9 @@
       margin-left:4px;
     }
 
-    /* CHAMPION */
+    /* =========================
+       CHAMPION
+    ========================= */
 
     .champion {
       display:none;
@@ -291,7 +291,9 @@
       letter-spacing:-1px;
     }
 
-    /* SECTIONS */
+    /* =========================
+       SECTION
+    ========================= */
 
     .section-title {
       display:flex;
@@ -315,7 +317,9 @@
       font-weight:700;
     }
 
-    /* COURTS */
+    /* =========================
+       COURTS
+    ========================= */
 
     .courts {
       display:grid;
@@ -368,7 +372,6 @@
       border-radius:999px;
 
       background:#f0f3f6;
-
       color:#5d6979;
 
       font-size:10px;
@@ -409,39 +412,54 @@
     }
 
     .court-actions {
-      display:flex;
-      gap:6px;
+      display:grid;
+      grid-template-columns:.8fr 1.4fr;
 
-      margin-top:9px;
+      gap:7px;
+
+      margin-top:10px;
     }
 
     .court-btn {
-      height:36px;
+      width:100%;
+      min-width:0;
 
-      padding:0 9px;
+      height:42px;
+      min-height:42px;
+
+      padding:0 8px;
 
       border:1px solid #d9e0e6;
-      border-radius:8px;
+      border-radius:9px;
 
       background:white;
-
       color:#526073;
 
       font-size:11px;
       font-weight:800;
+
+      line-height:1;
     }
 
     .court-btn.finish {
-      flex:1;
+      width:100%;
+      height:42px;
+      min-height:42px;
 
       border:0;
 
       background:var(--navy);
-
       color:white;
+
+      font-size:12px;
+      font-weight:900;
+
+      flex:none;
     }
 
-    /* READY MATCHES */
+    /* =========================
+       READY MATCHES
+    ========================= */
 
     .ready-card {
       overflow:hidden;
@@ -489,7 +507,6 @@
       border-radius:10px;
 
       background:#eef2f6;
-
       color:var(--navy);
 
       font-size:14px;
@@ -540,7 +557,9 @@
       font-weight:850;
     }
 
-    /* PENDING */
+    /* =========================
+       PENDING
+    ========================= */
 
     .pending-card {
       overflow:hidden;
@@ -586,7 +605,9 @@
       line-height:1.5;
     }
 
-    /* COMPLETED */
+    /* =========================
+       COMPLETED
+    ========================= */
 
     .completed-card {
       overflow:hidden;
@@ -646,21 +667,23 @@
 
     .completed-actions {
       display:flex;
+      flex-wrap:wrap;
+
       gap:6px;
 
       margin-top:7px;
     }
 
     .small-btn {
-      height:32px;
+      height:34px;
+      min-height:34px;
 
-      padding:0 9px;
+      padding:0 10px;
 
       border:1px solid #dce2e8;
       border-radius:8px;
 
       background:white;
-
       color:#526073;
 
       font-size:10px;
@@ -671,7 +694,6 @@
       border-color:#ecd4b3;
 
       background:var(--orange-soft);
-
       color:var(--orange);
     }
 
@@ -683,7 +705,6 @@
       border-radius:8px;
 
       background:var(--green-soft);
-
       color:var(--green);
 
       text-align:center;
@@ -703,7 +724,9 @@
       line-height:1.6;
     }
 
-    /* MODAL */
+    /* =========================
+       MODAL
+    ========================= */
 
     .modal-wrap {
       display:none;
@@ -760,7 +783,6 @@
 
     .selected-match {
       padding:13px 14px;
-
       margin-bottom:15px;
 
       border:1px solid #e1e6eb;
@@ -800,7 +822,6 @@
       border-radius:11px;
 
       background:white;
-
       color:var(--navy);
 
       font-size:14px;
@@ -822,7 +843,6 @@
       cursor:not-allowed;
 
       background:#f1f3f5;
-
       color:#929ba7;
     }
 
@@ -898,7 +918,6 @@
       border:1px solid #dce2e8;
 
       background:white;
-
       color:#536071;
     }
 
@@ -906,11 +925,12 @@
       border:0;
 
       background:var(--navy);
-
       color:white;
     }
 
-    /* FOOTER */
+    /* =========================
+       FOOTER
+    ========================= */
 
     .footer {
       display:flex;
@@ -936,7 +956,9 @@
       font-weight:900;
     }
 
-    /* MOBILE */
+    /* =========================
+       MOBILE
+    ========================= */
 
     @media(max-width:700px) {
 
@@ -1008,8 +1030,6 @@
         font-size:12px;
       }
 
-      /* 모바일 코트 2열 */
-
       .courts {
         grid-template-columns:
           repeat(
@@ -1048,17 +1068,45 @@
         font-size:13px;
       }
 
-      .court-btn {
-        min-width:0;
+      /*
+        핵심 수정:
+        모바일에서도 두 버튼을 안정적으로
+        충분한 높이로 유지.
+      */
 
-        height:38px;
+      .court-actions {
+        display:grid;
+
+        grid-template-columns:
+          .78fr 1.35fr;
+
+        gap:7px;
+
+        margin-top:10px;
+      }
+
+      .court-btn {
+        width:100%;
+        height:44px;
+        min-height:44px;
 
         padding:0 5px;
 
-        font-size:11px;
+        font-size:12px;
+
+        flex:none;
       }
 
-      /* 경기 목록 */
+      .court-btn.finish {
+        width:100%;
+        height:44px;
+        min-height:44px;
+
+        font-size:13px;
+        font-weight:900;
+
+        flex:none;
+      }
 
       .ready-row {
         grid-template-columns:
@@ -1112,7 +1160,8 @@
       }
 
       .small-btn {
-        height:35px;
+        height:37px;
+        min-height:37px;
 
         font-size:11px;
       }
@@ -1133,14 +1182,37 @@
 
     }
 
+
     @media(max-width:430px) {
 
+      /*
+        이전 코드처럼 column으로 바꾸지 않음.
+        작은 폰에서도 계속 가로 2버튼 유지.
+      */
+
       .court-actions {
-        flex-direction:column;
+        display:grid;
+
+        grid-template-columns:
+          .75fr 1.35fr;
+
+        gap:6px;
       }
 
       .court-btn {
         width:100%;
+        height:44px;
+        min-height:44px;
+
+        font-size:11px;
+      }
+
+      .court-btn.finish {
+        width:100%;
+        height:44px;
+        min-height:44px;
+
+        font-size:12px;
       }
 
       .completed-row {
@@ -1240,8 +1312,6 @@
   </div>
 
 
-  <!-- 우승자 -->
-
   <section
     class="champion"
     id="champion"
@@ -1263,8 +1333,6 @@
   </section>
 
 
-  <!-- 코트 -->
-
   <div class="section-title">
 
     <div class="section-title-main">
@@ -1283,8 +1351,6 @@
     id="courts"
   ></section>
 
-
-  <!-- 진행 가능 경기 -->
 
   <div class="section-title">
 
@@ -1309,8 +1375,6 @@
   </section>
 
 
-  <!-- 다음 라운드 대기 -->
-
   <div class="section-title">
 
     <div class="section-title-main">
@@ -1333,8 +1397,6 @@
 
   </section>
 
-
-  <!-- 완료 경기 -->
 
   <div class="section-title">
 
@@ -1376,8 +1438,6 @@
 </main>
 
 
-<!-- 코트 배정 모달 -->
-
 <div
   class="modal-wrap"
   id="courtModal"
@@ -1418,8 +1478,6 @@
 
 </div>
 
-
-<!-- 점수 입력 모달 -->
 
 <div
   class="modal-wrap"
@@ -1521,8 +1579,11 @@ async function checkLogin() {
   const { data } =
     await supabaseClient.auth.getSession();
 
+
   if (!data.session) {
+
     location.href = "./";
+
   }
 
 }
@@ -1628,9 +1689,9 @@ let selectedScoreMatchId =
   null;
 
 
-/* ========================================
-   기본 함수
-======================================== */
+/* =========================
+   BASIC
+========================= */
 
 function escapeHtml(value) {
 
@@ -1650,12 +1711,15 @@ function escapeHtml(value) {
 function shortEntryName(entry) {
 
   if (!entry) {
+
     return "알 수 없음";
+
   }
 
 
   if (
-    entry.type === "singles"
+    entry.type ===
+    "singles"
   ) {
 
     return (
@@ -1696,37 +1760,23 @@ function roundNameFromIndex(
     );
 
 
-  if (
-    size === 2
-  ) {
+  if (size === 2) {
     return "결승";
   }
 
-
-  if (
-    size === 4
-  ) {
+  if (size === 4) {
     return "4강";
   }
 
-
-  if (
-    size === 8
-  ) {
+  if (size === 8) {
     return "8강";
   }
 
-
-  if (
-    size === 16
-  ) {
+  if (size === 16) {
     return "16강";
   }
 
-
-  if (
-    size === 32
-  ) {
+  if (size === 32) {
     return "32강";
   }
 
@@ -1743,9 +1793,7 @@ function allMatches() {
 }
 
 
-function getMatch(
-  matchId
-) {
+function getMatch(matchId) {
 
   return allMatches().find(
     match =>
@@ -1756,9 +1804,9 @@ function getMatch(
 }
 
 
-/* ========================================
-   저장
-======================================== */
+/* =========================
+   SAVE
+========================= */
 
 function saveBracket() {
 
@@ -1778,9 +1826,9 @@ function saveBracket() {
 }
 
 
-/* ========================================
-   다음 경기 찾기
-======================================== */
+/* =========================
+   NEXT MATCH
+========================= */
 
 function getNextMatch(
   roundIndex,
@@ -1794,22 +1842,24 @@ function getNextMatch(
 
 
   if (!nextRound) {
+
     return null;
+
   }
 
 
-  return nextRound[
-    Math.floor(
-      matchIndex / 2
-    )
-  ] || null;
+  return (
+    nextRound[
+      Math.floor(
+        matchIndex / 2
+      )
+    ]
+    ||
+    null
+  );
 
 }
 
-
-/* ========================================
-   다음 경기 슬롯
-======================================== */
 
 function setWinnerIntoNextMatch(
   match
@@ -1833,7 +1883,9 @@ function setWinnerIntoNextMatch(
 
 
   if (!next) {
+
     return;
+
   }
 
 
@@ -1859,9 +1911,9 @@ function setWinnerIntoNextMatch(
 }
 
 
-/* ========================================
-   상태 정리
-======================================== */
+/* =========================
+   STATUS
+========================= */
 
 function normalizeMatchStatus(
   match
@@ -1897,11 +1949,6 @@ function normalizeMatchStatus(
 
   }
 
-
-  /*
-    첫 라운드 한쪽만 선수 존재 =
-    BYE
-  */
 
   if (
     match.roundIndex === 0
@@ -1946,18 +1993,11 @@ function normalizeMatchStatus(
 }
 
 
-/* ========================================
-   전체 진행 관계 재계산
-
-   이전 라운드의 winner를
-   다음 라운드 슬롯에 반영
-======================================== */
+/* =========================
+   REBUILD PROGRESSION
+========================= */
 
 function rebuildProgression() {
-
-  /*
-    1. 첫 라운드 BYE 정리
-  */
 
   bracketData.rounds[0]
     .forEach(
@@ -1970,10 +2010,6 @@ function rebuildProgression() {
       }
     );
 
-
-  /*
-    2. 라운드별 승자 전달
-  */
 
   for (
     let r = 0;
@@ -2009,10 +2045,6 @@ function rebuildProgression() {
   }
 
 
-  /*
-    3. 모든 경기 상태 정리
-  */
-
   bracketData.rounds.forEach(
     round => {
 
@@ -2035,12 +2067,9 @@ function rebuildProgression() {
 }
 
 
-/* ========================================
-   하위 라운드 초기화
-
-   앞 라운드 결과가 수정되거나 취소될 때
-   이후 경기의 잘못된 결과가 남지 않도록 함.
-======================================== */
+/* =========================
+   RESET DOWNSTREAM
+========================= */
 
 function resetDownstreamFrom(
   match
@@ -2077,13 +2106,11 @@ function resetDownstreamFrom(
 
 
     if (!nextMatch) {
+
       break;
+
     }
 
-
-    /*
-      해당 슬롯을 제거.
-    */
 
     if (
       currentMatchIndex % 2 === 0
@@ -2099,11 +2126,6 @@ function resetDownstreamFrom(
 
     }
 
-
-    /*
-      이미 이후 경기가 진행됐을 수도 있으므로
-      결과 전체 초기화.
-    */
 
     nextMatch.status =
       "pending";
@@ -2132,9 +2154,9 @@ function resetDownstreamFrom(
 }
 
 
-/* ========================================
-   코트 관련
-======================================== */
+/* =========================
+   COURTS
+========================= */
 
 function getPlayingMatchOnCourt(
   courtName
@@ -2208,9 +2230,9 @@ function getPlayingMatchForPlayer(
 }
 
 
-/* ========================================
-   코트 모달
-======================================== */
+/* =========================
+   COURT MODAL
+========================= */
 
 function openCourtModal(
   matchId
@@ -2445,9 +2467,9 @@ function closeCourtModal() {
 }
 
 
-/* ========================================
-   경기 시작
-======================================== */
+/* =========================
+   START MATCH
+========================= */
 
 function startMatch(
   matchId,
@@ -2565,9 +2587,9 @@ function startMatch(
 }
 
 
-/* ========================================
-   경기중 → 대기
-======================================== */
+/* =========================
+   PLAYING → WAITING
+========================= */
 
 function cancelPlaying(
   matchId
@@ -2580,7 +2602,9 @@ function cancelPlaying(
 
 
   if (!match) {
+
     return;
+
   }
 
 
@@ -2618,9 +2642,9 @@ function cancelPlaying(
 }
 
 
-/* ========================================
-   점수 모달
-======================================== */
+/* =========================
+   SCORE MODAL
+========================= */
 
 function openScore(
   matchId
@@ -2709,9 +2733,9 @@ function closeScore() {
 }
 
 
-/* ========================================
-   경기 완료
-======================================== */
+/* =========================
+   FINISH MATCH
+========================= */
 
 function finishMatch() {
 
@@ -2781,14 +2805,8 @@ function finishMatch() {
   }
 
 
-  /*
-    본선은 반드시 승자가 필요하므로
-    동점 저장 불가.
-  */
-
   if (
-    score1 ===
-    score2
+    score1 === score2
   ) {
 
     alert(
@@ -2807,7 +2825,9 @@ function finishMatch() {
 
 
   if (!match) {
+
     return;
+
   }
 
 
@@ -2841,12 +2861,9 @@ function finishMatch() {
 }
 
 
-/* ========================================
-   완료 경기 결과 수정
-
-   본선에서는 승자가 바뀔 수 있으므로
-   이후 라운드를 안전하게 초기화함.
-======================================== */
+/* =========================
+   EDIT COMPLETED
+========================= */
 
 function editCompleted(
   matchId
@@ -2859,7 +2876,9 @@ function editCompleted(
 
 
   if (!match) {
+
     return;
+
   }
 
 
@@ -2877,7 +2896,9 @@ function editCompleted(
   if (
     first === null
   ) {
+
     return;
+
   }
 
 
@@ -2895,7 +2916,9 @@ function editCompleted(
   if (
     second === null
   ) {
+
     return;
+
   }
 
 
@@ -2912,9 +2935,13 @@ function editCompleted(
     ||
     second.trim() === ""
     ||
-    !Number.isFinite(score1)
+    !Number.isFinite(
+      score1
+    )
     ||
-    !Number.isFinite(score2)
+    !Number.isFinite(
+      score2
+    )
     ||
     score1 < 0
     ||
@@ -2953,10 +2980,6 @@ function editCompleted(
       : match.player2;
 
 
-  /*
-    승자가 바뀐다면 이후 대진에 영향 발생.
-  */
-
   if (
     oldWinner !==
     newWinner
@@ -2969,7 +2992,9 @@ function editCompleted(
 
 
     if (!ok) {
+
       return;
+
     }
 
 
@@ -3000,9 +3025,9 @@ function editCompleted(
 }
 
 
-/* ========================================
-   완료 → 대기 복구
-======================================== */
+/* =========================
+   COMPLETED → WAITING
+========================= */
 
 function restoreCompleted(
   matchId
@@ -3015,7 +3040,9 @@ function restoreCompleted(
 
 
   if (!match) {
+
     return;
+
   }
 
 
@@ -3075,9 +3102,9 @@ function restoreCompleted(
 }
 
 
-/* ========================================
-   코트 렌더
-======================================== */
+/* =========================
+   RENDER COURTS
+========================= */
 
 function renderCourts() {
 
@@ -3247,9 +3274,9 @@ function renderCourts() {
 }
 
 
-/* ========================================
-   진행 가능 경기
-======================================== */
+/* =========================
+   RENDER READY
+========================= */
 
 function renderReady() {
 
@@ -3328,9 +3355,7 @@ function renderReady() {
         <div class="ready-info">
 
           <div class="ready-match-no">
-
             ${match.matchIndex + 1}경기
-
           </div>
 
           <div class="ready-players">
@@ -3382,9 +3407,9 @@ function renderReady() {
 }
 
 
-/* ========================================
-   다음 라운드 대기
-======================================== */
+/* =========================
+   RENDER PENDING
+========================= */
 
 function renderPending() {
 
@@ -3503,9 +3528,9 @@ function renderPending() {
 }
 
 
-/* ========================================
-   완료 경기
-======================================== */
+/* =========================
+   RENDER COMPLETED
+========================= */
 
 function renderCompleted() {
 
@@ -3522,6 +3547,7 @@ function renderCompleted() {
           match.status ===
           "completed"
       )
+      .slice()
       .reverse();
 
 
@@ -3670,9 +3696,9 @@ function renderCompleted() {
 }
 
 
-/* ========================================
-   우승자
-======================================== */
+/* =========================
+   CHAMPION
+========================= */
 
 function renderChampion() {
 
@@ -3736,15 +3762,11 @@ function renderChampion() {
 }
 
 
-/* ========================================
-   통계
-======================================== */
+/* =========================
+   STATS
+========================= */
 
 function renderStats() {
-
-  /*
-    BYE는 실제 경기 수에서 제외
-  */
 
   const realMatches =
     allMatches().filter(
@@ -3816,9 +3838,9 @@ function renderStats() {
 }
 
 
-/* ========================================
-   전체 렌더
-======================================== */
+/* =========================
+   RENDER
+========================= */
 
 function render() {
 
@@ -3839,9 +3861,9 @@ function render() {
 }
 
 
-/* ========================================
-   모달 이벤트
-======================================== */
+/* =========================
+   EVENTS
+========================= */
 
 document.getElementById(
   "cancelCourt"
@@ -3905,9 +3927,9 @@ document.getElementById(
 );
 
 
-/* ========================================
+/* =========================
    START
-======================================== */
+========================= */
 
 render();
 
