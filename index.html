@@ -114,12 +114,6 @@
       color:white;
     }
 
-    /*
-      라임 그래픽은
-      FWT T 로고 꼬리처럼 보이지 않도록
-      브랜드 로고와 떨어진 배경 요소로만 사용
-    */
-
     .hero::before{
       content:"";
 
@@ -604,11 +598,6 @@
     .status.completed{
       background:var(--gray-bg);
       color:var(--gray);
-    }
-
-    .status.draft{
-      background:var(--orange-bg);
-      color:var(--orange);
     }
 
     .date{
@@ -1155,9 +1144,7 @@
   >
 
     <div class="loading">
-
       <div class="spinner"></div>
-
     </div>
 
   </section>
@@ -1279,11 +1266,7 @@ function formatDate(value){
 
 
 /* ==============================
-   EVENT STATUS
-
-   active DB 상태가 가장 우선.
-   draft인데 미래 날짜라면 예정.
-   completed면 종료.
+   STATUS
 ============================== */
 
 function getViewStatus(
@@ -1306,37 +1289,6 @@ function getViewStatus(
   ){
 
     return "active";
-
-  }
-
-
-  const eventDate =
-    parseDate(
-      tournament.tournament_date
-    );
-
-
-  if (eventDate){
-
-    const today =
-      new Date();
-
-
-    today.setHours(
-      0,
-      0,
-      0,
-      0
-    );
-
-
-    if (
-      eventDate >= today
-    ){
-
-      return "upcoming";
-
-    }
 
   }
 
@@ -1463,6 +1415,14 @@ function formatFormat(value){
 
 async function loadTournaments(){
 
+  /*
+    중요:
+    is_public 조건을 사용하지 않는다.
+
+    DB에 존재하는 모든 대회를
+    공개 목록에 표시한다.
+  */
+
   const {
     data:tournamentRows,
     error:tournamentError
@@ -1470,11 +1430,7 @@ async function loadTournaments(){
     await supabaseClient
       .from("tournaments")
       .select(
-        "id,name,tournament_date,status,is_public,created_at"
-      )
-      .eq(
-        "is_public",
-        true
+        "id,name,tournament_date,status,created_at"
       )
       .order(
         "tournament_date",
@@ -1587,13 +1543,11 @@ async function loadTournaments(){
 
 
   /*
-    목록 우선순위
+    정렬 우선순위
 
     1. 진행중
     2. 예정
     3. 종료
-
-    같은 상태에서는 날짜순
   */
 
   const order = {
@@ -1733,7 +1687,7 @@ function render(){
 
     const title =
       tournaments.length === 0
-        ? "현재 공개된 대회가 없습니다."
+        ? "아직 등록된 대회가 없습니다."
         : "해당하는 대회가 없습니다.";
 
 
@@ -1750,7 +1704,7 @@ function render(){
         </div>
 
         <div class="state-desc">
-          새로운 FWT 대회가 공개되면 이곳에서 바로 확인할 수 있습니다.
+          FWT 대회가 생성되면 이곳에서 경기 현황과 결과를 확인할 수 있습니다.
         </div>
 
       </div>
