@@ -22,9 +22,12 @@
       --shadow: 0 14px 40px rgba(20, 35, 55, 0.06);
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
-    html, body {
+    html,
+    body {
       margin: 0;
       min-height: 100%;
       font-family:
@@ -39,18 +42,30 @@
       color: var(--text);
     }
 
-    button, input { font: inherit; }
-    button { cursor: pointer; }
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
 
     .topbar {
       height: 72px;
-      background: linear-gradient(110deg,#07182d,#0b2848 60%,#10375f);
+      background:
+        linear-gradient(
+          110deg,
+          #07182d,
+          #0b2848 60%,
+          #10375f
+        );
       color: white;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 30px;
-      box-shadow: 0 4px 22px rgba(6,23,43,.16);
+      box-shadow: 0 4px 22px rgba(6, 23, 43, 0.16);
     }
 
     .brand {
@@ -68,7 +83,9 @@
       transform: skewX(-5deg);
     }
 
-    .fwt span { color: var(--lime); }
+    .fwt span {
+      color: var(--lime);
+    }
 
     .fwt::after {
       content: "";
@@ -162,11 +179,15 @@
       color: #596577;
     }
 
-    .summary-chip strong { color: var(--navy); }
+    .summary-chip strong {
+      color: var(--navy);
+    }
 
     .grid {
       display: grid;
-      grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr);
+      grid-template-columns:
+        minmax(0, .9fr)
+        minmax(0, 1.1fr);
       gap: 18px;
     }
 
@@ -195,9 +216,13 @@
       color: var(--muted);
     }
 
-    .card-body { padding: 22px; }
+    .card-body {
+      padding: 22px;
+    }
 
-    .field { margin-bottom: 17px; }
+    .field {
+      margin-bottom: 17px;
+    }
 
     label {
       display: block;
@@ -221,7 +246,8 @@
     input:focus {
       border-color: #6d91b5;
       background: white;
-      box-shadow: 0 0 0 4px rgba(23,73,120,.06);
+      box-shadow:
+        0 0 0 4px rgba(23,73,120,.06);
     }
 
     .two-col {
@@ -236,7 +262,12 @@
       border: 0;
       border-radius: 11px;
       margin-top: 6px;
-      background: linear-gradient(115deg,var(--navy),#123e6c);
+      background:
+        linear-gradient(
+          115deg,
+          var(--navy),
+          #123e6c
+        );
       color: white;
       font-weight: 800;
       font-size: 13px;
@@ -294,6 +325,7 @@
       font-size: 13px;
       font-weight: 850;
       color: #263247;
+      word-break: keep-all;
     }
 
     .entry-sub {
@@ -356,9 +388,15 @@
     .next-btn {
       flex: 1;
       border: 0;
-      background: linear-gradient(115deg,var(--navy),#123e6c);
+      background:
+        linear-gradient(
+          115deg,
+          var(--navy),
+          #123e6c
+        );
       color: white;
-      box-shadow: 0 10px 26px rgba(7,26,49,.12);
+      box-shadow:
+        0 10px 26px rgba(7,26,49,.12);
     }
 
     .next-btn span {
@@ -377,651 +415,1167 @@
       letter-spacing: 1px;
     }
 
-    .footer strong { color: var(--navy); }
+    .footer strong {
+      color: var(--navy);
+    }
 
     .footer .q {
       color: #9eb421;
       font-weight: 900;
     }
 
-    .hidden { display: none !important; }
+    .hidden {
+      display: none !important;
+    }
 
-    @media (max-width:760px) {
-      .topbar { padding: 0 17px; }
-      .top-title { display:none; }
+    @media (max-width: 760px) {
+      .topbar {
+        padding: 0 17px;
+      }
+
+      .top-title {
+        display: none;
+      }
+
       .container {
         width: calc(100% - 26px);
-        padding-top:30px;
+        padding-top: 30px;
       }
-      .page-head { display:block; }
+
+      .page-head {
+        display: block;
+      }
+
       .summary {
-        justify-content:flex-start;
-        margin-top:16px;
+        justify-content: flex-start;
+        margin-top: 16px;
       }
-      h1 { font-size:29px; }
-      .grid { grid-template-columns:1fr; }
-      .card { border-radius:16px; }
-      .two-col { grid-template-columns:1fr; }
-      .bottom-bar { flex-direction:column-reverse; }
-      .secondary-btn,.next-btn { width:100%; }
+
+      h1 {
+        font-size: 29px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        border-radius: 16px;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .bottom-bar {
+        flex-direction: column-reverse;
+      }
+
+      .secondary-btn,
+      .next-btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
 
 <body>
 
-<header class="topbar">
-  <div class="brand">
-    <div class="fwt">FW<span>T</span></div>
-    <div class="top-title">TOURNAMENT CONTROL</div>
-  </div>
+  <header class="topbar">
 
-  <button
-    class="back-btn"
-    onclick="window.location.href='./create-tournament.html'"
-  >
-    ← 이전
-  </button>
-</header>
-
-<main class="container">
-
-  <div class="page-head">
-    <div>
-      <div class="kicker">PARTICIPANTS</div>
-      <h1>참가자 등록</h1>
-      <p class="page-desc">
-        참가자 또는 팀을 등록한 뒤 조편성이나 토너먼트 대진을 구성합니다.
-      </p>
+    <div class="brand">
+      <div class="fwt">FW<span>T</span></div>
+      <div class="top-title">TOURNAMENT CONTROL</div>
     </div>
 
-    <div class="summary">
-      <div class="summary-chip">
-        <strong id="summaryType">-</strong>
-      </div>
-      <div class="summary-chip">
-        <strong id="summaryFormat">-</strong>
-      </div>
-      <div class="summary-chip">
-        <strong id="summaryCount">0</strong> 참가
-      </div>
-    </div>
-  </div>
+    <button
+      class="back-btn"
+      onclick="window.location.href='./create-tournament.html'"
+    >
+      ← 이전
+    </button>
 
-  <section class="grid">
+  </header>
 
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title" id="registerTitle">참가자 추가</div>
-        <div class="card-sub" id="registerSub">
-          참가자 정보를 입력해주세요.
-        </div>
-      </div>
 
-      <div class="card-body">
+  <main class="container">
 
-        <div id="singlesForm">
-          <div class="field">
-            <label>이름</label>
-            <input
-              type="text"
-              id="singleName"
-              placeholder="예: 이규남"
-            />
-          </div>
+    <div class="page-head">
 
-          <div class="field">
-            <label>닉네임</label>
-            <input
-              type="text"
-              id="singleNickname"
-              placeholder="예: Q"
-            />
-          </div>
+      <div>
+
+        <div class="kicker">
+          PARTICIPANTS
         </div>
 
-        <div id="doublesForm" class="hidden">
+        <h1>
+          참가자 등록
+        </h1>
 
-          <div class="two-col">
-            <div class="field">
-              <label>선수 1 이름</label>
-              <input type="text" id="player1Name" placeholder="선수 1" />
-            </div>
-
-            <div class="field">
-              <label>선수 1 닉네임</label>
-              <input type="text" id="player1Nickname" placeholder="닉네임" />
-            </div>
-          </div>
-
-          <div class="two-col">
-            <div class="field">
-              <label>선수 2 이름</label>
-              <input type="text" id="player2Name" placeholder="선수 2" />
-            </div>
-
-            <div class="field">
-              <label>선수 2 닉네임</label>
-              <input type="text" id="player2Nickname" placeholder="닉네임" />
-            </div>
-          </div>
-
-        </div>
-
-        <button
-          type="button"
-          class="add-btn"
-          id="addEntryButton"
-        >
-          + 참가자 추가
-        </button>
+        <p class="page-desc">
+          참가자 또는 팀을 등록한 뒤 조편성이나 토너먼트 대진을 구성합니다.
+        </p>
 
       </div>
+
+
+      <div class="summary">
+
+        <div class="summary-chip">
+          <strong id="summaryType">-</strong>
+        </div>
+
+        <div class="summary-chip">
+          <strong id="summaryFormat">-</strong>
+        </div>
+
+        <div class="summary-chip">
+          <strong id="summaryCount">0</strong> 참가
+        </div>
+
+      </div>
+
     </div>
 
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title">등록된 참가자</div>
-        <div class="card-sub">
-          참가자는 언제든 수정하거나 삭제할 수 있습니다.
+
+    <section class="grid">
+
+      <!-- 등록 -->
+      <div class="card">
+
+        <div class="card-head">
+
+          <div
+            class="card-title"
+            id="registerTitle"
+          >
+            참가자 추가
+          </div>
+
+          <div
+            class="card-sub"
+            id="registerSub"
+          >
+            참가자 정보를 입력해주세요.
+          </div>
+
         </div>
+
+
+        <div class="card-body">
+
+          <!-- 단식 -->
+          <div id="singlesForm">
+
+            <div class="field">
+
+              <label>
+                이름
+              </label>
+
+              <input
+                type="text"
+                id="singleName"
+                placeholder="예: 이규남"
+              />
+
+            </div>
+
+            <div class="field">
+
+              <label>
+                닉네임
+              </label>
+
+              <input
+                type="text"
+                id="singleNickname"
+                placeholder="예: Q"
+              />
+
+            </div>
+
+          </div>
+
+
+          <!-- 복식 -->
+          <div
+            id="doublesForm"
+            class="hidden"
+          >
+
+            <div class="two-col">
+
+              <div class="field">
+
+                <label>
+                  선수 1 이름
+                </label>
+
+                <input
+                  type="text"
+                  id="player1Name"
+                  placeholder="선수 1"
+                />
+
+              </div>
+
+              <div class="field">
+
+                <label>
+                  선수 1 닉네임
+                </label>
+
+                <input
+                  type="text"
+                  id="player1Nickname"
+                  placeholder="닉네임"
+                />
+
+              </div>
+
+            </div>
+
+
+            <div class="two-col">
+
+              <div class="field">
+
+                <label>
+                  선수 2 이름
+                </label>
+
+                <input
+                  type="text"
+                  id="player2Name"
+                  placeholder="선수 2"
+                />
+
+              </div>
+
+              <div class="field">
+
+                <label>
+                  선수 2 닉네임
+                </label>
+
+                <input
+                  type="text"
+                  id="player2Nickname"
+                  placeholder="닉네임"
+                />
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="add-btn"
+            id="addEntryButton"
+          >
+            + 참가자 추가
+          </button>
+
+        </div>
+
       </div>
 
-      <div class="card-body">
 
-        <div class="count-box">
-          <div class="count-label">현재 참가 수</div>
-          <div class="count-number" id="entryCount">0</div>
+      <!-- 목록 -->
+      <div class="card">
+
+        <div class="card-head">
+
+          <div class="card-title">
+            등록된 참가자
+          </div>
+
+          <div class="card-sub">
+            참가자는 언제든 수정하거나 삭제할 수 있습니다.
+          </div>
+
         </div>
 
-        <div id="entryList" class="list">
+
+        <div class="card-body">
+
+          <div class="count-box">
+
+            <div class="count-label">
+              현재 참가 수
+            </div>
+
+            <div
+              class="count-number"
+              id="entryCount"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div
+            id="entryList"
+            class="list"
+          >
+
+            <div class="empty">
+              아직 등록된 참가자가 없습니다.<br />
+              왼쪽에서 참가자를 추가해주세요.
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <div class="bottom-bar">
+
+      <button
+        class="secondary-btn"
+        onclick="window.location.href='./create-tournament.html'"
+      >
+        이전 단계
+      </button>
+
+
+      <button
+        class="next-btn"
+        id="nextButton"
+      >
+        다음 단계
+        <span>→</span>
+      </button>
+
+    </div>
+
+
+    <footer class="footer">
+
+      <div>
+        <strong>FWT</strong>
+        · FRIENDS WITH TENNIS
+      </div>
+
+      <div>
+        CREATED BY
+        <span class="q">Q</span>
+      </div>
+
+    </footer>
+
+  </main>
+
+
+  <script>
+
+    const SUPABASE_URL =
+      "https://opwuyqerisocqobbbisg.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_Eo_zfONeGLs9ATCVg2Fk_g_y_IAJFV-";
+
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    async function checkLogin() {
+
+      const { data } =
+        await supabaseClient.auth.getSession();
+
+      if (!data.session) {
+        window.location.href = "./";
+      }
+
+    }
+
+    checkLogin();
+
+
+    const rawTournament =
+      sessionStorage.getItem(
+        "fwtNewTournament"
+      );
+
+
+    if (!rawTournament) {
+
+      alert(
+        "대회 기본 정보가 없습니다. 먼저 새 대회를 만들어주세요."
+      );
+
+      window.location.href =
+        "./create-tournament.html";
+
+    }
+
+
+    const tournament =
+      JSON.parse(rawTournament);
+
+
+    const isDoubles =
+      tournament.matchType ===
+      "doubles";
+
+
+    document.getElementById(
+      "summaryType"
+    ).textContent =
+      isDoubles
+        ? "복식"
+        : "단식";
+
+
+    document.getElementById(
+      "summaryFormat"
+    ).textContent =
+      tournament.format ===
+      "group_knockout"
+        ? "조별리그 + 토너먼트"
+        : "토너먼트";
+
+
+    const nextButton =
+      document.getElementById(
+        "nextButton"
+      );
+
+
+    nextButton.innerHTML =
+      tournament.format ===
+      "group_knockout"
+        ? '조편성 · 대진으로 이동 <span>→</span>'
+        : '토너먼트 대진으로 이동 <span>→</span>';
+
+
+    if (isDoubles) {
+
+      document.getElementById(
+        "singlesForm"
+      ).classList.add(
+        "hidden"
+      );
+
+
+      document.getElementById(
+        "doublesForm"
+      ).classList.remove(
+        "hidden"
+      );
+
+
+      document.getElementById(
+        "registerTitle"
+      ).textContent =
+        "복식팀 추가";
+
+
+      document.getElementById(
+        "registerSub"
+      ).textContent =
+        "2명의 선수를 한 팀으로 등록합니다.";
+
+
+      document.getElementById(
+        "addEntryButton"
+      ).textContent =
+        "+ 복식팀 추가";
+
+    }
+
+
+    let entries = [];
+
+
+    const savedEntries =
+      sessionStorage.getItem(
+        "fwtNewTournamentEntries"
+      );
+
+
+    if (savedEntries) {
+
+      try {
+
+        entries =
+          JSON.parse(
+            savedEntries
+          );
+
+      } catch (e) {
+
+        entries = [];
+
+      }
+
+    }
+
+
+    function saveEntries() {
+
+      sessionStorage.setItem(
+        "fwtNewTournamentEntries",
+        JSON.stringify(
+          entries
+        )
+      );
+
+    }
+
+
+    function displayPerson(
+      name,
+      nickname
+    ) {
+
+      if (
+        nickname &&
+        name
+      ) {
+
+        return `${nickname} (${name})`;
+
+      }
+
+      return (
+        nickname ||
+        name ||
+        ""
+      );
+
+    }
+
+
+    function renderEntries() {
+
+      const list =
+        document.getElementById(
+          "entryList"
+        );
+
+
+      list.innerHTML = "";
+
+
+      document.getElementById(
+        "entryCount"
+      ).textContent =
+        entries.length;
+
+
+      document.getElementById(
+        "summaryCount"
+      ).textContent =
+        entries.length;
+
+
+      if (
+        entries.length === 0
+      ) {
+
+        list.innerHTML = `
           <div class="empty">
             아직 등록된 참가자가 없습니다.<br />
             왼쪽에서 참가자를 추가해주세요.
           </div>
-        </div>
+        `;
 
-      </div>
-    </div>
+        return;
 
-  </section>
-
-  <div class="bottom-bar">
-
-    <button
-      class="secondary-btn"
-      onclick="window.location.href='./create-tournament.html'"
-    >
-      이전 단계
-    </button>
-
-    <button
-      class="next-btn"
-      id="nextButton"
-    >
-      다음 단계
-      <span>→</span>
-    </button>
-
-  </div>
-
-  <footer class="footer">
-    <div>
-      <strong>FWT</strong> · FRIENDS WITH TENNIS
-    </div>
-    <div>
-      CREATED BY <span class="q">Q</span>
-    </div>
-  </footer>
-
-</main>
-
-<script>
-  const SUPABASE_URL =
-    "https://opwuyqerisocqobbbisg.supabase.co";
-
-  const SUPABASE_KEY =
-    "sb_publishable_Eo_zfONeGLs9ATCVg2Fk_g_y_IAJFV-";
-
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
-
-  async function checkLogin() {
-    const { data } =
-      await supabaseClient.auth.getSession();
-
-    if (!data.session) {
-      window.location.href = "./";
-    }
-  }
-
-  checkLogin();
-
-  const rawTournament =
-    sessionStorage.getItem("fwtNewTournament");
-
-  if (!rawTournament) {
-    alert(
-      "대회 기본 정보가 없습니다. 먼저 새 대회를 만들어주세요."
-    );
-
-    window.location.href =
-      "./create-tournament.html";
-  }
-
-  const tournament =
-    JSON.parse(rawTournament);
-
-  const isDoubles =
-    tournament.matchType === "doubles";
-
-  document.getElementById(
-    "summaryType"
-  ).textContent =
-    isDoubles ? "복식" : "단식";
-
-  document.getElementById(
-    "summaryFormat"
-  ).textContent =
-    tournament.format === "group_knockout"
-      ? "조별리그 + 토너먼트"
-      : "토너먼트";
-
-  document.getElementById(
-    "nextButton"
-  ).firstChild.textContent =
-    tournament.format === "group_knockout"
-      ? "조편성 · 대진으로 이동 "
-      : "토너먼트 대진으로 이동 ";
-
-  if (isDoubles) {
-    document.getElementById(
-      "singlesForm"
-    ).classList.add("hidden");
-
-    document.getElementById(
-      "doublesForm"
-    ).classList.remove("hidden");
-
-    document.getElementById(
-      "registerTitle"
-    ).textContent =
-      "복식팀 추가";
-
-    document.getElementById(
-      "registerSub"
-    ).textContent =
-      "2명의 선수를 한 팀으로 등록합니다.";
-
-    document.getElementById(
-      "addEntryButton"
-    ).textContent =
-      "+ 복식팀 추가";
-  }
-
-  let entries = [];
-
-  const savedEntries =
-    sessionStorage.getItem(
-      "fwtNewTournamentEntries"
-    );
-
-  if (savedEntries) {
-    try {
-      entries = JSON.parse(savedEntries);
-    } catch (e) {
-      entries = [];
-    }
-  }
-
-  function saveEntries() {
-    sessionStorage.setItem(
-      "fwtNewTournamentEntries",
-      JSON.stringify(entries)
-    );
-  }
-
-  function displayPerson(name, nickname) {
-    if (nickname && name) {
-      return `${nickname} (${name})`;
-    }
-
-    return nickname || name;
-  }
-
-  function renderEntries() {
-    const list =
-      document.getElementById(
-        "entryList"
-      );
-
-    list.innerHTML = "";
-
-    document.getElementById(
-      "entryCount"
-    ).textContent =
-      entries.length;
-
-    document.getElementById(
-      "summaryCount"
-    ).textContent =
-      entries.length;
-
-    if (entries.length === 0) {
-      list.innerHTML = `
-        <div class="empty">
-          아직 등록된 참가자가 없습니다.<br />
-          왼쪽에서 참가자를 추가해주세요.
-        </div>
-      `;
-      return;
-    }
-
-    entries.forEach((entry,index) => {
-      const div =
-        document.createElement("div");
-
-      div.className = "entry";
-
-      let title = "";
-      let sub = "";
-
-      if (entry.type === "singles") {
-        title =
-          escapeHtml(
-            displayPerson(
-              entry.name,
-              entry.nickname
-            )
-          );
-
-        sub = "단식 참가자";
-      } else {
-        title =
-          escapeHtml(
-            displayPerson(
-              entry.player1.name,
-              entry.player1.nickname
-            )
-          )
-          + " / "
-          + escapeHtml(
-            displayPerson(
-              entry.player2.name,
-              entry.player2.nickname
-            )
-          );
-
-        sub = "복식팀";
       }
 
-      div.innerHTML = `
-        <div>
-          <div class="entry-number">
-            ENTRY ${String(index+1).padStart(2,"0")}
-          </div>
 
-          <div class="entry-name">
-            ${title}
-          </div>
+      entries.forEach(
+        (entry, index) => {
 
-          <div class="entry-sub">
-            ${sub}
-          </div>
-        </div>
+          const div =
+            document.createElement(
+              "div"
+            );
 
-        <div class="entry-actions">
-          <button
-            class="mini-btn"
-            onclick="editEntry(${index})"
-          >
-            수정
-          </button>
 
-          <button
-            class="mini-btn delete"
-            onclick="deleteEntry(${index})"
-          >
-            삭제
-          </button>
-        </div>
-      `;
+          div.className =
+            "entry";
 
-      list.appendChild(div);
-    });
-  }
 
-  function addEntry() {
-    if (!isDoubles) {
-      const name =
+          let title = "";
+          let sub = "";
+
+
+          if (
+            entry.type ===
+            "singles"
+          ) {
+
+            title =
+              escapeHtml(
+                displayPerson(
+                  entry.name,
+                  entry.nickname
+                )
+              );
+
+            sub =
+              "단식 참가자";
+
+          } else {
+
+            title =
+              escapeHtml(
+                displayPerson(
+                  entry.player1.name,
+                  entry.player1.nickname
+                )
+              )
+              +
+              " / "
+              +
+              escapeHtml(
+                displayPerson(
+                  entry.player2.name,
+                  entry.player2.nickname
+                )
+              );
+
+            sub =
+              "복식팀";
+
+          }
+
+
+          div.innerHTML = `
+
+            <div>
+
+              <div class="entry-number">
+                ENTRY ${String(
+                  index + 1
+                ).padStart(
+                  2,
+                  "0"
+                )}
+              </div>
+
+
+              <div class="entry-name">
+                ${title}
+              </div>
+
+
+              <div class="entry-sub">
+                ${sub}
+              </div>
+
+            </div>
+
+
+            <div class="entry-actions">
+
+              <button
+                class="mini-btn"
+                onclick="editEntry(${index})"
+              >
+                수정
+              </button>
+
+
+              <button
+                class="mini-btn delete"
+                onclick="deleteEntry(${index})"
+              >
+                삭제
+              </button>
+
+            </div>
+
+          `;
+
+
+          list.appendChild(
+            div
+          );
+
+        }
+      );
+
+    }
+
+
+    function addEntry() {
+
+      if (!isDoubles) {
+
+        const name =
+          document.getElementById(
+            "singleName"
+          ).value.trim();
+
+
+        const nickname =
+          document.getElementById(
+            "singleNickname"
+          ).value.trim();
+
+
+        if (
+          !name &&
+          !nickname
+        ) {
+
+          alert(
+            "이름 또는 닉네임을 입력해주세요."
+          );
+
+          return;
+
+        }
+
+
+        entries.push({
+          type: "singles",
+          name,
+          nickname
+        });
+
+
         document.getElementById(
           "singleName"
-        ).value.trim();
+        ).value = "";
 
-      const nickname =
+
         document.getElementById(
           "singleNickname"
-        ).value.trim();
+        ).value = "";
 
-      if (!name && !nickname) {
-        alert(
-          "이름 또는 닉네임을 입력해주세요."
-        );
-        return;
-      }
 
-      entries.push({
-        type: "singles",
-        name,
-        nickname
-      });
+        document.getElementById(
+          "singleName"
+        ).focus();
 
-      document.getElementById(
-        "singleName"
-      ).value = "";
 
-      document.getElementById(
-        "singleNickname"
-      ).value = "";
+      } else {
 
-    } else {
-      const player1Name =
+        const player1Name =
+          document.getElementById(
+            "player1Name"
+          ).value.trim();
+
+
+        const player1Nickname =
+          document.getElementById(
+            "player1Nickname"
+          ).value.trim();
+
+
+        const player2Name =
+          document.getElementById(
+            "player2Name"
+          ).value.trim();
+
+
+        const player2Nickname =
+          document.getElementById(
+            "player2Nickname"
+          ).value.trim();
+
+
+        if (
+          (!player1Name &&
+           !player1Nickname)
+          ||
+          (!player2Name &&
+           !player2Nickname)
+        ) {
+
+          alert(
+            "복식팀은 두 명의 선수를 모두 입력해야 합니다."
+          );
+
+          return;
+
+        }
+
+
+        entries.push({
+
+          type: "doubles",
+
+          player1: {
+            name:
+              player1Name,
+            nickname:
+              player1Nickname
+          },
+
+          player2: {
+            name:
+              player2Name,
+            nickname:
+              player2Nickname
+          }
+
+        });
+
+
         document.getElementById(
           "player1Name"
-        ).value.trim();
+        ).value = "";
 
-      const player1Nickname =
+
         document.getElementById(
           "player1Nickname"
-        ).value.trim();
+        ).value = "";
 
-      const player2Name =
+
         document.getElementById(
           "player2Name"
-        ).value.trim();
+        ).value = "";
 
-      const player2Nickname =
+
         document.getElementById(
           "player2Nickname"
-        ).value.trim();
+        ).value = "";
 
-      if (
-        (!player1Name && !player1Nickname) ||
-        (!player2Name && !player2Nickname)
-      ) {
-        alert(
-          "복식팀은 두 명의 선수를 모두 입력해야 합니다."
-        );
-        return;
+
+        document.getElementById(
+          "player1Name"
+        ).focus();
+
       }
 
-      entries.push({
-        type: "doubles",
-        player1: {
-          name: player1Name,
-          nickname: player1Nickname
-        },
-        player2: {
-          name: player2Name,
-          nickname: player2Nickname
-        }
-      });
-
-      document.getElementById(
-        "player1Name"
-      ).value = "";
-
-      document.getElementById(
-        "player1Nickname"
-      ).value = "";
-
-      document.getElementById(
-        "player2Name"
-      ).value = "";
-
-      document.getElementById(
-        "player2Nickname"
-      ).value = "";
-    }
-
-    saveEntries();
-    renderEntries();
-  }
-
-  function editEntry(index) {
-    const entry = entries[index];
-
-    if (entry.type === "singles") {
-      const current =
-        displayPerson(
-          entry.name,
-          entry.nickname
-        );
-
-      const value =
-        prompt(
-          "참가자 이름 또는 닉네임을 수정하세요.",
-          current
-        );
-
-      if (value === null) return;
-
-      const edited =
-        value.trim();
-
-      if (!edited) return;
-
-      entry.nickname = edited;
-      entry.name = "";
-
-    } else {
-      const first =
-        prompt(
-          "선수 1 이름 또는 닉네임",
-          displayPerson(
-            entry.player1.name,
-            entry.player1.nickname
-          )
-        );
-
-      if (first === null) return;
-
-      const second =
-        prompt(
-          "선수 2 이름 또는 닉네임",
-          displayPerson(
-            entry.player2.name,
-            entry.player2.nickname
-          )
-        );
-
-      if (second === null) return;
-
-      entry.player1 = {
-        name: "",
-        nickname: first.trim()
-      };
-
-      entry.player2 = {
-        name: "",
-        nickname: second.trim()
-      };
-    }
-
-    saveEntries();
-    renderEntries();
-  }
-
-  function deleteEntry(index) {
-    const ok =
-      confirm(
-        "이 참가자를 삭제하시겠습니까?"
-      );
-
-    if (!ok) return;
-
-    entries.splice(index,1);
-
-    saveEntries();
-    renderEntries();
-  }
-
-  function escapeHtml(value) {
-    const div =
-      document.createElement("div");
-
-    div.textContent = value || "";
-
-    return div.innerHTML;
-  }
-
-  document.getElementById(
-    "addEntryButton"
-  ).addEventListener(
-    "click",
-    addEntry
-  );
-
-  document.getElementById(
-    "nextButton"
-  ).addEventListener(
-    "click",
-    function() {
-      if (entries.length < 2) {
-        alert(
-          "참가자를 최소 2명 이상 등록해주세요."
-        );
-        return;
-      }
 
       saveEntries();
 
-      sessionStorage.removeItem(
-        "fwtGroupAssignments"
-      );
+      renderEntries();
 
-      sessionStorage.removeItem(
-        "fwtGroupData"
-      );
+    }
+
+
+    function editEntry(index) {
+
+      const entry =
+        entries[index];
+
 
       if (
-        tournament.format ===
-        "group_knockout"
+        entry.type ===
+        "singles"
       ) {
-        window.location.href =
-          "./group-setup.html";
-      } else {
-        window.location.href =
-          "./knockout-setup.html";
-      }
-    }
-  );
 
-  renderEntries();
-</script>
+        const newName =
+          prompt(
+            "이름을 수정하세요.",
+            entry.name || ""
+          );
+
+
+        if (
+          newName === null
+        ) {
+          return;
+        }
+
+
+        const newNickname =
+          prompt(
+            "닉네임을 수정하세요.",
+            entry.nickname || ""
+          );
+
+
+        if (
+          newNickname === null
+        ) {
+          return;
+        }
+
+
+        if (
+          !newName.trim() &&
+          !newNickname.trim()
+        ) {
+
+          alert(
+            "이름 또는 닉네임 중 하나는 입력해야 합니다."
+          );
+
+          return;
+
+        }
+
+
+        entry.name =
+          newName.trim();
+
+
+        entry.nickname =
+          newNickname.trim();
+
+
+      } else {
+
+        const p1Name =
+          prompt(
+            "선수 1 이름",
+            entry.player1.name || ""
+          );
+
+
+        if (
+          p1Name === null
+        ) {
+          return;
+        }
+
+
+        const p1Nick =
+          prompt(
+            "선수 1 닉네임",
+            entry.player1.nickname || ""
+          );
+
+
+        if (
+          p1Nick === null
+        ) {
+          return;
+        }
+
+
+        const p2Name =
+          prompt(
+            "선수 2 이름",
+            entry.player2.name || ""
+          );
+
+
+        if (
+          p2Name === null
+        ) {
+          return;
+        }
+
+
+        const p2Nick =
+          prompt(
+            "선수 2 닉네임",
+            entry.player2.nickname || ""
+          );
+
+
+        if (
+          p2Nick === null
+        ) {
+          return;
+        }
+
+
+        if (
+          (
+            !p1Name.trim() &&
+            !p1Nick.trim()
+          )
+          ||
+          (
+            !p2Name.trim() &&
+            !p2Nick.trim()
+          )
+        ) {
+
+          alert(
+            "복식팀은 두 명의 선수를 모두 입력해야 합니다."
+          );
+
+          return;
+
+        }
+
+
+        entry.player1 = {
+          name:
+            p1Name.trim(),
+          nickname:
+            p1Nick.trim()
+        };
+
+
+        entry.player2 = {
+          name:
+            p2Name.trim(),
+          nickname:
+            p2Nick.trim()
+        };
+
+      }
+
+
+      saveEntries();
+
+      renderEntries();
+
+    }
+
+
+    function deleteEntry(index) {
+
+      const ok =
+        confirm(
+          "이 참가자를 삭제하시겠습니까?"
+        );
+
+
+      if (!ok) {
+        return;
+      }
+
+
+      entries.splice(
+        index,
+        1
+      );
+
+
+      saveEntries();
+
+      renderEntries();
+
+    }
+
+
+    function escapeHtml(value) {
+
+      const div =
+        document.createElement(
+          "div"
+        );
+
+
+      div.textContent =
+        value || "";
+
+
+      return div.innerHTML;
+
+    }
+
+
+    document.getElementById(
+      "addEntryButton"
+    ).addEventListener(
+      "click",
+      addEntry
+    );
+
+
+    document.getElementById(
+      "singleNickname"
+    )?.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (
+          event.key ===
+          "Enter"
+        ) {
+
+          event.preventDefault();
+
+          addEntry();
+
+        }
+
+      }
+    );
+
+
+    document.getElementById(
+      "player2Nickname"
+    )?.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (
+          event.key ===
+          "Enter"
+        ) {
+
+          event.preventDefault();
+
+          addEntry();
+
+        }
+
+      }
+    );
+
+
+    nextButton.addEventListener(
+      "click",
+      function() {
+
+        if (
+          entries.length < 2
+        ) {
+
+          alert(
+            "참가자를 최소 2명 이상 등록해주세요."
+          );
+
+          return;
+
+        }
+
+
+        saveEntries();
+
+
+        sessionStorage.removeItem(
+          "fwtGroupAssignments"
+        );
+
+
+        sessionStorage.removeItem(
+          "fwtGroupData"
+        );
+
+
+        if (
+          tournament.format ===
+          "group_knockout"
+        ) {
+
+          window.location.href =
+            "./group-setup.html";
+
+        } else {
+
+          window.location.href =
+            "./knockout-setup.html";
+
+        }
+
+      }
+    );
+
+
+    renderEntries();
+
+  </script>
 
 </body>
 </html>
