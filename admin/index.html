@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,159 +9,783 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+    :root {
+      --navy: #071a31;
+      --navy2: #0c294a;
+      --blue: #174978;
+      --lime: #c9df45;
+      --white: #ffffff;
+      --bg: #f4f6f9;
+      --text: #162033;
+      --muted: #7d8797;
+      --line: #e5e9ef;
+      --danger: #d84a4a;
+    }
+
     * {
       box-sizing: border-box;
     }
 
+    html,
     body {
       margin: 0;
+      min-height: 100%;
+      font-family:
+        Inter,
+        Pretendard,
+        "Noto Sans KR",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+    }
+
+    /* LEFT BRAND AREA */
+
+    .brand-panel {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      padding: 54px 66px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      background:
+        radial-gradient(
+          circle at 12% 12%,
+          rgba(201, 223, 69, 0.17),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 85% 82%,
+          rgba(56, 116, 178, 0.25),
+          transparent 34%
+        ),
+        linear-gradient(
+          145deg,
+          #06152a 0%,
+          #0a2240 48%,
+          #10345d 100%
+        );
+    }
+
+    .brand-panel::before {
+      content: "";
+      position: absolute;
+      width: 560px;
+      height: 560px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.055);
+      right: -210px;
+      top: 70px;
+
+      box-shadow:
+        0 0 0 75px rgba(255, 255, 255, 0.018),
+        0 0 0 150px rgba(255, 255, 255, 0.012);
+    }
+
+    .brand-panel::after {
+      content: "";
+      position: absolute;
+      left: -70px;
+      bottom: 65px;
+      width: 300px;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(201, 223, 69, 0.75),
+        transparent
+      );
+      transform: rotate(-16deg);
+    }
+
+    .brand-top,
+    .brand-middle,
+    .brand-bottom {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* FWT LOGO */
+
+    .logo-wrap {
+      display: inline-flex;
+      flex-direction: column;
+    }
+
+    .logo-main-row {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .logo-mark {
+      position: relative;
+      font-size: clamp(46px, 6vw, 74px);
+      font-weight: 950;
+      font-style: italic;
+      line-height: 0.9;
+      letter-spacing: -5px;
+      transform: skewX(-6deg);
+    }
+
+    .logo-mark .f {
+      color: white;
+    }
+
+    .logo-mark .w {
+      color: white;
+    }
+
+    .logo-mark .t {
+      color: var(--lime);
+      position: relative;
+    }
+
+    .logo-mark .t::after {
+      content: "";
+      position: absolute;
+      width: 50px;
+      height: 4px;
+      background: var(--lime);
+      right: -42px;
+      top: 24px;
+      transform: rotate(-9deg);
+      border-radius: 4px;
+      opacity: 0.95;
+    }
+
+    .speed-line {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--lime);
+      position: relative;
+      margin-left: 16px;
+      box-shadow: 0 0 30px rgba(201, 223, 69, 0.14);
+    }
+
+    .speed-line::before,
+    .speed-line::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 8px;
+      border: 2px solid rgba(255, 255, 255, 0.92);
+      border-left-color: transparent;
+      border-right-color: transparent;
+      border-radius: 50%;
+    }
+
+    .speed-line::before {
+      left: 3px;
+      top: 3px;
+      transform: rotate(45deg);
+    }
+
+    .speed-line::after {
+      right: 3px;
+      bottom: 3px;
+      transform: rotate(45deg);
+    }
+
+    .logo-sub {
+      margin-top: 12px;
+      padding-left: 3px;
+      font-size: 11px;
+      font-weight: 750;
+      letter-spacing: 3.3px;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    /* BRAND COPY */
+
+    .brand-middle {
+      max-width: 650px;
+      margin-top: 80px;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2.6px;
+      color: var(--lime);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 2px;
+      background: var(--lime);
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: clamp(40px, 5vw, 70px);
+      line-height: 1.02;
+      letter-spacing: -3.5px;
+      font-weight: 900;
+    }
+
+    .brand-title span {
+      color: var(--lime);
+    }
+
+    .brand-desc {
+      margin-top: 22px;
+      font-size: 17px;
+      line-height: 1.75;
+      color: rgba(255, 255, 255, 0.71);
+      max-width: 520px;
+      word-break: keep-all;
+    }
+
+    .feature-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 32px;
+    }
+
+    .feature {
+      padding: 9px 13px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.045);
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      backdrop-filter: blur(6px);
+    }
+
+    /* CREATED BY Q */
+
+    .brand-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 55px;
+    }
+
+    .system-text {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.38);
+      letter-spacing: 1.5px;
+    }
+
+    .created {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.9px;
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .created strong {
+      color: var(--lime);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    /* RIGHT LOGIN AREA */
+
+    .login-panel {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #f4f6f8;
-      font-family: Arial, "Noto Sans KR", sans-serif;
-      color: #17233c;
+      padding: 50px 36px;
+      background:
+        radial-gradient(
+          circle at 100% 0%,
+          rgba(24, 77, 127, 0.055),
+          transparent 25%
+        ),
+        var(--bg);
     }
 
-    .login-card {
-      width: min(420px, calc(100% - 32px));
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 42px 32px;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+    .login-container {
+      width: min(410px, 100%);
     }
 
-    .brand {
-      text-align: center;
+    .login-header {
       margin-bottom: 34px;
     }
 
-    .brand-main {
-      font-size: 38px;
-      font-weight: 800;
-      letter-spacing: -1px;
-      color: #12284c;
+    .login-small-title {
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 2.4px;
+      color: var(--blue);
+      margin-bottom: 10px;
     }
 
-    .brand-sub {
-      margin-top: 4px;
+    .login-header h2 {
+      margin: 0;
+      font-size: 31px;
+      letter-spacing: -1.5px;
+      font-weight: 850;
+      color: var(--navy);
+    }
+
+    .login-header p {
+      margin: 11px 0 0;
+      color: var(--muted);
       font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: #6b7280;
+      line-height: 1.6;
     }
 
-    .admin-title {
-      margin-top: 18px;
-      font-size: 17px;
-      font-weight: 700;
-      color: #374151;
+    .login-card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 30px;
+      box-shadow:
+        0 22px 60px rgba(20, 38, 64, 0.07),
+        0 4px 12px rgba(20, 38, 64, 0.035);
+    }
+
+    .access-label {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 23px;
+      font-size: 11px;
+      font-weight: 850;
+      color: var(--navy);
+      letter-spacing: 1.7px;
+    }
+
+    .access-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 0 5px rgba(201, 223, 69, 0.15);
     }
 
     label {
       display: block;
       margin-bottom: 9px;
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 13px;
+      font-weight: 750;
+      color: #364154;
+    }
+
+    .input-wrap {
+      position: relative;
     }
 
     input {
       width: 100%;
-      height: 52px;
-      border: 1px solid #d6dbe3;
-      border-radius: 10px;
-      padding: 0 15px;
-      font-size: 17px;
+      height: 56px;
+      padding: 0 52px 0 16px;
+      border: 1px solid #dce1e8;
+      border-radius: 12px;
       outline: none;
-      transition: 0.2s;
+      font-size: 17px;
+      transition: 0.2s ease;
+      background: #fbfcfd;
     }
 
     input:focus {
-      border-color: #173e70;
-      box-shadow: 0 0 0 3px rgba(23, 62, 112, 0.08);
+      background: white;
+      border-color: #668ab1;
+      box-shadow: 0 0 0 4px rgba(23, 73, 120, 0.07);
     }
 
-    button {
-      width: 100%;
-      height: 52px;
-      margin-top: 18px;
-      border: 0;
-      border-radius: 10px;
-      background: #173e70;
-      color: white;
-      font-size: 16px;
-      font-weight: 700;
+    .toggle-password {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      border: none;
+      background: transparent;
+      color: #8a94a3;
       cursor: pointer;
+      margin: 0;
+      border-radius: 9px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
     }
 
-    button:hover {
-      background: #102f58;
+    .toggle-password:hover {
+      background: #f1f3f6;
     }
 
-    button:disabled {
-      opacity: 0.6;
+    .login-button {
+      position: relative;
+      width: 100%;
+      height: 56px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      background: linear-gradient(
+        115deg,
+        var(--navy) 0%,
+        var(--navy2) 55%,
+        #164572 100%
+      );
+      color: white;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+      overflow: hidden;
+      transition:
+        transform 0.2s,
+        box-shadow 0.2s,
+        opacity 0.2s;
+    }
+
+    .login-button::after {
+      content: "";
+      position: absolute;
+      width: 62px;
+      height: 100%;
+      top: 0;
+      right: -25px;
+      background: var(--lime);
+      opacity: 0.12;
+      transform: skewX(-20deg);
+    }
+
+    .login-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 25px rgba(7, 26, 49, 0.14);
+    }
+
+    .login-button:disabled {
+      opacity: 0.58;
       cursor: default;
+      transform: none;
+      box-shadow: none;
     }
 
     .message {
-      min-height: 22px;
+      min-height: 20px;
       margin-top: 14px;
       text-align: center;
-      font-size: 14px;
+      font-size: 13px;
+      font-weight: 650;
     }
 
     .error {
-      color: #c0392b;
+      color: var(--danger);
     }
 
-    .footer {
-      margin-top: 30px;
+    .login-foot {
+      margin-top: 22px;
       text-align: center;
-      color: #8a919d;
-      font-size: 12px;
-      letter-spacing: 1px;
+      color: #9aa3af;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 900px) {
+      .page {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-panel {
+        min-height: 390px;
+        padding: 32px 26px 38px;
+      }
+
+      .brand-middle {
+        margin-top: 55px;
+      }
+
+      .brand-title {
+        font-size: 42px;
+      }
+
+      .brand-desc {
+        font-size: 14px;
+        max-width: 430px;
+      }
+
+      .brand-bottom {
+        margin-top: 42px;
+      }
+
+      .login-panel {
+        min-height: auto;
+        padding: 48px 22px 65px;
+      }
+
+      .login-container {
+        width: min(440px, 100%);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .brand-panel {
+        min-height: 340px;
+        padding: 28px 22px 30px;
+      }
+
+      .logo-mark {
+        font-size: 48px;
+      }
+
+      .speed-line {
+        width: 27px;
+        height: 27px;
+      }
+
+      .logo-sub {
+        font-size: 9px;
+        letter-spacing: 2.5px;
+      }
+
+      .brand-middle {
+        margin-top: 42px;
+      }
+
+      .eyebrow {
+        font-size: 10px;
+      }
+
+      .brand-title {
+        font-size: 35px;
+        line-height: 1.06;
+        letter-spacing: -2px;
+      }
+
+      .brand-desc {
+        font-size: 13px;
+        line-height: 1.65;
+      }
+
+      .feature-row {
+        margin-top: 23px;
+      }
+
+      .feature {
+        padding: 7px 10px;
+        font-size: 9px;
+      }
+
+      .system-text {
+        display: none;
+      }
+
+      .brand-bottom {
+        justify-content: flex-end;
+      }
+
+      .login-panel {
+        padding: 40px 18px 55px;
+      }
+
+      .login-header h2 {
+        font-size: 27px;
+      }
+
+      .login-card {
+        padding: 25px 20px;
+        border-radius: 18px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <main class="login-card">
+  <div class="page">
 
-    <div class="brand">
-      <div class="brand-main">FWT</div>
-      <div class="brand-sub">TOURNAMENT</div>
-      <div class="admin-title">ADMIN</div>
-    </div>
+    <!-- LEFT -->
+    <section class="brand-panel">
 
-    <form id="loginForm">
+      <div class="brand-top">
 
-      <label for="password">관리자 비밀번호</label>
+        <div class="logo-wrap">
 
-      <input
-        type="password"
-        id="password"
-        placeholder="비밀번호 입력"
-        autocomplete="current-password"
-        required
-      />
+          <div class="logo-main-row">
 
-      <button type="submit" id="loginButton">
-        로그인
-      </button>
+            <div class="logo-mark">
+              <span class="f">F</span>
+              <span class="w">W</span>
+              <span class="t">T</span>
+            </div>
 
-      <div id="message" class="message"></div>
+            <div class="speed-line"></div>
 
-    </form>
+          </div>
 
-    <div class="footer">
-      FRIENDS WITH TENNIS
-    </div>
+          <div class="logo-sub">
+            FRIENDS WITH TENNIS
+          </div>
 
-  </main>
+        </div>
+
+      </div>
+
+
+      <div class="brand-middle">
+
+        <div class="eyebrow">
+          TOURNAMENT CONTROL
+        </div>
+
+        <h1 class="brand-title">
+          PLAY.<br />
+          CONNECT.<br />
+          <span>ENJOY.</span>
+        </h1>
+
+        <p class="brand-desc">
+          대회를 만들고, 진행하고, 기록합니다.<br />
+          FWT의 모든 경기를 더 직관적으로 관리하세요.
+        </p>
+
+        <div class="feature-row">
+          <div class="feature">LIVE SCORE</div>
+          <div class="feature">MATCH CONTROL</div>
+          <div class="feature">BRACKET</div>
+          <div class="feature">COURT</div>
+        </div>
+
+      </div>
+
+
+      <div class="brand-bottom">
+
+        <div class="system-text">
+          FWT TOURNAMENT SYSTEM
+        </div>
+
+        <div class="created">
+          CREATED BY <strong>Q</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- RIGHT -->
+    <section class="login-panel">
+
+      <div class="login-container">
+
+        <header class="login-header">
+
+          <div class="login-small-title">
+            FWT ADMIN
+          </div>
+
+          <h2>
+            관리자 로그인
+          </h2>
+
+          <p>
+            운영진 전용 페이지입니다.<br />
+            관리자 비밀번호를 입력해주세요.
+          </p>
+
+        </header>
+
+
+        <div class="login-card">
+
+          <div class="access-label">
+            <span class="access-dot"></span>
+            ADMIN ACCESS
+          </div>
+
+
+          <form id="loginForm">
+
+            <label for="password">
+              관리자 비밀번호
+            </label>
+
+            <div class="input-wrap">
+
+              <input
+                type="password"
+                id="password"
+                placeholder="비밀번호 입력"
+                autocomplete="current-password"
+                required
+              />
+
+              <button
+                type="button"
+                class="toggle-password"
+                id="togglePassword"
+                aria-label="비밀번호 보기"
+              >
+                ◉
+              </button>
+
+            </div>
+
+
+            <button
+              type="submit"
+              class="login-button"
+              id="loginButton"
+            >
+              관리자 로그인
+            </button>
+
+
+            <div
+              id="message"
+              class="message"
+            ></div>
+
+          </form>
+
+
+          <div class="login-foot">
+            FRIENDS WITH TENNIS · TOURNAMENT MANAGEMENT
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
 
   <script>
+
+    /* =========================
+       SUPABASE
+    ========================= */
+
     const SUPABASE_URL =
       "https://opwuyqerisocqobbbisg.supabase.co";
 
@@ -178,6 +803,10 @@
       );
 
 
+    /* =========================
+       ELEMENTS
+    ========================= */
+
     const loginForm =
       document.getElementById("loginForm");
 
@@ -190,6 +819,34 @@
     const message =
       document.getElementById("message");
 
+    const togglePassword =
+      document.getElementById("togglePassword");
+
+
+    /* =========================
+       PASSWORD VIEW
+    ========================= */
+
+    togglePassword.addEventListener(
+      "click",
+      function () {
+
+        const hidden =
+          passwordInput.type === "password";
+
+        passwordInput.type =
+          hidden ? "text" : "password";
+
+        togglePassword.textContent =
+          hidden ? "◌" : "◉";
+
+      }
+    );
+
+
+    /* =========================
+       EXISTING LOGIN SESSION
+    ========================= */
 
     async function checkExistingSession() {
 
@@ -197,12 +854,18 @@
         await supabaseClient.auth.getSession();
 
       if (data.session) {
+
         window.location.href =
           "./dashboard.html";
+
       }
 
     }
 
+
+    /* =========================
+       LOGIN
+    ========================= */
 
     loginForm.addEventListener(
       "submit",
@@ -216,6 +879,7 @@
         loginButton.disabled = true;
         loginButton.textContent =
           "로그인 중...";
+
 
         const password =
           passwordInput.value;
@@ -238,12 +902,14 @@
             "message error";
 
           loginButton.disabled = false;
+
           loginButton.textContent =
-            "로그인";
+            "관리자 로그인";
 
           passwordInput.focus();
 
           return;
+
         }
 
 
@@ -254,9 +920,14 @@
     );
 
 
+    /* =========================
+       START
+    ========================= */
+
     checkExistingSession();
 
   </script>
 
 </body>
 </html>
+```
