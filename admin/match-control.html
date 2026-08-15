@@ -17,18 +17,19 @@
 
       --bg:#f4f6f9;
       --white:#ffffff;
+
       --text:#172033;
-      --muted:#7b8492;
-      --line:#e3e8ee;
+      --muted:#667386;
+      --line:#e2e7ec;
 
       --green:#178b61;
       --green-soft:#edf8f3;
 
-      --red:#d94b4b;
-      --red-soft:#fff1f1;
+      --orange:#9d651d;
+      --orange-soft:#fff8ed;
 
       --shadow:
-        0 14px 40px rgba(20,35,55,.06);
+        0 10px 30px rgba(20,35,55,.055);
     }
 
     * {
@@ -61,9 +62,15 @@
       cursor:pointer;
     }
 
+
+    /* ==========================
+       HEADER
+    ========================== */
+
     .topbar {
-      height:72px;
-      padding:0 30px;
+      height:68px;
+
+      padding:0 24px;
 
       display:flex;
       align-items:center;
@@ -80,17 +87,17 @@
         );
 
       box-shadow:
-        0 4px 22px rgba(6,23,43,.16);
+        0 4px 18px rgba(6,23,43,.14);
     }
 
     .brand {
       display:flex;
       align-items:center;
-      gap:25px;
+      gap:22px;
     }
 
     .fwt {
-      font-size:30px;
+      font-size:29px;
       font-weight:950;
       font-style:italic;
       letter-spacing:-3px;
@@ -104,14 +111,14 @@
       font-size:11px;
       font-weight:800;
       letter-spacing:1.8px;
-      color:rgba(255,255,255,.7);
+      color:rgba(255,255,255,.72);
     }
 
     .back-btn {
       padding:9px 13px;
 
       border:
-        1px solid rgba(255,255,255,.15);
+        1px solid rgba(255,255,255,.16);
 
       border-radius:10px;
 
@@ -120,9 +127,14 @@
 
       color:white;
 
-      font-size:11px;
+      font-size:12px;
       font-weight:750;
     }
+
+
+    /* ==========================
+       MAIN
+    ========================== */
 
     .container {
       width:
@@ -134,26 +146,29 @@
       margin:0 auto;
 
       padding:
-        38px 0 70px;
+        32px 0 64px;
     }
 
     .head {
       display:flex;
+
       align-items:flex-end;
       justify-content:space-between;
+
       gap:20px;
 
-      margin-bottom:24px;
+      margin-bottom:20px;
     }
 
     .kicker {
-      margin-bottom:8px;
+      margin-bottom:7px;
 
       color:var(--blue);
 
-      font-size:10px;
-      font-weight:850;
-      letter-spacing:2px;
+      font-size:11px;
+      font-weight:900;
+
+      letter-spacing:1.8px;
     }
 
     h1 {
@@ -161,19 +176,25 @@
 
       color:var(--navy);
 
-      font-size:36px;
+      font-size:34px;
       font-weight:900;
-      letter-spacing:-1.7px;
+
+      letter-spacing:-1.5px;
     }
 
     .desc {
-      margin:8px 0 0;
+      margin:7px 0 0;
 
-      color:var(--muted);
+      color:#5f6c7e;
 
       font-size:13px;
-      line-height:1.6;
+      line-height:1.55;
     }
+
+
+    /* ==========================
+       STATS
+    ========================== */
 
     .stats {
       display:flex;
@@ -182,7 +203,8 @@
     }
 
     .stat {
-      padding:8px 11px;
+      padding:
+        8px 11px;
 
       border:
         1px solid var(--line);
@@ -191,25 +213,50 @@
 
       background:white;
 
-      color:#657184;
+      color:#526073;
 
-      font-size:10px;
+      font-size:11px;
       font-weight:800;
     }
 
     .stat strong {
       color:var(--navy);
+
+      font-size:13px;
     }
+
+
+    /* ==========================
+       SECTION
+    ========================== */
 
     .section-title {
-      margin:
-        27px 0 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
 
+      margin:
+        22px 0 10px;
+    }
+
+    .section-title-main {
       color:var(--navy);
 
-      font-size:16px;
+      font-size:17px;
       font-weight:900;
     }
+
+    .section-title-sub {
+      color:#6b7788;
+
+      font-size:11px;
+      font-weight:700;
+    }
+
+
+    /* ==========================
+       COURTS - COMPACT
+    ========================== */
 
     .courts {
       display:grid;
@@ -217,53 +264,60 @@
       grid-template-columns:
         repeat(
           auto-fit,
-          minmax(230px,1fr)
+          minmax(220px,1fr)
         );
 
-      gap:12px;
+      gap:9px;
     }
 
     .court {
-      overflow:hidden;
-
       border:
         1px solid var(--line);
 
-      border-radius:17px;
+      border-radius:14px;
 
       background:white;
 
       box-shadow:var(--shadow);
+
+      overflow:hidden;
     }
 
-    .court-head {
+    .court-inner {
+      min-height:82px;
+
+      padding:
+        12px 13px;
+    }
+
+    .court-top {
       display:flex;
       align-items:center;
       justify-content:space-between;
 
-      padding:15px 16px;
+      gap:8px;
 
-      border-bottom:
-        1px solid var(--line);
+      margin-bottom:8px;
     }
 
     .court-name {
       color:var(--navy);
 
-      font-size:14px;
+      font-size:15px;
       font-weight:900;
     }
 
     .court-status {
-      padding:5px 8px;
+      padding:
+        5px 8px;
 
       border-radius:999px;
 
-      background:#f2f5f7;
+      background:#f0f3f6;
 
-      color:#7a8593;
+      color:#657183;
 
-      font-size:9px;
+      font-size:10px;
       font-weight:850;
     }
 
@@ -272,88 +326,62 @@
       color:var(--green);
     }
 
-    .court-body {
-      min-height:177px;
-      padding:14px;
-    }
-
-    .empty-court {
-      height:145px;
-
-      display:flex;
-      align-items:center;
-      justify-content:center;
-
-      text-align:center;
-
-      color:#9ca5b0;
-
-      font-size:11px;
-      line-height:1.7;
-    }
-
-    .live-group {
-      margin-bottom:8px;
-
-      color:#8b95a2;
-
-      font-size:9px;
-      font-weight:900;
-      letter-spacing:1px;
-    }
-
-    .live-player {
-      padding:10px 11px;
-
-      border:
-        1px solid #e2e7ec;
-
-      border-radius:10px;
-
-      background:#fafbfc;
-
-      color:#263247;
+    .court-empty {
+      color:#677487;
 
       font-size:12px;
-      font-weight:850;
+      font-weight:700;
     }
 
-    .vs {
-      margin:5px 0;
+    .court-match-line {
+      overflow:hidden;
 
-      text-align:center;
+      color:#202d41;
 
-      color:#a0a8b3;
+      font-size:14px;
+      font-weight:850;
 
-      font-size:8px;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .court-group {
+      margin-bottom:4px;
+
+      color:var(--navy2);
+
+      font-size:12px;
       font-weight:900;
     }
 
     .court-actions {
       display:flex;
-      gap:7px;
+      gap:6px;
 
-      margin-top:12px;
+      margin-top:9px;
     }
 
     .court-btn {
-      flex:1;
-      height:38px;
+      height:34px;
 
-      border-radius:9px;
+      padding:0 10px;
 
       border:
-        1px solid #dce2e8;
+        1px solid #d9e0e6;
+
+      border-radius:8px;
 
       background:white;
 
-      color:#536071;
+      color:#526073;
 
-      font-size:10px;
+      font-size:11px;
       font-weight:800;
     }
 
     .court-btn.finish {
+      flex:1;
+
       border:0;
 
       background:var(--navy);
@@ -361,129 +389,84 @@
       color:white;
     }
 
-    .layout {
-      display:grid;
 
-      grid-template-columns:
-        minmax(0,1.25fr)
-        minmax(310px,.75fr);
+    /* ==========================
+       NEXT MATCHES
+    ========================== */
 
-      gap:18px;
-
-      margin-top:13px;
-    }
-
-    .card {
-      overflow:hidden;
-
+    .next-card {
       border:
         1px solid var(--line);
 
-      border-radius:18px;
+      border-radius:16px;
 
       background:white;
 
       box-shadow:var(--shadow);
+
+      overflow:hidden;
     }
 
-    .card-head {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
+    .next-list {
+      padding:8px;
+    }
 
-      padding:18px 19px;
+    .next-match {
+      display:grid;
+
+      grid-template-columns:
+        65px minmax(0,1fr) 115px;
+
+      align-items:center;
+
+      gap:10px;
+
+      min-height:66px;
+
+      padding:
+        10px 11px;
 
       border-bottom:
-        1px solid var(--line);
+        1px solid #e8ecf0;
     }
 
-    .card-title {
+    .next-match:last-child {
+      border-bottom:0;
+    }
+
+    .group-badge {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      height:38px;
+
+      border-radius:10px;
+
+      background:#eef2f6;
+
       color:var(--navy);
 
       font-size:14px;
       font-weight:900;
     }
 
-    .card-sub {
-      margin-top:4px;
+    .next-players {
+      min-width:0;
 
-      color:var(--muted);
+      overflow:hidden;
 
-      font-size:10px;
-    }
+      color:#202d41;
 
-    .count {
-      min-width:29px;
-      height:29px;
-
-      padding:0 9px;
-
-      display:flex;
-      align-items:center;
-      justify-content:center;
-
-      border-radius:999px;
-
-      background:#f2f5f7;
-
-      color:var(--navy);
-
-      font-size:10px;
-      font-weight:900;
-    }
-
-    .waiting-list,
-    .completed-list {
-      padding:12px;
-    }
-
-    .match-row {
-      display:grid;
-
-      grid-template-columns:
-        minmax(0,1fr) 110px;
-
-      align-items:center;
-
-      gap:10px;
-
-      padding:12px;
-
-      margin-bottom:8px;
-
-      border:
-        1px solid #e2e7ec;
-
-      border-radius:12px;
-
-      background:white;
-    }
-
-    .match-row:last-child {
-      margin-bottom:0;
-    }
-
-    .group-label {
-      margin-bottom:5px;
-
-      color:#9aa3ae;
-
-      font-size:8px;
-      font-weight:900;
-      letter-spacing:1px;
-    }
-
-    .match-name {
-      color:#263247;
-
-      font-size:11px;
+      font-size:15px;
       font-weight:850;
-      line-height:1.55;
+
+      text-overflow:ellipsis;
+      white-space:nowrap;
     }
 
     .assign-btn {
-      width:100%;
-      height:38px;
+      height:40px;
 
       border:0;
 
@@ -498,25 +481,233 @@
 
       color:white;
 
-      font-size:10px;
+      font-size:12px;
       font-weight:850;
     }
 
-    .completed {
+
+    /* ==========================
+       FULL WAITING
+    ========================== */
+
+    .waiting-toggle-wrap {
+      margin-top:10px;
+    }
+
+    .waiting-toggle {
+      width:100%;
+      height:48px;
+
+      border:
+        1px solid #dce2e8;
+
+      border-radius:11px;
+
+      background:white;
+
+      color:var(--navy);
+
+      font-size:13px;
+      font-weight:850;
+    }
+
+    .waiting-toggle span {
+      margin-left:5px;
+    }
+
+    .full-waiting {
+      display:none;
+
+      margin-top:10px;
+
+      border:
+        1px solid var(--line);
+
+      border-radius:16px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
+
+      overflow:hidden;
+    }
+
+    .full-waiting.show {
+      display:block;
+    }
+
+    .waiting-tabs {
+      display:flex;
+      gap:6px;
+
+      overflow-x:auto;
+
+      padding:
+        10px 10px 0;
+
+      scrollbar-width:none;
+    }
+
+    .waiting-tabs::-webkit-scrollbar {
+      display:none;
+    }
+
+    .tab-btn {
+      flex-shrink:0;
+
+      height:38px;
+
+      padding:0 14px;
+
+      border:
+        1px solid #dce2e8;
+
+      border-radius:999px;
+
+      background:white;
+
+      color:#4d5a6c;
+
+      font-size:12px;
+      font-weight:850;
+    }
+
+    .tab-btn.active {
+      border-color:var(--navy);
+      background:var(--navy);
+      color:white;
+    }
+
+    .waiting-list {
+      padding:10px;
+    }
+
+    .waiting-row {
+      display:grid;
+
+      grid-template-columns:
+        65px minmax(0,1fr) 110px;
+
+      align-items:center;
+
+      gap:10px;
+
+      min-height:62px;
+
+      padding:
+        9px 10px;
+
+      border-bottom:
+        1px solid #e9edf1;
+    }
+
+    .waiting-row:last-child {
+      border-bottom:0;
+    }
+
+    .waiting-group {
+      color:var(--navy);
+
+      font-size:13px;
+      font-weight:900;
+    }
+
+    .waiting-players {
+      min-width:0;
+
+      overflow:hidden;
+
+      color:#263247;
+
+      font-size:14px;
+      font-weight:800;
+
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+
+    /* ==========================
+       COMPLETED
+    ========================== */
+
+    .completed-card {
+      margin-top:13px;
+
+      border:
+        1px solid var(--line);
+
+      border-radius:16px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
+
+      overflow:hidden;
+    }
+
+    .card-head {
       display:flex;
       align-items:center;
       justify-content:space-between;
 
+      padding:
+        15px 16px;
+
+      border-bottom:
+        1px solid var(--line);
+    }
+
+    .card-title {
+      color:var(--navy);
+
+      font-size:16px;
+      font-weight:900;
+    }
+
+    .count {
+      min-width:31px;
+      height:31px;
+
+      padding:0 9px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      border-radius:999px;
+
+      background:#eef2f5;
+
+      color:var(--navy);
+
+      font-size:12px;
+      font-weight:900;
+    }
+
+    .completed-list {
+      padding:10px;
+    }
+
+    .completed {
+      display:grid;
+
+      grid-template-columns:
+        minmax(0,1fr) auto;
+
+      align-items:center;
+
       gap:12px;
 
-      padding:12px;
+      padding:
+        11px 12px;
 
-      margin-bottom:8px;
+      margin-bottom:7px;
 
       border:
-        1px solid #e1e7e4;
+        1px solid #e2e8e5;
 
-      border-radius:12px;
+      border-radius:11px;
 
       background:#fbfdfc;
     }
@@ -525,23 +716,33 @@
       margin-bottom:0;
     }
 
-    .completed-main {
-      min-width:0;
-      flex:1;
+    .completed-group {
+      margin-bottom:4px;
+
+      color:var(--navy);
+
+      font-size:12px;
+      font-weight:900;
+    }
+
+    .completed-name {
+      color:#263247;
+
+      font-size:14px;
+      font-weight:850;
     }
 
     .completed-actions {
       display:flex;
-      flex-wrap:wrap;
       gap:6px;
 
-      margin-top:8px;
+      margin-top:7px;
     }
 
-    .text-btn {
-      height:29px;
+    .small-btn {
+      height:31px;
 
-      padding:0 9px;
+      padding:0 10px;
 
       border:
         1px solid #dce2e8;
@@ -550,24 +751,25 @@
 
       background:white;
 
-      color:#657184;
+      color:#536071;
 
-      font-size:9px;
+      font-size:10px;
       font-weight:800;
     }
 
-    .text-btn.restore {
-      color:#9b641e;
+    .small-btn.restore {
+      color:var(--orange);
 
-      background:#fff8ed;
+      border-color:#ecd4b3;
 
-      border-color:#ecd5b7;
+      background:var(--orange-soft);
     }
 
     .score {
-      flex-shrink:0;
+      min-width:48px;
 
-      padding:7px 10px;
+      padding:
+        7px 9px;
 
       border-radius:8px;
 
@@ -575,35 +777,42 @@
 
       color:var(--green);
 
-      font-size:12px;
+      text-align:center;
+
+      font-size:13px;
       font-weight:900;
     }
 
     .empty {
-      padding:37px 15px;
+      padding:30px 15px;
 
       text-align:center;
 
-      color:#9ba4af;
+      color:#657184;
 
-      font-size:11px;
-      line-height:1.7;
+      font-size:13px;
+      line-height:1.6;
     }
+
+
+    /* ==========================
+       FOOTER
+    ========================== */
 
     .footer {
       display:flex;
       justify-content:space-between;
 
-      margin-top:28px;
+      margin-top:26px;
 
-      padding-top:18px;
+      padding-top:17px;
 
       border-top:
         1px solid #e2e6eb;
 
-      color:#9aa2ad;
+      color:#7c8795;
 
-      font-size:9px;
+      font-size:10px;
       letter-spacing:1px;
     }
 
@@ -612,11 +821,14 @@
     }
 
     .q {
-      color:#9eb421;
+      color:#91a719;
       font-weight:900;
     }
 
-    /* 공통 모달 */
+
+    /* ==========================
+       MODAL
+    ========================== */
 
     .modal-wrap {
       display:none;
@@ -629,10 +841,10 @@
       align-items:center;
       justify-content:center;
 
-      padding:20px;
+      padding:18px;
 
       background:
-        rgba(4,17,31,.57);
+        rgba(4,17,31,.6);
     }
 
     .modal-wrap.show {
@@ -640,11 +852,17 @@
     }
 
     .modal {
-      width:min(460px,100%);
+      width:
+        min(460px,100%);
 
-      padding:24px;
+      max-height:
+        calc(100vh - 36px);
 
-      border-radius:20px;
+      overflow-y:auto;
+
+      padding:22px;
+
+      border-radius:19px;
 
       background:white;
 
@@ -655,40 +873,50 @@
     .modal-title {
       color:var(--navy);
 
-      font-size:19px;
+      font-size:21px;
       font-weight:900;
     }
 
     .modal-desc {
       margin:
-        8px 0 18px;
+        7px 0 16px;
 
-      color:#788493;
+      color:#5d697a;
 
-      font-size:11px;
-      line-height:1.65;
+      font-size:13px;
+      line-height:1.55;
     }
 
     .selected-match {
-      padding:13px 14px;
+      padding:
+        13px 14px;
 
-      margin-bottom:16px;
+      margin-bottom:15px;
 
       border:
-        1px solid #e3e8ed;
+        1px solid #e1e6eb;
 
-      border-radius:12px;
+      border-radius:11px;
 
-      background:#f8fafb;
+      background:#f7f9fb;
 
       color:#263247;
 
-      font-size:12px;
+      font-size:15px;
       font-weight:850;
-      line-height:1.7;
+      line-height:1.6;
     }
 
-    /* 코트 선택 */
+    .selected-match strong {
+      color:var(--navy);
+
+      font-size:15px;
+    }
+
+
+    /* ==========================
+       COURT PICKER
+    ========================== */
 
     .court-picker {
       display:grid;
@@ -699,40 +927,25 @@
           minmax(0,1fr)
         );
 
-      gap:9px;
+      gap:8px;
     }
 
     .court-choice {
-      min-height:62px;
+      min-height:64px;
 
       padding:10px;
 
       border:
         1px solid #dce2e8;
 
-      border-radius:12px;
+      border-radius:11px;
 
       background:white;
 
       color:var(--navy);
 
-      font-size:12px;
+      font-size:14px;
       font-weight:900;
-    }
-
-    .court-choice:hover:not(:disabled) {
-      border-color:#738fac;
-      background:#f8fafc;
-    }
-
-    .court-choice:disabled {
-      cursor:not-allowed;
-
-      background:#f3f5f7;
-
-      color:#a0a8b3;
-
-      opacity:.75;
     }
 
     .court-choice small {
@@ -740,14 +953,79 @@
 
       margin-top:4px;
 
-      font-size:8px;
-      font-weight:750;
+      color:#667386;
 
-      color:#9ba4af;
+      font-size:11px;
+      font-weight:750;
+    }
+
+    .court-choice:disabled {
+      cursor:not-allowed;
+
+      background:#f1f3f5;
+
+      color:#929ba7;
     }
 
     .court-choice:disabled small {
-      color:#b2bac3;
+      color:#a0a8b2;
+    }
+
+
+    /* ==========================
+       SCORE
+    ========================== */
+
+    .score-grid {
+      display:grid;
+
+      grid-template-columns:
+        1fr 30px 1fr;
+
+      align-items:end;
+
+      gap:9px;
+    }
+
+    .score-player {
+      min-height:36px;
+
+      margin-bottom:7px;
+
+      color:#354255;
+
+      font-size:12px;
+      font-weight:850;
+    }
+
+    .score-input {
+      width:100%;
+      height:54px;
+
+      border:
+        1px solid #d9e0e6;
+
+      border-radius:11px;
+
+      outline:none;
+
+      text-align:center;
+
+      font-size:23px;
+      font-weight:900;
+    }
+
+    .score-dash {
+      height:54px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      color:#7e8997;
+
+      font-size:20px;
+      font-weight:900;
     }
 
     .modal-bottom {
@@ -759,11 +1037,13 @@
 
     .modal-btn {
       flex:1;
-      height:44px;
+
+      height:46px;
 
       border-radius:10px;
 
-      font-weight:800;
+      font-size:13px;
+      font-weight:850;
     }
 
     .cancel {
@@ -772,7 +1052,7 @@
 
       background:white;
 
-      color:#596677;
+      color:#536071;
     }
 
     .confirm {
@@ -783,132 +1063,283 @@
       color:white;
     }
 
-    /* 점수 입력 */
 
-    .score-grid {
-      display:grid;
+    /* ==========================
+       MOBILE
+    ========================== */
 
-      grid-template-columns:
-        1fr 34px 1fr;
-
-      align-items:end;
-
-      gap:10px;
-    }
-
-    .score-player {
-      min-height:32px;
-
-      margin-bottom:7px;
-
-      color:#526072;
-
-      font-size:10px;
-      font-weight:800;
-    }
-
-    .score-input {
-      width:100%;
-      height:53px;
-
-      border:
-        1px solid #dce2e8;
-
-      border-radius:11px;
-
-      outline:none;
-
-      text-align:center;
-
-      font-size:22px;
-      font-weight:900;
-    }
-
-    .score-input:focus {
-      border-color:#7090af;
-
-      box-shadow:
-        0 0 0 4px rgba(24,74,121,.06);
-    }
-
-    .score-dash {
-      height:53px;
-
-      display:flex;
-      align-items:center;
-      justify-content:center;
-
-      color:#a0a8b3;
-
-      font-size:20px;
-      font-weight:900;
-    }
-
-    @media(max-width:900px) {
-
-      .layout {
-        grid-template-columns:1fr;
-      }
-
-    }
-
-    @media(max-width:650px) {
+    @media(max-width:700px) {
 
       .topbar {
-        padding:0 17px;
+        height:64px;
+        padding:0 14px;
       }
 
       .top-title {
         display:none;
       }
 
+      .back-btn {
+        font-size:12px;
+      }
+
       .container {
         width:
-          calc(100% - 26px);
+          calc(100% - 22px);
 
-        padding-top:29px;
+        padding:
+          24px 0 50px;
       }
 
       .head {
         display:block;
-      }
 
-      .stats {
-        margin-top:14px;
+        margin-bottom:17px;
       }
 
       h1 {
-        font-size:29px;
+        font-size:30px;
       }
+
+      .desc {
+        font-size:14px;
+      }
+
+      .stats {
+        margin-top:13px;
+      }
+
+      .stat {
+        font-size:12px;
+
+        padding:
+          8px 10px;
+      }
+
+      .stat strong {
+        font-size:14px;
+      }
+
+      .section-title {
+        margin:
+          20px 0 9px;
+      }
+
+      .section-title-main {
+        font-size:19px;
+      }
+
+      .section-title-sub {
+        font-size:12px;
+      }
+
+
+      /* 모바일은 코트 2열 */
 
       .courts {
-        grid-template-columns:1fr;
-      }
-
-      .match-row {
         grid-template-columns:
-          minmax(0,1fr) 90px;
+          repeat(
+            2,
+            minmax(0,1fr)
+          );
+
+        gap:7px;
       }
 
-      .court-picker {
-        grid-template-columns:1fr 1fr;
+      .court-inner {
+        min-height:91px;
+
+        padding:
+          10px;
+      }
+
+      .court-top {
+        margin-bottom:7px;
+      }
+
+      .court-name {
+        font-size:15px;
+      }
+
+      .court-status {
+        font-size:10px;
+
+        padding:
+          4px 6px;
+      }
+
+      .court-group {
+        font-size:12px;
+      }
+
+      .court-match-line {
+        font-size:14px;
+      }
+
+      .court-empty {
+        font-size:13px;
+      }
+
+      .court-actions {
+        margin-top:8px;
+      }
+
+      .court-btn {
+        min-width:0;
+
+        height:38px;
+
+        padding:0 6px;
+
+        font-size:11px;
+      }
+
+
+      /* 다음 경기 */
+
+      .next-match {
+        grid-template-columns:
+          52px minmax(0,1fr) 94px;
+
+        gap:8px;
+
+        min-height:68px;
+
+        padding:
+          9px 8px;
+      }
+
+      .group-badge {
+        height:42px;
+
+        font-size:15px;
+      }
+
+      .next-players {
+        font-size:15px;
+      }
+
+      .assign-btn {
+        height:43px;
+
+        font-size:12px;
+      }
+
+      .waiting-toggle {
+        height:50px;
+
+        font-size:14px;
+      }
+
+      .waiting-row {
+        grid-template-columns:
+          48px minmax(0,1fr) 90px;
+
+        gap:7px;
+
+        min-height:64px;
+
+        padding:
+          9px 8px;
+      }
+
+      .waiting-group {
+        font-size:14px;
+      }
+
+      .waiting-players {
+        font-size:14px;
+      }
+
+
+      /* 완료 */
+
+      .card-title {
+        font-size:17px;
+      }
+
+      .completed {
+        padding:
+          11px 10px;
+      }
+
+      .completed-group {
+        font-size:13px;
+      }
+
+      .completed-name {
+        font-size:14px;
+      }
+
+      .small-btn {
+        height:35px;
+
+        font-size:11px;
+      }
+
+      .score {
+        font-size:14px;
+      }
+
+
+      /* 모달 */
+
+      .modal {
+        padding:20px;
+      }
+
+      .modal-title {
+        font-size:22px;
+      }
+
+      .modal-desc {
+        font-size:13px;
+      }
+
+      .selected-match {
+        font-size:15px;
+      }
+
+      .court-choice {
+        min-height:66px;
+
+        font-size:15px;
+      }
+
+      .court-choice small {
+        font-size:11px;
       }
 
     }
 
-    @media(max-width:430px) {
 
-      .court-picker {
-        grid-template-columns:1fr;
+    @media(max-width:420px) {
+
+      .court-name {
+        font-size:14px;
       }
 
-      .completed {
-        align-items:flex-start;
+      .court-match-line {
+        font-size:13px;
+      }
+
+      .next-match {
+        grid-template-columns:
+          48px minmax(0,1fr) 88px;
+      }
+
+      .next-players {
+        font-size:14px;
+      }
+
+      .assign-btn {
+        font-size:11px;
       }
 
     }
   </style>
 </head>
+
 
 <body>
 
@@ -951,7 +1382,7 @@
       </h1>
 
       <p class="desc">
-        실제 비는 코트에 경기를 배정하고 결과를 입력합니다.
+        빈 코트에 다음 경기를 배정하고 경기 결과를 관리합니다.
       </p>
 
     </div>
@@ -984,8 +1415,18 @@
   </div>
 
 
+  <!-- 코트 현황 -->
+
   <div class="section-title">
-    코트 현황
+
+    <div class="section-title-main">
+      코트 현황
+    </div>
+
+    <div class="section-title-sub">
+      현재 경기 상황
+    </div>
+
   </div>
 
 
@@ -995,78 +1436,91 @@
   ></section>
 
 
-  <div class="layout">
+  <!-- 각 조 다음 경기 -->
 
-    <!-- 대기 경기 -->
+  <div class="section-title">
 
-    <div class="card">
-
-      <div class="card-head">
-
-        <div>
-
-          <div class="card-title">
-            대기 경기
-          </div>
-
-          <div class="card-sub">
-            경기 선택 후 빈 코트를 바로 배정합니다.
-          </div>
-
-        </div>
-
-        <div
-          class="count"
-          id="waitingBadge"
-        >
-          0
-        </div>
-
-      </div>
-
-      <div
-        class="waiting-list"
-        id="waitingList"
-      ></div>
-
+    <div class="section-title-main">
+      다음 경기
     </div>
 
-
-    <!-- 완료 경기 -->
-
-    <div class="card">
-
-      <div class="card-head">
-
-        <div>
-
-          <div class="card-title">
-            완료 경기
-          </div>
-
-          <div class="card-sub">
-            결과 수정 또는 대기 상태로 복구할 수 있습니다.
-          </div>
-
-        </div>
-
-        <div
-          class="count"
-          id="completedBadge"
-        >
-          0
-        </div>
-
-      </div>
-
-      <div
-        class="completed-list"
-        id="completedList"
-      ></div>
-
+    <div class="section-title-sub">
+      조별 우선 경기
     </div>
 
   </div>
+
+
+  <section class="next-card">
+
+    <div
+      class="next-list"
+      id="nextList"
+    ></div>
+
+  </section>
+
+
+  <!-- 전체 대기 경기 -->
+
+  <div class="waiting-toggle-wrap">
+
+    <button
+      class="waiting-toggle"
+      id="waitingToggle"
+    >
+      전체 대기 경기 보기
+      <span id="waitingArrow">
+        ▼
+      </span>
+    </button>
+
+  </div>
+
+
+  <section
+    class="full-waiting"
+    id="fullWaiting"
+  >
+
+    <div
+      class="waiting-tabs"
+      id="waitingTabs"
+    ></div>
+
+    <div
+      class="waiting-list"
+      id="waitingList"
+    ></div>
+
+  </section>
+
+
+  <!-- 완료 경기 -->
+
+  <section class="completed-card">
+
+    <div class="card-head">
+
+      <div class="card-title">
+        완료 경기
+      </div>
+
+      <div
+        class="count"
+        id="completedBadge"
+      >
+        0
+      </div>
+
+    </div>
+
+    <div
+      class="completed-list"
+      id="completedList"
+    ></div>
+
+  </section>
 
 
   <footer class="footer">
@@ -1086,7 +1540,7 @@
 </main>
 
 
-<!-- 코트 선택 모달 -->
+<!-- 코트 선택 -->
 
 <div
   class="modal-wrap"
@@ -1100,7 +1554,7 @@
     </div>
 
     <div class="modal-desc">
-      빈 코트를 누르면 즉시 경기 시작 상태로 변경됩니다.
+      빈 코트를 누르면 즉시 경기가 시작됩니다.
     </div>
 
     <div
@@ -1129,7 +1583,7 @@
 </div>
 
 
-<!-- 점수 모달 -->
+<!-- 점수 -->
 
 <div
   class="modal-wrap"
@@ -1232,9 +1686,7 @@ async function checkLogin() {
     await supabaseClient.auth.getSession();
 
   if (!data.session) {
-
     location.href = "./";
-
   }
 
 }
@@ -1299,10 +1751,16 @@ let selectedCourtMatchId =
 let selectedFinishMatchId =
   null;
 
+let waitingExpanded =
+  false;
 
-/* --------------------------------
-   현재 대진 고유값
--------------------------------- */
+let activeGroupFilter =
+  "all";
+
+
+/* =================================
+   대진 서명
+================================= */
 
 function createDrawSignature() {
 
@@ -1336,9 +1794,9 @@ const currentDrawSignature =
   createDrawSignature();
 
 
-/* --------------------------------
-   참가자 이름
--------------------------------- */
+/* =================================
+   이름
+================================= */
 
 function entryName(entry) {
 
@@ -1360,6 +1818,7 @@ function entryName(entry) {
       return `${entry.nickname} (${entry.name})`;
 
     }
+
 
     return (
       entry.nickname ||
@@ -1387,9 +1846,46 @@ function entryName(entry) {
 }
 
 
-/* --------------------------------
-   HTML 안전 처리
--------------------------------- */
+function shortEntryName(entry) {
+
+  if (!entry) {
+    return "알 수 없음";
+  }
+
+
+  if (
+    entry.type === "singles"
+  ) {
+
+    return (
+      entry.nickname ||
+      entry.name ||
+      "이름 없음"
+    );
+
+  }
+
+
+  const p1 =
+    entry.player1?.nickname ||
+    entry.player1?.name ||
+    "선수1";
+
+
+  const p2 =
+    entry.player2?.nickname ||
+    entry.player2?.name ||
+    "선수2";
+
+
+  return `${p1}/${p2}`;
+
+}
+
+
+/* =================================
+   HTML
+================================= */
 
 function escapeHtml(value) {
 
@@ -1406,9 +1902,9 @@ function escapeHtml(value) {
 }
 
 
-/* --------------------------------
+/* =================================
    최초 경기 생성
--------------------------------- */
+================================= */
 
 function createInitialMatches() {
 
@@ -1434,6 +1930,12 @@ function createInitialMatches() {
 
             groupName:
               group.groupName,
+
+            groupIndex:
+              groupIndex,
+
+            order:
+              matchIndex,
 
             player1:
               match.player1,
@@ -1467,36 +1969,31 @@ function createInitialMatches() {
 }
 
 
-/* --------------------------------
-   상태 저장
--------------------------------- */
+/* =================================
+   저장
+================================= */
 
 function saveState() {
 
-  const state = {
-
-    signature:
-      currentDrawSignature,
-
-    matches:
-      matches
-
-  };
-
-
   sessionStorage.setItem(
     "fwtMatchControlState",
-    JSON.stringify(
-      state
-    )
+    JSON.stringify({
+
+      signature:
+        currentDrawSignature,
+
+      matches:
+        matches
+
+    })
   );
 
 }
 
 
-/* --------------------------------
-   저장된 상태 유효성 확인
--------------------------------- */
+/* =================================
+   상태 유효성
+================================= */
 
 function stateMatchesCurrentDraw(
   parsed
@@ -1504,12 +2001,9 @@ function stateMatchesCurrentDraw(
 
   if (
     !parsed ||
-    typeof parsed !==
-      "object"
+    typeof parsed !== "object"
   ) {
-
     return false;
-
   }
 
 
@@ -1517,9 +2011,7 @@ function stateMatchesCurrentDraw(
     parsed.signature !==
     currentDrawSignature
   ) {
-
     return false;
-
   }
 
 
@@ -1528,9 +2020,7 @@ function stateMatchesCurrentDraw(
       parsed.matches
     )
   ) {
-
     return false;
-
   }
 
 
@@ -1550,9 +2040,7 @@ function stateMatchesCurrentDraw(
     parsed.matches.length !==
     expectedCount
   ) {
-
     return false;
-
   }
 
 
@@ -1561,9 +2049,9 @@ function stateMatchesCurrentDraw(
 }
 
 
-/* --------------------------------
-   상태 불러오기
--------------------------------- */
+/* =================================
+   불러오기
+================================= */
 
 function loadState() {
 
@@ -1578,9 +2066,7 @@ function loadState() {
     try {
 
       const parsed =
-        JSON.parse(
-          raw
-        );
+        JSON.parse(raw);
 
 
       if (
@@ -1606,9 +2092,9 @@ function loadState() {
 }
 
 
-/* --------------------------------
+/* =================================
    경기 찾기
--------------------------------- */
+================================= */
 
 function getMatch(id) {
 
@@ -1620,9 +2106,9 @@ function getMatch(id) {
 }
 
 
-/* --------------------------------
-   코트 사용 여부
--------------------------------- */
+/* =================================
+   코트 상태
+================================= */
 
 function getPlayingMatchOnCourt(
   courtName
@@ -1653,9 +2139,9 @@ function isCourtBusy(
 }
 
 
-/* --------------------------------
-   선수 경기중 여부
--------------------------------- */
+/* =================================
+   선수 중복 경기
+================================= */
 
 function getPlayingMatchForPlayer(
   playerIndex,
@@ -1670,9 +2156,7 @@ function getPlayingMatchForPlayer(
         match.id ===
           excludeMatchId
       ) {
-
         return false;
-
       }
 
 
@@ -1680,9 +2164,7 @@ function getPlayingMatchForPlayer(
         match.status !==
         "playing"
       ) {
-
         return false;
-
       }
 
 
@@ -1700,9 +2182,9 @@ function getPlayingMatchForPlayer(
 }
 
 
-/* --------------------------------
-   코트 선택 모달
--------------------------------- */
+/* =================================
+   코트 모달
+================================= */
 
 function openCourtModal(
   matchId
@@ -1714,21 +2196,11 @@ function openCourtModal(
     );
 
 
-  if (!match) {
-    return;
-  }
-
-
   if (
+    !match ||
     match.status !==
-    "waiting"
+      "waiting"
   ) {
-
-    alert(
-      "현재 대기 상태의 경기가 아닙니다."
-    );
-
-    render();
 
     return;
 
@@ -1742,9 +2214,7 @@ function openCourtModal(
     );
 
 
-  if (
-    player1Busy
-  ) {
+  if (player1Busy) {
 
     alert(
       `${entryName(
@@ -1766,9 +2236,7 @@ function openCourtModal(
     );
 
 
-  if (
-    player2Busy
-  ) {
+  if (player2Busy) {
 
     alert(
       `${entryName(
@@ -1807,7 +2275,7 @@ function openCourtModal(
       )
     )}
 
-    &nbsp; VS &nbsp;
+    &nbsp; vs &nbsp;
 
     ${escapeHtml(
       entryName(
@@ -1832,9 +2300,9 @@ function openCourtModal(
 }
 
 
-/* --------------------------------
-   코트 버튼 생성
--------------------------------- */
+/* =================================
+   코트 선택
+================================= */
 
 function renderCourtPicker() {
 
@@ -1939,10 +2407,6 @@ function renderCourtPicker() {
 }
 
 
-/* --------------------------------
-   코트 선택 모달 닫기
--------------------------------- */
-
 function closeCourtModal() {
 
   selectedCourtMatchId =
@@ -1958,9 +2422,9 @@ function closeCourtModal() {
 }
 
 
-/* --------------------------------
+/* =================================
    경기 시작
--------------------------------- */
+================================= */
 
 function startMatch(
   matchId,
@@ -1973,19 +2437,11 @@ function startMatch(
     );
 
 
-  if (!match) {
-    return;
-  }
-
-
   if (
+    !match ||
     match.status !==
-    "waiting"
+      "waiting"
   ) {
-
-    alert(
-      "현재 대기 상태의 경기가 아닙니다."
-    );
 
     closeCourtModal();
 
@@ -2013,23 +2469,21 @@ function startMatch(
   }
 
 
-  const player1Busy =
+  const p1Busy =
     getPlayingMatchForPlayer(
       match.player1,
       match.id
     );
 
 
-  if (
-    player1Busy
-  ) {
+  if (p1Busy) {
 
     alert(
       `${entryName(
         entries[
           match.player1
         ]
-      )} 선수가 현재 ${player1Busy.court}에서 경기 중입니다.`
+      )} 선수가 현재 ${p1Busy.court}에서 경기 중입니다.`
     );
 
     closeCourtModal();
@@ -2039,23 +2493,21 @@ function startMatch(
   }
 
 
-  const player2Busy =
+  const p2Busy =
     getPlayingMatchForPlayer(
       match.player2,
       match.id
     );
 
 
-  if (
-    player2Busy
-  ) {
+  if (p2Busy) {
 
     alert(
       `${entryName(
         entries[
           match.player2
         ]
-      )} 선수가 현재 ${player2Busy.court}에서 경기 중입니다.`
+      )} 선수가 현재 ${p2Busy.court}에서 경기 중입니다.`
     );
 
     closeCourtModal();
@@ -2087,9 +2539,9 @@ function startMatch(
 }
 
 
-/* --------------------------------
+/* =================================
    경기중 → 대기
--------------------------------- */
+================================= */
 
 function cancelPlaying(
   matchId
@@ -2106,13 +2558,11 @@ function cancelPlaying(
   }
 
 
-  const ok =
-    confirm(
+  if (
+    !confirm(
       "이 경기를 다시 대기 상태로 돌릴까요?"
-    );
-
-
-  if (!ok) {
+    )
+  ) {
     return;
   }
 
@@ -2137,9 +2587,9 @@ function cancelPlaying(
 }
 
 
-/* --------------------------------
-   완료 경기 → 대기 복구
--------------------------------- */
+/* =================================
+   완료 → 대기
+================================= */
 
 function restoreCompleted(
   matchId
@@ -2156,13 +2606,11 @@ function restoreCompleted(
   }
 
 
-  const ok =
-    confirm(
-      "이 경기의 결과를 취소하고 다시 대기 경기로 복구할까요?\n입력된 점수와 기존 코트 배정이 초기화됩니다."
-    );
-
-
-  if (!ok) {
+  if (
+    !confirm(
+      "경기 결과를 취소하고 다시 대기 경기로 복구할까요?\n점수와 코트 배정이 초기화됩니다."
+    )
+  ) {
     return;
   }
 
@@ -2187,9 +2635,9 @@ function restoreCompleted(
 }
 
 
-/* --------------------------------
-   점수 입력 열기
--------------------------------- */
+/* =================================
+   점수 모달
+================================= */
 
 function openScore(
   matchId
@@ -2201,22 +2649,12 @@ function openScore(
     );
 
 
-  if (!match) {
-    return;
-  }
-
-
   if (
+    !match ||
     match.status !==
-    "playing"
+      "playing"
   ) {
-
-    alert(
-      "현재 경기 중인 경기가 아닙니다."
-    );
-
     return;
-
   }
 
 
@@ -2266,24 +2704,8 @@ function openScore(
     "show"
   );
 
-
-  setTimeout(
-    () => {
-
-      document.getElementById(
-        "score1"
-      ).focus();
-
-    },
-    100
-  );
-
 }
 
-
-/* --------------------------------
-   점수 모달 닫기
--------------------------------- */
 
 function closeScore() {
 
@@ -2300,40 +2722,38 @@ function closeScore() {
 }
 
 
-/* --------------------------------
+/* =================================
    경기 완료
--------------------------------- */
+================================= */
 
 function finishMatch() {
 
   if (
     !selectedFinishMatchId
   ) {
-
     return;
-
   }
 
 
-  const value1 =
+  const score1 =
     document.getElementById(
       "score1"
     ).value;
 
 
-  const value2 =
+  const score2 =
     document.getElementById(
       "score2"
     ).value;
 
 
   if (
-    value1 === "" ||
-    value2 === ""
+    score1 === "" ||
+    score2 === ""
   ) {
 
     alert(
-      "양쪽 스코어를 모두 입력해주세요."
+      "양쪽 점수를 모두 입력해주세요."
     );
 
     return;
@@ -2341,30 +2761,18 @@ function finishMatch() {
   }
 
 
-  const score1 =
-    Number(
-      value1
-    );
+  const s1 =
+    Number(score1);
 
-
-  const score2 =
-    Number(
-      value2
-    );
+  const s2 =
+    Number(score2);
 
 
   if (
-    !Number.isFinite(
-      score1
-    )
-    ||
-    !Number.isFinite(
-      score2
-    )
-    ||
-    score1 < 0
-    ||
-    score2 < 0
+    !Number.isFinite(s1) ||
+    !Number.isFinite(s2) ||
+    s1 < 0 ||
+    s2 < 0
   ) {
 
     alert(
@@ -2377,16 +2785,14 @@ function finishMatch() {
 
 
   if (
-    score1 === score2
+    s1 === s2
   ) {
 
-    const ok =
-      confirm(
+    if (
+      !confirm(
         "동점으로 결과를 저장할까요?"
-      );
-
-
-    if (!ok) {
+      )
+    ) {
       return;
     }
 
@@ -2399,16 +2805,11 @@ function finishMatch() {
     );
 
 
-  if (!match) {
-    return;
-  }
-
-
   match.score1 =
-    score1;
+    s1;
 
   match.score2 =
-    score2;
+    s2;
 
   match.status =
     "completed";
@@ -2423,9 +2824,9 @@ function finishMatch() {
 }
 
 
-/* --------------------------------
-   완료 결과 수정
--------------------------------- */
+/* =================================
+   완료 경기 수정
+================================= */
 
 function editCompleted(
   matchId
@@ -2456,9 +2857,7 @@ function editCompleted(
   if (
     first === null
   ) {
-
     return;
-
   }
 
 
@@ -2476,9 +2875,7 @@ function editCompleted(
   if (
     second === null
   ) {
-
     return;
-
   }
 
 
@@ -2486,51 +2883,15 @@ function editCompleted(
     first.trim() === "" ||
     second.trim() === ""
   ) {
-
-    alert(
-      "양쪽 점수를 모두 입력해주세요."
-    );
-
     return;
-
-  }
-
-
-  const score1 =
-    Number(first);
-
-  const score2 =
-    Number(second);
-
-
-  if (
-    !Number.isFinite(
-      score1
-    )
-    ||
-    !Number.isFinite(
-      score2
-    )
-    ||
-    score1 < 0
-    ||
-    score2 < 0
-  ) {
-
-    alert(
-      "올바른 점수를 입력해주세요."
-    );
-
-    return;
-
   }
 
 
   match.score1 =
-    score1;
+    Number(first);
 
   match.score2 =
-    score2;
+    Number(second);
 
 
   saveState();
@@ -2540,9 +2901,9 @@ function editCompleted(
 }
 
 
-/* --------------------------------
-   코트 현황 렌더
--------------------------------- */
+/* =================================
+   코트 렌더
+================================= */
 
 function renderCourts() {
 
@@ -2593,24 +2954,24 @@ function renderCourts() {
 
         card.innerHTML = `
 
-          <div class="court-head">
+          <div class="court-inner">
 
-            <div class="court-name">
-              ${escapeHtml(
-                courtName
-              )}
+            <div class="court-top">
+
+              <div class="court-name">
+                ${escapeHtml(
+                  courtName
+                )}
+              </div>
+
+              <div class="court-status">
+                빈 코트
+              </div>
+
             </div>
 
-            <div class="court-status">
-              빈 코트
-            </div>
-
-          </div>
-
-          <div class="court-body">
-
-            <div class="empty-court">
-              현재 진행 중인 경기가 없습니다.
+            <div class="court-empty">
+              경기 대기
             </div>
 
           </div>
@@ -2621,50 +2982,48 @@ function renderCourts() {
 
         card.innerHTML = `
 
-          <div class="court-head">
+          <div class="court-inner">
 
-            <div class="court-name">
-              ${escapeHtml(
-                courtName
-              )}
+            <div class="court-top">
+
+              <div class="court-name">
+                ${escapeHtml(
+                  courtName
+                )}
+              </div>
+
+              <div class="court-status live">
+                경기중
+              </div>
+
             </div>
 
-            <div class="court-status live">
-              경기중
-            </div>
-
-          </div>
-
-          <div class="court-body">
-
-            <div class="live-group">
+            <div class="court-group">
               ${escapeHtml(
                 playing.groupName
               )}
             </div>
 
-            <div class="live-player">
+            <div class="court-match-line">
+
               ${escapeHtml(
-                entryName(
+                shortEntryName(
                   entries[
                     playing.player1
                   ]
                 )
               )}
-            </div>
 
-            <div class="vs">
-              VS
-            </div>
+              vs
 
-            <div class="live-player">
               ${escapeHtml(
-                entryName(
+                shortEntryName(
                   entries[
                     playing.player2
                   ]
                 )
               )}
+
             </div>
 
             <div class="court-actions">
@@ -2677,7 +3036,7 @@ function renderCourts() {
                   )
                 "
               >
-                대기로 되돌리기
+                대기로
               </button>
 
               <button
@@ -2710,36 +3069,64 @@ function renderCourts() {
 }
 
 
-/* --------------------------------
-   대기 경기 렌더
--------------------------------- */
+/* =================================
+   그룹별 다음 경기
+================================= */
 
-function renderWaiting() {
+function getNextMatchesByGroup() {
+
+  const result = [];
+
+
+  matchGroups.forEach(
+    group => {
+
+      const next =
+        matches.find(
+          match =>
+            match.groupName ===
+              group.groupName
+            &&
+            match.status ===
+              "waiting"
+        );
+
+
+      if (next) {
+        result.push(next);
+      }
+
+    }
+  );
+
+
+  return result;
+
+}
+
+
+function renderNextMatches() {
 
   const box =
     document.getElementById(
-      "waitingList"
+      "nextList"
     );
 
 
-  const waiting =
-    matches.filter(
-      match =>
-        match.status ===
-        "waiting"
-    );
+  const nextMatches =
+    getNextMatchesByGroup();
 
 
   box.innerHTML = "";
 
 
   if (
-    waiting.length === 0
+    nextMatches.length === 0
   ) {
 
     box.innerHTML = `
       <div class="empty">
-        대기 중인 경기가 없습니다.
+        현재 조별 대기 경기가 없습니다.
       </div>
     `;
 
@@ -2748,7 +3135,7 @@ function renderWaiting() {
   }
 
 
-  waiting.forEach(
+  nextMatches.forEach(
     match => {
 
       const row =
@@ -2758,47 +3145,38 @@ function renderWaiting() {
 
 
       row.className =
-        "match-row";
+        "next-match";
 
 
       row.innerHTML = `
 
-        <div>
-
-          <div class="group-label">
-            ${escapeHtml(
-              match.groupName
-            )}
-          </div>
-
-          <div class="match-name">
-
-            ${escapeHtml(
-              entryName(
-                entries[
-                  match.player1
-                ]
-              )
-            )}
-
-            <br>
-
-            VS
-
-            <br>
-
-            ${escapeHtml(
-              entryName(
-                entries[
-                  match.player2
-                ]
-              )
-            )}
-
-          </div>
-
+        <div class="group-badge">
+          ${escapeHtml(
+            match.groupName
+          )}
         </div>
 
+        <div class="next-players">
+
+          ${escapeHtml(
+            shortEntryName(
+              entries[
+                match.player1
+              ]
+            )
+          )}
+
+          &nbsp;vs&nbsp;
+
+          ${escapeHtml(
+            shortEntryName(
+              entries[
+                match.player2
+              ]
+            )
+          )}
+
+        </div>
 
         <button
           class="assign-btn"
@@ -2824,9 +3202,225 @@ function renderWaiting() {
 }
 
 
-/* --------------------------------
-   완료 경기 렌더
--------------------------------- */
+/* =================================
+   전체 대기 필터
+================================= */
+
+function getGroupNames() {
+
+  return matchGroups.map(
+    group =>
+      group.groupName
+  );
+
+}
+
+
+function renderWaitingTabs() {
+
+  const box =
+    document.getElementById(
+      "waitingTabs"
+    );
+
+
+  box.innerHTML = "";
+
+
+  const groups =
+    [
+      {
+        key:"all",
+        label:"전체"
+      },
+
+      ...getGroupNames().map(
+        name => ({
+          key:name,
+          label:name
+        })
+      )
+
+    ];
+
+
+  groups.forEach(
+    item => {
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.className =
+        "tab-btn";
+
+
+      if (
+        activeGroupFilter ===
+        item.key
+      ) {
+
+        button.classList.add(
+          "active"
+        );
+
+      }
+
+
+      button.textContent =
+        item.label;
+
+
+      button.addEventListener(
+        "click",
+        function() {
+
+          activeGroupFilter =
+            item.key;
+
+          renderWaitingTabs();
+
+          renderFullWaiting();
+
+        }
+      );
+
+
+      box.appendChild(
+        button
+      );
+
+    }
+  );
+
+}
+
+
+/* =================================
+   전체 대기 경기
+================================= */
+
+function renderFullWaiting() {
+
+  const box =
+    document.getElementById(
+      "waitingList"
+    );
+
+
+  let waiting =
+    matches.filter(
+      match =>
+        match.status ===
+          "waiting"
+    );
+
+
+  if (
+    activeGroupFilter !==
+    "all"
+  ) {
+
+    waiting =
+      waiting.filter(
+        match =>
+          match.groupName ===
+          activeGroupFilter
+      );
+
+  }
+
+
+  box.innerHTML = "";
+
+
+  if (
+    waiting.length === 0
+  ) {
+
+    box.innerHTML = `
+      <div class="empty">
+        해당 조의 대기 경기가 없습니다.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  waiting.forEach(
+    match => {
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+
+      row.className =
+        "waiting-row";
+
+
+      row.innerHTML = `
+
+        <div class="waiting-group">
+          ${escapeHtml(
+            match.groupName
+          )}
+        </div>
+
+        <div class="waiting-players">
+
+          ${escapeHtml(
+            shortEntryName(
+              entries[
+                match.player1
+              ]
+            )
+          )}
+
+          &nbsp;vs&nbsp;
+
+          ${escapeHtml(
+            shortEntryName(
+              entries[
+                match.player2
+              ]
+            )
+          )}
+
+        </div>
+
+        <button
+          class="assign-btn"
+          onclick="
+            openCourtModal(
+              '${match.id}'
+            )
+          "
+        >
+          코트 배정
+        </button>
+
+      `;
+
+
+      box.appendChild(
+        row
+      );
+
+    }
+  );
+
+}
+
+
+/* =================================
+   완료
+================================= */
 
 function renderCompleted() {
 
@@ -2840,8 +3434,14 @@ function renderCompleted() {
     matches.filter(
       match =>
         match.status ===
-        "completed"
+          "completed"
     );
+
+
+  document.getElementById(
+    "completedBadge"
+  ).textContent =
+    completed.length;
 
 
   box.innerHTML = "";
@@ -2880,28 +3480,28 @@ function renderCompleted() {
 
         row.innerHTML = `
 
-          <div class="completed-main">
+          <div>
 
-            <div class="group-label">
+            <div class="completed-group">
 
               ${escapeHtml(
                 match.groupName
               )}
 
-              ${match.court
-                ? ` · ${escapeHtml(
-                    match.court
-                  )}`
-                : ""
+              ${
+                match.court
+                  ? ` · ${escapeHtml(
+                      match.court
+                    )}`
+                  : ""
               }
 
             </div>
 
-
-            <div class="match-name">
+            <div class="completed-name">
 
               ${escapeHtml(
-                entryName(
+                shortEntryName(
                   entries[
                     match.player1
                   ]
@@ -2911,7 +3511,7 @@ function renderCompleted() {
               vs
 
               ${escapeHtml(
-                entryName(
+                shortEntryName(
                   entries[
                     match.player2
                   ]
@@ -2920,11 +3520,10 @@ function renderCompleted() {
 
             </div>
 
-
             <div class="completed-actions">
 
               <button
-                class="text-btn"
+                class="small-btn"
                 onclick="
                   editCompleted(
                     '${match.id}'
@@ -2934,9 +3533,8 @@ function renderCompleted() {
                 결과 수정
               </button>
 
-
               <button
-                class="text-btn restore"
+                class="small-btn restore"
                 onclick="
                   restoreCompleted(
                     '${match.id}'
@@ -2949,7 +3547,6 @@ function renderCompleted() {
             </div>
 
           </div>
-
 
           <div class="score">
 
@@ -2972,9 +3569,9 @@ function renderCompleted() {
 }
 
 
-/* --------------------------------
-   통계 렌더
--------------------------------- */
+/* =================================
+   통계
+================================= */
 
 function renderStats() {
 
@@ -2986,7 +3583,7 @@ function renderStats() {
     matches.filter(
       match =>
         match.status ===
-        "waiting"
+          "waiting"
     ).length;
 
 
@@ -2994,7 +3591,7 @@ function renderStats() {
     matches.filter(
       match =>
         match.status ===
-        "playing"
+          "playing"
     ).length;
 
 
@@ -3002,7 +3599,7 @@ function renderStats() {
     matches.filter(
       match =>
         match.status ===
-        "completed"
+          "completed"
     ).length;
 
 
@@ -3031,22 +3628,16 @@ function renderStats() {
 
 
   document.getElementById(
-    "waitingBadge"
-  ).textContent =
-    waiting;
-
-
-  document.getElementById(
-    "completedBadge"
-  ).textContent =
-    completed;
+    "waitingToggle"
+  ).firstChild.textContent =
+    `전체 대기 경기 ${waiting}개 보기 `;
 
 }
 
 
-/* --------------------------------
+/* =================================
    전체 렌더
--------------------------------- */
+================================= */
 
 function render() {
 
@@ -3054,16 +3645,53 @@ function render() {
 
   renderCourts();
 
-  renderWaiting();
+  renderNextMatches();
+
+  renderWaitingTabs();
+
+  renderFullWaiting();
 
   renderCompleted();
 
 }
 
 
-/* --------------------------------
-   버튼 이벤트
--------------------------------- */
+/* =================================
+   대기 펼치기
+================================= */
+
+document.getElementById(
+  "waitingToggle"
+).addEventListener(
+  "click",
+  function() {
+
+    waitingExpanded =
+      !waitingExpanded;
+
+
+    document.getElementById(
+      "fullWaiting"
+    ).classList.toggle(
+      "show",
+      waitingExpanded
+    );
+
+
+    document.getElementById(
+      "waitingArrow"
+    ).textContent =
+      waitingExpanded
+        ? "▲"
+        : "▼";
+
+  }
+);
+
+
+/* =================================
+   모달 이벤트
+================================= */
 
 document.getElementById(
   "cancelCourt"
@@ -3089,8 +3717,6 @@ document.getElementById(
 );
 
 
-/* 배경 클릭으로 모달 닫기 */
-
 document.getElementById(
   "courtModal"
 ).addEventListener(
@@ -3100,9 +3726,7 @@ document.getElementById(
     if (
       event.target === this
     ) {
-
       closeCourtModal();
-
     }
 
   }
@@ -3118,18 +3742,16 @@ document.getElementById(
     if (
       event.target === this
     ) {
-
       closeScore();
-
     }
 
   }
 );
 
 
-/* --------------------------------
-   시작
--------------------------------- */
+/* =================================
+   START
+================================= */
 
 loadState();
 
