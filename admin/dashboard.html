@@ -1,46 +1,56 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>FWT Tournament Admin</title>
+  <title>대회관리 | FWT Tournament</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root {
-      --navy: #071a31;
-      --navy-2: #0c294a;
-      --navy-3: #123a66;
+      --navy:#071a31;
+      --navy2:#0c294a;
+      --blue:#184a79;
+      --lime:#c9df45;
 
-      --lime: #c9df45;
+      --bg:#f4f6f9;
+      --white:#ffffff;
 
-      --bg: #f4f6f9;
-      --card: #ffffff;
+      --text:#172033;
+      --muted:#657184;
+      --line:#dfe5eb;
 
-      --text: #172033;
-      --muted: #7d8794;
-      --line: #e6eaf0;
+      --green:#178b61;
+      --green-soft:#eaf7f1;
 
-      --green: #199966;
-      --green-soft: #e9f7f1;
+      --blue-soft:#edf5fd;
 
-      --blue: #2874b9;
-      --blue-soft: #eaf3fb;
+      --orange:#99631c;
+      --orange-soft:#fff6e9;
+
+      --red:#c64b4b;
+      --red-soft:#fff1f1;
+
+      --gray-soft:#f0f2f5;
 
       --shadow:
-        0 14px 40px rgba(23, 36, 54, 0.06);
+        0 12px 35px rgba(20,35,55,.06);
     }
 
     * {
-      box-sizing: border-box;
+      box-sizing:border-box;
     }
 
     html,
     body {
-      margin: 0;
-      min-height: 100%;
+      margin:0;
+      min-height:100%;
+
+      background:var(--bg);
+      color:var(--text);
+
       font-family:
         Inter,
         Pretendard,
@@ -49,1187 +59,3566 @@
         BlinkMacSystemFont,
         "Segoe UI",
         sans-serif;
-      background: var(--bg);
-      color: var(--text);
     }
 
     button {
-      font: inherit;
-      cursor: pointer;
+      font:inherit;
+      cursor:pointer;
     }
 
-    .app {
-      min-height: 100vh;
-    }
+    /* =====================================
+       HEADER
+    ===================================== */
 
     .topbar {
-      height: 76px;
+      min-height:78px;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      padding:0 30px;
+
       background:
         linear-gradient(
           110deg,
-          #07182d,
-          #0b2848 58%,
-          #10365d
+          #06172b,
+          #0a2848 62%,
+          #103b67
         );
 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 34px;
-      color: white;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-
       box-shadow:
-        0 4px 22px rgba(6, 23, 43, 0.16);
+        0 5px 20px rgba(6,23,43,.16);
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .brand-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    /*
+      FWT 로고
+      오른쪽 장식선 완전 제거
+    */
 
     .fwt-logo {
-      position: relative;
-      font-size: 31px;
-      line-height: 1;
-      font-style: italic;
-      font-weight: 950;
-      letter-spacing: -3px;
-      transform: skewX(-5deg);
+      color:white;
+
+      font-size:34px;
+      line-height:1;
+
+      font-weight:950;
+      font-style:italic;
+
+      letter-spacing:-4px;
+
+      transform:
+        skew(-5deg);
     }
 
-    .fwt-logo .accent {
-      color: var(--lime);
-    }
-
-    .fwt-logo::after {
-      content: "";
-      position: absolute;
-      width: 27px;
-      height: 3px;
-      right: -25px;
-      top: 12px;
-      border-radius: 10px;
-      background: var(--lime);
-      transform: rotate(-10deg);
-    }
-
-    .brand-copy {
-      margin-left: 18px;
-    }
-
-    .brand-title {
-      font-size: 12px;
-      font-weight: 850;
-      letter-spacing: 2.1px;
-    }
-
-    .brand-sub {
-      margin-top: 3px;
-      font-size: 9px;
-      color: rgba(255,255,255,.52);
-      letter-spacing: 1.5px;
-    }
-
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .admin-badge {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 12px;
-      border: 1px solid rgba(255,255,255,.13);
-      border-radius: 999px;
-      background: rgba(255,255,255,.055);
-      font-size: 11px;
-      color: rgba(255,255,255,.72);
-    }
-
-    .admin-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--lime);
-      box-shadow:
-        0 0 0 4px rgba(201,223,69,.12);
-    }
-
-    .q {
-      color: var(--lime);
-      font-weight: 900;
+    .fwt-logo span {
+      color:var(--lime);
     }
 
     .logout-btn {
-      border: 0;
-      border-radius: 10px;
-      padding: 10px 13px;
-      background: rgba(255,255,255,.09);
-      color: white;
-      font-size: 11px;
-      font-weight: 750;
+      min-height:44px;
+
+      padding:0 18px;
+
+      border:
+        1px solid rgba(255,255,255,.12);
+
+      border-radius:13px;
+
+      background:
+        rgba(255,255,255,.09);
+
+      color:white;
+
+      font-size:13px;
+      font-weight:850;
     }
 
-    .logout-btn:hover {
-      background: rgba(255,255,255,.16);
+    /* =====================================
+       PAGE
+    ===================================== */
+
+    .container {
+      width:
+        min(
+          1080px,
+          calc(100% - 38px)
+        );
+
+      margin:0 auto;
+
+      padding:46px 0 65px;
     }
 
-    .main {
-      width: min(1280px, calc(100% - 44px));
-      margin: 0 auto;
-      padding: 45px 0 70px;
+    .kicker {
+      display:flex;
+      align-items:center;
+
+      gap:10px;
+
+      margin-bottom:12px;
+
+      color:var(--blue);
+
+      font-size:12px;
+      font-weight:950;
+
+      letter-spacing:3px;
     }
 
-    .hero {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 28px;
-      margin-bottom: 32px;
-    }
+    .kicker::before {
+      content:"";
 
-    .hero-kicker {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      margin-bottom: 10px;
-      font-size: 11px;
-      font-weight: 850;
-      letter-spacing: 2px;
-      color: var(--navy-3);
-    }
+      width:38px;
+      height:3px;
 
-    .hero-kicker::before {
-      content: "";
-      width: 25px;
-      height: 2px;
-      background: var(--lime);
+      border-radius:99px;
+
+      background:var(--lime);
     }
 
     h1 {
-      margin: 0;
-      font-size: clamp(30px, 4vw, 45px);
-      line-height: 1.05;
-      letter-spacing: -2px;
-      color: var(--navy);
-      font-weight: 900;
+      margin:0;
+
+      color:var(--navy);
+
+      font-size:42px;
+      font-weight:950;
+
+      letter-spacing:-2px;
     }
 
-    .hero-desc {
-      margin: 12px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.65;
+    .desc {
+      margin:
+        13px 0 28px;
+
+      color:#697586;
+
+      font-size:15px;
+      line-height:1.65;
     }
 
-    .primary-btn {
-      border: 0;
-      border-radius: 13px;
-      padding: 15px 20px;
+    /* =====================================
+       NEW TOURNAMENT
+    ===================================== */
+
+    .create-btn {
+      width:100%;
+
+      min-height:72px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      gap:13px;
+
+      border:0;
+      border-radius:16px;
+
       background:
         linear-gradient(
           115deg,
-          var(--navy),
-          #123e6b
+          #061d37,
+          #0f467a
         );
-      color: white;
-      font-size: 14px;
-      font-weight: 800;
+
+      color:white;
+
       box-shadow:
-        0 10px 26px rgba(7,26,49,.12);
-      transition: .2s;
+        0 14px 34px rgba(8,39,71,.14);
+
+      font-size:18px;
+      font-weight:900;
     }
 
-    .primary-btn:hover {
-      transform: translateY(-1px);
-      box-shadow:
-        0 13px 30px rgba(7,26,49,.17);
+    .create-btn .plus {
+      color:var(--lime);
+
+      font-size:26px;
+      font-weight:950;
     }
 
-    .primary-btn span {
-      color: var(--lime);
-      margin-right: 5px;
-      font-size: 18px;
-    }
+    /* =====================================
+       STATS
+    ===================================== */
 
     .stats {
-      display: grid;
+      display:grid;
+
       grid-template-columns:
-        repeat(4, 1fr);
-      gap: 14px;
-      margin-bottom: 24px;
+        repeat(4,minmax(0,1fr));
+
+      gap:11px;
+
+      margin-top:20px;
     }
 
     .stat-card {
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 19px 20px;
-      box-shadow:
-        0 6px 20px rgba(23,36,54,.025);
+      min-height:119px;
+
+      padding:18px;
+
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+
+      border:1px solid var(--line);
+      border-radius:15px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
     }
 
     .stat-label {
-      font-size: 11px;
-      font-weight: 750;
-      color: var(--muted);
-      margin-bottom: 10px;
+      color:#687587;
+
+      font-size:12px;
+      font-weight:850;
     }
 
-    .stat-row {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
+    .stat-bottom {
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+
+      gap:8px;
     }
 
     .stat-number {
-      font-size: 28px;
-      font-weight: 900;
-      letter-spacing: -1.5px;
-      color: var(--navy);
+      color:var(--navy);
+
+      font-size:34px;
+      line-height:1;
+
+      font-weight:950;
     }
 
-    .stat-pill {
-      padding: 6px 8px;
-      border-radius: 8px;
-      font-size: 9px;
-      font-weight: 850;
-      letter-spacing: .7px;
+    .stat-badge {
+      min-height:28px;
+
+      display:flex;
+      align-items:center;
+
+      padding:0 10px;
+
+      border-radius:999px;
+
+      font-size:9px;
+      font-weight:950;
+
+      letter-spacing:1.3px;
     }
 
-    .draft {
-      color: var(--muted);
-      background: #f2f4f7;
+    .total-badge {
+      background:var(--gray-soft);
+      color:#697586;
     }
 
-    .scheduled {
-      color: var(--blue);
-      background: var(--blue-soft);
+    .draft-badge {
+      background:var(--blue-soft);
+      color:#2875a9;
     }
 
-    .live {
-      color: var(--green);
-      background: var(--green-soft);
+    .live-badge {
+      background:var(--green-soft);
+      color:var(--green);
     }
 
-    .finished {
-      color: #7a6d55;
-      background: #f5f1e9;
+    .finish-badge {
+      background:#f4f0e9;
+      color:#85765f;
     }
 
-    .content-grid {
-      display: grid;
+    /* =====================================
+       TOURNAMENT SECTION
+    ===================================== */
+
+    .section {
+      margin-top:34px;
+    }
+
+    .section-head {
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+
+      gap:14px;
+
+      margin-bottom:12px;
+    }
+
+    .section-title {
+      color:var(--navy);
+
+      font-size:21px;
+      font-weight:950;
+
+      letter-spacing:-.6px;
+    }
+
+    .section-sub {
+      margin-top:4px;
+
+      color:#788493;
+
+      font-size:11px;
+    }
+
+    .refresh-btn {
+      min-height:38px;
+
+      padding:0 13px;
+
+      border:1px solid #d8dfe6;
+      border-radius:9px;
+
+      background:white;
+      color:#526073;
+
+      font-size:11px;
+      font-weight:850;
+    }
+
+    /* =====================================
+       TOURNAMENT LIST
+    ===================================== */
+
+    .tournament-list {
+      display:flex;
+      flex-direction:column;
+
+      gap:10px;
+    }
+
+    .tournament-card {
+      overflow:hidden;
+
+      border:1px solid var(--line);
+      border-radius:16px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
+    }
+
+    .tournament-main {
+      padding:18px 19px;
+    }
+
+    .tournament-top {
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+
+      gap:15px;
+    }
+
+    .tournament-name {
+      color:var(--navy);
+
+      font-size:18px;
+      font-weight:950;
+
+      line-height:1.35;
+    }
+
+    .status {
+      flex-shrink:0;
+
+      min-height:29px;
+
+      display:flex;
+      align-items:center;
+
+      padding:0 10px;
+
+      border-radius:999px;
+
+      font-size:10px;
+      font-weight:900;
+    }
+
+    .status-draft {
+      background:var(--blue-soft);
+      color:#2875a9;
+    }
+
+    .status-active {
+      background:var(--green-soft);
+      color:var(--green);
+    }
+
+    .status-completed {
+      background:#f2efe9;
+      color:#7d715f;
+    }
+
+    .status-archived {
+      background:#f0f1f3;
+      color:#717987;
+    }
+
+    .meta {
+      display:flex;
+      flex-wrap:wrap;
+
+      gap:6px;
+
+      margin-top:11px;
+    }
+
+    .meta-chip {
+      min-height:29px;
+
+      display:flex;
+      align-items:center;
+
+      padding:0 9px;
+
+      border-radius:999px;
+
+      background:#f5f7f9;
+      color:#5d6979;
+
+      font-size:10px;
+      font-weight:800;
+    }
+
+    .progress-area {
+      margin-top:15px;
+    }
+
+    .progress-label {
+      display:flex;
+      justify-content:space-between;
+
+      margin-bottom:6px;
+
+      color:#657184;
+
+      font-size:10px;
+      font-weight:800;
+    }
+
+    .progress-track {
+      height:6px;
+
+      overflow:hidden;
+
+      border-radius:99px;
+
+      background:#edf0f3;
+    }
+
+    .progress-bar {
+      height:100%;
+
+      border-radius:99px;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--lime),
+          #91bd2e
+        );
+    }
+
+    .tournament-actions {
+      display:grid;
+
       grid-template-columns:
-        minmax(0, 1.45fr)
-        minmax(300px, .55fr);
-      gap: 20px;
+        minmax(0,1fr) auto;
+
+      gap:8px;
+
+      padding:12px 18px 17px;
     }
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
+    .continue-btn {
+      min-height:50px;
+
+      border:0;
+      border-radius:11px;
+
+      background:var(--navy);
+      color:white;
+
+      font-size:13px;
+      font-weight:900;
     }
 
-    .card-head {
-      padding: 22px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--line);
+    .continue-btn span {
+      margin-left:5px;
+      color:var(--lime);
     }
 
-    .card-title {
-      font-size: 16px;
-      font-weight: 850;
-      color: var(--navy);
+    .delete-btn {
+      min-height:50px;
+
+      padding:0 15px;
+
+      border:1px solid #ebd1d1;
+      border-radius:11px;
+
+      background:var(--red-soft);
+      color:var(--red);
+
+      font-size:11px;
+      font-weight:850;
     }
 
-    .card-sub {
-      margin-top: 5px;
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .current-body {
-      min-height: 340px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 35px;
-    }
+    /* =====================================
+       EMPTY
+    ===================================== */
 
     .empty {
-      width: 100%;
-      max-width: 460px;
-      text-align: center;
+      padding:54px 20px;
+
+      border:1px solid var(--line);
+      border-radius:16px;
+
+      background:white;
+
+      text-align:center;
+
+      box-shadow:var(--shadow);
     }
 
     .empty-icon {
-      position: relative;
-      margin:
-        0 auto 21px;
-      width: 72px;
-      height: 72px;
-      border-radius: 22px;
-      background:
-        linear-gradient(
-          145deg,
-          #f1f5d6,
-          #f8faed
-        );
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+      width:65px;
+      height:65px;
 
-    .ball {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: var(--lime);
-      position: relative;
-    }
+      margin:0 auto 15px;
 
-    .ball::before,
-    .ball::after {
-      content: "";
-      position: absolute;
-      width: 25px;
-      height: 11px;
-      border: 2px solid white;
-      border-left-color: transparent;
-      border-right-color: transparent;
-      border-radius: 50%;
-    }
+      display:flex;
+      align-items:center;
+      justify-content:center;
 
-    .ball::before {
-      left: 2px;
-      top: 2px;
-      transform: rotate(43deg);
-    }
+      border-radius:18px;
 
-    .ball::after {
-      right: 2px;
-      bottom: 2px;
-      transform: rotate(43deg);
+      background:#f2f5f7;
+
+      color:#91a4b6;
+
+      font-size:27px;
     }
 
     .empty-title {
-      font-size: 19px;
-      font-weight: 850;
-      color: var(--navy);
-      margin-bottom: 8px;
+      color:var(--navy);
+
+      font-size:16px;
+      font-weight:900;
     }
 
     .empty-desc {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 23px;
+      margin-top:6px;
+
+      color:#738091;
+
+      font-size:12px;
+      line-height:1.6;
     }
 
-    .quick-menu {
-      padding: 10px 18px 18px;
+    /* =====================================
+       ERROR
+    ===================================== */
+
+    .error-box {
+      display:none;
+
+      margin-top:14px;
+
+      padding:13px 14px;
+
+      border:1px solid #edcece;
+      border-radius:11px;
+
+      background:var(--red-soft);
+      color:#a84242;
+
+      font-size:12px;
+      font-weight:750;
+
+      line-height:1.6;
     }
 
-    .quick-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 13px;
-      padding: 15px 7px;
-      border-bottom: 1px solid #eef1f4;
-      cursor: pointer;
-      transition: .15s;
+    .error-box.show {
+      display:block;
     }
 
-    .quick-item:last-child {
-      border-bottom: 0;
+    /* =====================================
+       LOADING
+    ===================================== */
+
+    .loading-overlay {
+      display:none;
+
+      position:fixed;
+      inset:0;
+
+      z-index:300;
+
+      align-items:center;
+      justify-content:center;
+
+      padding:20px;
+
+      background:
+        rgba(4,17,31,.62);
     }
 
-    .quick-item:hover {
-      padding-left: 11px;
+    .loading-overlay.show {
+      display:flex;
     }
 
-    .quick-left {
-      display: flex;
-      align-items: center;
-      gap: 13px;
+    .loading-box {
+      width:min(350px,100%);
+
+      padding:25px;
+
+      border-radius:17px;
+
+      background:white;
+
+      text-align:center;
+
+      box-shadow:
+        0 30px 80px rgba(0,0,0,.25);
     }
 
-    .quick-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 11px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      font-weight: 900;
-      background: #f2f5f8;
-      color: var(--navy-3);
+    .spinner {
+      width:38px;
+      height:38px;
+
+      margin:0 auto 15px;
+
+      border:4px solid #e7eaee;
+      border-top-color:var(--navy);
+
+      border-radius:50%;
+
+      animation:spin .8s linear infinite;
     }
 
-    .quick-name {
-      font-size: 13px;
-      font-weight: 780;
-      color: #263247;
+    @keyframes spin {
+      to {
+        transform:rotate(360deg);
+      }
     }
 
-    .quick-desc {
-      margin-top: 3px;
-      font-size: 10px;
-      color: #9aa2ad;
-    }
+    .loading-title {
+      color:var(--navy);
 
-    .arrow {
-      color: #b5bdc8;
-      font-size: 17px;
-    }
-
-    .recent {
-      margin-top: 20px;
-    }
-
-    .recent-body {
-      padding: 30px 24px;
-      color: var(--muted);
-      font-size: 12px;
-      text-align: center;
-    }
-
-    .footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 32px;
-      padding-top: 20px;
-      border-top: 1px solid #e2e6eb;
-      color: #9ba4af;
-      font-size: 10px;
-      letter-spacing: 1px;
-    }
-
-    .footer strong {
-      color: var(--navy);
-      font-weight: 800;
-    }
-
-    .footer .q {
-      color: #9fb521;
-    }
-
-    .loading-screen {
-      position: fixed;
-      inset: 0;
-      z-index: 999;
-      background: var(--bg);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .loading-logo {
-      font-size: 39px;
-      font-weight: 950;
-      font-style: italic;
-      letter-spacing: -4px;
-      color: var(--navy);
-      transform: skewX(-5deg);
-    }
-
-    .loading-logo span {
-      color: var(--lime);
+      font-size:16px;
+      font-weight:900;
     }
 
     .loading-text {
-      margin-top: 14px;
-      font-size: 10px;
-      font-weight: 750;
-      color: #9aa2ad;
-      letter-spacing: 2px;
+      margin-top:6px;
+
+      color:#657184;
+
+      font-size:12px;
+      line-height:1.6;
     }
 
-    .hidden {
-      display: none;
+    /* =====================================
+       FOOTER
+    ===================================== */
+
+    .footer {
+      display:flex;
+      justify-content:space-between;
+
+      margin-top:32px;
+      padding-top:17px;
+
+      border-top:1px solid #e0e5ea;
+
+      color:#7c8795;
+
+      font-size:10px;
+      letter-spacing:1px;
     }
 
-    @media (max-width: 900px) {
+    .footer strong {
+      color:var(--navy);
+    }
+
+    .q {
+      color:#91a719;
+      font-weight:900;
+    }
+
+    /* =====================================
+       MOBILE
+    ===================================== */
+
+    @media(max-width:700px) {
+
       .topbar {
-        height: 68px;
-        padding: 0 18px;
+        min-height:72px;
+
+        padding:0 16px;
       }
 
-      .brand-copy {
-        display: none;
+      .fwt-logo {
+        font-size:31px;
       }
 
-      .admin-badge {
-        display: none;
+      .logout-btn {
+        min-height:48px;
+
+        padding:0 16px;
+
+        font-size:13px;
       }
 
-      .main {
+      .container {
         width:
-          min(100% - 28px, 760px);
+          calc(100% - 24px);
+
         padding:
-          31px 0 55px;
+          32px 0 55px;
       }
 
-      .hero {
-        display: block;
+      .kicker {
+        font-size:11px;
+        letter-spacing:2.7px;
       }
 
-      .hero .primary-btn {
-        margin-top: 23px;
-        width: 100%;
+      .kicker::before {
+        width:30px;
+      }
+
+      h1 {
+        font-size:38px;
+      }
+
+      .desc {
+        margin-bottom:24px;
+
+        font-size:15px;
+      }
+
+      /*
+        모바일 핵심버튼
+        얇아짐 방지
+      */
+
+      .create-btn {
+        width:100%;
+
+        height:64px;
+        min-height:64px;
+
+        flex:none;
+
+        border-radius:15px;
+
+        font-size:17px;
       }
 
       .stats {
         grid-template-columns:
-          repeat(2, 1fr);
-      }
+          repeat(2,minmax(0,1fr));
 
-      .content-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .fwt-logo {
-        font-size: 27px;
-      }
-
-      .top-actions {
-        gap: 6px;
-      }
-
-      .logout-btn {
-        font-size: 10px;
-        padding:
-          9px 10px;
-      }
-
-      h1 {
-        font-size: 32px;
-      }
-
-      .hero-desc {
-        font-size: 13px;
-      }
-
-      .stats {
-        gap: 9px;
+        gap:8px;
       }
 
       .stat-card {
-        padding:
-          16px 15px;
+        min-height:109px;
+
+        padding:15px;
+      }
+
+      .stat-label {
+        font-size:13px;
       }
 
       .stat-number {
-        font-size: 24px;
+        font-size:32px;
       }
 
-      .stat-pill {
-        font-size: 8px;
+      .section {
+        margin-top:30px;
       }
 
-      .card {
-        border-radius: 17px;
+      .section-title {
+        font-size:22px;
       }
 
-      .card-head {
+      .section-sub {
+        font-size:12px;
+      }
+
+      .refresh-btn {
+        min-height:43px;
+
+        font-size:12px;
+      }
+
+      .tournament-main {
+        padding:17px 15px;
+      }
+
+      .tournament-name {
+        font-size:18px;
+      }
+
+      .status {
+        min-height:31px;
+
+        font-size:11px;
+      }
+
+      .meta-chip {
+        min-height:31px;
+
+        font-size:11px;
+      }
+
+      .progress-label {
+        font-size:11px;
+      }
+
+      .tournament-actions {
+        grid-template-columns:1fr;
+
+        gap:8px;
+
         padding:
-          19px 18px;
+          0 15px 15px;
       }
 
-      .current-body {
-        min-height: 300px;
-        padding:
-          30px 20px;
+      /*
+        대회 계속관리 버튼은
+        모바일 최소 56px
+      */
+
+      .continue-btn {
+        width:100%;
+
+        height:56px;
+        min-height:56px;
+
+        flex:none;
+
+        font-size:15px;
       }
 
-      .footer {
-        display: block;
-        line-height: 2;
+      .delete-btn {
+        width:100%;
+
+        height:48px;
+        min-height:48px;
+
+        flex:none;
+
+        font-size:12px;
       }
+
+      .empty {
+        padding:45px 17px;
+      }
+
+      .empty-title {
+        font-size:17px;
+      }
+
+      .empty-desc {
+        font-size:13px;
+      }
+
     }
   </style>
 </head>
 
+
 <body>
 
-  <div class="loading-screen" id="loadingScreen">
+<header class="topbar">
 
-    <div class="loading-logo">
-      FW<span>T</span>
-    </div>
-
-    <div class="loading-text">
-      TOURNAMENT CONTROL
-    </div>
-
+  <!--
+    꼬리선 없는 FWT 로고
+  -->
+  <div class="fwt-logo">
+    FW<span>T</span>
   </div>
 
-  <div class="app hidden" id="app">
 
-    <header class="topbar">
+  <button
+    class="logout-btn"
+    id="logoutButton"
+    type="button"
+  >
+    로그아웃
+  </button>
 
-      <div class="brand">
+</header>
 
-        <div class="brand-logo">
 
-          <div class="fwt-logo">
-            FW<span class="accent">T</span>
-          </div>
+<main class="container">
 
+  <div class="kicker">
+    ADMIN DASHBOARD
+  </div>
+
+  <h1>
+    대회관리
+  </h1>
+
+  <p class="desc">
+    대회를 만들고, 저장된 대회를 다시 열어 이어서 관리합니다.
+  </p>
+
+
+  <button
+    class="create-btn"
+    id="createButton"
+    type="button"
+  >
+    <span class="plus">＋</span>
+    새 대회 만들기
+  </button>
+
+
+  <!-- 통계 -->
+
+  <section class="stats">
+
+    <div class="stat-card">
+
+      <div class="stat-label">
+        전체 대회
+      </div>
+
+      <div class="stat-bottom">
+
+        <div
+          class="stat-number"
+          id="totalCount"
+        >
+          0
         </div>
 
-        <div class="brand-copy">
-
-          <div class="brand-title">
-            TOURNAMENT CONTROL
-          </div>
-
-          <div class="brand-sub">
-            FRIENDS WITH TENNIS
-          </div>
-
+        <div class="stat-badge total-badge">
+          TOTAL
         </div>
 
       </div>
 
-      <div class="top-actions">
+    </div>
 
-        <div class="admin-badge">
 
-          <span class="admin-dot"></span>
+    <div class="stat-card">
 
-          ADMIN ·
-          <span class="q">Q</span>
+      <div class="stat-label">
+        준비 중
+      </div>
 
+      <div class="stat-bottom">
+
+        <div
+          class="stat-number"
+          id="draftCount"
+        >
+          0
         </div>
 
-        <button
-          class="logout-btn"
-          id="logoutButton"
-        >
-          로그아웃
-        </button>
+        <div class="stat-badge draft-badge">
+          READY
+        </div>
 
       </div>
 
-    </header>
+    </div>
 
-    <main class="main">
 
-      <section class="hero">
+    <div class="stat-card">
 
-        <div>
+      <div class="stat-label">
+        진행 중
+      </div>
 
-          <div class="hero-kicker">
-            ADMIN DASHBOARD
-          </div>
+      <div class="stat-bottom">
 
-          <h1>
-            대회 관리
-          </h1>
-
-          <p class="hero-desc">
-            대회를 만들고 참가자, 대진,
-            경기 결과를 한 곳에서 관리합니다.
-          </p>
-
-        </div>
-
-        <button
-          class="primary-btn"
-          id="createTournamentButton"
+        <div
+          class="stat-number"
+          id="activeCount"
         >
-          <span>＋</span>
-          새 대회 만들기
-        </button>
-
-      </section>
-
-      <section class="stats">
-
-        <div class="stat-card">
-
-          <div class="stat-label">
-            전체 대회
-          </div>
-
-          <div class="stat-row">
-
-            <div class="stat-number">
-              0
-            </div>
-
-            <div class="stat-pill draft">
-              TOTAL
-            </div>
-
-          </div>
-
+          0
         </div>
 
-        <div class="stat-card">
-
-          <div class="stat-label">
-            예정
-          </div>
-
-          <div class="stat-row">
-
-            <div class="stat-number">
-              0
-            </div>
-
-            <div class="stat-pill scheduled">
-              READY
-            </div>
-
-          </div>
-
+        <div class="stat-badge live-badge">
+          LIVE
         </div>
 
-        <div class="stat-card">
+      </div>
 
-          <div class="stat-label">
-            진행 중
-          </div>
+    </div>
 
-          <div class="stat-row">
 
-            <div class="stat-number">
-              0
-            </div>
+    <div class="stat-card">
 
-            <div class="stat-pill live">
-              LIVE
-            </div>
+      <div class="stat-label">
+        종료
+      </div>
 
-          </div>
+      <div class="stat-bottom">
 
+        <div
+          class="stat-number"
+          id="completedCount"
+        >
+          0
         </div>
 
-        <div class="stat-card">
-
-          <div class="stat-label">
-            종료
-          </div>
-
-          <div class="stat-row">
-
-            <div class="stat-number">
-              0
-            </div>
-
-            <div class="stat-pill finished">
-              FINISHED
-            </div>
-
-          </div>
-
+        <div class="stat-badge finish-badge">
+          FINISHED
         </div>
 
-      </section>
+      </div>
 
-      <section class="content-grid">
+    </div>
 
-        <div>
+  </section>
 
-          <div class="card">
 
-            <div class="card-head">
+  <!-- 저장 대회 -->
 
-              <div>
+  <section class="section">
 
-                <div class="card-title">
-                  현재 진행 중인 대회
-                </div>
+    <div class="section-head">
 
-                <div class="card-sub">
-                  LIVE TOURNAMENT
-                </div>
+      <div>
 
-              </div>
-
-            </div>
-
-            <div class="current-body">
-
-              <div class="empty">
-
-                <div class="empty-icon">
-
-                  <div class="ball"></div>
-
-                </div>
-
-                <div class="empty-title">
-                  진행 중인 대회가 없습니다
-                </div>
-
-                <div class="empty-desc">
-                  새 대회를 만든 뒤 참가자를 등록하고
-                  대진을 구성할 수 있습니다.
-                </div>
-
-                <button
-                  class="primary-btn"
-                  id="emptyCreateButton"
-                >
-                  <span>＋</span>
-                  첫 대회 만들기
-                </button>
-
-              </div>
-
-            </div>
-
-          </div>
-
-          <div class="card recent">
-
-            <div class="card-head">
-
-              <div>
-
-                <div class="card-title">
-                  최근 대회
-                </div>
-
-                <div class="card-sub">
-                  RECENT TOURNAMENTS
-                </div>
-
-              </div>
-
-            </div>
-
-            <div class="recent-body">
-              아직 생성된 대회가 없습니다.
-            </div>
-
-          </div>
-
+        <div class="section-title">
+          저장된 대회
         </div>
 
-        <aside class="card">
-
-          <div class="card-head">
-
-            <div>
-
-              <div class="card-title">
-                빠른 관리
-              </div>
-
-              <div class="card-sub">
-                QUICK CONTROL
-              </div>
-
-            </div>
-
-          </div>
-
-          <div class="quick-menu">
-
-            <div
-              class="quick-item"
-              id="quickCreate"
-            >
-
-              <div class="quick-left">
-
-                <div class="quick-icon">
-                  ＋
-                </div>
-
-                <div>
-
-                  <div class="quick-name">
-                    대회 만들기
-                  </div>
-
-                  <div class="quick-desc">
-                    새로운 대회 생성
-                  </div>
-
-                </div>
-
-              </div>
-
-              <div class="arrow">
-                ›
-              </div>
-
-            </div>
-
-            <div class="quick-item">
-
-              <div class="quick-left">
-
-                <div class="quick-icon">
-                  P
-                </div>
-
-                <div>
-
-                  <div class="quick-name">
-                    참가자 관리
-                  </div>
-
-                  <div class="quick-desc">
-                    추가 · 교체 · 삭제 · 기권
-                  </div>
-
-                </div>
-
-              </div>
-
-              <div class="arrow">
-                ›
-              </div>
-
-            </div>
-
-            <div class="quick-item">
-
-              <div class="quick-left">
-
-                <div class="quick-icon">
-                  B
-                </div>
-
-                <div>
-
-                  <div class="quick-name">
-                    조편성 · 대진
-                  </div>
-
-                  <div class="quick-desc">
-                    그룹 및 토너먼트 관리
-                  </div>
-
-                </div>
-
-              </div>
-
-              <div class="arrow">
-                ›
-              </div>
-
-            </div>
-
-            <div class="quick-item">
-
-              <div class="quick-left">
-
-                <div class="quick-icon">
-                  C
-                </div>
-
-                <div>
-
-                  <div class="quick-name">
-                    코트 · 일정
-                  </div>
-
-                  <div class="quick-desc">
-                    경기 시간 및 코트 배정
-                  </div>
-
-                </div>
-
-              </div>
-
-              <div class="arrow">
-                ›
-              </div>
-
-            </div>
-
-            <div class="quick-item">
-
-              <div class="quick-left">
-
-                <div class="quick-icon">
-                  S
-                </div>
-
-                <div>
-
-                  <div class="quick-name">
-                    경기 결과
-                  </div>
-
-                  <div class="quick-desc">
-                    스코어 입력 및 수정
-                  </div>
-
-                </div>
-
-              </div>
-
-              <div class="arrow">
-                ›
-              </div>
-
-            </div>
-
-          </div>
-
-        </aside>
-
-      </section>
-
-      <footer class="footer">
-
-        <div>
-          <strong>FWT</strong>
-          · FRIENDS WITH TENNIS
+        <div class="section-sub">
+          DB에 저장된 대회를 선택해 계속 진행할 수 있습니다.
         </div>
 
-        <div>
-          CREATED BY
-          <span class="q">Q</span>
-        </div>
+      </div>
 
-      </footer>
 
-    </main>
+      <button
+        class="refresh-btn"
+        id="refreshButton"
+        type="button"
+      >
+        새로고침
+      </button>
+
+    </div>
+
+
+    <div
+      class="tournament-list"
+      id="tournamentList"
+    ></div>
+
+
+    <div
+      class="error-box"
+      id="errorBox"
+    ></div>
+
+  </section>
+
+
+  <footer class="footer">
+
+    <div>
+      <strong>FWT</strong>
+      · FRIENDS WITH TENNIS
+    </div>
+
+    <div>
+      CREATED BY
+      <span class="q">Q</span>
+    </div>
+
+  </footer>
+
+</main>
+
+
+<!-- LOADING -->
+
+<div
+  class="loading-overlay"
+  id="loadingOverlay"
+>
+
+  <div class="loading-box">
+
+    <div class="spinner"></div>
+
+    <div
+      class="loading-title"
+      id="loadingTitle"
+    >
+      대회 정보를 불러오고 있습니다
+    </div>
+
+    <div
+      class="loading-text"
+      id="loadingText"
+    >
+      FWT 데이터베이스에 연결 중입니다.
+    </div>
 
   </div>
 
-  <script>
+</div>
 
-    const SUPABASE_URL =
-      "https://opwuyqerisocqobbbisg.supabase.co";
 
-    const SUPABASE_KEY =
-      "sb_publishable_Eo_zfONeGLs9ATCVg2Fk_g_y_IAJFV-";
+<script>
 
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
+const SUPABASE_URL =
+  "https://opwuyqerisocqobbbisg.supabase.co";
+
+
+const SUPABASE_KEY =
+  "sb_publishable_Eo_zfONeGLs9ATCVg2Fk_g_y_IAJFV-";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+let currentSession =
+  null;
+
+
+let tournaments =
+  [];
+
+
+let divisions =
+  [];
+
+
+let courts =
+  [];
+
+
+let entries =
+  [];
+
+
+let groups =
+  [];
+
+
+let matches =
+  [];
+
+
+let busy =
+  false;
+
+
+/* =====================================
+   HELPERS
+===================================== */
+
+function escapeHtml(value) {
+
+  const div =
+    document.createElement(
+      "div"
+    );
+
+  div.textContent =
+    value ?? "";
+
+  return div.innerHTML;
+
+}
+
+
+function formatDate(value) {
+
+  if (!value) {
+
+    return "날짜 미정";
+
+  }
+
+
+  const parts =
+    value.split("-");
+
+
+  if (
+    parts.length !== 3
+  ) {
+
+    return value;
+
+  }
+
+
+  return (
+    `${parts[0]}.${parts[1]}.${parts[2]}`
+  );
+
+}
+
+
+function statusText(status) {
+
+  const map = {
+
+    draft:"준비 중",
+    active:"진행 중",
+    completed:"종료",
+    archived:"보관됨"
+
+  };
+
+
+  return (
+    map[status] ||
+    status ||
+    "준비 중"
+  );
+
+}
+
+
+function statusClass(status) {
+
+  const map = {
+
+    draft:"status-draft",
+    active:"status-active",
+    completed:"status-completed",
+    archived:"status-archived"
+
+  };
+
+
+  return (
+    map[status] ||
+    "status-draft"
+  );
+
+}
+
+
+function genderText(value) {
+
+  const map = {
+
+    male:"남자",
+    female:"여자",
+    mixed:"혼합",
+    open:"오픈"
+
+  };
+
+
+  return (
+    map[value] ||
+    value ||
+    ""
+  );
+
+}
+
+
+function matchTypeText(value) {
+
+  const map = {
+
+    singles:"단식",
+    doubles:"복식"
+
+  };
+
+
+  return (
+    map[value] ||
+    value ||
+    ""
+  );
+
+}
+
+
+function formatText(value) {
+
+  const map = {
+
+    group_knockout:
+      "조별예선 + 본선",
+
+    knockout:
+      "토너먼트"
+
+  };
+
+
+  return (
+    map[value] ||
+    value ||
+    ""
+  );
+
+}
+
+
+/* =====================================
+   AUTH
+===================================== */
+
+async function checkLogin() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .auth
+      .getSession();
+
+
+  if (
+    error ||
+    !data.session
+  ) {
+
+    location.href =
+      "./";
+
+    return false;
+
+  }
+
+
+  currentSession =
+    data.session;
+
+
+  return true;
+
+}
+
+
+/* =====================================
+   LOADING
+===================================== */
+
+function setBusy(
+  state,
+  title = "",
+  text = ""
+) {
+
+  busy =
+    state;
+
+
+  document.getElementById(
+    "loadingOverlay"
+  ).classList.toggle(
+    "show",
+    state
+  );
+
+
+  document.getElementById(
+    "logoutButton"
+  ).disabled =
+    state;
+
+
+  document.getElementById(
+    "createButton"
+  ).disabled =
+    state;
+
+
+  document.getElementById(
+    "refreshButton"
+  ).disabled =
+    state;
+
+
+  if (title) {
+
+    document.getElementById(
+      "loadingTitle"
+    ).textContent =
+      title;
+
+  }
+
+
+  if (text) {
+
+    document.getElementById(
+      "loadingText"
+    ).textContent =
+      text;
+
+  }
+
+}
+
+
+/* =====================================
+   LOAD DASHBOARD DATA
+===================================== */
+
+async function loadDashboard() {
+
+  const {
+    data:tournamentRows,
+    error:tournamentError
+  } =
+    await supabaseClient
+      .from("tournaments")
+      .select(
+        "id,name,tournament_date,status,is_public,created_at"
+      )
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
       );
 
-    const app =
-      document.getElementById("app");
 
-    const loadingScreen =
-      document.getElementById("loadingScreen");
+  if (
+    tournamentError
+  ) {
 
-    const logoutButton =
-      document.getElementById("logoutButton");
+    throw new Error(
+      "대회 목록 조회 실패: "
+      +
+      tournamentError.message
+    );
 
-    const createTournamentButton =
-      document.getElementById(
-        "createTournamentButton"
+  }
+
+
+  tournaments =
+    tournamentRows || [];
+
+
+  if (
+    tournaments.length === 0
+  ) {
+
+    divisions = [];
+    courts = [];
+    entries = [];
+    groups = [];
+    matches = [];
+
+    renderDashboard();
+
+    return;
+
+  }
+
+
+  const tournamentIds =
+    tournaments.map(
+      row =>
+        row.id
+    );
+
+
+  /*
+    DIVISIONS
+  */
+
+  const {
+    data:divisionRows,
+    error:divisionError
+  } =
+    await supabaseClient
+      .from("divisions")
+      .select(
+        "id,tournament_id,name,match_type,gender,format,group_count,advance_count,expected_match_minutes,sort_order"
+      )
+      .in(
+        "tournament_id",
+        tournamentIds
+      )
+      .order(
+        "sort_order",
+        {
+          ascending:true
+        }
       );
 
-    const emptyCreateButton =
-      document.getElementById(
-        "emptyCreateButton"
+
+  if (
+    divisionError
+  ) {
+
+    throw new Error(
+      "부문 조회 실패: "
+      +
+      divisionError.message
+    );
+
+  }
+
+
+  divisions =
+    divisionRows || [];
+
+
+  /*
+    COURTS
+  */
+
+  const {
+    data:courtRows,
+    error:courtError
+  } =
+    await supabaseClient
+      .from("courts")
+      .select(
+        "id,tournament_id,name,sort_order,is_active"
+      )
+      .in(
+        "tournament_id",
+        tournamentIds
+      )
+      .order(
+        "sort_order",
+        {
+          ascending:true
+        }
       );
 
-    const quickCreate =
-      document.getElementById(
-        "quickCreate"
+
+  if (
+    courtError
+  ) {
+
+    throw new Error(
+      "코트 조회 실패: "
+      +
+      courtError.message
+    );
+
+  }
+
+
+  courts =
+    courtRows || [];
+
+
+  const divisionIds =
+    divisions.map(
+      row =>
+        row.id
+    );
+
+
+  if (
+    divisionIds.length === 0
+  ) {
+
+    entries = [];
+    groups = [];
+    matches = [];
+
+    renderDashboard();
+
+    return;
+
+  }
+
+
+  /*
+    ENTRIES
+  */
+
+  const {
+    data:entryRows,
+    error:entryError
+  } =
+    await supabaseClient
+      .from("entries")
+      .select(
+        "id,division_id,status,sort_order"
+      )
+      .in(
+        "division_id",
+        divisionIds
       );
 
-    async function checkLogin() {
 
-      const { data, error } =
-        await supabaseClient.auth.getSession();
+  if (
+    entryError
+  ) {
 
-      if (
-        error ||
-        !data.session
-      ) {
+    throw new Error(
+      "참가자 조회 실패: "
+      +
+      entryError.message
+    );
 
-        window.location.href =
-          "./";
+  }
 
-        return;
 
-      }
+  entries =
+    entryRows || [];
 
-      loadingScreen.classList.add(
-        "hidden"
+
+  /*
+    GROUPS
+  */
+
+  const {
+    data:groupRows,
+    error:groupError
+  } =
+    await supabaseClient
+      .from("groups")
+      .select(
+        "id,division_id,name,sort_order"
+      )
+      .in(
+        "division_id",
+        divisionIds
       );
 
-      app.classList.remove(
-        "hidden"
+
+  if (
+    groupError
+  ) {
+
+    throw new Error(
+      "조편성 조회 실패: "
+      +
+      groupError.message
+    );
+
+  }
+
+
+  groups =
+    groupRows || [];
+
+
+  /*
+    MATCHES
+  */
+
+  const {
+    data:matchRows,
+    error:matchError
+  } =
+    await supabaseClient
+      .from("matches")
+      .select(
+        "id,division_id,status,stage"
+      )
+      .in(
+        "division_id",
+        divisionIds
       );
+
+
+  if (
+    matchError
+  ) {
+
+    throw new Error(
+      "경기 조회 실패: "
+      +
+      matchError.message
+    );
+
+  }
+
+
+  matches =
+    matchRows || [];
+
+
+  renderDashboard();
+
+}
+
+
+/* =====================================
+   TOURNAMENT DATA HELPERS
+===================================== */
+
+function divisionsForTournament(
+  tournamentId
+) {
+
+  return divisions
+    .filter(
+      division =>
+        division.tournament_id ===
+        tournamentId
+    )
+    .sort(
+      (a,b) =>
+        Number(
+          a.sort_order || 0
+        )
+        -
+        Number(
+          b.sort_order || 0
+        )
+    );
+
+}
+
+
+function courtsForTournament(
+  tournamentId
+) {
+
+  return courts
+    .filter(
+      court =>
+        court.tournament_id ===
+        tournamentId
+        &&
+        court.is_active !== false
+    )
+    .sort(
+      (a,b) =>
+        Number(
+          a.sort_order || 0
+        )
+        -
+        Number(
+          b.sort_order || 0
+        )
+    );
+
+}
+
+
+function entriesForDivision(
+  divisionId
+) {
+
+  return entries.filter(
+    entry =>
+      entry.division_id ===
+      divisionId
+  );
+
+}
+
+
+function groupsForDivision(
+  divisionId
+) {
+
+  return groups.filter(
+    group =>
+      group.division_id ===
+      divisionId
+  );
+
+}
+
+
+function matchesForDivision(
+  divisionId
+) {
+
+  return matches.filter(
+    match =>
+      match.division_id ===
+      divisionId
+  );
+
+}
+
+
+/* =====================================
+   PROGRESS
+===================================== */
+
+function getProgressInfo(
+  tournament
+) {
+
+  const tournamentDivisions =
+    divisionsForTournament(
+      tournament.id
+    );
+
+
+  if (
+    tournamentDivisions.length === 0
+  ) {
+
+    return {
+
+      percent:5,
+      label:"대회 기본정보 생성",
+      action:"대회 계속 관리"
+
+    };
+
+  }
+
+
+  const division =
+    tournamentDivisions[0];
+
+
+  const tournamentEntries =
+    entriesForDivision(
+      division.id
+    );
+
+
+  const tournamentGroups =
+    groupsForDivision(
+      division.id
+    );
+
+
+  const tournamentMatches =
+    matchesForDivision(
+      division.id
+    );
+
+
+  if (
+    tournamentEntries.length === 0
+  ) {
+
+    return {
+
+      percent:20,
+      label:"참가자 등록 단계",
+      action:"참가자 등록 계속"
+
+    };
+
+  }
+
+
+  if (
+    division.format ===
+    "knockout"
+  ) {
+
+    if (
+      tournamentMatches.length === 0
+    ) {
+
+      return {
+
+        percent:45,
+        label:"참가자 등록 완료",
+        action:"대회 계속 관리"
+
+      };
 
     }
 
-    logoutButton.addEventListener(
-      "click",
-      async function () {
 
-        logoutButton.disabled = true;
+    return {
 
-        logoutButton.textContent =
-          "로그아웃 중";
+      percent:75,
+      label:"토너먼트 경기 진행",
+      action:"경기 관리"
 
-        await supabaseClient.auth.signOut();
+    };
 
-        window.location.href =
-          "./";
+  }
+
+
+  if (
+    tournamentGroups.length === 0
+  ) {
+
+    return {
+
+      percent:40,
+      label:"조편성 단계",
+      action:"조편성 계속"
+
+    };
+
+  }
+
+
+  if (
+    tournamentMatches.length === 0
+  ) {
+
+    return {
+
+      percent:55,
+      label:"조편성 완료 · 대진 생성 단계",
+      action:"대진 생성 계속"
+
+    };
+
+  }
+
+
+  const completed =
+    tournamentMatches
+      .filter(
+        match =>
+          match.status ===
+          "completed"
+          ||
+          match.status ===
+          "bye"
+          ||
+          match.status ===
+          "walkover"
+      )
+      .length;
+
+
+  if (
+    completed <
+    tournamentMatches.length
+  ) {
+
+    return {
+
+      percent:75,
+      label:"경기 진행 중",
+      action:"경기 관리"
+
+    };
+
+  }
+
+
+  return {
+
+    percent:90,
+    label:"예선 경기 완료",
+    action:"결과 관리"
+
+  };
+
+}
+
+
+/* =====================================
+   STATS
+===================================== */
+
+function renderStats() {
+
+  document.getElementById(
+    "totalCount"
+  ).textContent =
+    tournaments.length;
+
+
+  document.getElementById(
+    "draftCount"
+  ).textContent =
+    tournaments.filter(
+      tournament =>
+        tournament.status ===
+        "draft"
+    ).length;
+
+
+  document.getElementById(
+    "activeCount"
+  ).textContent =
+    tournaments.filter(
+      tournament =>
+        tournament.status ===
+        "active"
+    ).length;
+
+
+  document.getElementById(
+    "completedCount"
+  ).textContent =
+    tournaments.filter(
+      tournament =>
+        tournament.status ===
+        "completed"
+    ).length;
+
+}
+
+
+/* =====================================
+   RENDER LIST
+===================================== */
+
+function renderTournamentList() {
+
+  const box =
+    document.getElementById(
+      "tournamentList"
+    );
+
+
+  box.innerHTML = "";
+
+
+  if (
+    tournaments.length === 0
+  ) {
+
+    box.innerHTML = `
+
+      <div class="empty">
+
+        <div class="empty-icon">
+          ◉
+        </div>
+
+        <div class="empty-title">
+          아직 저장된 대회가 없습니다.
+        </div>
+
+        <div class="empty-desc">
+          새 대회를 만들면 이곳에서 다시 열어<br>
+          언제든 이어서 관리할 수 있습니다.
+        </div>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  tournaments.forEach(
+    tournament => {
+
+      const tournamentDivisions =
+        divisionsForTournament(
+          tournament.id
+        );
+
+
+      const firstDivision =
+        tournamentDivisions[0] ||
+        null;
+
+
+      const tournamentCourts =
+        courtsForTournament(
+          tournament.id
+        );
+
+
+      const entryCount =
+        tournamentDivisions
+          .reduce(
+            (
+              sum,
+              division
+            ) =>
+              sum
+              +
+              entriesForDivision(
+                division.id
+              ).length,
+            0
+          );
+
+
+      const progress =
+        getProgressInfo(
+          tournament
+        );
+
+
+      let divisionText =
+        "부문 미설정";
+
+
+      if (
+        firstDivision
+      ) {
+
+        divisionText =
+          firstDivision.name
+          ||
+          `${
+            genderText(
+              firstDivision.gender
+            )
+          } ${
+            matchTypeText(
+              firstDivision.match_type
+            )
+          }`;
+
+
+        if (
+          tournamentDivisions.length > 1
+        ) {
+
+          divisionText +=
+            ` 외 ${
+              tournamentDivisions.length - 1
+            }개`;
+
+        }
+
+      }
+
+
+      const card =
+        document.createElement(
+          "article"
+        );
+
+
+      card.className =
+        "tournament-card";
+
+
+      card.innerHTML = `
+
+        <div class="tournament-main">
+
+          <div class="tournament-top">
+
+            <div class="tournament-name">
+
+              ${escapeHtml(
+                tournament.name
+              )}
+
+            </div>
+
+
+            <div
+              class="status ${
+                statusClass(
+                  tournament.status
+                )
+              }"
+            >
+              ${escapeHtml(
+                statusText(
+                  tournament.status
+                )
+              )}
+            </div>
+
+          </div>
+
+
+          <div class="meta">
+
+            <div class="meta-chip">
+
+              ${escapeHtml(
+                formatDate(
+                  tournament.tournament_date
+                )
+              )}
+
+            </div>
+
+
+            <div class="meta-chip">
+
+              ${escapeHtml(
+                divisionText
+              )}
+
+            </div>
+
+
+            ${
+              firstDivision
+                ? `
+                  <div class="meta-chip">
+                    ${escapeHtml(
+                      formatText(
+                        firstDivision.format
+                      )
+                    )}
+                  </div>
+                `
+                : ""
+            }
+
+
+            <div class="meta-chip">
+              참가 ${entryCount}
+            </div>
+
+
+            <div class="meta-chip">
+              코트 ${tournamentCourts.length}
+            </div>
+
+          </div>
+
+
+          <div class="progress-area">
+
+            <div class="progress-label">
+
+              <span>
+                ${escapeHtml(
+                  progress.label
+                )}
+              </span>
+
+              <span>
+                ${progress.percent}%
+              </span>
+
+            </div>
+
+
+            <div class="progress-track">
+
+              <div
+                class="progress-bar"
+                style="
+                  width:
+                  ${progress.percent}%;
+                "
+              ></div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="tournament-actions">
+
+          <button
+            class="continue-btn"
+            type="button"
+          >
+            ${escapeHtml(
+              progress.action
+            )}
+            <span>→</span>
+          </button>
+
+
+          <button
+            class="delete-btn"
+            type="button"
+          >
+            대회 삭제
+          </button>
+
+        </div>
+
+      `;
+
+
+      card
+        .querySelector(
+          ".continue-btn"
+        )
+        .addEventListener(
+          "click",
+          function() {
+
+            openTournament(
+              tournament.id
+            );
+
+          }
+        );
+
+
+      card
+        .querySelector(
+          ".delete-btn"
+        )
+        .addEventListener(
+          "click",
+          function() {
+
+            deleteTournament(
+              tournament.id
+            );
+
+          }
+        );
+
+
+      box.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================
+   RENDER
+===================================== */
+
+function renderDashboard() {
+
+  renderStats();
+
+  renderTournamentList();
+
+}
+
+
+/* =====================================
+   CLEAR CURRENT WORKSPACE
+===================================== */
+
+function clearCurrentTournamentSession() {
+
+  [
+    "fwtNewTournament",
+    "fwtNewTournamentEntries",
+    "fwtGroupAssignments",
+    "fwtGroupData",
+    "fwtGroupMatches",
+    "fwtMatchControlState",
+    "fwtStandingsData",
+    "fwtKnockoutQualifiers",
+    "fwtKnockoutBracket"
+  ]
+    .forEach(
+      key => {
+
+        sessionStorage.removeItem(
+          key
+        );
 
       }
     );
 
-    function createTournament() {
+}
 
-      window.location.href =
-        "./create-tournament.html";
+
+/* =====================================
+   LOAD FULL ENTRIES FOR SELECTED DIVISION
+
+   players + entries + entry_members
+   를 읽어 기존 페이지 형식으로 복원
+===================================== */
+
+async function loadEntriesForDivision(
+  division
+) {
+
+  const {
+    data:entryRows,
+    error:entryError
+  } =
+    await supabaseClient
+      .from("entries")
+      .select(
+        "id,display_name,seed,status,sort_order"
+      )
+      .eq(
+        "division_id",
+        division.id
+      )
+      .order(
+        "sort_order",
+        {
+          ascending:true
+        }
+      );
+
+
+  if (
+    entryError
+  ) {
+
+    throw new Error(
+      "참가자 정보 조회 실패: "
+      +
+      entryError.message
+    );
+
+  }
+
+
+  if (
+    !entryRows ||
+    entryRows.length === 0
+  ) {
+
+    return [];
+
+  }
+
+
+  const entryIds =
+    entryRows.map(
+      row =>
+        row.id
+    );
+
+
+  const {
+    data:memberRows,
+    error:memberError
+  } =
+    await supabaseClient
+      .from("entry_members")
+      .select(
+        "entry_id,player_id,member_order"
+      )
+      .in(
+        "entry_id",
+        entryIds
+      );
+
+
+  if (
+    memberError
+  ) {
+
+    throw new Error(
+      "참가자 연결정보 조회 실패: "
+      +
+      memberError.message
+    );
+
+  }
+
+
+  const playerIds =
+    [
+      ...new Set(
+        (memberRows || [])
+          .map(
+            member =>
+              member.player_id
+          )
+      )
+    ];
+
+
+  let playerRows = [];
+
+
+  if (
+    playerIds.length > 0
+  ) {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("players")
+        .select(
+          "id,name,nickname"
+        )
+        .in(
+          "id",
+          playerIds
+        );
+
+
+    if (
+      error
+    ) {
+
+      throw new Error(
+        "선수정보 조회 실패: "
+        +
+        error.message
+      );
 
     }
 
-    createTournamentButton
-      .addEventListener(
-        "click",
-        createTournament
+
+    playerRows =
+      data || [];
+
+  }
+
+
+  const playerMap =
+    new Map();
+
+
+  playerRows.forEach(
+    player => {
+
+      playerMap.set(
+        player.id,
+        player
       );
 
-    emptyCreateButton
-      .addEventListener(
-        "click",
-        createTournament
+    }
+  );
+
+
+  const membersByEntry =
+    new Map();
+
+
+  (memberRows || [])
+    .forEach(
+      member => {
+
+        if (
+          !membersByEntry.has(
+            member.entry_id
+          )
+        ) {
+
+          membersByEntry.set(
+            member.entry_id,
+            []
+          );
+
+        }
+
+
+        membersByEntry
+          .get(
+            member.entry_id
+          )
+          .push(
+            member
+          );
+
+      }
+    );
+
+
+  return entryRows.map(
+    entryRow => {
+
+      const members =
+        (
+          membersByEntry.get(
+            entryRow.id
+          ) || []
+        )
+        .sort(
+          (a,b) =>
+            a.member_order -
+            b.member_order
+        );
+
+
+      if (
+        division.match_type ===
+        "doubles"
+      ) {
+
+        const member1 =
+          members.find(
+            member =>
+              member.member_order === 1
+          );
+
+
+        const member2 =
+          members.find(
+            member =>
+              member.member_order === 2
+          );
+
+
+        const player1 =
+          member1
+            ? playerMap.get(
+                member1.player_id
+              )
+            : null;
+
+
+        const player2 =
+          member2
+            ? playerMap.get(
+                member2.player_id
+              )
+            : null;
+
+
+        return {
+
+          type:"doubles",
+
+          dbEntryId:
+            entryRow.id,
+
+          sortOrder:
+            entryRow.sort_order,
+
+          player1: {
+
+            dbPlayerId:
+              player1?.id || null,
+
+            name:
+              player1?.name || "",
+
+            nickname:
+              player1?.nickname || ""
+
+          },
+
+          player2: {
+
+            dbPlayerId:
+              player2?.id || null,
+
+            name:
+              player2?.name || "",
+
+            nickname:
+              player2?.nickname || ""
+
+          }
+
+        };
+
+      }
+
+
+      const member =
+        members[0] || null;
+
+
+      const player =
+        member
+          ? playerMap.get(
+              member.player_id
+            )
+          : null;
+
+
+      return {
+
+        type:"singles",
+
+        dbEntryId:
+          entryRow.id,
+
+        dbPlayerId:
+          player?.id || null,
+
+        sortOrder:
+          entryRow.sort_order,
+
+        name:
+          player?.name || "",
+
+        nickname:
+          player?.nickname || ""
+
+      };
+
+    }
+  );
+
+}
+
+
+/* =====================================
+   LOAD GROUP DATA
+
+   기존 group-matches.html과 호환되게
+   members를 entry 배열 index로 복원
+===================================== */
+
+async function loadGroupDataForDivision(
+  division,
+  restoredEntries
+) {
+
+  const {
+    data:groupRows,
+    error:groupError
+  } =
+    await supabaseClient
+      .from("groups")
+      .select(
+        "id,name,sort_order"
+      )
+      .eq(
+        "division_id",
+        division.id
+      )
+      .order(
+        "sort_order",
+        {
+          ascending:true
+        }
       );
 
-    quickCreate
-      .addEventListener(
-        "click",
-        createTournament
+
+  if (
+    groupError
+  ) {
+
+    throw new Error(
+      "조편성 조회 실패: "
+      +
+      groupError.message
+    );
+
+  }
+
+
+  if (
+    !groupRows ||
+    groupRows.length === 0
+  ) {
+
+    return {
+
+      groupData:[],
+      assignments:
+        new Array(
+          restoredEntries.length
+        ).fill(null)
+
+    };
+
+  }
+
+
+  const groupIds =
+    groupRows.map(
+      row =>
+        row.id
+    );
+
+
+  const {
+    data:groupEntryRows,
+    error:groupEntryError
+  } =
+    await supabaseClient
+      .from("group_entries")
+      .select(
+        "group_id,entry_id,seed_order"
+      )
+      .in(
+        "group_id",
+        groupIds
       );
 
-    checkLogin();
 
-  </script>
+  if (
+    groupEntryError
+  ) {
+
+    throw new Error(
+      "조 참가자 조회 실패: "
+      +
+      groupEntryError.message
+    );
+
+  }
+
+
+  const entryIndexMap =
+    new Map();
+
+
+  restoredEntries.forEach(
+    (
+      entry,
+      index
+    ) => {
+
+      entryIndexMap.set(
+        entry.dbEntryId,
+        index
+      );
+
+    }
+  );
+
+
+  const assignments =
+    new Array(
+      restoredEntries.length
+    ).fill(null);
+
+
+  const groupData =
+    groupRows.map(
+      group => {
+
+        const memberRows =
+          (groupEntryRows || [])
+            .filter(
+              row =>
+                row.group_id ===
+                group.id
+            )
+            .sort(
+              (a,b) =>
+                Number(
+                  a.seed_order || 0
+                )
+                -
+                Number(
+                  b.seed_order || 0
+                )
+            );
+
+
+        const members =
+          memberRows
+            .map(
+              row =>
+                entryIndexMap.get(
+                  row.entry_id
+                )
+            )
+            .filter(
+              index =>
+                index !== undefined
+            );
+
+
+        members.forEach(
+          index => {
+
+            assignments[index] =
+              group.name;
+
+          }
+        );
+
+
+        return {
+
+          name:
+            group.name,
+
+          dbGroupId:
+            group.id,
+
+          members:
+            members
+
+        };
+
+      }
+    );
+
+
+  return {
+
+    groupData,
+    assignments
+
+  };
+
+}
+
+
+/* =====================================
+   OPEN TOURNAMENT
+===================================== */
+
+async function openTournament(
+  tournamentId
+) {
+
+  if (busy) {
+
+    return;
+
+  }
+
+
+  const tournament =
+    tournaments.find(
+      row =>
+        row.id ===
+        tournamentId
+    );
+
+
+  if (!tournament) {
+
+    alert(
+      "대회 정보를 찾을 수 없습니다."
+    );
+
+    return;
+
+  }
+
+
+  const tournamentDivisions =
+    divisionsForTournament(
+      tournament.id
+    );
+
+
+  if (
+    tournamentDivisions.length === 0
+  ) {
+
+    alert(
+      "이 대회의 부문 정보를 찾을 수 없습니다."
+    );
+
+    return;
+
+  }
+
+
+  /*
+    현재 생성화면은 대회당 첫 부문 1개를
+    만드는 구조이므로 우선 첫 부문 사용.
+  */
+
+  const division =
+    tournamentDivisions[0];
+
+
+  const tournamentCourts =
+    courtsForTournament(
+      tournament.id
+    );
+
+
+  try {
+
+    setBusy(
+      true,
+      "대회를 불러오고 있습니다",
+      "참가자와 현재 진행 단계를 복원하고 있습니다."
+    );
+
+
+    clearCurrentTournamentSession();
+
+
+    /*
+      1. 대회 기본정보를
+         기존 페이지가 사용하는 형식으로 복원
+    */
+
+    const tournamentContext = {
+
+      tournamentId:
+        tournament.id,
+
+      divisionId:
+        division.id,
+
+      tournamentName:
+        tournament.name,
+
+      tournamentDate:
+        tournament.tournament_date,
+
+      format:
+        division.format,
+
+      matchType:
+        division.match_type,
+
+      gender:
+        division.gender,
+
+      divisionName:
+        division.name,
+
+      groupCount:
+        Number(
+          division.group_count || 0
+        ),
+
+      advanceCount:
+        Number(
+          division.advance_count || 0
+        ),
+
+      matchDuration:
+        division.expected_match_minutes,
+
+      courts:
+        tournamentCourts.map(
+          court =>
+            court.name
+        ),
+
+      courtRecords:
+        tournamentCourts.map(
+          court => ({
+
+            id:
+              court.id,
+
+            name:
+              court.name,
+
+            sortOrder:
+              court.sort_order
+
+          })
+        )
+
+    };
+
+
+    sessionStorage.setItem(
+      "fwtNewTournament",
+      JSON.stringify(
+        tournamentContext
+      )
+    );
+
+
+    /*
+      2. 참가자 DB에서 복원
+    */
+
+    const restoredEntries =
+      await loadEntriesForDivision(
+        division
+      );
+
+
+    sessionStorage.setItem(
+      "fwtNewTournamentEntries",
+      JSON.stringify(
+        restoredEntries
+      )
+    );
+
+
+    /*
+      참가자가 없으면
+      참가자 등록으로
+    */
+
+    if (
+      restoredEntries.length === 0
+    ) {
+
+      location.href =
+        "./participant-registration.html";
+
+      return;
+
+    }
+
+
+    /*
+      토너먼트 전용 방식은
+      knockout-setup 페이지가 아직
+      완성 전이라 현재는 참가자 페이지로 복귀.
+    */
+
+    if (
+      division.format ===
+      "knockout"
+    ) {
+
+      setBusy(false);
+
+
+      alert(
+        "이 대회는 토너먼트 전용 방식입니다.\n\n현재 토너먼트 전용 대진 설정 화면은 아직 연결 작업 전이므로 참가자 등록 화면으로 이동합니다."
+      );
+
+
+      location.href =
+        "./participant-registration.html";
+
+      return;
+
+    }
+
+
+    /*
+      3. 조편성 DB에서 복원
+    */
+
+    const {
+      groupData,
+      assignments
+    } =
+      await loadGroupDataForDivision(
+        division,
+        restoredEntries
+      );
+
+
+    sessionStorage.setItem(
+      "fwtGroupData",
+      JSON.stringify(
+        groupData
+      )
+    );
+
+
+    sessionStorage.setItem(
+      "fwtGroupAssignments",
+      JSON.stringify(
+        assignments
+      )
+    );
+
+
+    /*
+      조편성이 없으면
+      group-setup
+    */
+
+    if (
+      groupData.length === 0
+    ) {
+
+      location.href =
+        "./group-setup.html";
+
+      return;
+
+    }
+
+
+    /*
+      현재 group-matches 이후는
+      아직 DB 이전 작업 전.
+
+      조가 DB에 있다면
+      우선 대진 생성 단계로 복귀.
+    */
+
+    location.href =
+      "./group-matches.html";
+
+
+  } catch(error) {
+
+    console.error(error);
+
+
+    setBusy(false);
+
+
+    alert(
+      "대회를 불러오지 못했습니다.\n\n"
+      +
+      (
+        error?.message ||
+        "알 수 없는 오류가 발생했습니다."
+      )
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   DELETE TOURNAMENT
+===================================== */
+
+async function deleteTournament(
+  tournamentId
+) {
+
+  if (busy) {
+
+    return;
+
+  }
+
+
+  const tournament =
+    tournaments.find(
+      row =>
+        row.id ===
+        tournamentId
+    );
+
+
+  if (!tournament) {
+
+    return;
+
+  }
+
+
+  const firstConfirm =
+    confirm(
+      `"${tournament.name}" 대회를 삭제할까요?\n\n참가자, 조편성, 경기 데이터도 함께 삭제됩니다.`
+    );
+
+
+  if (!firstConfirm) {
+
+    return;
+
+  }
+
+
+  const secondConfirm =
+    confirm(
+      "삭제한 대회는 되돌릴 수 없습니다.\n정말 삭제하시겠습니까?"
+    );
+
+
+  if (!secondConfirm) {
+
+    return;
+
+  }
+
+
+  try {
+
+    setBusy(
+      true,
+      "대회를 삭제하고 있습니다",
+      "연결된 대회 데이터를 정리하고 있습니다."
+    );
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("tournaments")
+        .delete()
+        .eq(
+          "id",
+          tournamentId
+        );
+
+
+    if (error) {
+
+      throw new Error(
+        error.message
+      );
+
+    }
+
+
+    /*
+      현재 선택중인 대회였다면
+      sessionStorage도 제거
+    */
+
+    const current =
+      JSON.parse(
+        sessionStorage.getItem(
+          "fwtNewTournament"
+        ) || "null"
+      );
+
+
+    if (
+      current?.tournamentId ===
+      tournamentId
+    ) {
+
+      clearCurrentTournamentSession();
+
+    }
+
+
+    await loadDashboard();
+
+
+    setBusy(false);
+
+
+  } catch(error) {
+
+    console.error(error);
+
+
+    setBusy(false);
+
+
+    alert(
+      "대회를 삭제하지 못했습니다.\n\n"
+      +
+      (
+        error?.message ||
+        "알 수 없는 오류"
+      )
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   LOGOUT
+===================================== */
+
+async function logout() {
+
+  if (busy) {
+
+    return;
+
+  }
+
+
+  try {
+
+    setBusy(
+      true,
+      "로그아웃 중",
+      "관리자 세션을 종료하고 있습니다."
+    );
+
+
+    await supabaseClient
+      .auth
+      .signOut();
+
+
+    /*
+      DB 데이터는 삭제하지 않음.
+      현재 브라우저 작업 데이터만 비움.
+    */
+
+    clearCurrentTournamentSession();
+
+
+    location.href =
+      "./";
+
+
+  } catch(error) {
+
+    console.error(error);
+
+
+    setBusy(false);
+
+
+    alert(
+      "로그아웃하지 못했습니다."
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   REFRESH
+===================================== */
+
+async function refreshDashboard() {
+
+  if (busy) {
+
+    return;
+
+  }
+
+
+  try {
+
+    setBusy(
+      true,
+      "대회 정보를 새로고침합니다",
+      "FWT 데이터베이스를 다시 확인하고 있습니다."
+    );
+
+
+    await loadDashboard();
+
+
+    setBusy(false);
+
+
+  } catch(error) {
+
+    console.error(error);
+
+
+    setBusy(false);
+
+
+    showError(
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   ERROR
+===================================== */
+
+function showError(message) {
+
+  const box =
+    document.getElementById(
+      "errorBox"
+    );
+
+
+  box.textContent =
+    message;
+
+
+  box.classList.add(
+    "show"
+  );
+
+}
+
+
+function clearError() {
+
+  const box =
+    document.getElementById(
+      "errorBox"
+    );
+
+
+  box.textContent = "";
+
+
+  box.classList.remove(
+    "show"
+  );
+
+}
+
+
+/* =====================================
+   EVENTS
+===================================== */
+
+document.getElementById(
+  "createButton"
+).addEventListener(
+  "click",
+  function() {
+
+    location.href =
+      "./create-tournament.html";
+
+  }
+);
+
+
+document.getElementById(
+  "logoutButton"
+).addEventListener(
+  "click",
+  logout
+);
+
+
+document.getElementById(
+  "refreshButton"
+).addEventListener(
+  "click",
+  refreshDashboard
+);
+
+
+/* =====================================
+   START
+===================================== */
+
+async function start() {
+
+  const loggedIn =
+    await checkLogin();
+
+
+  if (!loggedIn) {
+
+    return;
+
+  }
+
+
+  try {
+
+    clearError();
+
+
+    setBusy(
+      true,
+      "대회 정보를 불러오고 있습니다",
+      "저장된 FWT 대회 목록을 확인하고 있습니다."
+    );
+
+
+    await loadDashboard();
+
+
+    setBusy(false);
+
+
+  } catch(error) {
+
+    console.error(error);
+
+
+    setBusy(false);
+
+
+    showError(
+      "대회 정보를 불러오지 못했습니다. "
+      +
+      (
+        error?.message ||
+        ""
+      )
+    );
+
+  }
+
+}
+
+
+start();
+
+</script>
 
 </body>
 </html>
