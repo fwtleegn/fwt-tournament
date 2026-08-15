@@ -30,8 +30,7 @@
       --red:#c64b4b;
       --red-soft:#fff2f2;
 
-      --shadow:
-        0 12px 35px rgba(20,35,55,.06);
+      --shadow:0 12px 35px rgba(20,35,55,.06);
     }
 
     * {
@@ -65,10 +64,12 @@
       cursor:pointer;
     }
 
-    .topbar {
-      height:68px;
+    /* HEADER */
 
-      padding:0 24px;
+    .topbar {
+      min-height:72px;
+
+      padding:0 20px;
 
       display:flex;
       align-items:center;
@@ -79,68 +80,63 @@
       background:
         linear-gradient(
           110deg,
-          #07182d,
-          #0b2848 60%,
-          #10375f
+          #06172b,
+          #0a2848 62%,
+          #103b67
         );
 
       box-shadow:
-        0 4px 18px rgba(6,23,43,.14);
+        0 5px 20px rgba(6,23,43,.16);
     }
 
-    .brand {
-      display:flex;
-      align-items:center;
-      gap:22px;
-    }
+    .fwt-logo {
+      color:white;
 
-    .fwt {
-      font-size:29px;
+      font-size:31px;
+      line-height:1;
+
       font-weight:950;
       font-style:italic;
-      letter-spacing:-3px;
+      letter-spacing:-4px;
+
+      transform:skew(-5deg);
     }
 
-    .fwt span {
+    .fwt-logo span {
       color:var(--lime);
     }
 
-    .top-title {
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:1.8px;
-      color:rgba(255,255,255,.72);
-    }
-
     .back-btn {
-      min-height:40px;
+      min-height:44px;
 
       padding:0 14px;
 
       border:
-        1px solid rgba(255,255,255,.16);
+        1px solid rgba(255,255,255,.15);
 
-      border-radius:10px;
+      border-radius:11px;
 
       background:
-        rgba(255,255,255,.07);
+        rgba(255,255,255,.08);
 
       color:white;
 
       font-size:12px;
-      font-weight:800;
+      font-weight:850;
     }
+
+    /* PAGE */
 
     .container {
       width:
         min(
-          1120px,
+          1100px,
           calc(100% - 34px)
         );
 
       margin:0 auto;
 
-      padding:34px 0 64px;
+      padding:34px 0 60px;
     }
 
     .head {
@@ -159,8 +155,8 @@
       color:var(--blue);
 
       font-size:11px;
-      font-weight:900;
-      letter-spacing:1.8px;
+      font-weight:950;
+      letter-spacing:2px;
     }
 
     h1 {
@@ -169,7 +165,7 @@
       color:var(--navy);
 
       font-size:34px;
-      font-weight:900;
+      font-weight:950;
       letter-spacing:-1.5px;
     }
 
@@ -185,6 +181,7 @@
     .summary {
       display:flex;
       flex-wrap:wrap;
+
       gap:7px;
     }
 
@@ -195,7 +192,6 @@
       border-radius:999px;
 
       background:white;
-
       color:#526073;
 
       font-size:11px;
@@ -203,24 +199,23 @@
     }
 
     .summary-chip strong {
-      margin-left:3px;
+      margin-left:4px;
 
       color:var(--navy);
 
-      font-size:14px;
+      font-size:15px;
+      font-weight:950;
     }
 
-    /* =================================
-       CONTROL
-    ================================= */
+    /* CONTROL */
 
     .control-card {
       margin-bottom:14px;
 
-      padding:15px;
+      padding:16px;
 
       border:1px solid var(--line);
-      border-radius:15px;
+      border-radius:16px;
 
       background:white;
 
@@ -228,21 +223,20 @@
     }
 
     .control-title {
-      margin-bottom:10px;
-
       color:var(--navy);
 
-      font-size:15px;
-      font-weight:900;
+      font-size:17px;
+      font-weight:950;
     }
 
     .control-desc {
+      margin-top:5px;
       margin-bottom:13px;
 
       color:#657184;
 
       font-size:12px;
-      line-height:1.65;
+      line-height:1.6;
     }
 
     .control-buttons {
@@ -255,7 +249,7 @@
     }
 
     .control-btn {
-      min-height:46px;
+      min-height:48px;
 
       border:1px solid #d9e0e6;
       border-radius:10px;
@@ -264,7 +258,7 @@
       color:#526073;
 
       font-size:12px;
-      font-weight:850;
+      font-weight:900;
     }
 
     .control-btn.primary {
@@ -281,14 +275,10 @@
       color:var(--red);
     }
 
-    /* =================================
-       PARTICIPANTS
-    ================================= */
+    /* PARTICIPANTS */
 
     .participant-card {
       overflow:hidden;
-
-      margin-bottom:14px;
 
       border:1px solid var(--line);
       border-radius:17px;
@@ -303,7 +293,7 @@
       align-items:center;
       justify-content:space-between;
 
-      padding:16px 18px;
+      padding:17px 18px;
 
       border-bottom:1px solid #e8ecf0;
     }
@@ -311,19 +301,20 @@
     .card-title {
       color:var(--navy);
 
-      font-size:17px;
-      font-weight:900;
+      font-size:18px;
+      font-weight:950;
     }
 
     .db-status {
       display:flex;
       align-items:center;
+
       gap:6px;
 
       color:var(--green);
 
       font-size:10px;
-      font-weight:850;
+      font-weight:900;
     }
 
     .db-dot {
@@ -349,7 +340,7 @@
 
       gap:10px;
 
-      min-height:64px;
+      min-height:67px;
 
       padding:9px 10px;
 
@@ -394,17 +385,17 @@
     }
 
     .participant-sub {
-      margin-top:3px;
+      margin-top:4px;
 
       color:#687587;
 
       font-size:10px;
-      font-weight:700;
+      font-weight:750;
     }
 
     .group-select {
       width:100%;
-      height:43px;
+      height:44px;
 
       padding:0 10px;
 
@@ -420,33 +411,24 @@
       font-weight:850;
     }
 
-    .group-select:focus {
-      border-color:#6485a4;
+    /* GROUP PREVIEW */
 
-      box-shadow:
-        0 0 0 3px rgba(24,74,121,.06);
-    }
-
-    /* =================================
-       GROUP PREVIEW
-    ================================= */
-
-    .group-preview-title {
+    .preview-head {
       display:flex;
       align-items:center;
       justify-content:space-between;
 
-      margin:20px 0 10px;
+      margin:21px 0 10px;
     }
 
-    .group-preview-title-main {
+    .preview-title {
       color:var(--navy);
 
-      font-size:18px;
-      font-weight:900;
+      font-size:19px;
+      font-weight:950;
     }
 
-    .group-preview-title-sub {
+    .preview-sub {
       color:#667386;
 
       font-size:11px;
@@ -519,9 +501,9 @@
     }
 
     .member {
-      padding:10px 11px;
-
       margin-bottom:6px;
+
+      padding:10px;
 
       border:1px solid #e4e8ec;
       border-radius:9px;
@@ -537,7 +519,7 @@
     }
 
     .empty-group {
-      padding:24px 10px;
+      padding:25px 10px;
 
       text-align:center;
 
@@ -546,9 +528,7 @@
       font-size:12px;
     }
 
-    /* =================================
-       WARNING
-    ================================= */
+    /* WARNING */
 
     .warning {
       display:none;
@@ -572,12 +552,11 @@
       display:block;
     }
 
-    /* =================================
-       BOTTOM
-    ================================= */
+    /* BOTTOM */
 
     .bottom {
       display:flex;
+
       gap:10px;
 
       margin-top:18px;
@@ -585,8 +564,8 @@
 
     .previous,
     .next {
-      height:55px;
-      min-height:55px;
+      height:56px;
+      min-height:56px;
 
       border-radius:11px;
 
@@ -625,16 +604,12 @@
       color:var(--lime);
     }
 
-    .previous:disabled,
-    .next:disabled,
-    .control-btn:disabled {
+    button:disabled {
       cursor:not-allowed;
       opacity:.55;
     }
 
-    /* =================================
-       LOADING
-    ================================= */
+    /* LOADING */
 
     .loading-overlay {
       display:none;
@@ -642,7 +617,7 @@
       position:fixed;
       inset:0;
 
-      z-index:200;
+      z-index:300;
 
       align-items:center;
       justify-content:center;
@@ -708,15 +683,13 @@
       line-height:1.6;
     }
 
-    /* =================================
-       FOOTER
-    ================================= */
+    /* FOOTER */
 
     .footer {
       display:flex;
       justify-content:space-between;
 
-      margin-top:26px;
+      margin-top:27px;
       padding-top:17px;
 
       border-top:1px solid #e2e6eb;
@@ -736,26 +709,25 @@
       font-weight:900;
     }
 
-    /* =================================
-       MOBILE
-    ================================= */
+    /* MOBILE */
 
     @media(max-width:700px) {
 
       .topbar {
-        height:64px;
+        min-height:72px;
 
         padding:0 14px;
       }
 
-      .top-title {
-        display:none;
+      .fwt-logo {
+        font-size:30px;
       }
 
       .back-btn {
-        min-height:44px;
+        height:46px;
+        min-height:46px;
 
-        padding:0 12px;
+        flex:none;
 
         font-size:12px;
       }
@@ -765,7 +737,7 @@
           calc(100% - 22px);
 
         padding:
-          24px 0 50px;
+          25px 0 50px;
       }
 
       .head {
@@ -777,7 +749,7 @@
       }
 
       h1 {
-        font-size:30px;
+        font-size:31px;
       }
 
       .desc {
@@ -793,17 +765,12 @@
       }
 
       .control-title {
-        font-size:17px;
+        font-size:18px;
       }
 
       .control-desc {
         font-size:13px;
       }
-
-      /*
-        모바일 조편성 버튼
-        절대 얇아지지 않도록 고정
-      */
 
       .control-buttons {
         grid-template-columns:1fr;
@@ -830,7 +797,7 @@
 
         gap:9px;
 
-        min-height:78px;
+        min-height:80px;
 
         padding:10px;
       }
@@ -851,37 +818,29 @@
       }
 
       .group-select {
-        grid-column:
-          1 / -1;
+        grid-column:1 / -1;
 
         width:100%;
 
-        height:50px;
-        min-height:50px;
+        height:52px;
+        min-height:52px;
 
         font-size:14px;
       }
 
-      .group-preview-title-main {
-        font-size:19px;
+      .preview-title {
+        font-size:20px;
       }
 
-      .group-preview-title-sub {
+      .preview-sub {
         font-size:12px;
       }
 
       .groups {
         grid-template-columns:
-          repeat(
-            2,
-            minmax(0,1fr)
-          );
+          repeat(2,minmax(0,1fr));
 
         gap:7px;
-      }
-
-      .group-head {
-        padding:11px;
       }
 
       .group-name {
@@ -889,14 +848,8 @@
       }
 
       .member {
-        padding:10px 8px;
-
         font-size:13px;
       }
-
-      /*
-        모바일 하단 버튼
-      */
 
       .bottom {
         flex-direction:column-reverse;
@@ -928,25 +881,17 @@
   </style>
 </head>
 
-
 <body>
 
 <header class="topbar">
 
-  <div class="brand">
-
-    <div class="fwt">
-      FW<span>T</span>
-    </div>
-
-    <div class="top-title">
-      GROUP SETUP
-    </div>
-
+  <div class="fwt-logo">
+    FW<span>T</span>
   </div>
 
   <button
     class="back-btn"
+    type="button"
     onclick="location.href='./participant-registration.html'"
   >
     ← 참가자
@@ -970,7 +915,7 @@
       </h1>
 
       <p class="desc">
-        시드 참가자를 먼저 수동으로 배치한 뒤 나머지를 자동 배정할 수 있습니다.
+        원하는 참가자를 먼저 직접 배치한 뒤 나머지를 자동으로 균등 배정할 수 있습니다.
       </p>
 
     </div>
@@ -998,8 +943,6 @@
   </div>
 
 
-  <!-- 조편성 도구 -->
-
   <section class="control-card">
 
     <div class="control-title">
@@ -1007,8 +950,7 @@
     </div>
 
     <div class="control-desc">
-      특정 참가자를 원하는 조에 먼저 배치할 수 있습니다.
-      이후 나머지만 자동으로 균등 배정할 수 있습니다.
+      시드 선수를 원하는 조에 먼저 지정한 뒤 나머지만 자동 배정할 수 있습니다.
     </div>
 
 
@@ -1022,7 +964,6 @@
         나머지 자동 배정
       </button>
 
-
       <button
         class="control-btn"
         id="randomAllButton"
@@ -1030,7 +971,6 @@
       >
         전체 랜덤 배정
       </button>
-
 
       <button
         class="control-btn reset"
@@ -1044,8 +984,6 @@
 
   </section>
 
-
-  <!-- 참가자별 조 선택 -->
 
   <section class="participant-card">
 
@@ -1074,15 +1012,13 @@
   </section>
 
 
-  <!-- 조 미리보기 -->
+  <div class="preview-head">
 
-  <div class="group-preview-title">
-
-    <div class="group-preview-title-main">
+    <div class="preview-title">
       조별 현황
     </div>
 
-    <div class="group-preview-title-sub">
+    <div class="preview-sub">
       실시간 반영
     </div>
 
@@ -1141,8 +1077,6 @@
 
 </main>
 
-
-<!-- 로딩 -->
 
 <div
   class="loading-overlay"
@@ -1208,17 +1142,16 @@ const entries =
 if (
   !tournament ||
   !tournament.divisionId ||
-  !Array.isArray(entries)
-  ||
+  !Array.isArray(entries) ||
   entries.length === 0
 ) {
 
   alert(
-    "참가자 또는 대회 정보가 없습니다."
+    "대회 또는 참가자 정보가 없습니다."
   );
 
   location.href =
-    "./participant-registration.html";
+    "./dashboard.html";
 
 }
 
@@ -1243,25 +1176,8 @@ if (
 }
 
 
-let currentSession =
-  null;
+let busy = false;
 
-
-let busy =
-  false;
-
-
-/*
-  각 참가자의 현재 조 이름.
-
-  예:
-  [
-    "A조",
-    "B조",
-    null,
-    "C조"
-  ]
-*/
 
 let assignments =
   new Array(
@@ -1290,13 +1206,6 @@ function escapeHtml(value) {
 
 function shortEntryName(entry) {
 
-  if (!entry) {
-
-    return "알 수 없음";
-
-  }
-
-
   if (
     entry.type ===
     "singles"
@@ -1323,43 +1232,12 @@ function shortEntryName(entry) {
     "선수2";
 
 
-  return `${p1}/${p2}`;
+  return `${p1} / ${p2}`;
 
 }
 
 
 function fullEntryName(entry) {
-
-  if (!entry) {
-
-    return "알 수 없음";
-
-  }
-
-
-  if (
-    entry.type ===
-    "singles"
-  ) {
-
-    if (
-      entry.nickname &&
-      entry.name
-    ) {
-
-      return `${entry.nickname} (${entry.name})`;
-
-    }
-
-
-    return (
-      entry.nickname ||
-      entry.name ||
-      "이름 없음"
-    );
-
-  }
-
 
   function one(player) {
 
@@ -1384,19 +1262,41 @@ function fullEntryName(entry) {
   }
 
 
+  if (
+    entry.type ===
+    "singles"
+  ) {
+
+    if (
+      entry.nickname &&
+      entry.name
+    ) {
+
+      return (
+        `${entry.nickname} (${entry.name})`
+      );
+
+    }
+
+
+    return (
+      entry.nickname ||
+      entry.name ||
+      "이름 없음"
+    );
+
+  }
+
+
   return (
-    `${one(
-      entry.player1
-    )} / ${one(
-      entry.player2
-    )}`
+    `${one(entry.player1)} / ${one(entry.player2)}`
   );
 
 }
 
 
 /* =====================================
-   GROUP NAMES
+   GROUP NAME
 ===================================== */
 
 function makeGroupName(index) {
@@ -1408,17 +1308,13 @@ function makeGroupName(index) {
     return (
       String.fromCharCode(
         65 + index
-      )
-      +
-      "조"
+      ) + "조"
     );
 
   }
 
 
-  return (
-    `${index + 1}조`
-  );
+  return `${index + 1}조`;
 
 }
 
@@ -1426,16 +1322,13 @@ function makeGroupName(index) {
 const groupNames =
   Array.from(
     {
-      length:
-        groupCount
+      length:groupCount
     },
     (
       _,
       index
     ) =>
-      makeGroupName(
-        index
-      )
+      makeGroupName(index)
   );
 
 
@@ -1459,15 +1352,12 @@ async function checkLogin() {
     !data.session
   ) {
 
-    location.href = "./";
+    location.href =
+      "./";
 
     return false;
 
   }
-
-
-  currentSession =
-    data.session;
 
 
   return true;
@@ -1485,8 +1375,7 @@ function setBusy(
   text = ""
 ) {
 
-  busy =
-    state;
+  busy = state;
 
 
   [
@@ -1495,25 +1384,22 @@ function setBusy(
     "resetButton",
     "previousButton",
     "confirmButton"
-  ]
-    .forEach(
-      id => {
+  ].forEach(
+    id => {
 
-        const el =
-          document.getElementById(
-            id
-          );
+      const button =
+        document.getElementById(id);
 
 
-        if (el) {
+      if (button) {
 
-          el.disabled =
-            state;
-
-        }
+        button.disabled =
+          state;
 
       }
-    );
+
+    }
+  );
 
 
   document.getElementById(
@@ -1547,34 +1433,62 @@ function setBusy(
 
 
 /* =====================================
-   SESSION SAVE
+   GROUP DATA
 ===================================== */
+
+function getGroupMemberIndexes(
+  groupName
+) {
+
+  return assignments
+    .map(
+      (
+        assignment,
+        index
+      ) =>
+        assignment === groupName
+          ? index
+          : null
+    )
+    .filter(
+      value =>
+        value !== null
+    );
+
+}
+
+
+function getUnassignedIndexes() {
+
+  return assignments
+    .map(
+      (
+        assignment,
+        index
+      ) =>
+        assignment === null
+          ? index
+          : null
+    )
+    .filter(
+      value =>
+        value !== null
+    );
+
+}
+
 
 function createGroupData() {
 
   return groupNames.map(
     groupName => ({
 
-      name:
-        groupName,
+      name:groupName,
 
       members:
-        assignments
-          .map(
-            (
-              assignedGroup,
-              entryIndex
-            ) => (
-              assignedGroup ===
-                groupName
-                ? entryIndex
-                : null
-            )
-          )
-          .filter(
-            value =>
-              value !== null
-          )
+        getGroupMemberIndexes(
+          groupName
+        )
 
     })
   );
@@ -1603,7 +1517,7 @@ function saveSessionData() {
 
 
 /* =====================================
-   DB에서 기존 조편성 불러오기
+   LOAD EXISTING DB GROUPS
 ===================================== */
 
 async function loadExistingGroups() {
@@ -1629,7 +1543,9 @@ async function loadExistingGroups() {
       );
 
 
-  if (groupError) {
+  if (
+    groupError
+  ) {
 
     throw new Error(
       "조 정보 조회 실패: "
@@ -1640,16 +1556,15 @@ async function loadExistingGroups() {
   }
 
 
+  /*
+    DB 조편성이 없다면
+    현재 sessionStorage가 있으면 복원
+  */
+
   if (
     !groupRows ||
     groupRows.length === 0
   ) {
-
-    /*
-      DB에는 아직 조편성이 없지만
-      기존 sessionStorage 테스트 데이터가
-      있다면 그것을 복원.
-    */
 
     const saved =
       JSON.parse(
@@ -1660,8 +1575,7 @@ async function loadExistingGroups() {
 
 
     if (
-      Array.isArray(saved)
-      &&
+      Array.isArray(saved) &&
       saved.length ===
         entries.length
     ) {
@@ -1669,9 +1583,7 @@ async function loadExistingGroups() {
       assignments =
         saved.map(
           value =>
-            groupNames.includes(
-              value
-            )
+            groupNames.includes(value)
               ? value
               : null
         );
@@ -1693,7 +1605,7 @@ async function loadExistingGroups() {
 
   const {
     data:groupEntryRows,
-    error:memberError
+    error:groupEntryError
   } =
     await supabaseClient
       .from("group_entries")
@@ -1706,20 +1618,18 @@ async function loadExistingGroups() {
       );
 
 
-  if (memberError) {
+  if (
+    groupEntryError
+  ) {
 
     throw new Error(
       "조별 참가자 조회 실패: "
       +
-      memberError.message
+      groupEntryError.message
     );
 
   }
 
-
-  /*
-    DB entry UUID → 현재 entries 배열 index
-  */
 
   const entryIndexMap =
     new Map();
@@ -1785,9 +1695,7 @@ async function loadExistingGroups() {
 
 
         if (
-          entryIndex !==
-            undefined
-          &&
+          entryIndex !== undefined &&
           groupNames.includes(
             groupName
           )
@@ -1805,53 +1713,6 @@ async function loadExistingGroups() {
 
 
   saveSessionData();
-
-}
-
-
-/* =====================================
-   COUNTS
-===================================== */
-
-function getGroupMemberIndexes(
-  groupName
-) {
-
-  return assignments
-    .map(
-      (
-        assignment,
-        index
-      ) =>
-        assignment ===
-          groupName
-          ? index
-          : null
-    )
-    .filter(
-      value =>
-        value !== null
-    );
-
-}
-
-
-function getUnassignedIndexes() {
-
-  return assignments
-    .map(
-      (
-        assignment,
-        index
-      ) =>
-        assignment === null
-          ? index
-          : null
-    )
-    .filter(
-      value =>
-        value !== null
-    );
 
 }
 
@@ -1898,18 +1759,13 @@ function shuffleArray(array) {
 
 
 /* =====================================
-   나머지 자동배정
-
-   기존 수동 배치는 유지하고
-   현재 인원이 적은 조부터 채움.
+   AUTO REMAINING
 ===================================== */
 
 function autoAssignRemaining() {
 
   if (busy) {
-
     return;
-
   }
 
 
@@ -1935,12 +1791,12 @@ function autoAssignRemaining() {
   unassigned.forEach(
     entryIndex => {
 
-      let smallestGroups =
-        [];
-
-
-      let smallestCount =
+      let minCount =
         Infinity;
+
+
+      let candidates =
+        [];
 
 
       groupNames.forEach(
@@ -1953,24 +1809,22 @@ function autoAssignRemaining() {
 
 
           if (
-            count <
-            smallestCount
+            count < minCount
           ) {
 
-            smallestCount =
+            minCount =
               count;
 
 
-            smallestGroups = [
+            candidates = [
               groupName
             ];
 
           } else if (
-            count ===
-            smallestCount
+            count === minCount
           ) {
 
-            smallestGroups.push(
+            candidates.push(
               groupName
             );
 
@@ -1981,10 +1835,10 @@ function autoAssignRemaining() {
 
 
       const target =
-        smallestGroups[
+        candidates[
           Math.floor(
             Math.random() *
-            smallestGroups.length
+            candidates.length
           )
         ];
 
@@ -2006,21 +1860,19 @@ function autoAssignRemaining() {
 
 
 /* =====================================
-   전체 랜덤
+   RANDOM ALL
 ===================================== */
 
 function randomAll() {
 
   if (busy) {
-
     return;
-
   }
 
 
   if (
     !confirm(
-      "현재 수동 배치를 모두 지우고 전체 참가자를 랜덤으로 다시 배정할까요?"
+      "현재 배치를 모두 지우고 전체 참가자를 랜덤으로 다시 배정할까요?"
     )
   ) {
 
@@ -2035,7 +1887,7 @@ function randomAll() {
     ).fill(null);
 
 
-  const shuffled =
+  const indexes =
     shuffleArray(
       entries.map(
         (
@@ -2047,7 +1899,7 @@ function randomAll() {
     );
 
 
-  shuffled.forEach(
+  indexes.forEach(
     (
       entryIndex,
       position
@@ -2073,21 +1925,19 @@ function randomAll() {
 
 
 /* =====================================
-   전체 초기화
+   RESET
 ===================================== */
 
 function resetAll() {
 
   if (busy) {
-
     return;
-
   }
 
 
   if (
     !confirm(
-      "현재 화면의 조 배정을 모두 초기화할까요?\nDB에 저장된 조편성은 '조편성 확정'을 누르기 전까지 변경되지 않습니다."
+      "현재 화면의 조 배정을 모두 초기화할까요?\n\nDB에 저장된 기존 조편성은 '조편성 확정' 전까지 바뀌지 않습니다."
     )
   ) {
 
@@ -2110,17 +1960,15 @@ function resetAll() {
 
 
 /* =====================================
-   개별 참가자 수동 배정
+   MANUAL
 ===================================== */
 
 function changeAssignment(
-  entryIndex,
+  index,
   groupName
 ) {
 
-  assignments[
-    entryIndex
-  ] =
+  assignments[index] =
     groupName || null;
 
 
@@ -2136,7 +1984,7 @@ function changeAssignment(
 
 
 /* =====================================
-   참가자 렌더
+   RENDER PARTICIPANTS
 ===================================== */
 
 function renderParticipants() {
@@ -2174,26 +2022,21 @@ function renderParticipants() {
           </option>`,
 
           ...groupNames.map(
-            groupName =>
-              `
-                <option
-                  value="${escapeHtml(
-                    groupName
-                  )}"
-                  ${
-                    assignments[
-                      index
-                    ] ===
-                    groupName
-                      ? "selected"
-                      : ""
-                  }
-                >
-                  ${escapeHtml(
-                    groupName
-                  )}
-                </option>
-              `
+            groupName => `
+
+              <option
+                value="${escapeHtml(groupName)}"
+                ${
+                  assignments[index] ===
+                  groupName
+                    ? "selected"
+                    : ""
+                }
+              >
+                ${escapeHtml(groupName)}
+              </option>
+
+            `
           )
 
         ].join("");
@@ -2211,9 +2054,7 @@ function renderParticipants() {
           <div class="participant-name">
 
             ${escapeHtml(
-              fullEntryName(
-                entry
-              )
+              fullEntryName(entry)
             )}
 
           </div>
@@ -2221,13 +2062,9 @@ function renderParticipants() {
           <div class="participant-sub">
 
             ${
-              assignments[
-                index
-              ]
+              assignments[index]
                 ? escapeHtml(
-                    assignments[
-                      index
-                    ]
+                    assignments[index]
                   )
                 : "아직 조 미배정"
             }
@@ -2237,10 +2074,7 @@ function renderParticipants() {
         </div>
 
 
-        <select
-          class="group-select"
-          aria-label="조 선택"
-        >
+        <select class="group-select">
           ${options}
         </select>
 
@@ -2275,7 +2109,7 @@ function renderParticipants() {
 
 
 /* =====================================
-   조 미리보기
+   RENDER GROUPS
 ===================================== */
 
 function renderGroups() {
@@ -2308,7 +2142,7 @@ function renderGroups() {
         "group-card";
 
 
-      let membersHtml = "";
+      let membersHtml;
 
 
       if (
@@ -2328,15 +2162,13 @@ function renderGroups() {
         membersHtml =
           memberIndexes
             .map(
-              entryIndex => `
+              index => `
 
                 <div class="member">
 
                   ${escapeHtml(
                     shortEntryName(
-                      entries[
-                        entryIndex
-                      ]
+                      entries[index]
                     )
                   )}
 
@@ -2354,9 +2186,7 @@ function renderGroups() {
         <div class="group-head">
 
           <div class="group-name">
-            ${escapeHtml(
-              groupName
-            )}
+            ${escapeHtml(groupName)}
           </div>
 
           <div class="group-count">
@@ -2443,7 +2273,7 @@ function renderWarning() {
   }
 
 
-  const invalidGroups =
+  const smallGroups =
     groupNames.filter(
       groupName =>
         getGroupMemberIndexes(
@@ -2453,11 +2283,11 @@ function renderWarning() {
 
 
   if (
-    invalidGroups.length > 0
+    smallGroups.length > 0
   ) {
 
     warning.textContent =
-      `${invalidGroups.join(", ")}의 참가자가 2명 미만입니다. 조별 리그를 만들려면 각 조에 최소 2명이 필요합니다.`;
+      `${smallGroups.join(", ")}의 참가자가 2명 미만입니다. 각 조에 최소 2명이 필요합니다.`;
 
     warning.classList.add(
       "show"
@@ -2468,17 +2298,17 @@ function renderWarning() {
   }
 
 
+  warning.textContent = "";
+
   warning.classList.remove(
     "show"
   );
-
-  warning.textContent = "";
 
 }
 
 
 /* =====================================
-   전체 렌더
+   RENDER
 ===================================== */
 
 function render() {
@@ -2495,7 +2325,7 @@ function render() {
 
 
 /* =====================================
-   조편성 검증
+   VALIDATE
 ===================================== */
 
 function validateGroups() {
@@ -2509,7 +2339,7 @@ function validateGroups() {
   ) {
 
     alert(
-      `아직 ${unassigned.length}명의 참가자가 조에 배정되지 않았습니다.`
+      `아직 ${unassigned.length}명의 참가자가 배정되지 않았습니다.`
     );
 
     return false;
@@ -2517,7 +2347,7 @@ function validateGroups() {
   }
 
 
-  const tooSmall =
+  const invalid =
     groupNames.filter(
       groupName =>
         getGroupMemberIndexes(
@@ -2527,11 +2357,11 @@ function validateGroups() {
 
 
   if (
-    tooSmall.length > 0
+    invalid.length > 0
   ) {
 
     alert(
-      `${tooSmall.join(", ")}의 참가자가 2명 미만입니다.\n각 조에 최소 2명을 배정해주세요.`
+      `${invalid.join(", ")}의 참가자가 2명 미만입니다.`
     );
 
     return false;
@@ -2539,24 +2369,19 @@ function validateGroups() {
   }
 
 
-  /*
-    모든 참가자가 DB entry UUID를
-    가지고 있는지도 확인.
-  */
-
-  const missingDbEntry =
-    entries.find(
+  const missingDb =
+    entries.some(
       entry =>
         !entry.dbEntryId
     );
 
 
   if (
-    missingDbEntry
+    missingDb
   ) {
 
     alert(
-      "일부 참가자의 DB 연결 정보가 없습니다.\n참가자 등록 페이지에서 다시 확인해주세요."
+      "일부 참가자의 DB 연결정보가 없습니다.\n참가자 등록 화면에서 다시 확인해주세요."
     );
 
     return false;
@@ -2570,21 +2395,14 @@ function validateGroups() {
 
 
 /* =====================================
-   DB 조편성 저장
-
-   기존 groups 삭제
-   ↓
-   FK cascade로 group_entries 삭제
-   ↓
-   새 groups 생성
-   ↓
-   group_entries 생성
+   SAVE DB
 ===================================== */
 
 async function saveGroupsToDatabase() {
 
   /*
-    1. 기존 조 삭제
+    기존 groups 삭제
+    group_entries는 cascade 삭제
   */
 
   const {
@@ -2613,7 +2431,7 @@ async function saveGroupsToDatabase() {
 
 
   /*
-    2. 새 groups 생성
+    새 GROUPS
   */
 
   const groupRows =
@@ -2658,11 +2476,11 @@ async function saveGroupsToDatabase() {
   ) {
 
     throw new Error(
-      "새 조 생성 실패: "
+      "조 생성 실패: "
       +
       (
         groupError?.message ||
-        "조 데이터 확인 실패"
+        "저장된 조 개수가 맞지 않습니다."
       )
     );
 
@@ -2686,10 +2504,10 @@ async function saveGroupsToDatabase() {
 
 
   /*
-    3. group_entries 생성
+    GROUP_ENTRIES
   */
 
-  const groupEntryRows = [];
+  const rows = [];
 
 
   groupNames.forEach(
@@ -2704,10 +2522,10 @@ async function saveGroupsToDatabase() {
       memberIndexes.forEach(
         (
           entryIndex,
-          memberOrder
+          order
         ) => {
 
-          groupEntryRows.push({
+          rows.push({
 
             group_id:
               groupIdMap.get(
@@ -2719,13 +2537,8 @@ async function saveGroupsToDatabase() {
                 entryIndex
               ].dbEntryId,
 
-            /*
-              지금 단계에서는 실제 시드 번호라기보다는
-              조 내부 배치 순서로 활용.
-            */
-
             seed_order:
-              memberOrder
+              order
 
           });
 
@@ -2742,7 +2555,7 @@ async function saveGroupsToDatabase() {
     await supabaseClient
       .from("group_entries")
       .insert(
-        groupEntryRows
+        rows
       );
 
 
@@ -2760,36 +2573,28 @@ async function saveGroupsToDatabase() {
 
 
   /*
-    다음 페이지에서도 DB ID를 사용할 수 있게
-    groupData에 UUID를 추가해 둔다.
+    다음 기존 페이지와 호환하기 위한
+    sessionStorage
   */
 
   const groupData =
     groupNames.map(
-      groupName => {
+      groupName => ({
 
-        const memberIndexes =
+        name:
+          groupName,
+
+        dbGroupId:
+          groupIdMap.get(
+            groupName
+          ),
+
+        members:
           getGroupMemberIndexes(
             groupName
-          );
+          )
 
-
-        return {
-
-          name:
-            groupName,
-
-          dbGroupId:
-            groupIdMap.get(
-              groupName
-            ),
-
-          members:
-            memberIndexes
-
-        };
-
-      }
+      })
     );
 
 
@@ -2812,15 +2617,13 @@ async function saveGroupsToDatabase() {
 
 
 /* =====================================
-   확정
+   CONFIRM
 ===================================== */
 
 async function confirmGroups() {
 
   if (busy) {
-
     return;
-
   }
 
 
@@ -2833,13 +2636,11 @@ async function confirmGroups() {
   }
 
 
-  const ok =
-    confirm(
-      "현재 조편성을 확정하고 대진을 생성할까요?"
-    );
-
-
-  if (!ok) {
+  if (
+    !confirm(
+      "현재 조편성을 확정하고 조별 예선 대진을 생성할까요?"
+    )
+  ) {
 
     return;
 
@@ -2851,7 +2652,7 @@ async function confirmGroups() {
     setBusy(
       true,
       "조편성을 저장하고 있습니다",
-      "A조, B조 등의 조 정보와 참가자 배정을 데이터베이스에 저장하고 있습니다."
+      "조와 참가자 배정 정보를 데이터베이스에 저장하고 있습니다."
     );
 
 
@@ -2859,9 +2660,8 @@ async function confirmGroups() {
 
 
     /*
-      조편성이 바뀌었으므로
-      이후 경기 데이터는 브라우저 쪽에서 초기화.
-      DB matches 연결은 다음 단계에서 처리.
+      조편성이 새로 확정됐으므로
+      이후 임시 데이터 제거
     */
 
     sessionStorage.removeItem(
@@ -2885,22 +2685,8 @@ async function confirmGroups() {
     );
 
 
-    setBusy(
-      true,
-      "조편성 저장 완료",
-      "조별 예선 대진 화면으로 이동합니다."
-    );
-
-
-    setTimeout(
-      function() {
-
-        location.href =
-          "./group-matches.html";
-
-      },
-      400
-    );
+    location.href =
+      "./group-matches.html";
 
 
   } catch(error) {
@@ -2972,9 +2758,7 @@ async function start() {
 
 
   if (!loggedIn) {
-
     return;
-
   }
 
 
@@ -2982,8 +2766,8 @@ async function start() {
 
     setBusy(
       true,
-      "조편성 확인 중",
-      "기존에 저장된 조편성이 있는지 데이터베이스에서 확인하고 있습니다."
+      "조편성을 확인하고 있습니다",
+      "기존에 저장된 조편성이 있는지 확인 중입니다."
     );
 
 
@@ -3005,12 +2789,9 @@ async function start() {
 
 
     alert(
-      "조편성 정보를 불러오지 못했습니다.\n\n"
+      "조편성을 불러오지 못했습니다.\n\n"
       +
-      (
-        error?.message ||
-        "알 수 없는 오류"
-      )
+      error.message
     );
 
 
