@@ -13,16 +13,12 @@
       --navy2: #0c294a;
       --blue: #184a79;
       --lime: #c9df45;
-
       --bg: #f4f6f9;
       --white: #ffffff;
       --text: #172033;
       --muted: #7b8492;
       --line: #e3e8ee;
-
       --danger: #d94b4b;
-      --danger-bg: #fff1f1;
-
       --shadow: 0 14px 40px rgba(20, 35, 55, 0.06);
     }
 
@@ -56,17 +52,14 @@
       cursor: pointer;
     }
 
-    /* TOP BAR */
-
     .topbar {
       height: 72px;
-      background:
-        linear-gradient(
-          110deg,
-          #07182d,
-          #0b2848 60%,
-          #10375f
-        );
+      background: linear-gradient(
+        110deg,
+        #07182d,
+        #0b2848 60%,
+        #10375f
+      );
       color: white;
       display: flex;
       align-items: center;
@@ -123,8 +116,6 @@
       font-weight: 750;
     }
 
-    /* MAIN */
-
     .container {
       width: min(900px, calc(100% - 34px));
       margin: 0 auto;
@@ -166,8 +157,6 @@
       font-size: 13px;
       line-height: 1.6;
     }
-
-    /* CARD */
 
     .card {
       background: white;
@@ -259,8 +248,6 @@
       gap: 15px;
     }
 
-    /* OPTION CARDS */
-
     .option-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -301,12 +288,6 @@
       box-shadow: inset 0 0 0 1px var(--navy);
     }
 
-    .option input:checked + label .option-title {
-      color: var(--navy);
-    }
-
-    /* BUTTON OPTION */
-
     .segmented {
       display: flex;
       flex-wrap: wrap;
@@ -338,8 +319,6 @@
       border-color: var(--navy);
       color: white;
     }
-
-    /* COURTS */
 
     .court-add {
       display: grid;
@@ -398,13 +377,9 @@
       padding: 8px 0;
     }
 
-    /* CONDITIONAL */
-
     .hidden {
       display: none !important;
     }
-
-    /* BOTTOM */
 
     .bottom-bar {
       display: flex;
@@ -430,12 +405,11 @@
     .next-btn {
       flex: 1;
       border: 0;
-      background:
-        linear-gradient(
-          115deg,
-          var(--navy),
-          #123e6c
-        );
+      background: linear-gradient(
+        115deg,
+        var(--navy),
+        #123e6c
+      );
       color: white;
       box-shadow: 0 10px 26px rgba(7,26,49,.12);
     }
@@ -513,13 +487,8 @@
   <header class="topbar">
 
     <div class="brand">
-      <div class="fwt">
-        FW<span>T</span>
-      </div>
-
-      <div class="top-title">
-        TOURNAMENT CONTROL
-      </div>
+      <div class="fwt">FW<span>T</span></div>
+      <div class="top-title">TOURNAMENT CONTROL</div>
     </div>
 
     <button
@@ -530,7 +499,6 @@
     </button>
 
   </header>
-
 
   <main class="container">
 
@@ -549,9 +517,6 @@
       </p>
 
     </div>
-
-
-    <!-- BASIC -->
 
     <section class="card">
 
@@ -578,7 +543,6 @@
 
         </div>
 
-
         <div class="field">
 
           <label class="field-label">
@@ -595,10 +559,6 @@
       </div>
 
     </section>
-
-
-
-    <!-- FORMAT -->
 
     <section class="card">
 
@@ -638,7 +598,6 @@
 
           </div>
 
-
           <div class="option">
 
             <input
@@ -669,10 +628,6 @@
 
     </section>
 
-
-
-    <!-- EVENT -->
-
     <section class="card">
 
       <div class="card-head">
@@ -681,7 +636,6 @@
           종목 설정
         </div>
       </div>
-
 
       <div class="card-body">
 
@@ -706,7 +660,6 @@
               </label>
             </div>
 
-
             <div class="seg-option">
               <input
                 type="radio"
@@ -722,7 +675,6 @@
           </div>
 
         </div>
-
 
         <div class="field">
 
@@ -789,10 +741,6 @@
 
     </section>
 
-
-
-    <!-- GROUP -->
-
     <section
       class="card"
       id="groupSettings"
@@ -807,7 +755,6 @@
         </div>
 
       </div>
-
 
       <div class="card-body">
 
@@ -827,7 +774,6 @@
             />
 
           </div>
-
 
           <div class="field">
 
@@ -854,10 +800,6 @@
 
     </section>
 
-
-
-    <!-- COURT -->
-
     <section class="card">
 
       <div class="card-head">
@@ -869,7 +811,6 @@
         </div>
 
       </div>
-
 
       <div class="card-body">
 
@@ -891,7 +832,6 @@
 
         </div>
 
-
         <div
           id="courtList"
           class="court-list"
@@ -905,10 +845,6 @@
 
     </section>
 
-
-
-    <!-- TIME -->
-
     <section class="card">
 
       <div class="card-head">
@@ -920,7 +856,6 @@
         </div>
 
       </div>
-
 
       <div class="card-body">
 
@@ -971,10 +906,6 @@
 
     </section>
 
-
-
-    <!-- BUTTONS -->
-
     <div class="bottom-bar">
 
       <button
@@ -994,7 +925,6 @@
 
     </div>
 
-
     <footer class="footer">
 
       <div>
@@ -1011,13 +941,7 @@
 
   </main>
 
-
-
   <script>
-
-    /* ==============================
-       SUPABASE
-    ============================== */
 
     const SUPABASE_URL =
       "https://opwuyqerisocqobbbisg.supabase.co";
@@ -1031,10 +955,6 @@
         SUPABASE_KEY
       );
 
-
-    /* ==============================
-       LOGIN CHECK
-    ============================== */
 
     async function checkLogin() {
 
@@ -1050,10 +970,6 @@
     checkLogin();
 
 
-    /* ==============================
-       FORMAT
-    ============================== */
-
     const groupSettings =
       document.getElementById(
         "groupSettings"
@@ -1063,6 +979,7 @@
       document.querySelectorAll(
         'input[name="format"]'
       );
+
 
     formatRadios.forEach(
       radio => {
@@ -1094,10 +1011,6 @@
     );
 
 
-    /* ==============================
-       COURTS
-    ============================== */
-
     let courts = [];
 
     const courtInput =
@@ -1120,7 +1033,6 @@
 
       courtList.innerHTML = "";
 
-
       if (courts.length === 0) {
 
         courtList.innerHTML =
@@ -1142,7 +1054,6 @@
           chip.className =
             "court-chip";
 
-
           chip.innerHTML = `
             <span>${escapeHtml(court)}</span>
 
@@ -1163,7 +1074,6 @@
             </button>
           `;
 
-
           courtList.appendChild(
             chip
           );
@@ -1179,11 +1089,9 @@
       const name =
         courtInput.value.trim();
 
-
       if (!name) {
         return;
       }
-
 
       if (courts.includes(name)) {
 
@@ -1194,7 +1102,6 @@
         return;
 
       }
-
 
       courts.push(name);
 
@@ -1218,20 +1125,16 @@
           current
         );
 
-
       if (newName === null) {
         return;
       }
 
-
       const value =
         newName.trim();
-
 
       if (!value) {
         return;
       }
-
 
       courts[index] =
         value;
@@ -1275,10 +1178,6 @@
     );
 
 
-    /* ==============================
-       HTML ESCAPE
-    ============================== */
-
     function escapeHtml(value) {
 
       const div =
@@ -1292,10 +1191,6 @@
 
     }
 
-
-    /* ==============================
-       NEXT
-    ============================== */
 
     document
       .getElementById("nextButton")
@@ -1311,7 +1206,6 @@
               .value
               .trim();
 
-
           const date =
             document
               .getElementById(
@@ -1319,18 +1213,15 @@
               )
               .value;
 
-
           const format =
             document.querySelector(
               'input[name="format"]:checked'
             ).value;
 
-
           const matchType =
             document.querySelector(
               'input[name="matchType"]:checked'
             ).value;
-
 
           const gender =
             document.querySelector(
@@ -1427,9 +1318,13 @@
           );
 
 
-          alert(
-            "기본 설정이 저장되었습니다.\n다음 단계에서 참가자 등록 화면을 연결합니다."
+          sessionStorage.removeItem(
+            "fwtNewTournamentEntries"
           );
+
+
+          window.location.href =
+            "./participant-registration.html";
 
         }
       );
