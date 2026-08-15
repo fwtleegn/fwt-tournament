@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>FWT Tournament Admin</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --navy: #071a31;
+      --navy-2: #0c294a;
+      --navy-3: #123a66;
+
+      --lime: #c9df45;
+      --lime-soft: #f0f6c8;
+
+      --bg: #f4f6f9;
+      --card: #ffffff;
+
+      --text: #172033;
+      --muted: #7d8794;
+      --line: #e6eaf0;
+
+      --green: #199966;
+      --green-soft: #e9f7f1;
+
+      --orange: #d88a22;
+      --orange-soft: #fff5e5;
+
+      --blue: #2874b9;
+      --blue-soft: #eaf3fb;
+
+      --red: #d34d4d;
+      --red-soft: #fcecec;
+
+      --shadow:
+        0 14px 40px rgba(23, 36, 54, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family:
+        Inter,
+        Pretendard,
+        "Noto Sans KR",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+
+    /* =================================================
+       APP
+    ================================================= */
+
+    .app {
+      min-height: 100vh;
+    }
+
+
+    /* =================================================
+       TOP BAR
+    ================================================= */
+
+    .topbar {
+      height: 76px;
+      background:
+        linear-gradient(
+          110deg,
+          #07182d,
+          #0b2848 58%,
+          #10365d
+        );
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 34px;
+
+      color: white;
+
+      position: sticky;
+      top: 0;
+      z-index: 50;
+
+      box-shadow:
+        0 4px 22px rgba(6, 23, 43, 0.16);
+    }
+
+
+    /* =================================================
+       BRAND
+    ================================================= */
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .fwt-logo {
+      position: relative;
+
+      font-size: 31px;
+      line-height: 1;
+
+      font-style: italic;
+      font-weight: 950;
+
+      letter-spacing: -3px;
+
+      transform: skewX(-5deg);
+    }
+
+    .fwt-logo .accent {
+      color: var(--lime);
+    }
+
+    .fwt-logo::after {
+      content: "";
+
+      position: absolute;
+
+      width: 27px;
+      height: 3px;
+
+      right: -25px;
+      top: 12px;
+
+      border-radius: 10px;
+
+      background: var(--lime);
+
+      transform: rotate(-10deg);
+    }
+
+    .brand-copy {
+      margin-left: 18px;
+    }
+
+    .brand-title {
+      font-size: 12px;
+
+      font-weight: 850;
+
+      letter-spacing: 2.1px;
+    }
+
+    .brand-sub {
+      margin-top: 3px;
+
+      font-size: 9px;
+
+      color: rgba(255,255,255,.52);
+
+      letter-spacing: 1.5px;
+    }
+
+
+    /* =================================================
+       TOP RIGHT
+    ================================================= */
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .admin-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      padding: 9px 12px;
+
+      border:
+        1px solid rgba(255,255,255,.13);
+
+      border-radius: 999px;
+
+      background:
+        rgba(255,255,255,.055);
+
+      font-size: 11px;
+
+      color:
+        rgba(255,255,255,.72);
+    }
+
+    .admin-dot {
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background: var(--lime);
+
+      box-shadow:
+        0 0 0 4px rgba(201,223,69,.12);
+    }
+
+    .q {
+      color: var(--lime);
+      font-weight: 900;
+    }
+
+    .logout-btn {
+      border: 0;
+
+      border-radius: 10px;
+
+      padding: 10px 13px;
+
+      background:
+        rgba(255,255,255,.09);
+
+      color: white;
+
+      font-size: 11px;
+
+      font-weight: 750;
+    }
+
+    .logout-btn:hover {
+      background:
+        rgba(255,255,255,.16);
+    }
+
+
+    /* =================================================
+       MAIN
+    ================================================= */
+
+    .main {
+      width: min(1280px, calc(100% - 44px));
+
+      margin: 0 auto;
+
+      padding: 45px 0 70px;
+    }
+
+
+    /* =================================================
+       HERO
+    ================================================= */
+
+    .hero {
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: flex-end;
+
+      gap: 28px;
+
+      margin-bottom: 32px;
+    }
+
+    .hero-kicker {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+
+      margin-bottom: 10px;
+
+      font-size: 11px;
+
+      font-weight: 850;
+
+      letter-spacing: 2px;
+
+      color: var(--navy-3);
+    }
+
+    .hero-kicker::before {
+      content: "";
+
+      width: 25px;
+      height: 2px;
+
+      background: var(--lime);
+    }
+
+    h1 {
+      margin: 0;
+
+      font-size: clamp(30px, 4vw, 45px);
+
+      line-height: 1.05;
+
+      letter-spacing: -2px;
+
+      color: var(--navy);
+
+      font-weight: 900;
+    }
+
+    .hero-desc {
+      margin: 12px 0 0;
+
+      color: var(--muted);
+
+      font-size: 14px;
+
+      line-height: 1.65;
+    }
+
+
+    /* =================================================
+       PRIMARY BUTTON
+    ================================================= */
+
+    .primary-btn {
+      border: 0;
+
+      border-radius: 13px;
+
+      padding: 15px 20px;
+
+      background:
+        linear-gradient(
+          115deg,
+          var(--navy),
+          #123e6b
+        );
+
+      color: white;
+
+      font-size: 14px;
+
+      font-weight: 800;
+
+      box-shadow:
+        0 10px 26px rgba(7,26,49,.12);
+
+      transition: .2s;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-1px);
+
+      box-shadow:
+        0 13px 30px rgba(7,26,49,.17);
+    }
+
+    .primary-btn span {
+      color: var(--lime);
+
+      margin-right: 5px;
+
+      font-size: 18px;
+    }
+
+
+    /* =================================================
+       STATS
+    ================================================= */
+
+    .stats {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      gap: 14px;
+
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: white;
+
+      border: 1px solid var(--line);
+
+      border-radius: 16px;
+
+      padding: 19px 20px;
+
+      box-shadow:
+        0 6px 20px rgba(23,36,54,.025);
+    }
+
+    .stat-label {
+      font-size: 11px;
+
+      font-weight: 750;
+
+      color: var(--muted);
+
+      margin-bottom: 10px;
+    }
+
+    .stat-row {
+      display: flex;
+
+      align-items: flex-end;
+
+      justify-content: space-between;
+    }
+
+    .stat-number {
+      font-size: 28px;
+
+      font-weight: 900;
+
+      letter-spacing: -1.5px;
+
+      color: var(--navy);
+    }
+
+    .stat-pill {
+      padding: 6px 8px;
+
+      border-radius: 8px;
+
+      font-size: 9px;
+
+      font-weight: 850;
+
+      letter-spacing: .7px;
+    }
+
+    .draft {
+      color: var(--muted);
+      background: #f2f4f7;
+    }
+
+    .scheduled {
+      color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .live {
+      color: var(--green);
+      background: var(--green-soft);
+    }
+
+    .finished {
+      color: #7a6d55;
+      background: #f5f1e9;
+    }
+
+
+    /* =================================================
+       CONTENT GRID
+    ================================================= */
+
+    .content-grid {
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1.45fr)
+        minmax(300px, .55fr);
+
+      gap: 20px;
+    }
+
+
+    /* =================================================
+       CARD
+    ================================================= */
+
+    .card {
+      background: var(--card);
+
+      border:
+        1px solid var(--line);
+
+      border-radius: 20px;
+
+      box-shadow: var(--shadow);
+
+      overflow: hidden;
+    }
+
+    .card-head {
+      padding: 22px 24px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      border-bottom:
+        1px solid var(--line);
+    }
+
+    .card-title {
+      font-size: 16px;
+
+      font-weight: 850;
+
+      color: var(--navy);
+    }
+
+    .card-sub {
+      margin-top: 5px;
+
+      font-size: 11px;
+
+      color: var(--muted);
+    }
+
+
+    /* =================================================
+       CURRENT TOURNAMENT
+    ================================================= */
+
+    .current-body {
+      min-height: 340px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 35px;
+    }
+
+    .empty {
+      width: 100%;
+
+      max-width: 460px;
+
+      text-align: center;
+    }
+
+    .empty-icon {
+      position: relative;
+
+      margin:
+        0 auto 21px;
+
+      width: 72px;
+      height: 72px;
+
+      border-radius: 22px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #f1f5d6,
+          #f8faed
+        );
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+    }
+
+    .ball {
+      width: 34px;
+      height: 34px;
+
+      border-radius: 50%;
+
+      background: var(--lime);
+
+      position: relative;
+    }
+
+    .ball::before,
+    .ball::after {
+      content: "";
+
+      position: absolute;
+
+      width: 25px;
+      height: 11px;
+
+      border:
+        2px solid white;
+
+      border-left-color:
+        transparent;
+
+      border-right-color:
+        transparent;
+
+      border-radius: 50%;
+    }
+
+    .ball::before {
+      left: 2px;
+      top: 2px;
+
+      transform: rotate(43deg);
+    }
+
+    .ball::after {
+      right: 2px;
+      bottom: 2px;
+
+      transform: rotate(43deg);
+    }
+
+    .empty-title {
+      font-size: 19px;
+
+      font-weight: 850;
+
+      color: var(--navy);
+
+      margin-bottom: 8px;
+    }
+
+    .empty-desc {
+      font-size: 13px;
+
+      color: var(--muted);
+
+      line-height: 1.7;
+
+      margin-bottom: 23px;
+    }
+
+
+    /* =================================================
+       QUICK MENU
+    ================================================= */
+
+    .quick-menu {
+      padding: 10px 18px 18px;
+    }
+
+    .quick-item {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 13px;
+
+      padding: 15px 7px;
+
+      border-bottom:
+        1px solid #eef1f4;
+
+      cursor: pointer;
+
+      transition: .15s;
+    }
+
+    .quick-item:last-child {
+      border-bottom: 0;
+    }
+
+    .quick-item:hover {
+      padding-left: 11px;
+    }
+
+    .quick-left {
+      display: flex;
+
+      align-items: center;
+
+      gap: 13px;
+    }
+
+    .quick-icon {
+      width: 38px;
+      height: 38px;
+
+      border-radius: 11px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      font-size: 14px;
+
+      font-weight: 900;
+
+      background: #f2f5f8;
+
+      color: var(--navy-3);
+    }
+
+    .quick-name {
+      font-size: 13px;
+
+      font-weight: 780;
+
+      color: #263247;
+    }
+
+    .quick-desc {
+      margin-top: 3px;
+
+      font-size: 10px;
+
+      color: #9aa2ad;
+    }
+
+    .arrow {
+      color: #b5bdc8;
+
+      font-size: 17px;
+    }
+
+
+    /* =================================================
+       RECENT
+    ================================================= */
+
+    .recent {
+      margin-top: 20px;
+    }
+
+    .recent-body {
+      padding: 30px 24px;
+
+      color: var(--muted);
+
+      font-size: 12px;
+
+      text-align: center;
+    }
+
+
+    /* =================================================
+       FOOT
+    ================================================= */
+
+    .footer {
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      margin-top: 32px;
+
+      padding-top: 20px;
+
+      border-top:
+        1px solid #e2e6eb;
+
+      color: #9ba4af;
+
+      font-size: 10px;
+
+      letter-spacing: 1px;
+    }
+
+    .footer strong {
+      color: var(--navy);
+
+      font-weight: 800;
+    }
+
+    .footer .q {
+      color: #9fb521;
+    }
+
+
+    /* =================================================
+       LOADING
+    ================================================= */
+
+    .loading-screen {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 999;
+
+      background: var(--bg);
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+
+      justify-content: center;
+    }
+
+    .loading-logo {
+      font-size: 39px;
+
+      font-weight: 950;
+
+      font-style: italic;
+
+      letter-spacing: -4px;
+
+      color: var(--navy);
+
+      transform: skewX(-5deg);
+    }
+
+    .loading-logo span {
+      color: var(--lime);
+    }
+
+    .loading-text {
+      margin-top: 14px;
+
+      font-size: 10px;
+
+      font-weight: 750;
+
+      color: #9aa2ad;
+
+      letter-spacing: 2px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+
+    /* =================================================
+       MOBILE
+    ================================================= */
+
+    @media (max-width: 900px) {
+
+      .topbar {
+        height: 68px;
+
+        padding: 0 18px;
+      }
+
+      .brand-copy {
+        display: none;
+      }
+
+      .admin-badge {
+        display: none;
+      }
+
+      .main {
+        width:
+          min(100% - 28px, 760px);
+
+        padding:
+          31px 0 55px;
+      }
+
+      .hero {
+        display: block;
+      }
+
+      .hero .primary-btn {
+        margin-top: 23px;
+
+        width: 100%;
+      }
+
+      .stats {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+
+    @media (max-width: 520px) {
+
+      .fwt-logo {
+        font-size: 27px;
+      }
+
+      .top-actions {
+        gap: 6px;
+      }
+
+      .logout-btn {
+        font-size: 10px;
+
+        padding:
+          9px 10px;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+
+      .hero-desc {
+        font-size: 13px;
+      }
+
+      .stats {
+        gap: 9px;
+      }
+
+      .stat-card {
+        padding:
+          16px 15px;
+      }
+
+      .stat-number {
+        font-size: 24px;
+      }
+
+      .stat-pill {
+        font-size: 8px;
+      }
+
+      .card {
+        border-radius: 17px;
+      }
+
+      .card-head {
+        padding:
+          19px 18px;
+      }
+
+      .current-body {
+        min-height: 300px;
+
+        padding:
+          30px 20px;
+      }
+
+      .footer {
+        display: block;
+
+        line-height: 2;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+  <!-- ================================================
+       LOADING
+  ================================================= -->
+
+  <div class="loading-screen" id="loadingScreen">
+
+    <div class="loading-logo">
+      FW<span>T</span>
+    </div>
+
+    <div class="loading-text">
+      TOURNAMENT CONTROL
+    </div>
+
+  </div>
+
+
+
+  <!-- ================================================
+       APP
+  ================================================= -->
+
+  <div class="app hidden" id="app">
+
+
+    <!-- TOP -->
+
+    <header class="topbar">
+
+
+      <div class="brand">
+
+        <div class="brand-logo">
+
+          <div class="fwt-logo">
+            FW<span class="accent">T</span>
+          </div>
+
+        </div>
+
+
+        <div class="brand-copy">
+
+          <div class="brand-title">
+            TOURNAMENT CONTROL
+          </div>
+
+          <div class="brand-sub">
+            FRIENDS WITH TENNIS
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="top-actions">
+
+        <div class="admin-badge">
+
+          <span class="admin-dot"></span>
+
+          ADMIN ·
+          <span class="q">Q</span>
+
+        </div>
+
+
+        <button
+          class="logout-btn"
+          id="logoutButton"
+        >
+          로그아웃
+        </button>
+
+      </div>
+
+    </header>
+
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+
+      <!-- HERO -->
+
+      <section class="hero">
+
+        <div>
+
+          <div class="hero-kicker">
+            ADMIN DASHBOARD
+          </div>
+
+          <h1>
+            대회 관리
+          </h1>
+
+          <p class="hero-desc">
+            대회를 만들고 참가자, 대진,
+            경기 결과를 한 곳에서 관리합니다.
+          </p>
+
+        </div>
+
+
+        <button
+          class="primary-btn"
+          id="createTournamentButton"
+        >
+          <span>＋</span>
+          새 대회 만들기
+        </button>
+
+      </section>
+
+
+
+      <!-- STATUS -->
+
+      <section class="stats">
+
+        <div class="stat-card">
+
+          <div class="stat-label">
+            전체 대회
+          </div>
+
+          <div class="stat-row">
+
+            <div class="stat-number">
+              0
+            </div>
+
+            <div class="stat-pill draft">
+              TOTAL
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-label">
+            예정
+          </div>
+
+          <div class="stat-row">
+
+            <div class="stat-number">
+              0
+            </div>
+
+            <div class="stat-pill scheduled">
+              READY
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-label">
+            진행 중
+          </div>
+
+          <div class="stat-row">
+
+            <div class="stat-number">
+              0
+            </div>
+
+            <div class="stat-pill live">
+              LIVE
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-label">
+            종료
+          </div>
+
+          <div class="stat-row">
+
+            <div class="stat-number">
+              0
+            </div>
+
+            <div class="stat-pill finished">
+              FINISHED
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- CONTENT -->
+
+      <section class="content-grid">
+
+
+        <!-- CURRENT -->
+
+        <div>
+
+          <div class="card">
+
+            <div class="card-head">
+
+              <div>
+
+                <div class="card-title">
+                  현재 진행 중인 대회
+                </div>
+
+                <div class="card-sub">
+                  LIVE TOURNAMENT
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="current-body">
+
+              <div class="empty">
+
+                <div class="empty-icon">
+
+                  <div class="ball"></div>
+
+                </div>
+
+
+                <div class="empty-title">
+                  진행 중인 대회가 없습니다
+                </div>
+
+                <div class="empty-desc">
+                  새 대회를 만든 뒤 참가자를 등록하고
+                  대진을 구성할 수 있습니다.
+                </div>
+
+
+                <button
+                  class="primary-btn"
+                  id="emptyCreateButton"
+                >
+                  <span>＋</span>
+                  첫 대회 만들기
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- RECENT -->
+
+          <div class="card recent">
+
+            <div class="card-head">
+
+              <div>
+
+                <div class="card-title">
+                  최근 대회
+                </div>
+
+                <div class="card-sub">
+                  RECENT TOURNAMENTS
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="recent-body">
+              아직 생성된 대회가 없습니다.
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- QUICK MENU -->
+
+        <aside class="card">
+
+          <div class="card-head">
+
+            <div>
+
+              <div class="card-title">
+                빠른 관리
+              </div>
+
+              <div class="card-sub">
+                QUICK CONTROL
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="quick-menu">
+
+
+            <div class="quick-item">
+
+              <div class="quick-left">
+
+                <div class="quick-icon">
+                  ＋
+                </div>
+
+                <div>
+
+                  <div class="quick-name">
+                    대회 만들기
+                  </div>
+
+                  <div class="quick-desc">
+                    새로운 대회 생성
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="arrow">
+                ›
+              </div>
+
+            </div>
+
+
+
+            <div class="quick-item">
+
+              <div class="quick-left">
+
+                <div class="quick-icon">
+                  P
+                </div>
+
+                <div>
+
+                  <div class="quick-name">
+                    참가자 관리
+                  </div>
+
+                  <div class="quick-desc">
+                    추가 · 교체 · 삭제 · 기권
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="arrow">
+                ›
+              </div>
+
+            </div>
+
+
+
+            <div class="quick-item">
+
+              <div class="quick-left">
+
+                <div class="quick-icon">
+                  B
+                </div>
+
+                <div>
+
+                  <div class="quick-name">
+                    조편성 · 대진
+                  </div>
+
+                  <div class="quick-desc">
+                    그룹 및 토너먼트 관리
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="arrow">
+                ›
+              </div>
+
+            </div>
+
+
+
+            <div class="quick-item">
+
+              <div class="quick-left">
+
+                <div class="quick-icon">
+                  C
+                </div>
+
+                <div>
+
+                  <div class="quick-name">
+                    코트 · 일정
+                  </div>
+
+                  <div class="quick-desc">
+                    경기 시간 및 코트 배정
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="arrow">
+                ›
+              </div>
+
+            </div>
+
+
+
+            <div class="quick-item">
+
+              <div class="quick-left">
+
+                <div class="quick-icon">
+                  S
+                </div>
+
+                <div>
+
+                  <div class="quick-name">
+                    경기 결과
+                  </div>
+
+                  <div class="quick-desc">
+                    스코어 입력 및 수정
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="arrow">
+                ›
+              </div>
+
+            </div>
+
+
+          </div>
+
+        </aside>
+
+
+      </section>
+
+
+
+      <!-- FOOTER -->
+
+      <footer class="footer">
+
+        <div>
+          <strong>FWT</strong>
+          · FRIENDS WITH TENNIS
+        </div>
+
+        <div>
+          CREATED BY
+          <span class="q">Q</span>
+        </div>
+
+      </footer>
+
+
+    </main>
+
+  </div>
+
+
+
+  <!-- ================================================
+       SCRIPT
+  ================================================= -->
+
+  <script>
+
+
+    /* ---------------------------------------------
+       SUPABASE
+    --------------------------------------------- */
+
+    const SUPABASE_URL =
+      "https://opwuyqerisocqobbbisg.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_Eo_zfONeGLs9ATCVg2Fk_g_y_IAJFV-";
+
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+
+    /* ---------------------------------------------
+       ELEMENTS
+    --------------------------------------------- */
+
+    const app =
+      document.getElementById("app");
+
+    const loadingScreen =
+      document.getElementById("loadingScreen");
+
+    const logoutButton =
+      document.getElementById("logoutButton");
+
+    const createTournamentButton =
+      document.getElementById(
+        "createTournamentButton"
+      );
+
+    const emptyCreateButton =
+      document.getElementById(
+        "emptyCreateButton"
+      );
+
+
+
+    /* ---------------------------------------------
+       LOGIN CHECK
+    --------------------------------------------- */
+
+    async function checkLogin() {
+
+      const { data, error } =
+        await supabaseClient.auth.getSession();
+
+
+      if (
+        error ||
+        !data.session
+      ) {
+
+        window.location.href =
+          "./";
+
+        return;
+
+      }
+
+
+      loadingScreen.classList.add(
+        "hidden"
+      );
+
+      app.classList.remove(
+        "hidden"
+      );
+
+    }
+
+
+
+    /* ---------------------------------------------
+       LOGOUT
+    --------------------------------------------- */
+
+    logoutButton.addEventListener(
+      "click",
+      async function () {
+
+        logoutButton.disabled = true;
+
+        logoutButton.textContent =
+          "로그아웃 중";
+
+
+        await supabaseClient.auth.signOut();
+
+
+        window.location.href =
+          "./";
+
+      }
+    );
+
+
+
+    /* ---------------------------------------------
+       CREATE TOURNAMENT
+       다음 단계에서 실제 페이지 연결
+    --------------------------------------------- */
+
+    function createTournament() {
+
+      alert(
+        "다음 단계에서 새 대회 만들기 화면을 연결합니다."
+      );
+
+    }
+
+
+    createTournamentButton
+      .addEventListener(
+        "click",
+        createTournament
+      );
+
+
+    emptyCreateButton
+      .addEventListener(
+        "click",
+        createTournament
+      );
+
+
+
+    /* ---------------------------------------------
+       START
+    --------------------------------------------- */
+
+    checkLogin();
+
+
+  </script>
+
+
+</body>
+</html>
