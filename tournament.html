@@ -1,0 +1,3673 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#071a31"
+  >
+
+  <title>FWT Tournament</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root{
+      --navy:#071a31;
+      --navy2:#0b294a;
+      --blue:#194b78;
+      --lime:#c9df45;
+
+      --bg:#f3f5f7;
+      --card:#fff;
+
+      --text:#182437;
+      --muted:#667487;
+      --line:#dfe5eb;
+
+      --green:#16845c;
+      --green-soft:#eaf7f1;
+
+      --blue-soft:#edf4fb;
+
+      --gold:#9b7619;
+      --gold-soft:#fff8df;
+
+      --red:#bf4b4b;
+      --red-soft:#fff0f0;
+
+      --shadow:
+        0 10px 30px rgba(7,26,49,.07);
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      margin:0;
+
+      min-height:100vh;
+
+      background:var(--bg);
+      color:var(--text);
+
+      font-family:
+        Inter,
+        Pretendard,
+        "Noto Sans KR",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      -webkit-font-smoothing:antialiased;
+    }
+
+    button{
+      font:inherit;
+      cursor:pointer;
+    }
+
+    /* =============================
+       HEADER
+    ============================= */
+
+    .top{
+      position:relative;
+
+      overflow:hidden;
+
+      color:white;
+
+      background:
+        linear-gradient(
+          118deg,
+          #051426 0%,
+          #08233f 55%,
+          #10446f 100%
+        );
+    }
+
+    .top::after{
+      content:"";
+
+      position:absolute;
+
+      width:260px;
+      height:260px;
+
+      right:-120px;
+      top:-130px;
+
+      border:
+        45px solid rgba(201,223,69,.07);
+
+      border-radius:50%;
+    }
+
+    .top-inner{
+      position:relative;
+      z-index:2;
+
+      width:
+        min(
+          1120px,
+          calc(100% - 36px)
+        );
+
+      margin:0 auto;
+
+      padding:
+        22px 0 30px;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:15px;
+    }
+
+    .fwt{
+      color:white;
+
+      font-size:31px;
+      line-height:1;
+
+      font-style:italic;
+      font-weight:950;
+
+      letter-spacing:-4px;
+
+      transform:skew(-5deg);
+    }
+
+    .fwt span{
+      color:var(--lime);
+    }
+
+    .back{
+      min-height:43px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      padding:0 13px;
+
+      border:
+        1px solid rgba(255,255,255,.14);
+
+      border-radius:10px;
+
+      color:white;
+
+      background:
+        rgba(255,255,255,.06);
+
+      text-decoration:none;
+
+      font-size:11px;
+      font-weight:850;
+    }
+
+    .event-head{
+      padding-top:28px;
+    }
+
+    .live-line{
+      display:flex;
+      align-items:center;
+
+      gap:8px;
+
+      margin-bottom:10px;
+
+      color:var(--lime);
+
+      font-size:10px;
+      font-weight:950;
+
+      letter-spacing:1.5px;
+    }
+
+    .live-dot{
+      width:7px;
+      height:7px;
+
+      border-radius:50%;
+
+      background:var(--lime);
+
+      box-shadow:
+        0 0 0 5px rgba(201,223,69,.11);
+    }
+
+    .event-title{
+      margin:0;
+
+      max-width:800px;
+
+      font-size:
+        clamp(
+          30px,
+          6vw,
+          46px
+        );
+
+      line-height:1.12;
+
+      font-weight:950;
+
+      letter-spacing:-1.8px;
+    }
+
+    .event-meta{
+      display:flex;
+      flex-wrap:wrap;
+
+      gap:7px;
+
+      margin-top:15px;
+    }
+
+    .event-chip{
+      min-height:30px;
+
+      display:flex;
+      align-items:center;
+
+      padding:0 10px;
+
+      border:
+        1px solid rgba(255,255,255,.12);
+
+      border-radius:999px;
+
+      background:
+        rgba(255,255,255,.07);
+
+      color:
+        rgba(255,255,255,.78);
+
+      font-size:10px;
+      font-weight:850;
+    }
+
+    /* =============================
+       TAB
+    ============================= */
+
+    .tab-wrap{
+      position:sticky;
+      top:0;
+
+      z-index:100;
+
+      border-bottom:
+        1px solid #dfe5eb;
+
+      background:
+        rgba(255,255,255,.96);
+
+      backdrop-filter:
+        blur(10px);
+    }
+
+    .tabs{
+      width:
+        min(
+          1120px,
+          calc(100% - 24px)
+        );
+
+      margin:0 auto;
+
+      display:flex;
+
+      gap:4px;
+
+      overflow-x:auto;
+
+      scrollbar-width:none;
+    }
+
+    .tabs::-webkit-scrollbar{
+      display:none;
+    }
+
+    .tab{
+      position:relative;
+
+      flex:none;
+
+      min-height:58px;
+
+      padding:0 17px;
+
+      border:0;
+
+      background:transparent;
+      color:#718092;
+
+      font-size:12px;
+      font-weight:900;
+    }
+
+    .tab.active{
+      color:var(--navy);
+    }
+
+    .tab.active::after{
+      content:"";
+
+      position:absolute;
+
+      left:15px;
+      right:15px;
+      bottom:0;
+
+      height:3px;
+
+      border-radius:
+        4px 4px 0 0;
+
+      background:var(--lime);
+    }
+
+    /* =============================
+       MAIN
+    ============================= */
+
+    .main{
+      width:
+        min(
+          1120px,
+          calc(100% - 34px)
+        );
+
+      margin:0 auto;
+
+      padding:
+        25px 0 60px;
+    }
+
+    .view{
+      display:none;
+    }
+
+    .view.active{
+      display:block;
+    }
+
+    .section{
+      margin-bottom:23px;
+    }
+
+    .section-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+
+      gap:15px;
+
+      margin-bottom:11px;
+    }
+
+    .section-kicker{
+      margin-bottom:5px;
+
+      color:#356386;
+
+      font-size:9px;
+      font-weight:950;
+
+      letter-spacing:1.5px;
+    }
+
+    .section-title{
+      margin:0;
+
+      color:var(--navy);
+
+      font-size:22px;
+      font-weight:950;
+
+      letter-spacing:-.8px;
+    }
+
+    .section-sub{
+      color:#748193;
+
+      font-size:10px;
+      font-weight:750;
+    }
+
+    /* =============================
+       LIVE SUMMARY
+    ============================= */
+
+    .stage-hero{
+      overflow:hidden;
+
+      margin-bottom:17px;
+
+      border-radius:18px;
+
+      background:
+        linear-gradient(
+          120deg,
+          var(--navy),
+          #123e68
+        );
+
+      color:white;
+
+      box-shadow:var(--shadow);
+    }
+
+    .stage-inner{
+      padding:20px;
+    }
+
+    .stage-label{
+      color:var(--lime);
+
+      font-size:10px;
+      font-weight:950;
+      letter-spacing:1.7px;
+    }
+
+    .stage-title{
+      margin-top:7px;
+
+      font-size:25px;
+      font-weight:950;
+
+      letter-spacing:-1px;
+    }
+
+    .stage-desc{
+      margin-top:7px;
+
+      color:
+        rgba(255,255,255,.66);
+
+      font-size:12px;
+      line-height:1.65;
+    }
+
+    .stage-stats{
+      display:grid;
+
+      grid-template-columns:
+        repeat(3,minmax(0,1fr));
+
+      gap:7px;
+
+      margin-top:17px;
+    }
+
+    .stage-stat{
+      padding:11px;
+
+      border:
+        1px solid rgba(255,255,255,.1);
+
+      border-radius:10px;
+
+      background:
+        rgba(255,255,255,.06);
+    }
+
+    .stage-stat-label{
+      color:
+        rgba(255,255,255,.55);
+
+      font-size:9px;
+      font-weight:800;
+    }
+
+    .stage-stat-value{
+      margin-top:3px;
+
+      font-size:20px;
+      font-weight:950;
+    }
+
+    /* =============================
+       COURTS LIVE
+    ============================= */
+
+    .court-grid{
+      display:grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(220px,1fr)
+        );
+
+      gap:9px;
+    }
+
+    .court{
+      min-height:126px;
+
+      padding:14px;
+
+      border:
+        1px solid var(--line);
+
+      border-radius:14px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
+    }
+
+    .court-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:8px;
+    }
+
+    .court-name{
+      color:var(--navy);
+
+      font-size:15px;
+      font-weight:950;
+    }
+
+    .court-live{
+      min-height:25px;
+
+      display:flex;
+      align-items:center;
+
+      padding:0 8px;
+
+      border-radius:999px;
+
+      background:var(--green-soft);
+      color:var(--green);
+
+      font-size:9px;
+      font-weight:950;
+    }
+
+    .court-empty{
+      min-height:25px;
+
+      display:flex;
+      align-items:center;
+
+      padding:0 8px;
+
+      border-radius:999px;
+
+      background:#eef2f5;
+      color:#697587;
+
+      font-size:9px;
+      font-weight:900;
+    }
+
+    .court-stage{
+      margin-top:12px;
+
+      color:#718092;
+
+      font-size:10px;
+      font-weight:850;
+    }
+
+    .court-players{
+      margin-top:5px;
+
+      color:#1d2a3d;
+
+      font-size:16px;
+      font-weight:950;
+
+      line-height:1.4;
+    }
+
+    .court-message{
+      margin-top:14px;
+
+      color:#82909f;
+
+      font-size:12px;
+      font-weight:750;
+    }
+
+    /* =============================
+       MATCHES
+    ============================= */
+
+    .group-stack{
+      display:flex;
+      flex-direction:column;
+
+      gap:12px;
+    }
+
+    .group-card{
+      overflow:hidden;
+
+      border:
+        1px solid var(--line);
+
+      border-radius:16px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
+    }
+
+    .group-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:10px;
+
+      padding:
+        14px 15px;
+
+      border-bottom:
+        1px solid #e7ebef;
+
+      background:#fafbfc;
+    }
+
+    .group-name{
+      color:var(--navy);
+
+      font-size:18px;
+      font-weight:950;
+    }
+
+    .group-count{
+      color:#6a788a;
+
+      font-size:10px;
+      font-weight:850;
+    }
+
+    .match-list{
+      padding:8px;
+    }
+
+    .match{
+      display:grid;
+
+      grid-template-columns:
+        60px minmax(0,1fr) 72px;
+
+      align-items:center;
+
+      gap:9px;
+
+      min-height:69px;
+
+      padding:9px 10px;
+
+      border-bottom:
+        1px solid #e9edf0;
+    }
+
+    .match:last-child{
+      border-bottom:0;
+    }
+
+    .round{
+      color:#718092;
+
+      font-size:10px;
+      font-weight:850;
+    }
+
+    .match-main{
+      min-width:0;
+    }
+
+    .players{
+      display:grid;
+
+      grid-template-columns:
+        minmax(0,1fr)
+        25px
+        minmax(0,1fr);
+
+      gap:5px;
+
+      align-items:center;
+    }
+
+    .player{
+      overflow:hidden;
+
+      color:#233146;
+
+      font-size:14px;
+      font-weight:900;
+
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .player.right{
+      text-align:right;
+    }
+
+    .vs{
+      color:#9099a6;
+
+      font-size:9px;
+      font-weight:900;
+
+      text-align:center;
+    }
+
+    .match-info{
+      margin-top:5px;
+
+      color:#82909f;
+
+      font-size:9px;
+      font-weight:750;
+    }
+
+    .score{
+      text-align:right;
+
+      color:var(--navy);
+
+      font-size:17px;
+      font-weight:950;
+    }
+
+    .score.waiting{
+      color:#82909f;
+
+      font-size:10px;
+      font-weight:850;
+    }
+
+    /* =============================
+       STANDINGS
+    ============================= */
+
+    .standing-card{
+      overflow:hidden;
+
+      margin-bottom:12px;
+
+      border:
+        1px solid var(--line);
+
+      border-radius:15px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
+    }
+
+    .standing-head{
+      padding:
+        14px 15px;
+
+      border-bottom:
+        1px solid #e7ebef;
+
+      background:#fafbfc;
+
+      color:var(--navy);
+
+      font-size:18px;
+      font-weight:950;
+    }
+
+    .standing-row{
+      display:grid;
+
+      grid-template-columns:
+        34px minmax(0,1fr)
+        42px 42px 42px;
+
+      align-items:center;
+
+      min-height:52px;
+
+      padding:0 13px;
+
+      border-bottom:
+        1px solid #edf0f2;
+    }
+
+    .standing-row:last-child{
+      border-bottom:0;
+    }
+
+    .standing-row.header{
+      min-height:38px;
+
+      background:#f8fafb;
+
+      color:#7b8795;
+
+      font-size:9px;
+      font-weight:850;
+    }
+
+    .rank{
+      color:#748193;
+
+      font-size:12px;
+      font-weight:900;
+    }
+
+    .rank.qualify{
+      color:var(--green);
+    }
+
+    .standing-name{
+      overflow:hidden;
+
+      color:#263348;
+
+      font-size:13px;
+      font-weight:900;
+
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .num{
+      text-align:center;
+
+      color:#485669;
+
+      font-size:11px;
+      font-weight:850;
+    }
+
+    /* =============================
+       KNOCKOUT
+    ============================= */
+
+    .bracket-scroll{
+      overflow-x:auto;
+
+      padding-bottom:10px;
+    }
+
+    .bracket{
+      min-width:max-content;
+
+      display:flex;
+      align-items:stretch;
+
+      gap:12px;
+    }
+
+    .bracket-round{
+      width:235px;
+
+      display:flex;
+      flex-direction:column;
+
+      gap:9px;
+    }
+
+    .bracket-round-title{
+      min-height:42px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      border-radius:10px;
+
+      background:var(--navy);
+      color:white;
+
+      font-size:12px;
+      font-weight:950;
+    }
+
+    .bracket-matches{
+      flex:1;
+
+      display:flex;
+      flex-direction:column;
+      justify-content:space-around;
+
+      gap:10px;
+    }
+
+    .bracket-match{
+      overflow:hidden;
+
+      border:
+        1px solid var(--line);
+
+      border-radius:12px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
+    }
+
+    .bracket-match-head{
+      display:flex;
+      justify-content:space-between;
+
+      padding:
+        8px 9px;
+
+      border-bottom:
+        1px solid #e8ecf0;
+
+      background:#f8fafb;
+
+      color:#748193;
+
+      font-size:9px;
+      font-weight:850;
+    }
+
+    .bracket-player{
+      min-height:43px;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:8px;
+
+      padding:
+        8px 10px;
+
+      border-bottom:
+        1px solid #edf0f2;
+    }
+
+    .bracket-player:last-child{
+      border-bottom:0;
+    }
+
+    .bracket-name{
+      overflow:hidden;
+
+      color:#243146;
+
+      font-size:13px;
+      font-weight:900;
+
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .bracket-name.winner{
+      color:var(--green);
+    }
+
+    .bracket-score{
+      flex:none;
+
+      color:var(--navy);
+
+      font-size:14px;
+      font-weight:950;
+    }
+
+    /* =============================
+       CHAMPION
+    ============================= */
+
+    .champion{
+      display:none;
+
+      margin-bottom:19px;
+
+      padding:
+        25px 18px;
+
+      border:
+        1px solid #e7d996;
+
+      border-radius:17px;
+
+      background:
+        linear-gradient(
+          120deg,
+          #fffdf5,
+          #fff7d5
+        );
+
+      text-align:center;
+
+      box-shadow:var(--shadow);
+    }
+
+    .champion.show{
+      display:block;
+    }
+
+    .champion-label{
+      color:#987414;
+
+      font-size:10px;
+      font-weight:950;
+      letter-spacing:1.5px;
+    }
+
+    .champion-name{
+      margin-top:7px;
+
+      color:var(--navy);
+
+      font-size:29px;
+      font-weight:950;
+    }
+
+    /* =============================
+       STATE
+    ============================= */
+
+    .empty{
+      padding:35px 18px;
+
+      border:
+        1px solid var(--line);
+
+      border-radius:15px;
+
+      background:white;
+
+      text-align:center;
+
+      color:#728093;
+
+      font-size:12px;
+      line-height:1.65;
+
+      box-shadow:var(--shadow);
+    }
+
+    .loading{
+      min-height:300px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .spinner{
+      width:37px;
+      height:37px;
+
+      border:
+        4px solid #dde3e8;
+
+      border-top-color:
+        var(--navy);
+
+      border-radius:50%;
+
+      animation:
+        spin .8s linear infinite;
+    }
+
+    @keyframes spin{
+      to{
+        transform:rotate(360deg);
+      }
+    }
+
+    .error{
+      max-width:500px;
+
+      margin:70px auto;
+
+      padding:28px;
+
+      text-align:center;
+
+      color:#657386;
+    }
+
+    .error strong{
+      display:block;
+
+      margin-bottom:8px;
+
+      color:var(--navy);
+
+      font-size:19px;
+    }
+
+    /* =============================
+       REFRESH
+    ============================= */
+
+    .refresh-line{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      gap:8px;
+
+      margin-top:20px;
+
+      color:#8a96a4;
+
+      font-size:9px;
+      font-weight:750;
+    }
+
+    .refresh-btn{
+      min-height:34px;
+
+      padding:0 10px;
+
+      border:
+        1px solid #dce2e7;
+
+      border-radius:8px;
+
+      background:white;
+      color:#596779;
+
+      font-size:9px;
+      font-weight:850;
+    }
+
+    /* =============================
+       FOOTER
+    ============================= */
+
+    .footer{
+      display:flex;
+      justify-content:space-between;
+
+      margin-top:29px;
+      padding-top:17px;
+
+      border-top:
+        1px solid #dfe4e9;
+
+      color:#8793a0;
+
+      font-size:9px;
+      letter-spacing:1px;
+    }
+
+    .footer strong{
+      color:var(--navy);
+    }
+
+    .q{
+      color:#94a925;
+      font-weight:950;
+    }
+
+    /* =============================
+       MOBILE
+    ============================= */
+
+    @media(max-width:700px){
+
+      .top-inner{
+        width:
+          calc(100% - 24px);
+
+        padding:
+          19px 0 25px;
+      }
+
+      .fwt{
+        font-size:30px;
+      }
+
+      .back{
+        min-height:45px;
+
+        font-size:11px;
+      }
+
+      .event-head{
+        padding-top:24px;
+      }
+
+      .event-title{
+        font-size:31px;
+      }
+
+      .event-chip{
+        min-height:31px;
+
+        font-size:11px;
+      }
+
+      .tabs{
+        width:
+          calc(100% - 8px);
+      }
+
+      .tab{
+        min-height:57px;
+
+        padding:0 15px;
+
+        font-size:12px;
+      }
+
+      .main{
+        width:
+          calc(100% - 22px);
+
+        padding:
+          20px 0 48px;
+      }
+
+      .section-title{
+        font-size:21px;
+      }
+
+      .section-sub{
+        font-size:10px;
+      }
+
+      .stage-inner{
+        padding:18px;
+      }
+
+      .stage-title{
+        font-size:23px;
+      }
+
+      .stage-desc{
+        font-size:13px;
+      }
+
+      .stage-stat-label{
+        font-size:10px;
+      }
+
+      .stage-stat-value{
+        font-size:19px;
+      }
+
+      .court-grid{
+        grid-template-columns:
+          repeat(2,minmax(0,1fr));
+
+        gap:7px;
+      }
+
+      .court{
+        min-height:132px;
+
+        padding:11px;
+      }
+
+      .court-name{
+        font-size:15px;
+      }
+
+      .court-players{
+        font-size:14px;
+      }
+
+      .match{
+        grid-template-columns:
+          50px minmax(0,1fr) 59px;
+
+        gap:6px;
+
+        min-height:72px;
+
+        padding:
+          9px 7px;
+      }
+
+      .round{
+        font-size:10px;
+      }
+
+      .player{
+        font-size:13px;
+      }
+
+      .score{
+        font-size:16px;
+      }
+
+      .standing-row{
+        grid-template-columns:
+          30px minmax(0,1fr)
+          38px 38px 38px;
+
+        padding:0 9px;
+      }
+
+      .standing-name{
+        font-size:13px;
+      }
+
+      .bracket-round{
+        width:220px;
+      }
+
+      .bracket-name{
+        font-size:13px;
+      }
+
+    }
+
+    @media(max-width:380px){
+
+      .court-grid{
+        grid-template-columns:1fr;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+<header class="top">
+
+  <div class="top-inner">
+
+    <div class="nav">
+
+      <div class="fwt">
+        FW<span>T</span>
+      </div>
+
+      <a
+        class="back"
+        href="./"
+      >
+        ← 대회 목록
+      </a>
+
+    </div>
+
+
+    <div class="event-head">
+
+      <div
+        class="live-line"
+        id="liveLine"
+      >
+        <span class="live-dot"></span>
+
+        <span id="liveText">
+          FWT TOURNAMENT
+        </span>
+      </div>
+
+
+      <h1
+        class="event-title"
+        id="eventTitle"
+      >
+        대회 불러오는 중
+      </h1>
+
+
+      <div
+        class="event-meta"
+        id="eventMeta"
+      ></div>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<nav class="tab-wrap">
+
+  <div class="tabs">
+
+    <button
+      class="tab active"
+      data-view="live"
+      type="button"
+    >
+      LIVE
+    </button>
+
+    <button
+      class="tab"
+      data-view="preliminary"
+      type="button"
+    >
+      예선
+    </button>
+
+    <button
+      class="tab"
+      data-view="standings"
+      type="button"
+    >
+      조별 순위
+    </button>
+
+    <button
+      class="tab"
+      data-view="knockout"
+      type="button"
+    >
+      본선
+    </button>
+
+  </div>
+
+</nav>
+
+
+<main
+  class="main"
+  id="main"
+>
+
+  <div class="loading">
+    <div class="spinner"></div>
+  </div>
+
+</main>
+
+
+<script>
+
+const SUPABASE_URL =
+  "https://opwuyqerisocqobbbisg.supabase.co";
+
+
+const SUPABASE_KEY =
+  "sb_publishable_Eo_zfONeGLs9ATCVg2Fk_g_y_IAJFV-";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+const params =
+  new URLSearchParams(
+    location.search
+  );
+
+
+const tournamentId =
+  params.get("id");
+
+
+let tournament =
+  null;
+
+let division =
+  null;
+
+let courts =
+  [];
+
+let entries =
+  [];
+
+let groups =
+  [];
+
+let groupEntries =
+  [];
+
+let matches =
+  [];
+
+let currentView =
+  "live";
+
+let initialized =
+  false;
+
+let refreshTimer =
+  null;
+
+
+/* ==============================
+   HELPERS
+============================== */
+
+function escapeHtml(value){
+
+  const div =
+    document.createElement(
+      "div"
+    );
+
+  div.textContent =
+    value ?? "";
+
+  return div.innerHTML;
+
+}
+
+
+function entryName(id){
+
+  if (!id){
+    return "미정";
+  }
+
+
+  return (
+    entries.find(
+      entry =>
+        entry.id === id
+    )?.display_name
+    ||
+    "알 수 없음"
+  );
+
+}
+
+
+function groupName(id){
+
+  return (
+    groups.find(
+      group =>
+        group.id === id
+    )?.name
+    ||
+    "-"
+  );
+
+}
+
+
+function courtName(id){
+
+  return (
+    courts.find(
+      court =>
+        court.id === id
+    )?.name
+    ||
+    "-"
+  );
+
+}
+
+
+function formatDate(value){
+
+  if (!value){
+    return "날짜 미정";
+  }
+
+
+  const date =
+    new Date(
+      `${value}T00:00:00`
+    );
+
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+    return value;
+  }
+
+
+  return new Intl.DateTimeFormat(
+    "ko-KR",
+    {
+      year:"numeric",
+      month:"long",
+      day:"numeric"
+    }
+  ).format(date);
+
+}
+
+
+function stageLabel(stage){
+
+  const map = {
+    group:"예선",
+    round32:"32강",
+    round16:"16강",
+    quarterfinal:"8강",
+    semifinal:"4강",
+    final:"결승"
+  };
+
+
+  return (
+    map[stage] ||
+    stage ||
+    "-"
+  );
+
+}
+
+
+function statusLabel(status){
+
+  const map = {
+    pending:"대기",
+    waiting:"대기",
+    playing:"경기중",
+    completed:"완료",
+    bye:"BYE",
+    walkover:"기권승",
+    cancelled:"취소"
+  };
+
+
+  return (
+    map[status] ||
+    status ||
+    "-"
+  );
+
+}
+
+
+function matchTypeLabel(value){
+
+  return {
+    singles:"단식",
+    doubles:"복식"
+  }[value] || value || "";
+
+}
+
+
+function genderLabel(value){
+
+  return {
+    male:"남자",
+    female:"여자",
+    mixed:"혼합",
+    open:"오픈"
+  }[value] || value || "";
+
+}
+
+
+function finished(match){
+
+  return [
+    "completed",
+    "bye",
+    "walkover"
+  ].includes(
+    match.status
+  );
+
+}
+
+
+/* ==============================
+   LOAD
+============================== */
+
+async function loadData(){
+
+  if (!tournamentId){
+
+    throw new Error(
+      "대회 주소가 올바르지 않습니다."
+    );
+
+  }
+
+
+  const {
+    data:tournamentRow,
+    error:tournamentError
+  } =
+    await supabaseClient
+      .from("tournaments")
+      .select(
+        "id,name,tournament_date,status,is_public"
+      )
+      .eq(
+        "id",
+        tournamentId
+      )
+      .eq(
+        "is_public",
+        true
+      )
+      .single();
+
+
+  if (
+    tournamentError ||
+    !tournamentRow
+  ){
+
+    throw new Error(
+      "공개되지 않았거나 존재하지 않는 대회입니다."
+    );
+
+  }
+
+
+  tournament =
+    tournamentRow;
+
+
+  const {
+    data:divisionRows,
+    error:divisionError
+  } =
+    await supabaseClient
+      .from("divisions")
+      .select(
+        "id,name,match_type,gender,format,group_count,advance_count,sort_order"
+      )
+      .eq(
+        "tournament_id",
+        tournamentId
+      )
+      .order(
+        "sort_order",
+        {
+          ascending:true
+        }
+      );
+
+
+  if (
+    divisionError ||
+    !divisionRows?.length
+  ){
+
+    throw new Error(
+      "대회 부문 정보를 찾을 수 없습니다."
+    );
+
+  }
+
+
+  division =
+    divisionRows[0];
+
+
+  const [
+    courtResult,
+    entryResult,
+    groupResult,
+    matchResult
+  ] =
+    await Promise.all([
+
+      supabaseClient
+        .from("courts")
+        .select(
+          "id,name,sort_order,is_active"
+        )
+        .eq(
+          "tournament_id",
+          tournamentId
+        )
+        .eq(
+          "is_active",
+          true
+        )
+        .order(
+          "sort_order",
+          {
+            ascending:true
+          }
+        ),
+
+      supabaseClient
+        .from("entries")
+        .select(
+          "id,display_name,status,sort_order"
+        )
+        .eq(
+          "division_id",
+          division.id
+        )
+        .order(
+          "sort_order",
+          {
+            ascending:true
+          }
+        ),
+
+      supabaseClient
+        .from("groups")
+        .select(
+          "id,name,sort_order"
+        )
+        .eq(
+          "division_id",
+          division.id
+        )
+        .order(
+          "sort_order",
+          {
+            ascending:true
+          }
+        ),
+
+      supabaseClient
+        .from("matches")
+        .select(
+          "id,group_id,court_id,stage,round_number,match_number,entry1_id,entry2_id,status,score1,score2,winner_entry_id,started_at,completed_at,sort_order"
+        )
+        .eq(
+          "division_id",
+          division.id
+        )
+        .order(
+          "sort_order",
+          {
+            ascending:true
+          }
+        )
+
+    ]);
+
+
+  if (courtResult.error){
+    throw courtResult.error;
+  }
+
+  if (entryResult.error){
+    throw entryResult.error;
+  }
+
+  if (groupResult.error){
+    throw groupResult.error;
+  }
+
+  if (matchResult.error){
+    throw matchResult.error;
+  }
+
+
+  courts =
+    courtResult.data || [];
+
+
+  entries =
+    (entryResult.data || [])
+      .filter(
+        entry =>
+          entry.status !==
+          "withdrawn"
+      );
+
+
+  groups =
+    groupResult.data || [];
+
+
+  matches =
+    matchResult.data || [];
+
+
+  if (
+    groups.length
+  ){
+
+    const groupIds =
+      groups.map(
+        group => group.id
+      );
+
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("group_entries")
+        .select(
+          "group_id,entry_id,seed_order"
+        )
+        .in(
+          "group_id",
+          groupIds
+        )
+        .order(
+          "seed_order",
+          {
+            ascending:true
+          }
+        );
+
+
+    if (error){
+      throw error;
+    }
+
+
+    groupEntries =
+      data || [];
+
+  }else{
+
+    groupEntries = [];
+
+  }
+
+}
+
+
+/* ==============================
+   CURRENT STAGE
+============================== */
+
+function getCurrentStage(){
+
+  const groupMatches =
+    matches.filter(
+      match =>
+        match.stage ===
+        "group"
+    );
+
+
+  const knockout =
+    matches.filter(
+      match =>
+        match.stage !==
+        "group"
+    );
+
+
+  const groupComplete =
+    groupMatches.length > 0
+    &&
+    groupMatches.every(
+      finished
+    );
+
+
+  const final =
+    knockout.find(
+      match =>
+        match.stage ===
+        "final"
+    );
+
+
+  if (
+    final &&
+    finished(final)
+    &&
+    final.winner_entry_id
+  ){
+
+    return {
+      type:"completed",
+      view:"knockout",
+      title:"대회 종료",
+      desc:"모든 경기가 종료되었습니다."
+    };
+
+  }
+
+
+  if (
+    groupMatches.length > 0
+    &&
+    !groupComplete
+  ){
+
+    return {
+      type:"group",
+      view:"live",
+      title:"조별 예선 진행 중",
+      desc:"현재 조별 예선 경기가 진행되고 있습니다."
+    };
+
+  }
+
+
+  if (
+    groupComplete &&
+    knockout.length === 0
+  ){
+
+    return {
+      type:"standings",
+      view:"standings",
+      title:"예선 종료",
+      desc:"조별 예선이 종료되었습니다. 본선 진출 결과를 확인하세요."
+    };
+
+  }
+
+
+  if (
+    knockout.length > 0
+  ){
+
+    return {
+      type:"knockout",
+      view:"live",
+      title:"본선 진행 중",
+      desc:"본선 토너먼트가 진행되고 있습니다."
+    };
+
+  }
+
+
+  return {
+    type:"preparation",
+    view:"preliminary",
+    title:"대회 준비 중",
+    desc:"대진이 준비되고 있습니다."
+  };
+
+}
+
+
+/* ==============================
+   HEADER
+============================== */
+
+function renderHeader(){
+
+  document.title =
+    `${tournament.name} | FWT`;
+
+
+  document.getElementById(
+    "eventTitle"
+  ).textContent =
+    tournament.name;
+
+
+  const stage =
+    getCurrentStage();
+
+
+  document.getElementById(
+    "liveText"
+  ).textContent =
+    stage.title.toUpperCase();
+
+
+  document.getElementById(
+    "eventMeta"
+  ).innerHTML = `
+
+    <span class="event-chip">
+      ${escapeHtml(
+        formatDate(
+          tournament.tournament_date
+        )
+      )}
+    </span>
+
+    <span class="event-chip">
+      ${escapeHtml(
+        division.name
+      )}
+    </span>
+
+    <span class="event-chip">
+      ${escapeHtml(
+        genderLabel(
+          division.gender
+        )
+      )}
+      ${escapeHtml(
+        matchTypeLabel(
+          division.match_type
+        )
+      )}
+    </span>
+
+  `;
+
+}
+
+
+/* ==============================
+   STATS
+============================== */
+
+function getStats(){
+
+  const total =
+    matches.length;
+
+
+  const playing =
+    matches.filter(
+      match =>
+        match.status ===
+        "playing"
+    ).length;
+
+
+  const waiting =
+    matches.filter(
+      match =>
+        [
+          "waiting",
+          "pending"
+        ].includes(
+          match.status
+        )
+    ).length;
+
+
+  const complete =
+    matches.filter(
+      finished
+    ).length;
+
+
+  return {
+    total,
+    playing,
+    waiting,
+    complete
+  };
+
+}
+
+
+/* ==============================
+   COURT LIVE
+============================== */
+
+function renderCourts(){
+
+  if (!courts.length){
+
+    return `
+      <div class="empty">
+        등록된 코트 정보가 없습니다.
+      </div>
+    `;
+
+  }
+
+
+  return `
+
+    <div class="court-grid">
+
+      ${
+        courts
+          .map(
+            court => {
+
+              const match =
+                matches.find(
+                  item =>
+                    item.status ===
+                    "playing"
+                    &&
+                    item.court_id ===
+                    court.id
+                );
+
+
+              if (!match){
+
+                return `
+
+                  <div class="court">
+
+                    <div class="court-top">
+
+                      <div class="court-name">
+                        ${escapeHtml(
+                          court.name
+                        )}
+                      </div>
+
+                      <div class="court-empty">
+                        대기
+                      </div>
+
+                    </div>
+
+                    <div class="court-message">
+                      현재 진행 중인 경기가 없습니다.
+                    </div>
+
+                  </div>
+
+                `;
+
+              }
+
+
+              return `
+
+                <div class="court">
+
+                  <div class="court-top">
+
+                    <div class="court-name">
+                      ${escapeHtml(
+                        court.name
+                      )}
+                    </div>
+
+                    <div class="court-live">
+                      LIVE
+                    </div>
+
+                  </div>
+
+                  <div class="court-stage">
+                    ${
+                      match.stage ===
+                      "group"
+                        ? escapeHtml(
+                            groupName(
+                              match.group_id
+                            )
+                          )
+                          +
+                          " · 예선"
+                        : escapeHtml(
+                            stageLabel(
+                              match.stage
+                            )
+                          )
+                    }
+                  </div>
+
+                  <div class="court-players">
+                    ${escapeHtml(
+                      entryName(
+                        match.entry1_id
+                      )
+                    )}
+                    <br>
+                    vs
+                    ${escapeHtml(
+                      entryName(
+                        match.entry2_id
+                      )
+                    )}
+                  </div>
+
+                </div>
+
+              `;
+
+            }
+          )
+          .join("")
+      }
+
+    </div>
+
+  `;
+
+}
+
+
+/* ==============================
+   PRELIMINARY
+============================== */
+
+function renderPreliminary(){
+
+  if (!groups.length){
+
+    return `
+      <div class="empty">
+        아직 조편성 정보가 없습니다.
+      </div>
+    `;
+
+  }
+
+
+  return `
+
+    <div class="group-stack">
+
+      ${
+        groups.map(
+          group => {
+
+            const groupMatches =
+              matches
+                .filter(
+                  match =>
+                    match.stage ===
+                    "group"
+                    &&
+                    match.group_id ===
+                    group.id
+                )
+                .sort(
+                  (a,b) =>
+                    Number(
+                      a.round_number || 0
+                    )
+                    -
+                    Number(
+                      b.round_number || 0
+                    )
+                    ||
+                    Number(
+                      a.match_number || 0
+                    )
+                    -
+                    Number(
+                      b.match_number || 0
+                    )
+                );
+
+
+            return `
+
+              <section class="group-card">
+
+                <div class="group-head">
+
+                  <div class="group-name">
+                    ${escapeHtml(
+                      group.name
+                    )}
+                  </div>
+
+                  <div class="group-count">
+                    ${groupMatches.length}경기
+                  </div>
+
+                </div>
+
+                <div class="match-list">
+
+                  ${
+                    groupMatches.length
+                      ?
+                        groupMatches.map(
+                          match => {
+
+                            const done =
+                              finished(match);
+
+
+                            return `
+
+                              <div class="match">
+
+                                <div class="round">
+                                  R${match.round_number || "-"}
+                                </div>
+
+                                <div class="match-main">
+
+                                  <div class="players">
+
+                                    <div class="player">
+                                      ${escapeHtml(
+                                        entryName(
+                                          match.entry1_id
+                                        )
+                                      )}
+                                    </div>
+
+                                    <div class="vs">
+                                      VS
+                                    </div>
+
+                                    <div class="player right">
+                                      ${escapeHtml(
+                                        entryName(
+                                          match.entry2_id
+                                        )
+                                      )}
+                                    </div>
+
+                                  </div>
+
+                                  <div class="match-info">
+
+                                    ${
+                                      match.status ===
+                                      "playing"
+                                        ? `${escapeHtml(
+                                            courtName(
+                                              match.court_id
+                                            )
+                                          )} · 경기중`
+                                        : statusLabel(
+                                            match.status
+                                          )
+                                    }
+
+                                  </div>
+
+                                </div>
+
+                                <div
+                                  class="score ${
+                                    done
+                                      ? ""
+                                      : "waiting"
+                                  }"
+                                >
+
+                                  ${
+                                    done
+                                      &&
+                                    match.score1 !== null
+                                      &&
+                                    match.score2 !== null
+                                      ? `${match.score1} - ${match.score2}`
+                                      : statusLabel(
+                                          match.status
+                                        )
+                                  }
+
+                                </div>
+
+                              </div>
+
+                            `;
+
+                          }
+                        ).join("")
+                      :
+                        `
+                          <div class="empty">
+                            아직 생성된 예선 경기가 없습니다.
+                          </div>
+                        `
+                  }
+
+                </div>
+
+              </section>
+
+            `;
+
+          }
+        ).join("")
+      }
+
+    </div>
+
+  `;
+
+}
+
+
+/* ==============================
+   STANDINGS CALC
+============================== */
+
+function calculateGroupStanding(
+  group
+){
+
+  const members =
+    groupEntries
+      .filter(
+        item =>
+          item.group_id ===
+          group.id
+      )
+      .map(
+        item =>
+          item.entry_id
+      );
+
+
+  const table =
+    members.map(
+      id => ({
+        entryId:id,
+        wins:0,
+        losses:0,
+        scored:0,
+        conceded:0,
+        diff:0
+      })
+    );
+
+
+  const map =
+    new Map(
+      table.map(
+        row => [
+          row.entryId,
+          row
+        ]
+      )
+    );
+
+
+  const groupMatches =
+    matches.filter(
+      match =>
+        match.stage ===
+        "group"
+        &&
+        match.group_id ===
+        group.id
+        &&
+        [
+          "completed",
+          "walkover"
+        ].includes(
+          match.status
+        )
+    );
+
+
+  groupMatches.forEach(
+    match => {
+
+      const a =
+        map.get(
+          match.entry1_id
+        );
+
+
+      const b =
+        map.get(
+          match.entry2_id
+        );
+
+
+      if (
+        !a ||
+        !b
+      ){
+        return;
+      }
+
+
+      const s1 =
+        Number(
+          match.score1 || 0
+        );
+
+
+      const s2 =
+        Number(
+          match.score2 || 0
+        );
+
+
+      a.scored += s1;
+      a.conceded += s2;
+
+      b.scored += s2;
+      b.conceded += s1;
+
+
+      if (
+        match.winner_entry_id ===
+        a.entryId
+      ){
+
+        a.wins++;
+        b.losses++;
+
+      }else if (
+        match.winner_entry_id ===
+        b.entryId
+      ){
+
+        b.wins++;
+        a.losses++;
+
+      }
+
+    }
+  );
+
+
+  table.forEach(
+    row => {
+
+      row.diff =
+        row.scored -
+        row.conceded;
+
+    }
+  );
+
+
+  table.sort(
+    (a,b) => {
+
+      if (
+        b.wins !== a.wins
+      ){
+        return b.wins - a.wins;
+      }
+
+
+      if (
+        b.diff !== a.diff
+      ){
+        return b.diff - a.diff;
+      }
+
+
+      return (
+        b.scored -
+        a.scored
+      );
+
+    }
+  );
+
+
+  return table;
+
+}
+
+
+/* ==============================
+   STANDINGS
+============================== */
+
+function renderStandings(){
+
+  if (!groups.length){
+
+    return `
+      <div class="empty">
+        조별 순위 정보가 없습니다.
+      </div>
+    `;
+
+  }
+
+
+  return groups.map(
+    group => {
+
+      const standing =
+        calculateGroupStanding(
+          group
+        );
+
+
+      return `
+
+        <section class="standing-card">
+
+          <div class="standing-head">
+            ${escapeHtml(
+              group.name
+            )}
+          </div>
+
+
+          <div class="standing-row header">
+
+            <div>순위</div>
+            <div>선수</div>
+            <div class="num">승</div>
+            <div class="num">득실</div>
+            <div class="num">득점</div>
+
+          </div>
+
+
+          ${
+            standing.map(
+              (
+                row,
+                index
+              ) => `
+
+                <div class="standing-row">
+
+                  <div
+                    class="rank ${
+                      index <
+                      Number(
+                        division.advance_count || 0
+                      )
+                        ? "qualify"
+                        : ""
+                    }"
+                  >
+                    ${index + 1}
+                  </div>
+
+                  <div class="standing-name">
+                    ${escapeHtml(
+                      entryName(
+                        row.entryId
+                      )
+                    )}
+                  </div>
+
+                  <div class="num">
+                    ${row.wins}
+                  </div>
+
+                  <div class="num">
+                    ${
+                      row.diff > 0
+                        ? "+"
+                        : ""
+                    }${row.diff}
+                  </div>
+
+                  <div class="num">
+                    ${row.scored}
+                  </div>
+
+                </div>
+
+              `
+            ).join("")
+          }
+
+        </section>
+
+      `;
+
+    }
+  ).join("");
+
+}
+
+
+/* ==============================
+   KNOCKOUT
+============================== */
+
+function renderKnockout(){
+
+  const knockout =
+    matches.filter(
+      match =>
+        match.stage !==
+        "group"
+    );
+
+
+  if (!knockout.length){
+
+    return `
+      <div class="empty">
+        아직 본선 대진이 생성되지 않았습니다.
+      </div>
+    `;
+
+  }
+
+
+  const roundNumbers =
+    [
+      ...new Set(
+        knockout.map(
+          match =>
+            Number(
+              match.round_number
+            )
+        )
+      )
+    ]
+      .sort(
+        (a,b) =>
+          a - b
+      );
+
+
+  return `
+
+    <div class="bracket-scroll">
+
+      <div class="bracket">
+
+        ${
+          roundNumbers.map(
+            roundNumber => {
+
+              const roundMatches =
+                knockout
+                  .filter(
+                    match =>
+                      Number(
+                        match.round_number
+                      ) ===
+                      roundNumber
+                  )
+                  .sort(
+                    (a,b) =>
+                      Number(
+                        a.match_number
+                      )
+                      -
+                      Number(
+                        b.match_number
+                      )
+                  );
+
+
+              return `
+
+                <section class="bracket-round">
+
+                  <div class="bracket-round-title">
+                    ${escapeHtml(
+                      stageLabel(
+                        roundMatches[0]?.stage
+                      )
+                    )}
+                  </div>
+
+                  <div class="bracket-matches">
+
+                    ${
+                      roundMatches.map(
+                        match => {
+
+                          const winner1 =
+                            match.winner_entry_id ===
+                            match.entry1_id;
+
+
+                          const winner2 =
+                            match.winner_entry_id ===
+                            match.entry2_id;
+
+
+                          return `
+
+                            <article class="bracket-match">
+
+                              <div class="bracket-match-head">
+
+                                <span>
+                                  ${match.match_number}경기
+                                </span>
+
+                                <span>
+                                  ${escapeHtml(
+                                    statusLabel(
+                                      match.status
+                                    )
+                                  )}
+                                </span>
+
+                              </div>
+
+
+                              <div class="bracket-player">
+
+                                <div
+                                  class="bracket-name ${
+                                    winner1
+                                      ? "winner"
+                                      : ""
+                                  }"
+                                >
+                                  ${escapeHtml(
+                                    match.entry1_id
+                                      ? entryName(
+                                          match.entry1_id
+                                        )
+                                      : "진출자 대기"
+                                  )}
+                                </div>
+
+                                <div class="bracket-score">
+                                  ${
+                                    match.score1 ??
+                                    ""
+                                  }
+                                </div>
+
+                              </div>
+
+
+                              <div class="bracket-player">
+
+                                <div
+                                  class="bracket-name ${
+                                    winner2
+                                      ? "winner"
+                                      : ""
+                                  }"
+                                >
+                                  ${escapeHtml(
+                                    match.entry2_id
+                                      ? entryName(
+                                          match.entry2_id
+                                        )
+                                      : (
+                                          match.status ===
+                                          "bye"
+                                            ? "BYE"
+                                            : "진출자 대기"
+                                        )
+                                  )}
+                                </div>
+
+                                <div class="bracket-score">
+                                  ${
+                                    match.score2 ??
+                                    ""
+                                  }
+                                </div>
+
+                              </div>
+
+                            </article>
+
+                          `;
+
+                        }
+                      ).join("")
+                    }
+
+                  </div>
+
+                </section>
+
+              `;
+
+            }
+          ).join("")
+        }
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* ==============================
+   CHAMPION
+============================== */
+
+function championHtml(){
+
+  const final =
+    matches.find(
+      match =>
+        match.stage ===
+        "final"
+    );
+
+
+  if (
+    !final ||
+    !finished(final) ||
+    !final.winner_entry_id
+  ){
+
+    return "";
+
+  }
+
+
+  return `
+
+    <section class="champion show">
+
+      <div class="champion-label">
+        FWT CHAMPION
+      </div>
+
+      <div class="champion-name">
+        ${escapeHtml(
+          entryName(
+            final.winner_entry_id
+          )
+        )}
+      </div>
+
+    </section>
+
+  `;
+
+}
+
+
+/* ==============================
+   LIVE VIEW
+============================== */
+
+function renderLive(){
+
+  const stage =
+    getCurrentStage();
+
+
+  const stats =
+    getStats();
+
+
+  let focusContent = "";
+
+
+  if (
+    stage.type ===
+    "group"
+  ){
+
+    focusContent = `
+
+      <section class="section">
+
+        <div class="section-head">
+
+          <div>
+            <div class="section-kicker">
+              PRELIMINARY
+            </div>
+
+            <h2 class="section-title">
+              예선 현황
+            </h2>
+          </div>
+
+        </div>
+
+        ${renderPreliminary()}
+
+      </section>
+
+    `;
+
+  }else if (
+    stage.type ===
+    "knockout"
+    ||
+    stage.type ===
+    "completed"
+  ){
+
+    focusContent = `
+
+      ${championHtml()}
+
+      <section class="section">
+
+        <div class="section-head">
+
+          <div>
+            <div class="section-kicker">
+              KNOCKOUT
+            </div>
+
+            <h2 class="section-title">
+              본선 대진
+            </h2>
+          </div>
+
+        </div>
+
+        ${renderKnockout()}
+
+      </section>
+
+    `;
+
+  }else if (
+    stage.type ===
+    "standings"
+  ){
+
+    focusContent = `
+
+      <section class="section">
+
+        <div class="section-head">
+
+          <div>
+            <div class="section-kicker">
+              GROUP STANDINGS
+            </div>
+
+            <h2 class="section-title">
+              조별 순위
+            </h2>
+          </div>
+
+        </div>
+
+        ${renderStandings()}
+
+      </section>
+
+    `;
+
+  }
+
+
+  return `
+
+    <section class="stage-hero">
+
+      <div class="stage-inner">
+
+        <div class="stage-label">
+          CURRENT STAGE
+        </div>
+
+        <div class="stage-title">
+          ${escapeHtml(
+            stage.title
+          )}
+        </div>
+
+        <div class="stage-desc">
+          ${escapeHtml(
+            stage.desc
+          )}
+        </div>
+
+
+        <div class="stage-stats">
+
+          <div class="stage-stat">
+
+            <div class="stage-stat-label">
+              경기중
+            </div>
+
+            <div class="stage-stat-value">
+              ${stats.playing}
+            </div>
+
+          </div>
+
+
+          <div class="stage-stat">
+
+            <div class="stage-stat-label">
+              완료
+            </div>
+
+            <div class="stage-stat-value">
+              ${stats.complete}
+            </div>
+
+          </div>
+
+
+          <div class="stage-stat">
+
+            <div class="stage-stat-label">
+              전체
+            </div>
+
+            <div class="stage-stat-value">
+              ${stats.total}
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="section">
+
+      <div class="section-head">
+
+        <div>
+
+          <div class="section-kicker">
+            LIVE COURTS
+          </div>
+
+          <h2 class="section-title">
+            현재 코트
+          </h2>
+
+        </div>
+
+        <div class="section-sub">
+          15초 자동 갱신
+        </div>
+
+      </div>
+
+      ${renderCourts()}
+
+    </section>
+
+
+    ${focusContent}
+
+  `;
+
+}
+
+
+/* ==============================
+   MAIN RENDER
+============================== */
+
+function renderCurrentView(){
+
+  const main =
+    document.getElementById(
+      "main"
+    );
+
+
+  let html = "";
+
+
+  if (
+    currentView ===
+    "live"
+  ){
+
+    html =
+      renderLive();
+
+  }
+
+
+  if (
+    currentView ===
+    "preliminary"
+  ){
+
+    html = `
+
+      <section class="section">
+
+        <div class="section-head">
+
+          <div>
+
+            <div class="section-kicker">
+              PRELIMINARY
+            </div>
+
+            <h2 class="section-title">
+              조별 예선
+            </h2>
+
+          </div>
+
+          <div class="section-sub">
+            모든 예선 경기 결과
+          </div>
+
+        </div>
+
+        ${renderPreliminary()}
+
+      </section>
+
+    `;
+
+  }
+
+
+  if (
+    currentView ===
+    "standings"
+  ){
+
+    html = `
+
+      <section class="section">
+
+        <div class="section-head">
+
+          <div>
+
+            <div class="section-kicker">
+              GROUP STANDINGS
+            </div>
+
+            <h2 class="section-title">
+              조별 순위
+            </h2>
+
+          </div>
+
+          <div class="section-sub">
+            승수 · 득실 · 득점
+          </div>
+
+        </div>
+
+        ${renderStandings()}
+
+      </section>
+
+    `;
+
+  }
+
+
+  if (
+    currentView ===
+    "knockout"
+  ){
+
+    html = `
+
+      ${championHtml()}
+
+      <section class="section">
+
+        <div class="section-head">
+
+          <div>
+
+            <div class="section-kicker">
+              KNOCKOUT
+            </div>
+
+            <h2 class="section-title">
+              본선 토너먼트
+            </h2>
+
+          </div>
+
+          <div class="section-sub">
+            좌우로 밀어서 확인
+          </div>
+
+        </div>
+
+        ${renderKnockout()}
+
+      </section>
+
+    `;
+
+  }
+
+
+  main.innerHTML =
+    html
+    +
+    `
+
+      <div class="refresh-line">
+
+        <span>
+          자동 갱신 중
+        </span>
+
+        <button
+          class="refresh-btn"
+          id="manualRefresh"
+          type="button"
+        >
+          지금 새로고침
+        </button>
+
+      </div>
+
+
+      <footer class="footer">
+
+        <div>
+          <strong>FWT</strong>
+          · FRIENDS WITH TENNIS
+        </div>
+
+        <div>
+          CREATED BY
+          <span class="q">
+            Q
+          </span>
+        </div>
+
+      </footer>
+
+    `;
+
+
+  document.getElementById(
+    "manualRefresh"
+  ).addEventListener(
+    "click",
+    refreshData
+  );
+
+}
+
+
+/* ==============================
+   TAB
+============================== */
+
+function setView(
+  view
+){
+
+  currentView =
+    view;
+
+
+  document
+    .querySelectorAll(
+      ".tab"
+    )
+    .forEach(
+      tab => {
+
+        tab.classList.toggle(
+          "active",
+          tab.dataset.view ===
+          view
+        );
+
+      }
+    );
+
+
+  renderCurrentView();
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+document
+  .querySelectorAll(
+    ".tab"
+  )
+  .forEach(
+    tab => {
+
+      tab.addEventListener(
+        "click",
+        function(){
+
+          setView(
+            tab.dataset.view
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+/* ==============================
+   REFRESH
+============================== */
+
+async function refreshData(){
+
+  try{
+
+    await loadData();
+
+    renderHeader();
+
+    renderCurrentView();
+
+  }catch(error){
+
+    console.error(error);
+
+  }
+
+}
+
+
+/* ==============================
+   ERROR
+============================== */
+
+function renderError(
+  message
+){
+
+  document.getElementById(
+    "eventTitle"
+  ).textContent =
+    "FWT Tournament";
+
+
+  document.getElementById(
+    "eventMeta"
+  ).innerHTML =
+    "";
+
+
+  document.getElementById(
+    "main"
+  ).innerHTML = `
+
+    <div class="error">
+
+      <strong>
+        대회를 표시할 수 없습니다.
+      </strong>
+
+      ${escapeHtml(message)}
+
+      <br><br>
+
+      <a
+        href="./"
+        style="
+          color:#071a31;
+          font-weight:900;
+        "
+      >
+        대회 목록으로 돌아가기
+      </a>
+
+    </div>
+
+  `;
+
+}
+
+
+/* ==============================
+   START
+============================== */
+
+async function start(){
+
+  try{
+
+    await loadData();
+
+    renderHeader();
+
+
+    /*
+      최초 진입할 때만
+      현재 단계에 맞는 화면을 자동 선택.
+
+      이후 15초 갱신에서는
+      사용자가 보고 있는 탭을 유지.
+    */
+
+    const stage =
+      getCurrentStage();
+
+
+    if (
+      stage.type ===
+      "standings"
+    ){
+
+      currentView =
+        "standings";
+
+    }else{
+
+      currentView =
+        "live";
+
+    }
+
+
+    document
+      .querySelectorAll(
+        ".tab"
+      )
+      .forEach(
+        tab => {
+
+          tab.classList.toggle(
+            "active",
+            tab.dataset.view ===
+            currentView
+          );
+
+        }
+      );
+
+
+    renderCurrentView();
+
+
+    initialized =
+      true;
+
+
+    refreshTimer =
+      setInterval(
+        refreshData,
+        15000
+      );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    renderError(
+      error?.message ||
+      "알 수 없는 오류"
+    );
+
+  }
+
+}
+
+
+start();
+
+</script>
+
+</body>
+</html>
