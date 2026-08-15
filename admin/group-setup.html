@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>조편성 | FWT Tournament</title>
 
@@ -10,29 +10,42 @@
 
   <style>
     :root {
-      --navy: #071a31;
-      --navy2: #0c294a;
-      --blue: #184a79;
-      --lime: #c9df45;
+      --navy:#071a31;
+      --navy2:#0c294a;
+      --blue:#184a79;
+      --lime:#c9df45;
 
-      --bg: #f4f6f9;
-      --white: #ffffff;
-      --text: #172033;
-      --muted: #7b8492;
-      --line: #e3e8ee;
+      --bg:#f4f6f9;
+      --white:#ffffff;
+      --text:#172033;
+      --muted:#5f6d7e;
+      --line:#dfe5eb;
 
-      --danger: #d94b4b;
-      --shadow: 0 14px 40px rgba(20,35,55,.06);
+      --green:#178b61;
+      --green-soft:#edf8f3;
+
+      --orange:#99631c;
+      --orange-soft:#fff7eb;
+
+      --red:#c64b4b;
+      --red-soft:#fff2f2;
+
+      --shadow:
+        0 12px 35px rgba(20,35,55,.06);
     }
 
     * {
-      box-sizing: border-box;
+      box-sizing:border-box;
     }
 
     html,
     body {
-      margin: 0;
-      min-height: 100%;
+      margin:0;
+      min-height:100%;
+
+      background:var(--bg);
+      color:var(--text);
+
       font-family:
         Inter,
         Pretendard,
@@ -41,26 +54,28 @@
         BlinkMacSystemFont,
         "Segoe UI",
         sans-serif;
-      background: var(--bg);
-      color: var(--text);
     }
 
     button,
     select {
-      font: inherit;
+      font:inherit;
     }
 
     button {
-      cursor: pointer;
+      cursor:pointer;
     }
 
     .topbar {
-      height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 30px;
-      color: white;
+      height:68px;
+
+      padding:0 24px;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      color:white;
+
       background:
         linear-gradient(
           110deg,
@@ -68,608 +83,1040 @@
           #0b2848 60%,
           #10375f
         );
+
       box-shadow:
-        0 4px 22px rgba(6,23,43,.16);
+        0 4px 18px rgba(6,23,43,.14);
     }
 
     .brand {
-      display: flex;
-      align-items: center;
-      gap: 26px;
+      display:flex;
+      align-items:center;
+      gap:22px;
     }
 
     .fwt {
-      position: relative;
-      font-size: 30px;
-      font-weight: 950;
-      font-style: italic;
-      letter-spacing: -3px;
-      transform: skewX(-5deg);
+      font-size:29px;
+      font-weight:950;
+      font-style:italic;
+      letter-spacing:-3px;
     }
 
     .fwt span {
-      color: var(--lime);
-    }
-
-    .fwt::after {
-      content: "";
-      position: absolute;
-      width: 25px;
-      height: 3px;
-      right: -23px;
-      top: 12px;
-      border-radius: 10px;
-      background: var(--lime);
-      transform: rotate(-10deg);
+      color:var(--lime);
     }
 
     .top-title {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1.8px;
-      color: rgba(255,255,255,.7);
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:1.8px;
+      color:rgba(255,255,255,.72);
     }
 
     .back-btn {
-      padding: 9px 13px;
-      border: 1px solid rgba(255,255,255,.14);
-      border-radius: 10px;
-      background: rgba(255,255,255,.07);
-      color: white;
-      font-size: 11px;
-      font-weight: 750;
+      min-height:40px;
+
+      padding:0 14px;
+
+      border:
+        1px solid rgba(255,255,255,.16);
+
+      border-radius:10px;
+
+      background:
+        rgba(255,255,255,.07);
+
+      color:white;
+
+      font-size:12px;
+      font-weight:800;
     }
 
     .container {
-      width: min(1180px, calc(100% - 34px));
-      margin: 0 auto;
-      padding: 42px 0 70px;
+      width:
+        min(
+          1120px,
+          calc(100% - 34px)
+        );
+
+      margin:0 auto;
+
+      padding:34px 0 64px;
     }
 
-    .page-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 24px;
-      margin-bottom: 27px;
+    .head {
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+
+      gap:20px;
+
+      margin-bottom:18px;
     }
 
     .kicker {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-      color: var(--blue);
-      font-size: 10px;
-      font-weight: 850;
-      letter-spacing: 2px;
-    }
+      margin-bottom:7px;
 
-    .kicker::before {
-      content: "";
-      width: 24px;
-      height: 2px;
-      background: var(--lime);
+      color:var(--blue);
+
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:1.8px;
     }
 
     h1 {
-      margin: 0;
-      color: var(--navy);
-      font-size: 36px;
-      font-weight: 900;
-      letter-spacing: -1.8px;
+      margin:0;
+
+      color:var(--navy);
+
+      font-size:34px;
+      font-weight:900;
+      letter-spacing:-1.5px;
     }
 
-    .page-desc {
-      margin: 9px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.6;
+    .desc {
+      margin:8px 0 0;
+
+      color:var(--muted);
+
+      font-size:13px;
+      line-height:1.65;
     }
 
     .summary {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      gap: 8px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:7px;
     }
 
-    .chip {
-      padding: 8px 11px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: white;
-      color: #596577;
-      font-size: 10px;
-      font-weight: 800;
+    .summary-chip {
+      padding:9px 12px;
+
+      border:1px solid var(--line);
+      border-radius:999px;
+
+      background:white;
+
+      color:#526073;
+
+      font-size:11px;
+      font-weight:850;
     }
 
-    .chip strong {
-      color: var(--navy);
+    .summary-chip strong {
+      margin-left:3px;
+
+      color:var(--navy);
+
+      font-size:14px;
     }
 
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 9px;
-      margin-bottom: 18px;
+    /* =================================
+       CONTROL
+    ================================= */
+
+    .control-card {
+      margin-bottom:14px;
+
+      padding:15px;
+
+      border:1px solid var(--line);
+      border-radius:15px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
     }
 
-    .toolbar-btn {
-      height: 42px;
-      padding: 0 15px;
-      border: 1px solid #dce2e8;
-      border-radius: 11px;
-      background: white;
-      color: #4f5c6e;
-      font-size: 11px;
-      font-weight: 800;
+    .control-title {
+      margin-bottom:10px;
+
+      color:var(--navy);
+
+      font-size:15px;
+      font-weight:900;
     }
 
-    .toolbar-btn.primary {
-      border-color: var(--navy);
-      background: var(--navy);
-      color: white;
+    .control-desc {
+      margin-bottom:13px;
+
+      color:#657184;
+
+      font-size:12px;
+      line-height:1.65;
     }
 
-    .toolbar-btn.danger {
-      color: var(--danger);
-    }
+    .control-buttons {
+      display:grid;
 
-    .layout {
-      display: grid;
       grid-template-columns:
-        minmax(260px,.72fr)
-        minmax(0,1.28fr);
-      gap: 18px;
+        repeat(3,minmax(0,1fr));
+
+      gap:8px;
     }
 
-    .card {
-      overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      background: white;
-      box-shadow: var(--shadow);
+    .control-btn {
+      min-height:46px;
+
+      border:1px solid #d9e0e6;
+      border-radius:10px;
+
+      background:white;
+      color:#526073;
+
+      font-size:12px;
+      font-weight:850;
+    }
+
+    .control-btn.primary {
+      border-color:var(--navy);
+
+      background:var(--navy);
+      color:white;
+    }
+
+    .control-btn.reset {
+      border-color:#ecd3d3;
+
+      background:var(--red-soft);
+      color:var(--red);
+    }
+
+    /* =================================
+       PARTICIPANTS
+    ================================= */
+
+    .participant-card {
+      overflow:hidden;
+
+      margin-bottom:14px;
+
+      border:1px solid var(--line);
+      border-radius:17px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
     }
 
     .card-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 21px;
-      border-bottom: 1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      padding:16px 18px;
+
+      border-bottom:1px solid #e8ecf0;
     }
 
     .card-title {
-      color: var(--navy);
-      font-size: 15px;
-      font-weight: 850;
+      color:var(--navy);
+
+      font-size:17px;
+      font-weight:900;
     }
 
-    .card-sub {
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 10px;
+    .db-status {
+      display:flex;
+      align-items:center;
+      gap:6px;
+
+      color:var(--green);
+
+      font-size:10px;
+      font-weight:850;
     }
 
-    .count {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 30px;
-      height: 30px;
-      padding: 0 9px;
-      border-radius: 999px;
-      background: #f2f5f7;
-      color: var(--navy);
-      font-size: 11px;
-      font-weight: 900;
+    .db-dot {
+      width:7px;
+      height:7px;
+
+      border-radius:50%;
+
+      background:var(--green);
     }
 
-    .unassigned-list {
-      padding: 14px;
+    .participant-list {
+      padding:9px;
     }
 
-    .player-row {
-      display: grid;
-      grid-template-columns: minmax(0,1fr) 105px;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-      padding: 11px 11px 11px 13px;
-      border: 1px solid #e2e7ec;
-      border-radius: 12px;
-      background: #fff;
+    .participant-row {
+      display:grid;
+
+      grid-template-columns:
+        46px minmax(0,1fr) 150px;
+
+      align-items:center;
+
+      gap:10px;
+
+      min-height:64px;
+
+      padding:9px 10px;
+
+      border-bottom:1px solid #e9edf1;
     }
 
-    .player-row:last-child {
-      margin-bottom: 0;
+    .participant-row:last-child {
+      border-bottom:0;
     }
 
-    .player-number {
-      margin-bottom: 4px;
-      color: #a0a8b3;
-      font-size: 8px;
-      font-weight: 900;
-      letter-spacing: 1px;
+    .participant-number {
+      width:39px;
+      height:39px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      border-radius:10px;
+
+      background:#eef2f6;
+      color:var(--navy);
+
+      font-size:13px;
+      font-weight:950;
     }
 
-    .player-name {
-      overflow: hidden;
-      color: #263247;
-      font-size: 12px;
-      font-weight: 850;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    .participant-main {
+      min-width:0;
     }
 
-    select {
-      width: 100%;
-      height: 37px;
-      border: 1px solid #dbe1e7;
-      border-radius: 9px;
-      outline: none;
-      background: #f8fafb;
-      color: #465466;
-      font-size: 11px;
-      font-weight: 750;
-      padding: 0 7px;
+    .participant-name {
+      overflow:hidden;
+
+      color:#263247;
+
+      font-size:14px;
+      font-weight:900;
+
+      text-overflow:ellipsis;
+      white-space:nowrap;
     }
 
-    .empty {
-      padding: 42px 15px;
-      color: #99a2ae;
-      text-align: center;
-      font-size: 11px;
-      line-height: 1.7;
+    .participant-sub {
+      margin-top:3px;
+
+      color:#687587;
+
+      font-size:10px;
+      font-weight:700;
     }
 
-    .groups-grid {
-      display: grid;
-      grid-template-columns: repeat(2,minmax(0,1fr));
-      gap: 12px;
-      padding: 14px;
+    .group-select {
+      width:100%;
+      height:43px;
+
+      padding:0 10px;
+
+      border:1px solid #d6dde4;
+      border-radius:9px;
+
+      outline:none;
+
+      background:white;
+      color:#263247;
+
+      font-size:12px;
+      font-weight:850;
+    }
+
+    .group-select:focus {
+      border-color:#6485a4;
+
+      box-shadow:
+        0 0 0 3px rgba(24,74,121,.06);
+    }
+
+    /* =================================
+       GROUP PREVIEW
+    ================================= */
+
+    .group-preview-title {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      margin:20px 0 10px;
+    }
+
+    .group-preview-title-main {
+      color:var(--navy);
+
+      font-size:18px;
+      font-weight:900;
+    }
+
+    .group-preview-title-sub {
+      color:#667386;
+
+      font-size:11px;
+      font-weight:750;
+    }
+
+    .groups {
+      display:grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(220px,1fr)
+        );
+
+      gap:10px;
     }
 
     .group-card {
-      overflow: hidden;
-      min-height: 200px;
-      border: 1px solid #e1e6eb;
-      border-radius: 15px;
-      background: #fafbfc;
+      overflow:hidden;
+
+      border:1px solid var(--line);
+      border-radius:14px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
     }
 
     .group-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 13px 14px;
-      border-bottom: 1px solid #e5e9ed;
-      background: white;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      padding:13px 14px;
+
+      border-bottom:1px solid #e7ebef;
+
+      background:#fafbfc;
     }
 
     .group-name {
-      color: var(--navy);
-      font-size: 13px;
-      font-weight: 900;
+      color:var(--navy);
+
+      font-size:16px;
+      font-weight:950;
     }
 
     .group-count {
-      padding: 5px 8px;
-      border-radius: 999px;
-      background: #f1f4f7;
-      color: #6f7a88;
-      font-size: 9px;
-      font-weight: 850;
+      min-width:29px;
+      height:29px;
+
+      padding:0 8px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      border-radius:999px;
+
+      background:#eef2f5;
+      color:var(--navy);
+
+      font-size:11px;
+      font-weight:900;
     }
 
-    .group-list {
-      padding: 10px;
+    .group-members {
+      padding:9px;
     }
 
-    .group-player {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 7px;
-      padding: 10px 11px;
-      border: 1px solid #e2e7ec;
-      border-radius: 10px;
-      background: white;
+    .member {
+      padding:10px 11px;
+
+      margin-bottom:6px;
+
+      border:1px solid #e4e8ec;
+      border-radius:9px;
+
+      color:#29364a;
+
+      font-size:13px;
+      font-weight:850;
     }
 
-    .group-player:last-child {
-      margin-bottom: 0;
+    .member:last-child {
+      margin-bottom:0;
     }
 
-    .group-player-name {
-      min-width: 0;
-      overflow: hidden;
-      color: #263247;
-      font-size: 11px;
-      font-weight: 820;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    .empty-group {
+      padding:24px 10px;
+
+      text-align:center;
+
+      color:#7a8593;
+
+      font-size:12px;
     }
 
-    .move-select {
-      width: 84px;
-      flex-shrink: 0;
+    /* =================================
+       WARNING
+    ================================= */
+
+    .warning {
+      display:none;
+
+      margin-top:13px;
+
+      padding:13px 14px;
+
+      border:1px solid #ecd7b9;
+      border-radius:11px;
+
+      background:var(--orange-soft);
+      color:#83561e;
+
+      font-size:12px;
+      font-weight:750;
+      line-height:1.6;
     }
 
-    .notice {
-      margin-top: 17px;
-      padding: 14px 16px;
-      border: 1px solid #e5e9ed;
-      border-radius: 13px;
-      background: white;
-      color: #737e8d;
-      font-size: 11px;
-      line-height: 1.65;
+    .warning.show {
+      display:block;
     }
 
-    .notice strong {
-      color: var(--navy);
+    /* =================================
+       BOTTOM
+    ================================= */
+
+    .bottom {
+      display:flex;
+      gap:10px;
+
+      margin-top:18px;
     }
 
-    .bottom-bar {
-      display: flex;
-      gap: 12px;
-      margin-top: 20px;
+    .previous,
+    .next {
+      height:55px;
+      min-height:55px;
+
+      border-radius:11px;
+
+      font-weight:900;
     }
 
-    .secondary-btn,
-    .next-btn {
-      height: 53px;
-      border-radius: 12px;
-      font-weight: 800;
+    .previous {
+      width:180px;
+
+      border:1px solid #d8dee5;
+
+      background:white;
+      color:#526073;
     }
 
-    .secondary-btn {
-      width: 170px;
-      border: 1px solid #d8dde4;
-      background: white;
-      color: #536072;
-    }
+    .next {
+      flex:1;
 
-    .next-btn {
-      flex: 1;
-      border: 0;
+      border:0;
+
       background:
         linear-gradient(
           115deg,
           var(--navy),
           #123e6c
         );
-      color: white;
+
+      color:white;
+
+      font-size:14px;
     }
 
-    .next-btn span {
-      margin-left: 5px;
-      color: var(--lime);
+    .next span {
+      margin-left:5px;
+
+      color:var(--lime);
     }
+
+    .previous:disabled,
+    .next:disabled,
+    .control-btn:disabled {
+      cursor:not-allowed;
+      opacity:.55;
+    }
+
+    /* =================================
+       LOADING
+    ================================= */
+
+    .loading-overlay {
+      display:none;
+
+      position:fixed;
+      inset:0;
+
+      z-index:200;
+
+      align-items:center;
+      justify-content:center;
+
+      padding:20px;
+
+      background:
+        rgba(4,17,31,.62);
+    }
+
+    .loading-overlay.show {
+      display:flex;
+    }
+
+    .loading-box {
+      width:min(350px,100%);
+
+      padding:25px;
+
+      border-radius:17px;
+
+      background:white;
+
+      text-align:center;
+
+      box-shadow:
+        0 30px 80px rgba(0,0,0,.25);
+    }
+
+    .spinner {
+      width:38px;
+      height:38px;
+
+      margin:0 auto 15px;
+
+      border:4px solid #e6eaee;
+      border-top-color:var(--navy);
+
+      border-radius:50%;
+
+      animation:spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform:rotate(360deg);
+      }
+    }
+
+    .loading-title {
+      color:var(--navy);
+
+      font-size:16px;
+      font-weight:900;
+    }
+
+    .loading-text {
+      margin-top:6px;
+
+      color:#657184;
+
+      font-size:12px;
+      line-height:1.6;
+    }
+
+    /* =================================
+       FOOTER
+    ================================= */
 
     .footer {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 28px;
-      padding-top: 18px;
-      border-top: 1px solid #e2e6eb;
-      color: #9aa2ad;
-      font-size: 9px;
-      letter-spacing: 1px;
+      display:flex;
+      justify-content:space-between;
+
+      margin-top:26px;
+      padding-top:17px;
+
+      border-top:1px solid #e2e6eb;
+
+      color:#7c8795;
+
+      font-size:10px;
+      letter-spacing:1px;
     }
 
     .footer strong {
-      color: var(--navy);
+      color:var(--navy);
     }
 
-    .footer .q {
-      color: #9eb421;
-      font-weight: 900;
+    .q {
+      color:#91a719;
+      font-weight:900;
     }
 
-    @media (max-width:850px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-    }
+    /* =================================
+       MOBILE
+    ================================= */
 
-    @media (max-width:650px) {
+    @media(max-width:700px) {
+
       .topbar {
-        padding: 0 17px;
+        height:64px;
+
+        padding:0 14px;
       }
 
       .top-title {
-        display: none;
+        display:none;
+      }
+
+      .back-btn {
+        min-height:44px;
+
+        padding:0 12px;
+
+        font-size:12px;
       }
 
       .container {
-        width: calc(100% - 26px);
-        padding-top: 30px;
+        width:
+          calc(100% - 22px);
+
+        padding:
+          24px 0 50px;
       }
 
-      .page-head {
-        display: block;
+      .head {
+        display:block;
       }
 
       .summary {
-        justify-content: flex-start;
-        margin-top: 15px;
+        margin-top:13px;
       }
 
       h1 {
-        font-size: 29px;
+        font-size:30px;
       }
 
-      .groups-grid {
-        grid-template-columns: 1fr;
+      .desc {
+        font-size:14px;
       }
 
-      .bottom-bar {
-        flex-direction: column-reverse;
+      .summary-chip {
+        font-size:12px;
       }
 
-      .secondary-btn,
-      .next-btn {
-        width: 100%;
+      .control-card {
+        padding:14px;
       }
+
+      .control-title {
+        font-size:17px;
+      }
+
+      .control-desc {
+        font-size:13px;
+      }
+
+      /*
+        모바일 조편성 버튼
+        절대 얇아지지 않도록 고정
+      */
+
+      .control-buttons {
+        grid-template-columns:1fr;
+      }
+
+      .control-btn {
+        width:100%;
+
+        height:54px;
+        min-height:54px;
+
+        flex:none;
+
+        font-size:14px;
+      }
+
+      .card-title {
+        font-size:19px;
+      }
+
+      .participant-row {
+        grid-template-columns:
+          43px minmax(0,1fr);
+
+        gap:9px;
+
+        min-height:78px;
+
+        padding:10px;
+      }
+
+      .participant-number {
+        width:40px;
+        height:40px;
+
+        font-size:14px;
+      }
+
+      .participant-name {
+        font-size:15px;
+      }
+
+      .participant-sub {
+        font-size:12px;
+      }
+
+      .group-select {
+        grid-column:
+          1 / -1;
+
+        width:100%;
+
+        height:50px;
+        min-height:50px;
+
+        font-size:14px;
+      }
+
+      .group-preview-title-main {
+        font-size:19px;
+      }
+
+      .group-preview-title-sub {
+        font-size:12px;
+      }
+
+      .groups {
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(0,1fr)
+          );
+
+        gap:7px;
+      }
+
+      .group-head {
+        padding:11px;
+      }
+
+      .group-name {
+        font-size:16px;
+      }
+
+      .member {
+        padding:10px 8px;
+
+        font-size:13px;
+      }
+
+      /*
+        모바일 하단 버튼
+      */
+
+      .bottom {
+        flex-direction:column-reverse;
+
+        gap:9px;
+      }
+
+      .previous,
+      .next {
+        width:100%;
+
+        height:56px;
+        min-height:56px;
+
+        flex:none;
+
+        font-size:15px;
+      }
+
+    }
+
+    @media(max-width:390px) {
+
+      .groups {
+        grid-template-columns:1fr;
+      }
+
     }
   </style>
 </head>
+
 
 <body>
 
 <header class="topbar">
 
   <div class="brand">
-    <div class="fwt">FW<span>T</span></div>
-    <div class="top-title">TOURNAMENT CONTROL</div>
+
+    <div class="fwt">
+      FW<span>T</span>
+    </div>
+
+    <div class="top-title">
+      GROUP SETUP
+    </div>
+
   </div>
 
   <button
     class="back-btn"
-    onclick="window.location.href='./participant-registration.html'"
+    onclick="location.href='./participant-registration.html'"
   >
-    ← 참가자 등록
+    ← 참가자
   </button>
 
 </header>
 
+
 <main class="container">
 
-  <div class="page-head">
+  <div class="head">
 
     <div>
-      <div class="kicker">GROUP SETUP</div>
 
-      <h1>조편성</h1>
+      <div class="kicker">
+        GROUP SETUP
+      </div>
 
-      <p class="page-desc">
-        시드 선수를 원하는 조에 먼저 배치한 뒤 나머지 참가자를 자동 배정할 수 있습니다.
+      <h1>
+        조편성
+      </h1>
+
+      <p class="desc">
+        시드 참가자를 먼저 수동으로 배치한 뒤 나머지를 자동 배정할 수 있습니다.
       </p>
+
     </div>
+
 
     <div class="summary">
 
-      <div class="chip">
-        참가 <strong id="totalCount">0</strong>
+      <div class="summary-chip">
+        참가
+        <strong id="entryCount">0</strong>
       </div>
 
-      <div class="chip">
-        조 <strong id="groupCountText">0</strong>
+      <div class="summary-chip">
+        조
+        <strong id="groupCount">0</strong>
       </div>
 
-      <div class="chip">
-        조별 진출 <strong id="advanceCountText">0</strong>
+      <div class="summary-chip">
+        미배정
+        <strong id="unassignedCount">0</strong>
       </div>
 
     </div>
 
   </div>
 
-  <div class="toolbar">
 
-    <button
-      class="toolbar-btn primary"
-      id="autoAssignButton"
-    >
-      나머지 자동 배정
-    </button>
+  <!-- 조편성 도구 -->
 
-    <button
-      class="toolbar-btn"
-      id="randomAllButton"
-    >
-      전체 랜덤 배정
-    </button>
+  <section class="control-card">
 
-    <button
-      class="toolbar-btn danger"
-      id="resetButton"
-    >
-      전체 초기화
-    </button>
-
-  </div>
-
-  <section class="layout">
-
-    <div class="card">
-
-      <div class="card-head">
-
-        <div>
-          <div class="card-title">
-            미배정 참가자
-          </div>
-
-          <div class="card-sub">
-            원하는 조를 직접 선택하세요.
-          </div>
-        </div>
-
-        <div
-          class="count"
-          id="unassignedCount"
-        >
-          0
-        </div>
-
-      </div>
-
-      <div
-        id="unassignedList"
-        class="unassigned-list"
-      ></div>
-
+    <div class="control-title">
+      조편성 도구
     </div>
 
-    <div class="card">
+    <div class="control-desc">
+      특정 참가자를 원하는 조에 먼저 배치할 수 있습니다.
+      이후 나머지만 자동으로 균등 배정할 수 있습니다.
+    </div>
 
-      <div class="card-head">
 
-        <div>
-          <div class="card-title">
-            현재 조편성
-          </div>
+    <div class="control-buttons">
 
-          <div class="card-sub">
-            배정 후에도 다른 조로 이동할 수 있습니다.
-          </div>
-        </div>
+      <button
+        class="control-btn primary"
+        id="autoRemainingButton"
+        type="button"
+      >
+        나머지 자동 배정
+      </button>
 
-      </div>
 
-      <div
-        id="groupsGrid"
-        class="groups-grid"
-      ></div>
+      <button
+        class="control-btn"
+        id="randomAllButton"
+        type="button"
+      >
+        전체 랜덤 배정
+      </button>
+
+
+      <button
+        class="control-btn reset"
+        id="resetButton"
+        type="button"
+      >
+        전체 초기화
+      </button>
 
     </div>
 
   </section>
 
-  <div class="notice">
-    <strong>시드 배정</strong><br>
-    시드 선수를 먼저 원하는 조에 직접 넣고
-    <b>나머지 자동 배정</b>을 누르면 미배정 참가자만
-    인원이 적은 조부터 균등하게 랜덤 배정됩니다.
+
+  <!-- 참가자별 조 선택 -->
+
+  <section class="participant-card">
+
+    <div class="card-head">
+
+      <div class="card-title">
+        참가자 배정
+      </div>
+
+      <div class="db-status">
+
+        <div class="db-dot"></div>
+
+        DB 연결
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="participant-list"
+      id="participantList"
+    ></div>
+
+  </section>
+
+
+  <!-- 조 미리보기 -->
+
+  <div class="group-preview-title">
+
+    <div class="group-preview-title-main">
+      조별 현황
+    </div>
+
+    <div class="group-preview-title-sub">
+      실시간 반영
+    </div>
+
   </div>
 
-  <div class="bottom-bar">
+
+  <section
+    class="groups"
+    id="groups"
+  ></section>
+
+
+  <div
+    class="warning"
+    id="warning"
+  ></div>
+
+
+  <div class="bottom">
 
     <button
-      class="secondary-btn"
-      onclick="window.location.href='./participant-registration.html'"
+      class="previous"
+      id="previousButton"
+      type="button"
+      onclick="location.href='./participant-registration.html'"
     >
       이전 단계
     </button>
 
+
     <button
-      class="next-btn"
+      class="next"
       id="confirmButton"
+      type="button"
     >
       조편성 확정 · 대진 생성
       <span>→</span>
@@ -677,10 +1124,12 @@
 
   </div>
 
+
   <footer class="footer">
 
     <div>
-      <strong>FWT</strong> · FRIENDS WITH TENNIS
+      <strong>FWT</strong>
+      · FRIENDS WITH TENNIS
     </div>
 
     <div>
@@ -692,763 +1141,1887 @@
 
 </main>
 
+
+<!-- 로딩 -->
+
+<div
+  class="loading-overlay"
+  id="loadingOverlay"
+>
+
+  <div class="loading-box">
+
+    <div class="spinner"></div>
+
+    <div
+      class="loading-title"
+      id="loadingTitle"
+    >
+      조편성을 저장하고 있습니다
+    </div>
+
+    <div
+      class="loading-text"
+      id="loadingText"
+    >
+      FWT 데이터베이스에 저장 중입니다.
+    </div>
+
+  </div>
+
+</div>
+
+
 <script>
 
-  const SUPABASE_URL =
-    "https://opwuyqerisocqobbbisg.supabase.co";
+const SUPABASE_URL =
+  "https://opwuyqerisocqobbbisg.supabase.co";
 
-  const SUPABASE_KEY =
-    "sb_publishable_Eo_zfONeGLs9ATCVg2Fk_g_y_IAJFV-";
 
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
+const SUPABASE_KEY =
+  "sb_publishable_Eo_zfONeGLs9ATCVg2Fk_g_y_IAJFV-";
 
-  async function checkLogin() {
 
-    const { data } =
-      await supabaseClient.auth.getSession();
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
-    if (!data.session) {
-      window.location.href = "./";
-    }
 
-  }
-
-  checkLogin();
-
-  const tournamentRaw =
+const tournament =
+  JSON.parse(
     sessionStorage.getItem(
       "fwtNewTournament"
-    );
+    ) || "null"
+  );
 
-  const entriesRaw =
+
+const entries =
+  JSON.parse(
     sessionStorage.getItem(
       "fwtNewTournamentEntries"
+    ) || "null"
+  );
+
+
+if (
+  !tournament ||
+  !tournament.divisionId ||
+  !Array.isArray(entries)
+  ||
+  entries.length === 0
+) {
+
+  alert(
+    "참가자 또는 대회 정보가 없습니다."
+  );
+
+  location.href =
+    "./participant-registration.html";
+
+}
+
+
+const groupCount =
+  Number(
+    tournament.groupCount || 0
+  );
+
+
+if (
+  groupCount < 1
+) {
+
+  alert(
+    "조 개수 설정이 올바르지 않습니다."
+  );
+
+  location.href =
+    "./create-tournament.html";
+
+}
+
+
+let currentSession =
+  null;
+
+
+let busy =
+  false;
+
+
+/*
+  각 참가자의 현재 조 이름.
+
+  예:
+  [
+    "A조",
+    "B조",
+    null,
+    "C조"
+  ]
+*/
+
+let assignments =
+  new Array(
+    entries.length
+  ).fill(null);
+
+
+/* =====================================
+   HELPERS
+===================================== */
+
+function escapeHtml(value) {
+
+  const div =
+    document.createElement(
+      "div"
     );
+
+  div.textContent =
+    value ?? "";
+
+  return div.innerHTML;
+
+}
+
+
+function shortEntryName(entry) {
+
+  if (!entry) {
+
+    return "알 수 없음";
+
+  }
+
 
   if (
-    !tournamentRaw ||
-    !entriesRaw
+    entry.type ===
+    "singles"
   ) {
 
-    alert(
-      "대회 또는 참가자 정보가 없습니다."
+    return (
+      entry.nickname ||
+      entry.name ||
+      "이름 없음"
     );
-
-    window.location.href =
-      "./participant-registration.html";
 
   }
 
-  const tournament =
-    JSON.parse(
-      tournamentRaw
-    );
 
-  const entries =
-    JSON.parse(
-      entriesRaw
-    );
+  const p1 =
+    entry.player1?.nickname ||
+    entry.player1?.name ||
+    "선수1";
+
+
+  const p2 =
+    entry.player2?.nickname ||
+    entry.player2?.name ||
+    "선수2";
+
+
+  return `${p1}/${p2}`;
+
+}
+
+
+function fullEntryName(entry) {
+
+  if (!entry) {
+
+    return "알 수 없음";
+
+  }
+
 
   if (
-    tournament.format !==
-    "group_knockout"
+    entry.type ===
+    "singles"
   ) {
 
-    window.location.href =
-      "./knockout-setup.html";
+    if (
+      entry.nickname &&
+      entry.name
+    ) {
+
+      return `${entry.nickname} (${entry.name})`;
+
+    }
+
+
+    return (
+      entry.nickname ||
+      entry.name ||
+      "이름 없음"
+    );
 
   }
 
-  const groupCount =
-    Number(
-      tournament.groupCount
+
+  function one(player) {
+
+    if (
+      player?.nickname &&
+      player?.name
+    ) {
+
+      return (
+        `${player.nickname} (${player.name})`
+      );
+
+    }
+
+
+    return (
+      player?.nickname ||
+      player?.name ||
+      "이름 없음"
     );
 
-  const advanceCount =
-    Number(
-      tournament.advanceCount
-    );
-
-  const groupNames = [];
-
-  for (
-    let i = 0;
-    i < groupCount;
-    i++
-  ) {
-    groupNames.push(
-      getGroupName(i)
-    );
   }
 
-  let assignments =
-    Array(
+
+  return (
+    `${one(
+      entry.player1
+    )} / ${one(
+      entry.player2
+    )}`
+  );
+
+}
+
+
+/* =====================================
+   GROUP NAMES
+===================================== */
+
+function makeGroupName(index) {
+
+  if (
+    index < 26
+  ) {
+
+    return (
+      String.fromCharCode(
+        65 + index
+      )
+      +
+      "조"
+    );
+
+  }
+
+
+  return (
+    `${index + 1}조`
+  );
+
+}
+
+
+const groupNames =
+  Array.from(
+    {
+      length:
+        groupCount
+    },
+    (
+      _,
+      index
+    ) =>
+      makeGroupName(
+        index
+      )
+  );
+
+
+/* =====================================
+   AUTH
+===================================== */
+
+async function checkLogin() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .auth
+      .getSession();
+
+
+  if (
+    error ||
+    !data.session
+  ) {
+
+    location.href = "./";
+
+    return false;
+
+  }
+
+
+  currentSession =
+    data.session;
+
+
+  return true;
+
+}
+
+
+/* =====================================
+   BUSY
+===================================== */
+
+function setBusy(
+  state,
+  title = "",
+  text = ""
+) {
+
+  busy =
+    state;
+
+
+  [
+    "autoRemainingButton",
+    "randomAllButton",
+    "resetButton",
+    "previousButton",
+    "confirmButton"
+  ]
+    .forEach(
+      id => {
+
+        const el =
+          document.getElementById(
+            id
+          );
+
+
+        if (el) {
+
+          el.disabled =
+            state;
+
+        }
+
+      }
+    );
+
+
+  document.getElementById(
+    "loadingOverlay"
+  ).classList.toggle(
+    "show",
+    state
+  );
+
+
+  if (title) {
+
+    document.getElementById(
+      "loadingTitle"
+    ).textContent =
+      title;
+
+  }
+
+
+  if (text) {
+
+    document.getElementById(
+      "loadingText"
+    ).textContent =
+      text;
+
+  }
+
+}
+
+
+/* =====================================
+   SESSION SAVE
+===================================== */
+
+function createGroupData() {
+
+  return groupNames.map(
+    groupName => ({
+
+      name:
+        groupName,
+
+      members:
+        assignments
+          .map(
+            (
+              assignedGroup,
+              entryIndex
+            ) => (
+              assignedGroup ===
+                groupName
+                ? entryIndex
+                : null
+            )
+          )
+          .filter(
+            value =>
+              value !== null
+          )
+
+    })
+  );
+
+}
+
+
+function saveSessionData() {
+
+  sessionStorage.setItem(
+    "fwtGroupAssignments",
+    JSON.stringify(
+      assignments
+    )
+  );
+
+
+  sessionStorage.setItem(
+    "fwtGroupData",
+    JSON.stringify(
+      createGroupData()
+    )
+  );
+
+}
+
+
+/* =====================================
+   DB에서 기존 조편성 불러오기
+===================================== */
+
+async function loadExistingGroups() {
+
+  const {
+    data:groupRows,
+    error:groupError
+  } =
+    await supabaseClient
+      .from("groups")
+      .select(
+        "id,name,sort_order"
+      )
+      .eq(
+        "division_id",
+        tournament.divisionId
+      )
+      .order(
+        "sort_order",
+        {
+          ascending:true
+        }
+      );
+
+
+  if (groupError) {
+
+    throw new Error(
+      "조 정보 조회 실패: "
+      +
+      groupError.message
+    );
+
+  }
+
+
+  if (
+    !groupRows ||
+    groupRows.length === 0
+  ) {
+
+    /*
+      DB에는 아직 조편성이 없지만
+      기존 sessionStorage 테스트 데이터가
+      있다면 그것을 복원.
+    */
+
+    const saved =
+      JSON.parse(
+        sessionStorage.getItem(
+          "fwtGroupAssignments"
+        ) || "null"
+      );
+
+
+    if (
+      Array.isArray(saved)
+      &&
+      saved.length ===
+        entries.length
+    ) {
+
+      assignments =
+        saved.map(
+          value =>
+            groupNames.includes(
+              value
+            )
+              ? value
+              : null
+        );
+
+    }
+
+
+    return;
+
+  }
+
+
+  const groupIds =
+    groupRows.map(
+      group =>
+        group.id
+    );
+
+
+  const {
+    data:groupEntryRows,
+    error:memberError
+  } =
+    await supabaseClient
+      .from("group_entries")
+      .select(
+        "group_id,entry_id,seed_order"
+      )
+      .in(
+        "group_id",
+        groupIds
+      );
+
+
+  if (memberError) {
+
+    throw new Error(
+      "조별 참가자 조회 실패: "
+      +
+      memberError.message
+    );
+
+  }
+
+
+  /*
+    DB entry UUID → 현재 entries 배열 index
+  */
+
+  const entryIndexMap =
+    new Map();
+
+
+  entries.forEach(
+    (
+      entry,
+      index
+    ) => {
+
+      if (
+        entry.dbEntryId
+      ) {
+
+        entryIndexMap.set(
+          entry.dbEntryId,
+          index
+        );
+
+      }
+
+    }
+  );
+
+
+  const groupNameMap =
+    new Map();
+
+
+  groupRows.forEach(
+    group => {
+
+      groupNameMap.set(
+        group.id,
+        group.name
+      );
+
+    }
+  );
+
+
+  assignments =
+    new Array(
       entries.length
     ).fill(null);
 
-  const savedAssignments =
-    sessionStorage.getItem(
-      "fwtGroupAssignments"
-    );
 
-  if (savedAssignments) {
+  (groupEntryRows || [])
+    .forEach(
+      row => {
 
-    try {
-
-      const parsed =
-        JSON.parse(
-          savedAssignments
-        );
-
-      if (
-        Array.isArray(parsed) &&
-        parsed.length ===
-        entries.length
-      ) {
-        assignments =
-          parsed;
-      }
-
-    } catch (e) {}
-
-  }
-
-  function getGroupName(index) {
-
-    let number =
-      index + 1;
-
-    let result = "";
-
-    while (number > 0) {
-
-      number--;
-
-      result =
-        String.fromCharCode(
-          65 + (number % 26)
-        ) + result;
-
-      number =
-        Math.floor(
-          number / 26
-        );
-
-    }
-
-    return result + "조";
-
-  }
-
-  function entryName(entry) {
-
-    if (
-      entry.type ===
-      "singles"
-    ) {
-
-      if (
-        entry.nickname &&
-        entry.name
-      ) {
-        return `${entry.nickname} (${entry.name})`;
-      }
-
-      return (
-        entry.nickname ||
-        entry.name ||
-        "이름 없음"
-      );
-
-    }
-
-    const p1 =
-      entry.player1.nickname ||
-      entry.player1.name ||
-      "선수1";
-
-    const p2 =
-      entry.player2.nickname ||
-      entry.player2.name ||
-      "선수2";
-
-    return `${p1} / ${p2}`;
-
-  }
-
-  function escapeHtml(value) {
-
-    const div =
-      document.createElement(
-        "div"
-      );
-
-    div.textContent =
-      value || "";
-
-    return div.innerHTML;
-
-  }
-
-  function saveAssignments() {
-
-    sessionStorage.setItem(
-      "fwtGroupAssignments",
-      JSON.stringify(
-        assignments
-      )
-    );
-
-  }
-
-  function groupOptions(
-    selected = null
-  ) {
-
-    let html =
-      `<option value="">미배정</option>`;
-
-    groupNames.forEach(
-      (name,index) => {
-
-        html += `
-          <option
-            value="${index}"
-            ${
-              selected === index
-                ? "selected"
-                : ""
-            }
-          >
-            ${name}
-          </option>
-        `;
-
-      }
-    );
-
-    return html;
-
-  }
-
-  function render() {
-
-    const unassignedList =
-      document.getElementById(
-        "unassignedList"
-      );
-
-    const groupsGrid =
-      document.getElementById(
-        "groupsGrid"
-      );
-
-    unassignedList.innerHTML = "";
-    groupsGrid.innerHTML = "";
-
-    const unassigned =
-      assignments
-        .map(
-          (group,index) => ({
-            group,
-            index
-          })
-        )
-        .filter(
-          item =>
-            item.group === null
-        );
-
-    document.getElementById(
-      "unassignedCount"
-    ).textContent =
-      unassigned.length;
-
-    document.getElementById(
-      "totalCount"
-    ).textContent =
-      entries.length;
-
-    document.getElementById(
-      "groupCountText"
-    ).textContent =
-      groupCount;
-
-    document.getElementById(
-      "advanceCountText"
-    ).textContent =
-      advanceCount;
-
-    if (
-      unassigned.length === 0
-    ) {
-
-      unassignedList.innerHTML = `
-        <div class="empty">
-          모든 참가자가 조에 배정되었습니다.
-        </div>
-      `;
-
-    } else {
-
-      unassigned.forEach(
-        item => {
-
-          const row =
-            document.createElement(
-              "div"
-            );
-
-          row.className =
-            "player-row";
-
-          row.innerHTML = `
-
-            <div>
-
-              <div class="player-number">
-                ENTRY ${String(
-                  item.index + 1
-                ).padStart(2,"0")}
-              </div>
-
-              <div class="player-name">
-                ${escapeHtml(
-                  entryName(
-                    entries[
-                      item.index
-                    ]
-                  )
-                )}
-              </div>
-
-            </div>
-
-            <select
-              onchange="
-                changeGroup(
-                  ${item.index},
-                  this.value
-                )
-              "
-            >
-              ${groupOptions()}
-            </select>
-          `;
-
-          unassignedList
-            .appendChild(
-              row
-            );
-
-        }
-      );
-
-    }
-
-    groupNames.forEach(
-      (
-        groupName,
-        groupIndex
-      ) => {
-
-        const members =
-          assignments
-            .map(
-              (group,index) => ({
-                group,
-                index
-              })
-            )
-            .filter(
-              item =>
-                item.group ===
-                groupIndex
-            );
-
-        const card =
-          document.createElement(
-            "div"
+        const entryIndex =
+          entryIndexMap.get(
+            row.entry_id
           );
 
-        card.className =
-          "group-card";
 
-        let memberHtml = "";
+        const groupName =
+          groupNameMap.get(
+            row.group_id
+          );
+
 
         if (
-          members.length === 0
+          entryIndex !==
+            undefined
+          &&
+          groupNames.includes(
+            groupName
+          )
         ) {
 
-          memberHtml = `
-            <div class="empty">
-              아직 배정된 참가자가 없습니다.
-            </div>
-          `;
-
-        } else {
-
-          members.forEach(
-            item => {
-
-              memberHtml += `
-
-                <div class="group-player">
-
-                  <div class="group-player-name">
-                    ${escapeHtml(
-                      entryName(
-                        entries[
-                          item.index
-                        ]
-                      )
-                    )}
-                  </div>
-
-                  <select
-                    class="move-select"
-                    onchange="
-                      changeGroup(
-                        ${item.index},
-                        this.value
-                      )
-                    "
-                  >
-                    ${groupOptions(
-                      groupIndex
-                    )}
-                  </select>
-
-                </div>
-
-              `;
-
-            }
-          );
+          assignments[
+            entryIndex
+          ] =
+            groupName;
 
         }
-
-        card.innerHTML = `
-
-          <div class="group-head">
-
-            <div class="group-name">
-              ${groupName}
-            </div>
-
-            <div class="group-count">
-              ${members.length}명
-            </div>
-
-          </div>
-
-          <div class="group-list">
-            ${memberHtml}
-          </div>
-        `;
-
-        groupsGrid.appendChild(
-          card
-        );
 
       }
     );
 
-    saveAssignments();
 
-  }
+  saveSessionData();
 
-  function changeGroup(
-    entryIndex,
-    value
+}
+
+
+/* =====================================
+   COUNTS
+===================================== */
+
+function getGroupMemberIndexes(
+  groupName
+) {
+
+  return assignments
+    .map(
+      (
+        assignment,
+        index
+      ) =>
+        assignment ===
+          groupName
+          ? index
+          : null
+    )
+    .filter(
+      value =>
+        value !== null
+    );
+
+}
+
+
+function getUnassignedIndexes() {
+
+  return assignments
+    .map(
+      (
+        assignment,
+        index
+      ) =>
+        assignment === null
+          ? index
+          : null
+    )
+    .filter(
+      value =>
+        value !== null
+    );
+
+}
+
+
+/* =====================================
+   SHUFFLE
+===================================== */
+
+function shuffleArray(array) {
+
+  const result =
+    [...array];
+
+
+  for (
+    let i =
+      result.length - 1;
+    i > 0;
+    i--
   ) {
 
-    assignments[
-      entryIndex
-    ] =
-      value === ""
-        ? null
-        : Number(value);
-
-    render();
-
-  }
-
-  function shuffled(array) {
-
-    const copy =
-      [...array];
-
-    for (
-      let i =
-        copy.length - 1;
-      i > 0;
-      i--
-    ) {
-
-      const j =
-        Math.floor(
-          Math.random() *
-          (i + 1)
-        );
-
-      [
-        copy[i],
-        copy[j]
-      ] = [
-        copy[j],
-        copy[i]
-      ];
-
-    }
-
-    return copy;
-
-  }
-
-  function autoAssignRemaining() {
-
-    let indexes =
-      assignments
-        .map(
-          (group,index) => ({
-            group,
-            index
-          })
-        )
-        .filter(
-          item =>
-            item.group === null
-        )
-        .map(
-          item =>
-            item.index
-        );
-
-    indexes =
-      shuffled(
-        indexes
+    const j =
+      Math.floor(
+        Math.random() *
+        (i + 1)
       );
 
-    for (
-      const entryIndex
-      of indexes
-    ) {
 
-      const counts =
-        groupNames.map(
-          (_,groupIndex) =>
-            assignments
-              .filter(
-                value =>
-                  value ===
-                  groupIndex
-              )
-              .length
-        );
+    [
+      result[i],
+      result[j]
+    ] =
+    [
+      result[j],
+      result[i]
+    ];
 
-      const min =
-        Math.min(
-          ...counts
-        );
+  }
 
-      const candidates =
-        counts
-          .map(
-            (count,index) => ({
-              count,
-              index
-            })
-          )
-          .filter(
-            item =>
-              item.count ===
-              min
-          );
 
-      const selected =
-        candidates[
+  return result;
+
+}
+
+
+/* =====================================
+   나머지 자동배정
+
+   기존 수동 배치는 유지하고
+   현재 인원이 적은 조부터 채움.
+===================================== */
+
+function autoAssignRemaining() {
+
+  if (busy) {
+
+    return;
+
+  }
+
+
+  const unassigned =
+    shuffleArray(
+      getUnassignedIndexes()
+    );
+
+
+  if (
+    unassigned.length === 0
+  ) {
+
+    alert(
+      "미배정 참가자가 없습니다."
+    );
+
+    return;
+
+  }
+
+
+  unassigned.forEach(
+    entryIndex => {
+
+      let smallestGroups =
+        [];
+
+
+      let smallestCount =
+        Infinity;
+
+
+      groupNames.forEach(
+        groupName => {
+
+          const count =
+            getGroupMemberIndexes(
+              groupName
+            ).length;
+
+
+          if (
+            count <
+            smallestCount
+          ) {
+
+            smallestCount =
+              count;
+
+
+            smallestGroups = [
+              groupName
+            ];
+
+          } else if (
+            count ===
+            smallestCount
+          ) {
+
+            smallestGroups.push(
+              groupName
+            );
+
+          }
+
+        }
+      );
+
+
+      const target =
+        smallestGroups[
           Math.floor(
             Math.random() *
-            candidates.length
+            smallestGroups.length
           )
-        ].index;
+        ];
+
 
       assignments[
         entryIndex
       ] =
-        selected;
+        target;
 
     }
+  );
 
-    render();
+
+  saveSessionData();
+
+  render();
+
+}
+
+
+/* =====================================
+   전체 랜덤
+===================================== */
+
+function randomAll() {
+
+  if (busy) {
+
+    return;
 
   }
 
-  function randomAll() {
 
-    if (
-      !confirm(
-        "현재 조편성을 지우고 전체 참가자를 다시 랜덤 배정할까요?"
+  if (
+    !confirm(
+      "현재 수동 배치를 모두 지우고 전체 참가자를 랜덤으로 다시 배정할까요?"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  assignments =
+    new Array(
+      entries.length
+    ).fill(null);
+
+
+  const shuffled =
+    shuffleArray(
+      entries.map(
+        (
+          _,
+          index
+        ) =>
+          index
       )
-    ) {
-      return;
+    );
+
+
+  shuffled.forEach(
+    (
+      entryIndex,
+      position
+    ) => {
+
+      assignments[
+        entryIndex
+      ] =
+        groupNames[
+          position %
+          groupNames.length
+        ];
+
     }
+  );
 
-    assignments =
-      Array(
-        entries.length
-      ).fill(null);
 
-    autoAssignRemaining();
+  saveSessionData();
+
+  render();
+
+}
+
+
+/* =====================================
+   전체 초기화
+===================================== */
+
+function resetAll() {
+
+  if (busy) {
+
+    return;
 
   }
 
-  function resetAll() {
 
-    if (
-      !confirm(
-        "모든 조 배정을 초기화할까요?"
-      )
-    ) {
-      return;
-    }
+  if (
+    !confirm(
+      "현재 화면의 조 배정을 모두 초기화할까요?\nDB에 저장된 조편성은 '조편성 확정'을 누르기 전까지 변경되지 않습니다."
+    )
+  ) {
 
-    assignments =
-      Array(
-        entries.length
-      ).fill(null);
-
-    render();
+    return;
 
   }
 
-  function confirmGroups() {
 
-    const unassigned =
-      assignments.filter(
-        value =>
-          value === null
-      ).length;
+  assignments =
+    new Array(
+      entries.length
+    ).fill(null);
 
-    if (
-      unassigned > 0
-    ) {
 
-      alert(
-        `아직 ${unassigned}명의 참가자가 미배정 상태입니다.`
+  saveSessionData();
+
+  render();
+
+}
+
+
+/* =====================================
+   개별 참가자 수동 배정
+===================================== */
+
+function changeAssignment(
+  entryIndex,
+  groupName
+) {
+
+  assignments[
+    entryIndex
+  ] =
+    groupName || null;
+
+
+  saveSessionData();
+
+  renderSummary();
+
+  renderGroups();
+
+  renderWarning();
+
+}
+
+
+/* =====================================
+   참가자 렌더
+===================================== */
+
+function renderParticipants() {
+
+  const box =
+    document.getElementById(
+      "participantList"
+    );
+
+
+  box.innerHTML = "";
+
+
+  entries.forEach(
+    (
+      entry,
+      index
+    ) => {
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+
+      row.className =
+        "participant-row";
+
+
+      const options =
+        [
+
+          `<option value="">
+            미배정
+          </option>`,
+
+          ...groupNames.map(
+            groupName =>
+              `
+                <option
+                  value="${escapeHtml(
+                    groupName
+                  )}"
+                  ${
+                    assignments[
+                      index
+                    ] ===
+                    groupName
+                      ? "selected"
+                      : ""
+                  }
+                >
+                  ${escapeHtml(
+                    groupName
+                  )}
+                </option>
+              `
+          )
+
+        ].join("");
+
+
+      row.innerHTML = `
+
+        <div class="participant-number">
+          ${index + 1}
+        </div>
+
+
+        <div class="participant-main">
+
+          <div class="participant-name">
+
+            ${escapeHtml(
+              fullEntryName(
+                entry
+              )
+            )}
+
+          </div>
+
+          <div class="participant-sub">
+
+            ${
+              assignments[
+                index
+              ]
+                ? escapeHtml(
+                    assignments[
+                      index
+                    ]
+                  )
+                : "아직 조 미배정"
+            }
+
+          </div>
+
+        </div>
+
+
+        <select
+          class="group-select"
+          aria-label="조 선택"
+        >
+          ${options}
+        </select>
+
+      `;
+
+
+      row
+        .querySelector(
+          ".group-select"
+        )
+        .addEventListener(
+          "change",
+          function() {
+
+            changeAssignment(
+              index,
+              this.value
+            );
+
+          }
+        );
+
+
+      box.appendChild(
+        row
       );
 
-      return;
+    }
+  );
+
+}
+
+
+/* =====================================
+   조 미리보기
+===================================== */
+
+function renderGroups() {
+
+  const box =
+    document.getElementById(
+      "groups"
+    );
+
+
+  box.innerHTML = "";
+
+
+  groupNames.forEach(
+    groupName => {
+
+      const memberIndexes =
+        getGroupMemberIndexes(
+          groupName
+        );
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "group-card";
+
+
+      let membersHtml = "";
+
+
+      if (
+        memberIndexes.length === 0
+      ) {
+
+        membersHtml = `
+
+          <div class="empty-group">
+            배정된 참가자 없음
+          </div>
+
+        `;
+
+      } else {
+
+        membersHtml =
+          memberIndexes
+            .map(
+              entryIndex => `
+
+                <div class="member">
+
+                  ${escapeHtml(
+                    shortEntryName(
+                      entries[
+                        entryIndex
+                      ]
+                    )
+                  )}
+
+                </div>
+
+              `
+            )
+            .join("");
+
+      }
+
+
+      card.innerHTML = `
+
+        <div class="group-head">
+
+          <div class="group-name">
+            ${escapeHtml(
+              groupName
+            )}
+          </div>
+
+          <div class="group-count">
+            ${memberIndexes.length}
+          </div>
+
+        </div>
+
+
+        <div class="group-members">
+          ${membersHtml}
+        </div>
+
+      `;
+
+
+      box.appendChild(
+        card
+      );
 
     }
+  );
 
-    const groupData =
-      groupNames.map(
+}
+
+
+/* =====================================
+   SUMMARY
+===================================== */
+
+function renderSummary() {
+
+  document.getElementById(
+    "entryCount"
+  ).textContent =
+    entries.length;
+
+
+  document.getElementById(
+    "groupCount"
+  ).textContent =
+    groupCount;
+
+
+  document.getElementById(
+    "unassignedCount"
+  ).textContent =
+    getUnassignedIndexes()
+      .length;
+
+}
+
+
+/* =====================================
+   WARNING
+===================================== */
+
+function renderWarning() {
+
+  const warning =
+    document.getElementById(
+      "warning"
+    );
+
+
+  const unassigned =
+    getUnassignedIndexes()
+      .length;
+
+
+  if (
+    unassigned > 0
+  ) {
+
+    warning.textContent =
+      `아직 ${unassigned}명의 참가자가 조에 배정되지 않았습니다.`;
+
+    warning.classList.add(
+      "show"
+    );
+
+    return;
+
+  }
+
+
+  const invalidGroups =
+    groupNames.filter(
+      groupName =>
+        getGroupMemberIndexes(
+          groupName
+        ).length < 2
+    );
+
+
+  if (
+    invalidGroups.length > 0
+  ) {
+
+    warning.textContent =
+      `${invalidGroups.join(", ")}의 참가자가 2명 미만입니다. 조별 리그를 만들려면 각 조에 최소 2명이 필요합니다.`;
+
+    warning.classList.add(
+      "show"
+    );
+
+    return;
+
+  }
+
+
+  warning.classList.remove(
+    "show"
+  );
+
+  warning.textContent = "";
+
+}
+
+
+/* =====================================
+   전체 렌더
+===================================== */
+
+function render() {
+
+  renderSummary();
+
+  renderParticipants();
+
+  renderGroups();
+
+  renderWarning();
+
+}
+
+
+/* =====================================
+   조편성 검증
+===================================== */
+
+function validateGroups() {
+
+  const unassigned =
+    getUnassignedIndexes();
+
+
+  if (
+    unassigned.length > 0
+  ) {
+
+    alert(
+      `아직 ${unassigned.length}명의 참가자가 조에 배정되지 않았습니다.`
+    );
+
+    return false;
+
+  }
+
+
+  const tooSmall =
+    groupNames.filter(
+      groupName =>
+        getGroupMemberIndexes(
+          groupName
+        ).length < 2
+    );
+
+
+  if (
+    tooSmall.length > 0
+  ) {
+
+    alert(
+      `${tooSmall.join(", ")}의 참가자가 2명 미만입니다.\n각 조에 최소 2명을 배정해주세요.`
+    );
+
+    return false;
+
+  }
+
+
+  /*
+    모든 참가자가 DB entry UUID를
+    가지고 있는지도 확인.
+  */
+
+  const missingDbEntry =
+    entries.find(
+      entry =>
+        !entry.dbEntryId
+    );
+
+
+  if (
+    missingDbEntry
+  ) {
+
+    alert(
+      "일부 참가자의 DB 연결 정보가 없습니다.\n참가자 등록 페이지에서 다시 확인해주세요."
+    );
+
+    return false;
+
+  }
+
+
+  return true;
+
+}
+
+
+/* =====================================
+   DB 조편성 저장
+
+   기존 groups 삭제
+   ↓
+   FK cascade로 group_entries 삭제
+   ↓
+   새 groups 생성
+   ↓
+   group_entries 생성
+===================================== */
+
+async function saveGroupsToDatabase() {
+
+  /*
+    1. 기존 조 삭제
+  */
+
+  const {
+    error:deleteError
+  } =
+    await supabaseClient
+      .from("groups")
+      .delete()
+      .eq(
+        "division_id",
+        tournament.divisionId
+      );
+
+
+  if (
+    deleteError
+  ) {
+
+    throw new Error(
+      "기존 조편성 삭제 실패: "
+      +
+      deleteError.message
+    );
+
+  }
+
+
+  /*
+    2. 새 groups 생성
+  */
+
+  const groupRows =
+    groupNames.map(
+      (
+        groupName,
+        index
+      ) => ({
+
+        division_id:
+          tournament.divisionId,
+
+        name:
+          groupName,
+
+        sort_order:
+          index
+
+      })
+    );
+
+
+  const {
+    data:savedGroups,
+    error:groupError
+  } =
+    await supabaseClient
+      .from("groups")
+      .insert(
+        groupRows
+      )
+      .select(
+        "id,name,sort_order"
+      );
+
+
+  if (
+    groupError ||
+    !savedGroups ||
+    savedGroups.length !==
+      groupNames.length
+  ) {
+
+    throw new Error(
+      "새 조 생성 실패: "
+      +
+      (
+        groupError?.message ||
+        "조 데이터 확인 실패"
+      )
+    );
+
+  }
+
+
+  const groupIdMap =
+    new Map();
+
+
+  savedGroups.forEach(
+    group => {
+
+      groupIdMap.set(
+        group.name,
+        group.id
+      );
+
+    }
+  );
+
+
+  /*
+    3. group_entries 생성
+  */
+
+  const groupEntryRows = [];
+
+
+  groupNames.forEach(
+    groupName => {
+
+      const memberIndexes =
+        getGroupMemberIndexes(
+          groupName
+        );
+
+
+      memberIndexes.forEach(
         (
-          name,
-          groupIndex
-        ) => ({
+          entryIndex,
+          memberOrder
+        ) => {
 
-          name,
+          groupEntryRows.push({
+
+            group_id:
+              groupIdMap.get(
+                groupName
+              ),
+
+            entry_id:
+              entries[
+                entryIndex
+              ].dbEntryId,
+
+            /*
+              지금 단계에서는 실제 시드 번호라기보다는
+              조 내부 배치 순서로 활용.
+            */
+
+            seed_order:
+              memberOrder
+
+          });
+
+        }
+      );
+
+    }
+  );
+
+
+  const {
+    error:entryError
+  } =
+    await supabaseClient
+      .from("group_entries")
+      .insert(
+        groupEntryRows
+      );
+
+
+  if (
+    entryError
+  ) {
+
+    throw new Error(
+      "조별 참가자 저장 실패: "
+      +
+      entryError.message
+    );
+
+  }
+
+
+  /*
+    다음 페이지에서도 DB ID를 사용할 수 있게
+    groupData에 UUID를 추가해 둔다.
+  */
+
+  const groupData =
+    groupNames.map(
+      groupName => {
+
+        const memberIndexes =
+          getGroupMemberIndexes(
+            groupName
+          );
+
+
+        return {
+
+          name:
+            groupName,
+
+          dbGroupId:
+            groupIdMap.get(
+              groupName
+            ),
 
           members:
-            assignments
-              .map(
-                (group,index) => ({
-                  group,
-                  index
-                })
-              )
-              .filter(
-                item =>
-                  item.group ===
-                  groupIndex
-              )
-              .map(
-                item =>
-                  item.index
-              )
+            memberIndexes
 
-        })
-      );
+        };
 
-    const tooSmall =
-      groupData.some(
-        group =>
-          group.members.length < 2
-      );
-
-    if (tooSmall) {
-
-      alert(
-        "2명 미만으로 구성된 조가 있습니다.\n조별리그 대진을 만들려면 각 조에 최소 2명이 필요합니다."
-      );
-
-      return;
-
-    }
-
-    sessionStorage.setItem(
-      "fwtGroupAssignments",
-      JSON.stringify(
-        assignments
-      )
+      }
     );
 
-    sessionStorage.setItem(
-      "fwtGroupData",
-      JSON.stringify(
-        groupData
-      )
+
+  sessionStorage.setItem(
+    "fwtGroupAssignments",
+    JSON.stringify(
+      assignments
+    )
+  );
+
+
+  sessionStorage.setItem(
+    "fwtGroupData",
+    JSON.stringify(
+      groupData
+    )
+  );
+
+}
+
+
+/* =====================================
+   확정
+===================================== */
+
+async function confirmGroups() {
+
+  if (busy) {
+
+    return;
+
+  }
+
+
+  if (
+    !validateGroups()
+  ) {
+
+    return;
+
+  }
+
+
+  const ok =
+    confirm(
+      "현재 조편성을 확정하고 대진을 생성할까요?"
     );
+
+
+  if (!ok) {
+
+    return;
+
+  }
+
+
+  try {
+
+    setBusy(
+      true,
+      "조편성을 저장하고 있습니다",
+      "A조, B조 등의 조 정보와 참가자 배정을 데이터베이스에 저장하고 있습니다."
+    );
+
+
+    await saveGroupsToDatabase();
+
 
     /*
       조편성이 바뀌었으므로
-      기존에 생성된 예선 대진은 폐기
+      이후 경기 데이터는 브라우저 쪽에서 초기화.
+      DB matches 연결은 다음 단계에서 처리.
     */
+
     sessionStorage.removeItem(
       "fwtGroupMatches"
     );
 
-    window.location.href =
-      "./group-matches.html";
+    sessionStorage.removeItem(
+      "fwtMatchControlState"
+    );
+
+    sessionStorage.removeItem(
+      "fwtStandingsData"
+    );
+
+    sessionStorage.removeItem(
+      "fwtKnockoutQualifiers"
+    );
+
+    sessionStorage.removeItem(
+      "fwtKnockoutBracket"
+    );
+
+
+    setBusy(
+      true,
+      "조편성 저장 완료",
+      "조별 예선 대진 화면으로 이동합니다."
+    );
+
+
+    setTimeout(
+      function() {
+
+        location.href =
+          "./group-matches.html";
+
+      },
+      400
+    );
+
+
+  } catch(error) {
+
+    console.error(error);
+
+
+    setBusy(false);
+
+
+    alert(
+      "조편성을 저장하지 못했습니다.\n\n"
+      +
+      (
+        error?.message ||
+        "알 수 없는 오류가 발생했습니다."
+      )
+    );
 
   }
 
-  document.getElementById(
-    "autoAssignButton"
-  ).addEventListener(
-    "click",
-    autoAssignRemaining
-  );
+}
 
-  document.getElementById(
-    "randomAllButton"
-  ).addEventListener(
-    "click",
-    randomAll
-  );
 
-  document.getElementById(
-    "resetButton"
-  ).addEventListener(
-    "click",
-    resetAll
-  );
+/* =====================================
+   EVENTS
+===================================== */
 
-  document.getElementById(
-    "confirmButton"
-  ).addEventListener(
-    "click",
-    confirmGroups
-  );
+document.getElementById(
+  "autoRemainingButton"
+).addEventListener(
+  "click",
+  autoAssignRemaining
+);
 
-  render();
+
+document.getElementById(
+  "randomAllButton"
+).addEventListener(
+  "click",
+  randomAll
+);
+
+
+document.getElementById(
+  "resetButton"
+).addEventListener(
+  "click",
+  resetAll
+);
+
+
+document.getElementById(
+  "confirmButton"
+).addEventListener(
+  "click",
+  confirmGroups
+);
+
+
+/* =====================================
+   START
+===================================== */
+
+async function start() {
+
+  const loggedIn =
+    await checkLogin();
+
+
+  if (!loggedIn) {
+
+    return;
+
+  }
+
+
+  try {
+
+    setBusy(
+      true,
+      "조편성 확인 중",
+      "기존에 저장된 조편성이 있는지 데이터베이스에서 확인하고 있습니다."
+    );
+
+
+    await loadExistingGroups();
+
+
+    setBusy(false);
+
+
+    render();
+
+
+  } catch(error) {
+
+    console.error(error);
+
+
+    setBusy(false);
+
+
+    alert(
+      "조편성 정보를 불러오지 못했습니다.\n\n"
+      +
+      (
+        error?.message ||
+        "알 수 없는 오류"
+      )
+    );
+
+
+    render();
+
+  }
+
+}
+
+
+start();
 
 </script>
 
