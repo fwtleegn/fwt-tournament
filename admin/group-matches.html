@@ -61,9 +61,12 @@
       cursor:pointer;
     }
 
-    /* =====================================
-       HEADER
-    ===================================== */
+    button:disabled {
+      cursor:not-allowed;
+      opacity:.48;
+    }
+
+    /* HEADER */
 
     .topbar {
       min-height:72px;
@@ -125,9 +128,7 @@
       font-weight:850;
     }
 
-    /* =====================================
-       PAGE
-    ===================================== */
+    /* PAGE */
 
     .container {
       width:
@@ -211,9 +212,7 @@
       font-weight:950;
     }
 
-    /* =====================================
-       NOTICE
-    ===================================== */
+    /* NOTICE */
 
     .notice {
       margin-bottom:14px;
@@ -233,9 +232,19 @@
       line-height:1.65;
     }
 
-    /* =====================================
-       GROUP CARDS
-    ===================================== */
+    .notice.protected {
+      border-color:#d9e3b0;
+
+      background:#f8fae9;
+
+      color:#58641c;
+    }
+
+    .notice strong {
+      color:var(--navy);
+    }
+
+    /* GROUPS */
 
     .groups {
       display:flex;
@@ -415,12 +424,50 @@
     }
 
     .match-sub {
-      margin-top:4px;
+      display:flex;
+      align-items:center;
+
+      gap:6px;
+
+      margin-top:5px;
 
       color:#718092;
 
       font-size:10px;
       font-weight:700;
+    }
+
+    .status-badge {
+      display:inline-flex;
+      align-items:center;
+
+      min-height:23px;
+
+      padding:0 7px;
+
+      border-radius:999px;
+
+      background:#eef2f5;
+
+      color:#637083;
+
+      font-size:9px;
+      font-weight:900;
+    }
+
+    .status-badge.playing {
+      background:var(--green-soft);
+      color:var(--green);
+    }
+
+    .status-badge.completed {
+      background:#e8f6ed;
+      color:#14784f;
+    }
+
+    .status-badge.waiting {
+      background:#eef3f7;
+      color:#566579;
     }
 
     .order-actions {
@@ -447,14 +494,7 @@
       font-weight:950;
     }
 
-    .order-btn:disabled {
-      opacity:.35;
-      cursor:not-allowed;
-    }
-
-    /* =====================================
-       BUTTONS
-    ===================================== */
+    /* BUTTONS */
 
     .bottom {
       display:flex;
@@ -516,14 +556,7 @@
       color:var(--lime);
     }
 
-    button:disabled {
-      cursor:not-allowed;
-      opacity:.55;
-    }
-
-    /* =====================================
-       LOADING
-    ===================================== */
+    /* LOADING */
 
     .loading-overlay {
       display:none;
@@ -597,9 +630,7 @@
       line-height:1.6;
     }
 
-    /* =====================================
-       FOOTER
-    ===================================== */
+    /* FOOTER */
 
     .footer {
       display:flex;
@@ -625,9 +656,7 @@
       font-weight:900;
     }
 
-    /* =====================================
-       MOBILE
-    ===================================== */
+    /* MOBILE */
 
     @media(max-width:700px) {
 
@@ -650,11 +679,9 @@
       }
 
       .container {
-        width:
-          calc(100% - 22px);
+        width:calc(100% - 22px);
 
-        padding:
-          25px 0 50px;
+        padding:25px 0 50px;
       }
 
       .head {
@@ -721,10 +748,6 @@
         height:38px;
 
         font-size:13px;
-      }
-
-      .match-players {
-        gap:5px;
       }
 
       .player {
@@ -812,7 +835,7 @@
       </h1>
 
       <p class="desc">
-        각 조의 모든 참가자가 한 번씩 맞붙도록 자동으로 대진을 생성합니다.
+        각 조의 예선 대진을 확인하고 경기 운영으로 이동합니다.
       </p>
 
     </div>
@@ -835,7 +858,10 @@
   </div>
 
 
-  <div class="notice">
+  <div
+    class="notice"
+    id="notice"
+  >
     홀수 인원 조에서는 매 라운드 한 명이 자동으로 휴식합니다.
     휴식은 실제 경기로 저장하지 않습니다.
   </div>
@@ -910,14 +936,14 @@
       class="loading-title"
       id="loadingTitle"
     >
-      대진을 저장하고 있습니다
+      대진을 불러오고 있습니다
     </div>
 
     <div
       class="loading-text"
       id="loadingText"
     >
-      FWT 데이터베이스에 조별 경기를 저장 중입니다.
+      FWT 데이터베이스를 확인 중입니다.
     </div>
 
   </div>
@@ -988,28 +1014,15 @@ let busy = false;
 
 
 /*
-  최종 형태
-
-  groupMatches = [
-    {
-      groupName:"A조",
-      dbGroupId:"uuid",
-      rounds:[
-        {
-          roundNumber:1,
-          restEntryIndex:null,
-          matches:[
-            {
-              entry1Index:0,
-              entry2Index:2,
-              dbMatchId:null
-            }
-          ]
-        }
-      ]
-    }
-  ]
+  TRUE가 되는 순간부터
+  이 페이지에서는 기존 예선 DB를
+  절대 DELETE / INSERT 하지 않는다.
 */
+let dbMatchesExist = false;
+
+
+let existingDbStatuses = [];
+
 
 let groupMatches = [];
 
@@ -1073,6 +1086,30 @@ function shortEntryName(entry) {
 }
 
 
+function statusText(status) {
+
+  const map = {
+
+    pending:"대기 전",
+    waiting:"대기",
+    playing:"경기중",
+    completed:"완료",
+    bye:"BYE",
+    walkover:"기권승",
+    cancelled:"취소"
+
+  };
+
+
+  return (
+    map[status] ||
+    status ||
+    "대기"
+  );
+
+}
+
+
 /* =====================================
    AUTH
 ===================================== */
@@ -1116,7 +1153,8 @@ function setBusy(
   text = ""
 ) {
 
-  busy = state;
+  busy =
+    state;
 
 
   [
@@ -1142,6 +1180,23 @@ function setBusy(
 
       }
     );
+
+
+  /*
+    DB 경기가 이미 존재하면
+    regenerate는 항상 잠금.
+  */
+
+  if (
+    dbMatchesExist
+  ) {
+
+    document.getElementById(
+      "regenerateButton"
+    ).disabled =
+      true;
+
+  }
 
 
   document.getElementById(
@@ -1185,12 +1240,6 @@ function createRoundRobin(
   const list =
     [...memberIndexes];
 
-
-  /*
-    홀수 인원이면 null을 추가해서
-    circle method 적용.
-    null과 매칭되는 참가자는 해당 라운드 휴식.
-  */
 
   if (
     list.length % 2 === 1
@@ -1291,7 +1340,13 @@ function createRoundRobin(
 
         entry2Index:b,
 
-        dbMatchId:null
+        dbMatchId:null,
+
+        status:"waiting",
+
+        score1:null,
+
+        score2:null
 
       });
 
@@ -1303,19 +1358,12 @@ function createRoundRobin(
       roundNumber:
         roundIndex + 1,
 
-      restEntryIndex:
-        restEntryIndex,
+      restEntryIndex,
 
-      matches:
-        matches
+      matches
 
     });
 
-
-    /*
-      첫 번째 고정,
-      나머지를 시계방향 회전
-    */
 
     const fixed =
       rotating[0];
@@ -1345,31 +1393,46 @@ function createRoundRobin(
 
 
 /* =====================================
-   GENERATE ALL
+   GENERATE LOCAL ONLY
 ===================================== */
 
-function generateAllMatches() {
+function generateLocalMatches() {
+
+  /*
+    안전장치.
+    DB 경기가 존재하는 상태에서는
+    절대 새 대진으로 바꾸지 않는다.
+  */
+
+  if (
+    dbMatchesExist
+  ) {
+
+    alert(
+      "이미 DB에 조별 예선 경기가 저장되어 있어 대진을 다시 생성할 수 없습니다."
+    );
+
+    return;
+
+  }
+
 
   groupMatches =
     groupData.map(
-      group => {
+      group => ({
 
-        return {
+        groupName:
+          group.name,
 
-          groupName:
-            group.name,
+        dbGroupId:
+          group.dbGroupId,
 
-          dbGroupId:
-            group.dbGroupId,
+        rounds:
+          createRoundRobin(
+            group.members || []
+          )
 
-          rounds:
-            createRoundRobin(
-              group.members || []
-            )
-
-        };
-
-      }
+      })
     );
 
 
@@ -1381,7 +1444,7 @@ function generateAllMatches() {
 
 
 /* =====================================
-   SESSION
+   SESSION COMPATIBILITY
 ===================================== */
 
 function saveSession() {
@@ -1397,7 +1460,64 @@ function saveSession() {
 
 
 /* =====================================
-   LOAD EXISTING DB MATCHES
+   REST PLAYER FROM DB ROUND
+===================================== */
+
+function detectRestEntry(
+  group,
+  roundMatches
+) {
+
+  const members =
+    group.members || [];
+
+
+  if (
+    members.length % 2 === 0
+  ) {
+
+    return null;
+
+  }
+
+
+  const played =
+    new Set();
+
+
+  roundMatches.forEach(
+    match => {
+
+      played.add(
+        match.entry1Index
+      );
+
+      played.add(
+        match.entry2Index
+      );
+
+    }
+  );
+
+
+  const rest =
+    members.find(
+      index =>
+        !played.has(index)
+    );
+
+
+  return (
+    rest === undefined
+      ? null
+      : rest
+  );
+
+}
+
+
+/* =====================================
+   LOAD DB MATCHES
 ===================================== */
 
 async function loadExistingMatches() {
@@ -1409,7 +1529,7 @@ async function loadExistingMatches() {
     await supabaseClient
       .from("matches")
       .select(
-        "id,group_id,entry1_id,entry2_id,round_number,match_number,sort_order,status"
+        "id,group_id,entry1_id,entry2_id,round_number,match_number,sort_order,status,score1,score2,winner_entry_id,court_id,started_at,completed_at"
       )
       .eq(
         "division_id",
@@ -1430,7 +1550,7 @@ async function loadExistingMatches() {
   if (error) {
 
     throw new Error(
-      "기존 대진 조회 실패: "
+      "기존 예선 대진 조회 실패: "
       +
       error.message
     );
@@ -1438,13 +1558,26 @@ async function loadExistingMatches() {
   }
 
 
+  /*
+    DB에 아직 예선 경기가 없는 최초 상태
+  */
+
   if (
     !matchRows ||
     matchRows.length === 0
   ) {
 
+    dbMatchesExist =
+      false;
+
+
+    existingDbStatuses =
+      [];
+
+
     /*
-      DB에 없다면 sessionStorage 대진이 있으면 복원
+      임시로 만들어두었던 대진이 있으면
+      sessionStorage 복원.
     */
 
     const saved =
@@ -1464,12 +1597,32 @@ async function loadExistingMatches() {
       groupMatches =
         saved;
 
-      return;
+    } else {
+
+      groupMatches =
+        groupData.map(
+          group => ({
+
+            groupName:
+              group.name,
+
+            dbGroupId:
+              group.dbGroupId,
+
+            rounds:
+              createRoundRobin(
+                group.members || []
+              )
+
+          })
+        );
 
     }
 
 
-    generateAllMatches();
+    saveSession();
+
+    updateProtectionUI();
 
     return;
 
@@ -1477,8 +1630,20 @@ async function loadExistingMatches() {
 
 
   /*
-    entry uuid → index
+    여기로 들어오면 DB 대진 존재.
+    이후부터 절대 기존 경기를 삭제하지 않는다.
   */
+
+  dbMatchesExist =
+    true;
+
+
+  existingDbStatuses =
+    matchRows.map(
+      row =>
+        row.status
+    );
+
 
   const entryIndexMap =
     new Map();
@@ -1505,228 +1670,289 @@ async function loadExistingMatches() {
   );
 
 
-  /*
-    group uuid → groupData
-  */
+  groupMatches =
+    groupData.map(
+      group => {
 
-  const groupById =
-    new Map();
-
-
-  groupData.forEach(
-    group => {
-
-      if (
-        group.dbGroupId
-      ) {
-
-        groupById.set(
-          group.dbGroupId,
-          group
-        );
-
-      }
-
-    }
-  );
+        const groupRows =
+          matchRows
+            .filter(
+              row =>
+                row.group_id ===
+                group.dbGroupId
+            );
 
 
-  const result = [];
+        const roundNumbers =
+          [
+            ...new Set(
+              groupRows.map(
+                row =>
+                  Number(
+                    row.round_number || 1
+                  )
+              )
+            )
+          ]
+            .sort(
+              (a,b) =>
+                a - b
+            );
 
 
-  groupData.forEach(
-    group => {
+        const rounds =
+          roundNumbers.map(
+            roundNumber => {
 
-      const rows =
-        matchRows
-          .filter(
-            row =>
-              row.group_id ===
-              group.dbGroupId
-          )
-          .sort(
-            (a,b) => {
+              const rows =
+                groupRows
+                  .filter(
+                    row =>
+                      Number(
+                        row.round_number || 1
+                      ) ===
+                      roundNumber
+                  )
+                  .sort(
+                    (a,b) => {
 
-              const ra =
-                Number(
-                  a.round_number || 0
-                );
-
-
-              const rb =
-                Number(
-                  b.round_number || 0
-                );
+                      const sortA =
+                        Number(
+                          a.sort_order || 0
+                        );
 
 
-              if (
-                ra !== rb
-              ) {
-
-                return ra - rb;
-
-              }
+                      const sortB =
+                        Number(
+                          b.sort_order || 0
+                        );
 
 
-              return (
-                Number(
-                  a.sort_order || 0
-                )
-                -
-                Number(
-                  b.sort_order || 0
-                )
-              );
+                      if (
+                        sortA !== sortB
+                      ) {
+
+                        return (
+                          sortA -
+                          sortB
+                        );
+
+                      }
+
+
+                      return (
+                        Number(
+                          a.match_number || 0
+                        )
+                        -
+                        Number(
+                          b.match_number || 0
+                        )
+                      );
+
+                    }
+                  );
+
+
+              const matches =
+                rows
+                  .map(
+                    row => {
+
+                      const entry1Index =
+                        entryIndexMap.get(
+                          row.entry1_id
+                        );
+
+
+                      const entry2Index =
+                        entryIndexMap.get(
+                          row.entry2_id
+                        );
+
+
+                      if (
+                        entry1Index === undefined ||
+                        entry2Index === undefined
+                      ) {
+
+                        return null;
+
+                      }
+
+
+                      return {
+
+                        entry1Index,
+
+                        entry2Index,
+
+                        dbMatchId:
+                          row.id,
+
+                        status:
+                          row.status,
+
+                        score1:
+                          row.score1,
+
+                        score2:
+                          row.score2,
+
+                        winnerEntryId:
+                          row.winner_entry_id,
+
+                        courtId:
+                          row.court_id,
+
+                        startedAt:
+                          row.started_at,
+
+                        completedAt:
+                          row.completed_at
+
+                      };
+
+                    }
+                  )
+                  .filter(Boolean);
+
+
+              return {
+
+                roundNumber,
+
+                restEntryIndex:
+                  detectRestEntry(
+                    group,
+                    matches
+                  ),
+
+                matches
+
+              };
 
             }
           );
 
 
-      const roundMap =
-        new Map();
+        return {
 
+          groupName:
+            group.name,
 
-      rows.forEach(
-        row => {
+          dbGroupId:
+            group.dbGroupId,
 
-          const roundNumber =
-            Number(
-              row.round_number || 1
-            );
+          rounds
 
+        };
 
-          if (
-            !roundMap.has(
-              roundNumber
-            )
-          ) {
-
-            roundMap.set(
-              roundNumber,
-              {
-                roundNumber,
-                restEntryIndex:null,
-                matches:[]
-              }
-            );
-
-          }
-
-
-          const entry1Index =
-            entryIndexMap.get(
-              row.entry1_id
-            );
-
-
-          const entry2Index =
-            entryIndexMap.get(
-              row.entry2_id
-            );
-
-
-          if (
-            entry1Index === undefined ||
-            entry2Index === undefined
-          ) {
-
-            return;
-
-          }
-
-
-          roundMap
-            .get(
-              roundNumber
-            )
-            .matches
-            .push({
-
-              entry1Index,
-
-              entry2Index,
-
-              dbMatchId:
-                row.id
-
-            });
-
-        }
-      );
-
-
-      /*
-        DB에는 실제 경기만 있으므로
-        휴식자 정보는 새로 계산한 round robin에서 보완
-      */
-
-      const generated =
-        createRoundRobin(
-          group.members || []
-        );
-
-
-      const rounds =
-        generated.map(
-          generatedRound => {
-
-            const loaded =
-              roundMap.get(
-                generatedRound.roundNumber
-              );
-
-
-            if (!loaded) {
-
-              return generatedRound;
-
-            }
-
-
-            return {
-
-              roundNumber:
-                generatedRound.roundNumber,
-
-              restEntryIndex:
-                generatedRound.restEntryIndex,
-
-              matches:
-                loaded.matches
-
-            };
-
-          }
-        );
-
-
-      result.push({
-
-        groupName:
-          group.name,
-
-        dbGroupId:
-          group.dbGroupId,
-
-        rounds
-
-      });
-
-    }
-  );
-
-
-  groupMatches =
-    result;
+      }
+    );
 
 
   saveSession();
+
+  updateProtectionUI();
 
 }
 
 
 /* =====================================
-   FLATTEN MATCHES
+   PROTECTION UI
+===================================== */
+
+function updateProtectionUI() {
+
+  const notice =
+    document.getElementById(
+      "notice"
+    );
+
+
+  const regenerate =
+    document.getElementById(
+      "regenerateButton"
+    );
+
+
+  const confirmButton =
+    document.getElementById(
+      "confirmButton"
+    );
+
+
+  if (
+    dbMatchesExist
+  ) {
+
+    regenerate.disabled =
+      true;
+
+
+    const hasProgress =
+      existingDbStatuses.some(
+        status =>
+          [
+            "playing",
+            "completed",
+            "walkover",
+            "bye"
+          ].includes(status)
+      );
+
+
+    notice.classList.add(
+      "protected"
+    );
+
+
+    notice.innerHTML =
+      hasProgress
+        ? `
+          <strong>DB 경기 보호 중.</strong>
+          이미 진행 또는 완료된 예선 경기가 있습니다.
+          이 화면에서는 기존 대진과 경기 결과를 삭제하거나 다시 생성하지 않습니다.
+        `
+        : `
+          <strong>DB 대진 저장 완료.</strong>
+          이미 조별 예선 경기가 생성되어 있으므로 기존 대진을 그대로 사용합니다.
+          대진 재생성은 잠겨 있습니다.
+        `;
+
+
+    confirmButton.innerHTML =
+      `경기 운영으로 이동 <span>→</span>`;
+
+  } else {
+
+    regenerate.disabled =
+      false;
+
+
+    notice.classList.remove(
+      "protected"
+    );
+
+
+    notice.innerHTML =
+      `
+        홀수 인원 조에서는 매 라운드 한 명이 자동으로 휴식합니다.
+        휴식은 실제 경기로 저장하지 않습니다.
+      `;
+
+
+    confirmButton.innerHTML =
+      `대진 확정 · 경기 운영 <span>→</span>`;
+
+  }
+
+}
+
+
+/* =====================================
+   FLATTEN
 ===================================== */
 
 function flattenMatches() {
@@ -1745,23 +1971,11 @@ function flattenMatches() {
 
               result.push({
 
-                groupName:
-                  group.groupName,
+                group,
 
-                dbGroupId:
-                  group.dbGroupId,
+                round,
 
-                roundNumber:
-                  round.roundNumber,
-
-                entry1Index:
-                  match.entry1Index,
-
-                entry2Index:
-                  match.entry2Index,
-
-                dbMatchId:
-                  match.dbMatchId || null
+                match
 
               });
 
@@ -1781,7 +1995,7 @@ function flattenMatches() {
 
 
 /* =====================================
-   MOVE MATCH
+   MOVE LOCAL MATCH
 ===================================== */
 
 function moveMatch(
@@ -1791,7 +2005,27 @@ function moveMatch(
   direction
 ) {
 
-  if (busy) {
+  if (
+    busy
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+    DB가 생성된 뒤 순서를 이 페이지에서
+    변경하는 것도 막는다.
+  */
+
+  if (
+    dbMatchesExist
+  ) {
+
+    alert(
+      "이미 DB에 저장된 예선 대진은 이 화면에서 순서를 변경할 수 없습니다."
+    );
 
     return;
 
@@ -1854,7 +2088,8 @@ function render() {
   box.innerHTML = "";
 
 
-  let totalMatches = 0;
+  let totalMatches =
+    0;
 
 
   groupMatches.forEach(
@@ -1998,6 +2233,28 @@ function render() {
                 "match-row";
 
 
+              const status =
+                match.status ||
+                "waiting";
+
+
+              let detail =
+                dbMatchesExist
+                  ? "DB 저장 경기"
+                  : "확정 시 DB 저장";
+
+
+              if (
+                status ===
+                "completed"
+              ) {
+
+                detail =
+                  `결과 ${match.score1} - ${match.score2}`;
+
+              }
+
+
               row.innerHTML = `
 
                 <div class="match-number">
@@ -2038,11 +2295,17 @@ function render() {
 
                   <div class="match-sub">
 
-                    ${
-                      match.dbMatchId
-                        ? "DB 저장된 경기"
-                        : "대진 확정 시 DB 저장"
-                    }
+                    <span
+                      class="status-badge ${escapeHtml(status)}"
+                    >
+                      ${escapeHtml(
+                        statusText(status)
+                      )}
+                    </span>
+
+                    <span>
+                      ${escapeHtml(detail)}
+                    </span>
 
                   </div>
 
@@ -2055,6 +2318,7 @@ function render() {
                     class="order-btn up"
                     type="button"
                     ${
+                      dbMatchesExist ||
                       matchIndex === 0
                         ? "disabled"
                         : ""
@@ -2067,8 +2331,9 @@ function render() {
                     class="order-btn down"
                     type="button"
                     ${
+                      dbMatchesExist ||
                       matchIndex ===
-                      round.matches.length - 1
+                        round.matches.length - 1
                         ? "disabled"
                         : ""
                     }
@@ -2154,14 +2419,17 @@ function render() {
   ).textContent =
     totalMatches;
 
+
+  updateProtectionUI();
+
 }
 
 
 /* =====================================
-   VALIDATE
+   VALIDATE LOCAL
 ===================================== */
 
-function validateMatches() {
+function validateLocalMatches() {
 
   if (
     !Array.isArray(
@@ -2245,24 +2513,28 @@ function validateMatches() {
 
 
 /* =====================================
-   SAVE MATCHES TO DB
+   FIRST-TIME INSERT ONLY
 ===================================== */
 
-async function saveMatchesToDatabase() {
+async function insertMatchesFirstTime() {
 
   /*
-    현재 division의 조별예선 경기만 삭제.
-    이후 토너먼트 경기까지 만들어진 상태에서
-    조별대진을 다시 생성하는 문제는
-    추후 경기운영 DB화 단계에서 잠금 처리할 예정.
+    가장 중요한 안전 검사.
+    INSERT 직전에 DB를 다시 확인한다.
+
+    다른 탭/기기에서 이미 생성했어도
+    중복 INSERT하지 않는다.
   */
 
   const {
-    error:deleteError
+    data:existing,
+    error:checkError
   } =
     await supabaseClient
       .from("matches")
-      .delete()
+      .select(
+        "id,status"
+      )
       .eq(
         "division_id",
         tournament.divisionId
@@ -2270,18 +2542,39 @@ async function saveMatchesToDatabase() {
       .eq(
         "stage",
         "group"
-      );
+      )
+      .limit(1);
 
 
   if (
-    deleteError
+    checkError
   ) {
 
     throw new Error(
-      "기존 조별 대진 삭제 실패: "
+      "기존 경기 확인 실패: "
       +
-      deleteError.message
+      checkError.message
     );
+
+  }
+
+
+  if (
+    existing &&
+    existing.length > 0
+  ) {
+
+    /*
+      절대 DELETE하지 않는다.
+    */
+
+    dbMatchesExist =
+      true;
+
+
+    return {
+      alreadyExists:true
+    };
 
   }
 
@@ -2290,7 +2583,7 @@ async function saveMatchesToDatabase() {
 
 
   let globalSortOrder =
-    0;
+    1;
 
 
   groupMatches.forEach(
@@ -2313,11 +2606,9 @@ async function saveMatchesToDatabase() {
                 group_id:
                   group.dbGroupId,
 
-                court_id:
-                  null,
+                court_id:null,
 
-                stage:
-                  "group",
+                stage:"group",
 
                 round_number:
                   round.roundNumber,
@@ -2335,23 +2626,21 @@ async function saveMatchesToDatabase() {
                     match.entry2Index
                   ].dbEntryId,
 
-                source1_match_id:
-                  null,
+                source1_match_id:null,
 
-                source2_match_id:
-                  null,
+                source2_match_id:null,
 
-                status:
-                  "waiting",
+                status:"waiting",
 
-                score1:
-                  null,
+                score1:null,
 
-                score2:
-                  null,
+                score2:null,
 
-                winner_entry_id:
-                  null,
+                winner_entry_id:null,
+
+                started_at:null,
+
+                completed_at:null,
 
                 sort_order:
                   globalSortOrder++
@@ -2385,72 +2674,73 @@ async function saveMatchesToDatabase() {
   } =
     await supabaseClient
       .from("matches")
-      .insert(
-        rows
-      )
+      .insert(rows)
       .select(
-        "id,group_id,round_number,match_number,entry1_id,entry2_id,sort_order,status"
+        "id,group_id,round_number,match_number,entry1_id,entry2_id,status,sort_order"
       );
 
 
   if (
-    insertError ||
+    insertError
+  ) {
+
+    throw new Error(
+      "조별 대진 저장 실패: "
+      +
+      insertError.message
+    );
+
+  }
+
+
+  if (
     !savedMatches ||
     savedMatches.length !==
       rows.length
   ) {
 
     throw new Error(
-      "조별 대진 저장 실패: "
-      +
-      (
-        insertError?.message ||
-        "저장된 경기 수가 맞지 않습니다."
-      )
+      "저장된 경기 수가 맞지 않습니다."
     );
 
   }
 
 
   /*
-    저장된 DB id를 다시 groupMatches에 매칭
+    UUID를 현재 브라우저 데이터에도 연결.
   */
 
-  const entryPairKey =
+  const key =
     (
       groupId,
-      roundNumber,
-      entry1Id,
-      entry2Id
+      round,
+      entry1,
+      entry2
     ) =>
       [
         groupId,
-        roundNumber,
-        entry1Id,
-        entry2Id
+        round,
+        entry1,
+        entry2
       ].join("|");
 
 
-  const savedMap =
+  const map =
     new Map();
 
 
   savedMatches.forEach(
     row => {
 
-      const key =
-        entryPairKey(
+      map.set(
+        key(
           row.group_id,
           Number(
             row.round_number
           ),
           row.entry1_id,
           row.entry2_id
-        );
-
-
-      savedMap.set(
-        key,
+        ),
         row.id
       );
 
@@ -2467,31 +2757,24 @@ async function saveMatchesToDatabase() {
           round.matches.forEach(
             match => {
 
-              const entry1Id =
-                entries[
-                  match.entry1Index
-                ].dbEntryId;
-
-
-              const entry2Id =
-                entries[
-                  match.entry2Index
-                ].dbEntryId;
-
-
-              const key =
-                entryPairKey(
-                  group.dbGroupId,
-                  round.roundNumber,
-                  entry1Id,
-                  entry2Id
-                );
-
-
               match.dbMatchId =
-                savedMap.get(
-                  key
-                ) || null;
+                map.get(
+                  key(
+                    group.dbGroupId,
+                    round.roundNumber,
+                    entries[
+                      match.entry1Index
+                    ].dbEntryId,
+                    entries[
+                      match.entry2Index
+                    ].dbEntryId
+                  )
+                ) ||
+                null;
+
+
+              match.status =
+                "waiting";
 
             }
           );
@@ -2503,7 +2786,23 @@ async function saveMatchesToDatabase() {
   );
 
 
+  dbMatchesExist =
+    true;
+
+
+  existingDbStatuses =
+    savedMatches.map(
+      row =>
+        row.status
+    );
+
+
   saveSession();
+
+
+  return {
+    alreadyExists:false
+  };
 
 }
 
@@ -2514,7 +2813,30 @@ async function saveMatchesToDatabase() {
 
 async function confirmMatches() {
 
-  if (busy) {
+  if (
+    busy
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+    이미 DB 경기가 있다면
+    아무것도 쓰지 않고 바로 이동.
+  */
+
+  if (
+    dbMatchesExist
+  ) {
+
+    saveSession();
+
+
+    location.href =
+      "./match-control.html";
+
 
     return;
 
@@ -2522,7 +2844,7 @@ async function confirmMatches() {
 
 
   if (
-    !validateMatches()
+    !validateLocalMatches()
   ) {
 
     return;
@@ -2546,24 +2868,32 @@ async function confirmMatches() {
     setBusy(
       true,
       "조별 대진을 저장하고 있습니다",
-      "각 조의 경기 정보를 FWT 데이터베이스에 생성하고 있습니다."
+      "최초 예선 경기 정보를 FWT 데이터베이스에 생성하고 있습니다."
     );
 
 
-    await saveMatchesToDatabase();
+    const result =
+      await insertMatchesFirstTime();
 
 
     /*
-      기존 경기운영 임시상태 초기화
+      만약 다른 곳에서 이미 생성돼 있었다면
+      다시 불러오기만 한다.
     */
 
-    sessionStorage.removeItem(
-      "fwtMatchControlState"
-    );
+    if (
+      result.alreadyExists
+    ) {
 
-    sessionStorage.removeItem(
-      "fwtStandingsData"
-    );
+      await loadExistingMatches();
+
+    }
+
+
+    /*
+      여기서는 예선 결과를 삭제하지 않는다.
+      본선 관련 session만 제거.
+    */
 
     sessionStorage.removeItem(
       "fwtKnockoutQualifiers"
@@ -2606,7 +2936,27 @@ async function confirmMatches() {
 
 function regenerate() {
 
-  if (busy) {
+  if (
+    busy
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+    DB에 경기 하나라도 있으면
+    무조건 차단.
+  */
+
+  if (
+    dbMatchesExist
+  ) {
+
+    alert(
+      "이미 DB에 조별 예선 경기가 저장되어 있어 대진을 다시 생성할 수 없습니다.\n\n경기 결과 보호를 위해 기존 대진은 유지됩니다."
+    );
 
     return;
 
@@ -2615,7 +2965,7 @@ function regenerate() {
 
   if (
     !confirm(
-      "현재 대진 순서를 모두 지우고 조별 대진을 다시 자동 생성할까요?\n\nDB에 저장된 경기정보는 '대진 확정'을 누르기 전까지 바뀌지 않습니다."
+      "아직 DB에 저장되지 않은 현재 대진을 다시 자동 생성할까요?"
     )
   ) {
 
@@ -2624,7 +2974,7 @@ function regenerate() {
   }
 
 
-  generateAllMatches();
+  generateLocalMatches();
 
 }
 
@@ -2659,7 +3009,9 @@ async function start() {
     await checkLogin();
 
 
-  if (!loggedIn) {
+  if (
+    !loggedIn
+  ) {
 
     return;
 
@@ -2671,7 +3023,7 @@ async function start() {
     setBusy(
       true,
       "조별 대진을 확인하고 있습니다",
-      "기존에 저장된 경기 대진이 있는지 확인 중입니다."
+      "Supabase에 기존 경기와 결과가 있는지 확인 중입니다."
     );
 
 
@@ -2700,9 +3052,6 @@ async function start() {
         "알 수 없는 오류"
       )
     );
-
-
-    generateAllMatches();
 
   }
 
