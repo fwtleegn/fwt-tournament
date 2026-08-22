@@ -937,6 +937,14 @@
       border-bottom:0;
     }
 
+    .bracket-player.winner{
+      background:var(--green-soft);
+    }
+
+    .bracket-player.winner .bracket-score{
+      color:var(--green);
+    }
+
     .bracket-name{
       overflow:hidden;
 
@@ -2986,7 +2994,13 @@ function renderKnockout(){
                               </div>
 
 
-                              <div class="bracket-player">
+                              <div
+                                class="bracket-player ${
+                                  winner1
+                                    ? "winner"
+                                    : ""
+                                }"
+                              >
 
                                 <div
                                   class="bracket-name ${
@@ -3014,7 +3028,13 @@ function renderKnockout(){
                               </div>
 
 
-                              <div class="bracket-player">
+                              <div
+                                class="bracket-player ${
+                                  winner2
+                                    ? "winner"
+                                    : ""
+                                }"
+                              >
 
                                 <div
                                   class="bracket-name ${
