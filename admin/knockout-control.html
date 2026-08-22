@@ -390,7 +390,7 @@
       display:grid;
 
       grid-template-columns:
-        .8fr 1.25fr;
+        repeat(3,minmax(0,1fr));
 
       gap:6px;
 
@@ -418,6 +418,15 @@
       color:white;
 
       font-size:12px;
+    }
+
+    .court-btn.withdraw{
+      border:1px solid #edcccc;
+
+      background:var(--red-soft);
+      color:#b34343;
+
+      font-size:11px;
     }
 
     /* READY */
@@ -499,6 +508,14 @@
       font-weight:750;
     }
 
+    .ready-actions{
+      display:grid;
+
+      grid-template-columns:1fr;
+
+      gap:5px;
+    }
+
     .assign-btn{
       min-height:43px;
 
@@ -515,6 +532,19 @@
       color:white;
 
       font-size:12px;
+      font-weight:900;
+    }
+
+    .withdraw-btn{
+      min-height:38px;
+
+      border:1px solid #edcccc;
+      border-radius:9px;
+
+      background:var(--red-soft);
+      color:#b34343;
+
+      font-size:11px;
       font-weight:900;
     }
 
@@ -729,6 +759,13 @@
       color:var(--orange);
     }
 
+    .small-btn.withdraw{
+      border-color:#edcccc;
+
+      background:var(--red-soft);
+      color:#b34343;
+    }
+
     /* EMPTY */
 
     .empty{
@@ -848,6 +885,41 @@
 
       font-size:10px;
       font-weight:750;
+    }
+
+    .withdraw-picker{
+      display:grid;
+
+      grid-template-columns:
+        repeat(2,minmax(0,1fr));
+
+      gap:8px;
+    }
+
+    .withdraw-choice{
+      min-height:74px;
+
+      padding:10px;
+
+      border:1px solid #edcccc;
+      border-radius:11px;
+
+      background:var(--red-soft);
+      color:#9f3d3d;
+
+      font-size:13px;
+      font-weight:950;
+    }
+
+    .withdraw-choice small{
+      display:block;
+
+      margin-top:5px;
+
+      color:#8b6262;
+
+      font-size:10px;
+      font-weight:800;
     }
 
     .score-grid{
@@ -1127,15 +1199,31 @@
         font-size:11px;
       }
 
-      .assign-btn{
+      .ready-actions{
         grid-column:1 / -1;
 
+        grid-template-columns:
+          1fr 1fr;
+
+        width:100%;
+      }
+
+      .assign-btn{
         width:100%;
 
         height:50px;
         min-height:50px;
 
         font-size:13px;
+      }
+
+      .withdraw-btn{
+        width:100%;
+
+        height:50px;
+        min-height:50px;
+
+        font-size:12px;
       }
 
       .round{
@@ -1497,6 +1585,51 @@
         type="button"
       >
         경기 완료
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- WALKOVER / WITHDRAW MODAL -->
+
+<div
+  class="modal-wrap"
+  id="withdrawModal"
+>
+
+  <div class="modal">
+
+    <div class="modal-title">
+      기권 처리
+    </div>
+
+    <div class="modal-desc">
+      기권할 선수를 선택하면 상대 선수가 기권승으로 다음 라운드에 진출합니다.
+      본선이 시작된 이후에는 예선 순위나 본선 대진을 다시 계산하지 않습니다.
+    </div>
+
+    <div
+      class="selected-match"
+      id="withdrawModalMatch"
+    ></div>
+
+    <div
+      class="withdraw-picker"
+      id="withdrawPicker"
+    ></div>
+
+    <div class="modal-bottom">
+
+      <button
+        class="modal-btn cancel-btn"
+        type="button"
+        onclick="closeWithdrawModal()"
+      >
+        취소
       </button>
 
     </div>
@@ -2872,6 +3005,418 @@ async function returnToWaiting(
 
 
 /* =====================================
+   WALKOVER / WITHDRAWAL
+
+   본선 시작 후 기권은 조별 순위를
+   다시 계산하지 않고 현재 본선 경기에서
+   상대 선수를 기권승 처리한다.
+===================================== */
+
+function openWithdrawModal(
+  matchId
+){
+
+  const match =
+    getMatch(
+      matchId
+    );
+
+
+  if (
+    !match ||
+    ![
+      "waiting",
+      "playing"
+    ].includes(
+      match.status
+    )
+    ||
+    !match.entry1_id ||
+    !match.entry2_id
+  ){
+    return;
+  }
+
+
+  selectedWithdrawMatchId =
+    matchId;
+
+
+  document.getElementById(
+    "withdrawModalMatch"
+  ).innerHTML = `
+
+    <strong>
+      ${escapeHtml(
+        stageLabel(
+          match.stage
+        )
+      )}
+    </strong>
+
+    <br>
+
+    ${escapeHtml(
+      matchPlayers(match)
+    )}
+
+  `;
+
+
+  renderWithdrawPicker(
+    match
+  );
+
+
+  document.getElementById(
+    "withdrawModal"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+function closeWithdrawModal(){
+
+  selectedWithdrawMatchId =
+    null;
+
+
+  document.getElementById(
+    "withdrawModal"
+  ).classList.remove(
+    "show"
+  );
+
+}
+
+
+function renderWithdrawPicker(
+  match
+){
+
+  const box =
+    document.getElementById(
+      "withdrawPicker"
+    );
+
+
+  box.innerHTML =
+    "";
+
+
+  [
+    match.entry1_id,
+    match.entry2_id
+  ].forEach(
+    entryId => {
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.type =
+        "button";
+
+
+      button.className =
+        "withdraw-choice";
+
+
+      button.innerHTML = `
+
+        ${escapeHtml(
+          entryName(
+            entryId
+          )
+        )}
+
+        <small>
+          이 선수 기권 처리
+        </small>
+
+      `;
+
+
+      button.addEventListener(
+        "click",
+        function(){
+
+          processWalkover(
+            match.id,
+            entryId
+          );
+
+        }
+      );
+
+
+      box.appendChild(
+        button
+      );
+
+    }
+  );
+
+}
+
+
+async function processWalkover(
+  matchId,
+  withdrawnEntryId
+){
+
+  if (busy){
+    return;
+  }
+
+
+  try{
+
+    /*
+      다른 기기에서 상태가 바뀌었을 수 있으므로
+      확정 직전에 본선 경기 상태를 다시 읽는다.
+    */
+
+    setBusy(
+      true,
+      "기권 처리 가능 여부를 확인하고 있습니다"
+    );
+
+
+    await loadMatches();
+
+
+    const freshMatch =
+      getMatch(
+        matchId
+      );
+
+
+    if (
+      !freshMatch ||
+      ![
+        "waiting",
+        "playing"
+      ].includes(
+        freshMatch.status
+      )
+      ||
+      !freshMatch.entry1_id ||
+      !freshMatch.entry2_id
+    ){
+
+      setBusy(false);
+
+      closeWithdrawModal();
+
+
+      alert(
+        "이 경기는 현재 기권 처리할 수 없습니다. 다른 기기에서 경기 상태가 변경되었을 수 있습니다."
+      );
+
+
+      await reloadAll();
+
+      return;
+
+    }
+
+
+    if (
+      withdrawnEntryId !==
+        freshMatch.entry1_id
+      &&
+      withdrawnEntryId !==
+        freshMatch.entry2_id
+    ){
+
+      setBusy(false);
+
+      closeWithdrawModal();
+
+      alert(
+        "기권 처리할 선수를 확인할 수 없습니다."
+      );
+
+      return;
+
+    }
+
+
+    const winnerEntryId =
+      withdrawnEntryId ===
+        freshMatch.entry1_id
+        ? freshMatch.entry2_id
+        : freshMatch.entry1_id;
+
+
+    const withdrawnName =
+      entryName(
+        withdrawnEntryId
+      );
+
+
+    const winnerName =
+      entryName(
+        winnerEntryId
+      );
+
+
+    setBusy(false);
+
+
+    const ok =
+      confirm(
+        `${withdrawnName}님을 기권 처리할까요?\n\n`
+        +
+        `${winnerName}님이 기권승으로 다음 라운드에 진출합니다.\n`
+        +
+        "점수는 기록하지 않습니다."
+      );
+
+
+    if (!ok){
+      return;
+    }
+
+
+    setBusy(
+      true,
+      "기권승을 저장하고 있습니다"
+    );
+
+
+    /*
+      아직 끝나지 않은 현재 경기이므로
+      정상적인 구조에서는 하위 라운드가
+      진행돼 있을 수 없다.
+      그래도 데이터 오류를 막기 위해
+      연결된 이후 라운드는 먼저 초기화한다.
+    */
+
+    await resetDescendants(
+      freshMatch.id
+    );
+
+
+    const completedAt =
+      new Date()
+        .toISOString();
+
+
+    await updateMatch(
+      freshMatch.id,
+      {
+
+        status:
+          "walkover",
+
+        score1:
+          null,
+
+        score2:
+          null,
+
+        winner_entry_id:
+          winnerEntryId,
+
+        court_id:
+          null,
+
+        completed_at:
+          completedAt
+
+      }
+    );
+
+
+    freshMatch.status =
+      "walkover";
+
+    freshMatch.score1 =
+      null;
+
+    freshMatch.score2 =
+      null;
+
+    freshMatch.winner_entry_id =
+      winnerEntryId;
+
+    freshMatch.court_id =
+      null;
+
+    freshMatch.completed_at =
+      completedAt;
+
+
+    /*
+      기권승자를 다음 라운드에 자동 연결.
+    */
+
+    await repairPropagation();
+
+
+    /*
+      결승 기권이라면 상대 선수가 우승.
+    */
+
+    if (
+      freshMatch.stage ===
+      "final"
+    ){
+
+      await supabaseClient
+        .from("tournaments")
+        .update({
+
+          status:
+            "completed"
+
+        })
+        .eq(
+          "id",
+          tournament.tournamentId
+        );
+
+    }
+
+
+    closeWithdrawModal();
+
+
+    await reloadAll();
+
+
+    setBusy(false);
+
+
+  }catch(error){
+
+    console.error(error);
+
+
+    setBusy(false);
+
+
+    alert(
+      "기권 처리를 저장하지 못했습니다.\n\n"
+      +
+      (
+        error?.message ||
+        "알 수 없는 오류"
+      )
+    );
+
+  }
+
+}
+
+
+/* =====================================
    SCORE MODAL
 ===================================== */
 
@@ -2911,7 +3456,11 @@ function openScoreModal(
     "scoreModalDesc"
   ).textContent =
     mode === "edit"
-      ? "결과를 수정하면 이후 라운드 결과가 초기화될 수 있습니다."
+      ? (
+          match.status === "walkover"
+            ? "기권승을 실제 점수 결과로 변경할 수 있습니다. 이후 라운드 결과가 초기화될 수 있습니다."
+            : "결과를 수정하면 이후 라운드 결과가 초기화될 수 있습니다."
+        )
       : "최종 점수를 입력하면 승자가 다음 라운드로 진출합니다.";
 
 
@@ -3631,6 +4180,13 @@ function renderCourts(){
               </button>
 
               <button
+                class="court-btn withdraw"
+                type="button"
+              >
+                기권
+              </button>
+
+              <button
                 class="court-btn finish"
                 type="button"
               >
@@ -3653,6 +4209,22 @@ function renderCourts(){
             function(){
 
               returnToWaiting(
+                match.id
+              );
+
+            }
+          );
+
+
+        card
+          .querySelector(
+            ".withdraw"
+          )
+          .addEventListener(
+            "click",
+            function(){
+
+              openWithdrawModal(
                 match.id
               );
 
@@ -3815,19 +4387,46 @@ function renderReady(){
         </div>
 
 
-        <button
-          class="assign-btn"
-          type="button"
-          ${
-            blocked
-              ? "disabled"
-              : ""
-          }
-        >
-          코트 배정
-        </button>
+        <div class="ready-actions">
+
+          <button
+            class="assign-btn"
+            type="button"
+            ${
+              blocked
+                ? "disabled"
+                : ""
+            }
+          >
+            코트 배정
+          </button>
+
+          <button
+            class="withdraw-btn"
+            type="button"
+          >
+            기권 처리
+          </button>
+
+        </div>
 
       `;
+
+
+      row
+        .querySelector(
+          ".withdraw-btn"
+        )
+        .addEventListener(
+          "click",
+          function(){
+
+            openWithdrawModal(
+              match.id
+            );
+
+          }
+        );
 
 
       if (!blocked){
@@ -3990,6 +4589,19 @@ function renderBracket(){
             );
 
 
+          const canWithdraw =
+            [
+              "waiting",
+              "playing"
+            ].includes(
+              match.status
+            )
+            &&
+            match.entry1_id
+            &&
+            match.entry2_id;
+
+
           card.innerHTML = `
 
             <div class="match-head">
@@ -4036,8 +4648,21 @@ function renderBracket(){
 
                   ${
                     winner1
-                      ? `<span class="winner-mark"> · 승</span>`
-                      : ""
+                      ? (
+                          match.status === "walkover"
+                            ? `<span class="winner-mark"> · 기권승</span>`
+                            : `<span class="winner-mark"> · 승</span>`
+                        )
+                      : (
+                          match.status === "walkover"
+                          &&
+                          match.entry1_id
+                          &&
+                          match.winner_entry_id !==
+                            match.entry1_id
+                            ? `<span class="winner-mark" style="color:#b34343;"> · 기권</span>`
+                            : ""
+                        )
                   }
 
                 </div>
@@ -4078,8 +4703,21 @@ function renderBracket(){
 
                   ${
                     winner2
-                      ? `<span class="winner-mark"> · 승</span>`
-                      : ""
+                      ? (
+                          match.status === "walkover"
+                            ? `<span class="winner-mark"> · 기권승</span>`
+                            : `<span class="winner-mark"> · 승</span>`
+                        )
+                      : (
+                          match.status === "walkover"
+                          &&
+                          match.entry2_id
+                          &&
+                          match.winner_entry_id !==
+                            match.entry2_id
+                            ? `<span class="winner-mark" style="color:#b34343;"> · 기권</span>`
+                            : ""
+                        )
                   }
 
                 </div>
@@ -4097,6 +4735,24 @@ function renderBracket(){
 
 
             ${
+              canWithdraw
+                ? `
+                  <div class="match-bottom">
+
+                    <button
+                      class="small-btn withdraw"
+                      type="button"
+                    >
+                      기권 처리
+                    </button>
+
+                  </div>
+                `
+                : ""
+            }
+
+
+            ${
               canEdit
                 ? `
                   <div class="match-bottom">
@@ -4105,14 +4761,22 @@ function renderBracket(){
                       class="small-btn edit"
                       type="button"
                     >
-                      결과 수정
+                      ${
+                        match.status === "walkover"
+                          ? "점수 결과로 변경"
+                          : "결과 수정"
+                      }
                     </button>
 
                     <button
                       class="small-btn restore"
                       type="button"
                     >
-                      대기로 복원
+                      ${
+                        match.status === "walkover"
+                          ? "기권승 취소"
+                          : "대기로 복원"
+                      }
                     </button>
 
                   </div>
@@ -4121,6 +4785,26 @@ function renderBracket(){
             }
 
           `;
+
+
+          if (canWithdraw){
+
+            card
+              .querySelector(
+                ".small-btn.withdraw"
+              )
+              .addEventListener(
+                "click",
+                function(){
+
+                  openWithdrawModal(
+                    match.id
+                  );
+
+                }
+              );
+
+          }
 
 
           if (canEdit){
