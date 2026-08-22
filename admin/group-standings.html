@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>조별 순위 | FWT Tournament</title>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -12,17 +14,22 @@
       --navy2:#0c294a;
       --blue:#184a79;
       --lime:#c9df45;
+
       --bg:#f4f6f9;
       --white:#ffffff;
       --text:#172033;
       --muted:#667386;
       --line:#dfe5eb;
+
       --green:#178b61;
       --green-soft:#edf8f3;
+
       --orange:#99631c;
       --orange-soft:#fff7eb;
+
       --red:#c64b4b;
       --red-soft:#fff2f2;
+
       --shadow:
         0 12px 35px rgba(20,35,55,.06);
     }
@@ -35,6 +42,7 @@
     body {
       margin:0;
       min-height:100%;
+
       background:var(--bg);
       color:var(--text);
 
@@ -55,6 +63,7 @@
 
     .topbar {
       min-height:72px;
+
       padding:0 20px;
 
       display:flex;
@@ -97,6 +106,7 @@
 
     .header-btn {
       min-height:44px;
+
       padding:0 14px;
 
       border:
@@ -121,6 +131,7 @@
         );
 
       margin:0 auto;
+
       padding:32px 0 60px;
     }
 
@@ -193,6 +204,7 @@
 
     .notice {
       margin-bottom:14px;
+
       padding:13px 14px;
 
       border:1px solid #dce8df;
@@ -281,7 +293,7 @@
       display:grid;
 
       grid-template-columns:
-        48px minmax(0,1fr) 48px 52px 52px 64px;
+        42px minmax(0,1fr) 38px 38px 44px 44px 56px;
 
       align-items:center;
 
@@ -383,6 +395,7 @@
 
     .wildcard-warning {
       margin:0 10px 10px;
+
       padding:11px 12px;
 
       border:1px solid #ecd7b9;
@@ -396,6 +409,7 @@
       line-height:1.55;
     }
 
+
     .wildcard-row.manual-choice {
       border-color:#c7d3df;
       background:#fff;
@@ -404,10 +418,7 @@
     .wildcard-row.manual-choice.selected {
       border-color:#8da41a;
       background:#f7fbe8;
-
-      box-shadow:
-        inset 0 0 0 1px
-        rgba(141,164,26,.18);
+      box-shadow:inset 0 0 0 1px rgba(141,164,26,.18);
     }
 
     .wildcard-action {
@@ -416,47 +427,38 @@
     }
 
     .wildcard-select-btn {
-      min-width:92px;
-      min-height:38px;
-
-      padding:0 12px;
-
+      min-width:52px;
+      min-height:34px;
+      padding:0 6px;
       border:1px solid #cfd8e2;
       border-radius:9px;
-
       background:white;
       color:#34465b;
-
-      font-size:11px;
+      font-size:10px;
       font-weight:900;
+      white-space:nowrap;
     }
 
     .wildcard-select-btn.selected {
       border-color:var(--navy);
-
       background:var(--navy);
       color:white;
     }
 
     .wildcard-auto-badge {
       color:#7e9414;
-
       font-size:10px;
       font-weight:950;
-
       text-align:center;
     }
 
     .wildcard-manual-note {
       margin:10px;
       padding:12px 13px;
-
       border:1px solid #dce4eb;
       border-radius:10px;
-
       background:#f7f9fb;
       color:#526073;
-
       font-size:11px;
       font-weight:750;
       line-height:1.6;
@@ -596,7 +598,6 @@
       display:flex;
       flex-wrap:wrap;
       align-items:center;
-
       gap:5px;
 
       margin-top:4px;
@@ -655,6 +656,7 @@
 
     .rank-row.withdrawn {
       opacity:.7;
+
       background:#fafafa;
     }
 
@@ -694,6 +696,7 @@
       border-bottom:1px solid #e8ecf0;
 
       background:#f4f6f8;
+
       color:#718092;
 
       font-size:9px;
@@ -708,6 +711,7 @@
 
     .tie-warning {
       margin:10px;
+
       padding:11px 12px;
 
       border:1px solid #ecd7b9;
@@ -773,6 +777,7 @@
 
     .next:disabled {
       cursor:not-allowed;
+
       opacity:.48;
     }
 
@@ -780,6 +785,7 @@
       display:none;
 
       margin-top:11px;
+
       padding:12px 13px;
 
       border:1px solid #ecd7b9;
@@ -844,8 +850,7 @@
 
       border-radius:50%;
 
-      animation:
-        spin .8s linear infinite;
+      animation:spin .8s linear infinite;
     }
 
     @keyframes spin {
@@ -886,17 +891,6 @@
     }
 
     @media(max-width:700px) {
-
-      .wildcard-select-btn {
-        min-width:82px;
-        min-height:42px;
-
-        font-size:12px;
-      }
-
-      .wildcard-manual-note {
-        font-size:12px;
-      }
 
       .topbar {
         min-height:72px;
@@ -955,11 +949,18 @@
 
       .wildcard-row {
         grid-template-columns:
-          42px minmax(0,1fr) 42px 45px 45px 58px;
+          36px minmax(0,1fr) 34px 34px 38px 38px 52px;
 
-        gap:3px;
+        gap:2px;
 
         min-height:58px;
+      }
+
+      .wildcard-select-btn {
+        min-width:48px;
+        min-height:34px;
+        padding:0 5px;
+        font-size:10px;
       }
 
       .wildcard-name {
@@ -1062,7 +1063,6 @@
       }
 
     }
-
   </style>
 </head>
 
@@ -1143,7 +1143,7 @@
   <div class="notice">
     조별 순위: 승수 → 득실차 → 득점 → 2명 동률 시 상대전적
     <br>
-    와일드카드 순위: 승수 → 득실차 → 득점
+    와일드카드 순위: 승수 → 득실차 → 총 득점 → 완전 동률 시 수동 선택
   </div>
 
 
@@ -1167,27 +1167,21 @@
       </div>
 
       <div class="wildcard-count">
-        WC
-        <strong id="wildcardSelectedCount">0</strong>
-        /
-        <span id="wildcardTargetCount">0</span>
+        WC <strong id="wildcardSelectedCount">0</strong>/<span id="wildcardTargetCount">0</span>
       </div>
 
     </div>
-
 
     <div
       class="wildcard-list"
       id="wildcardList"
     ></div>
 
-
     <div
       class="wildcard-warning"
       id="wildcardWarning"
       style="display:none;"
     ></div>
-
 
     <div
       class="wildcard-manual-note"
@@ -1219,6 +1213,7 @@
     >
       경기 운영으로
     </button>
+
 
     <button
       class="next"
@@ -1392,10 +1387,8 @@ function escapeHtml(value) {
       "div"
     );
 
-
   div.textContent =
     value ?? "";
-
 
   return div.innerHTML;
 
@@ -1542,6 +1535,7 @@ function isEntryDisqualified(
   );
 
 }
+
 
 
 function wildcardSelectionStorageKey() {
@@ -1695,6 +1689,12 @@ function selectManualWildcard(
       wildcardManualSlots === 1
     ) {
 
+      /*
+        한 자리만 결정하는 경우:
+        다른 후보를 누르면 기존 선택을 즉시 교체.
+        잘못 눌렀어도 바로 수정 가능.
+      */
+
       manualWildcardSelections = [
         entryId
       ];
@@ -1711,6 +1711,11 @@ function selectManualWildcard(
         );
 
       } else {
+
+        /*
+          여러 자리가 모두 찬 상태에서
+          새 후보를 누르면 가장 마지막 선택을 교체.
+        */
 
         manualWildcardSelections[
           manualWildcardSelections.length - 1
@@ -1783,8 +1788,7 @@ function setBusy(
     "순위를 계산하고 있습니다"
 ) {
 
-  busy =
-    state;
+  busy = state;
 
 
   document.getElementById(
@@ -2045,8 +2049,7 @@ async function loadMatches() {
 
           return {
 
-            id:
-              row.id,
+            id:row.id,
 
             groupId:
               row.group_id,
@@ -2321,6 +2324,11 @@ function calculateGroup(
   );
 
 
+  /*
+    1차 정렬
+    승수 → 득실차 → 득점
+  */
+
   ranking.sort(
     (a,b) => {
 
@@ -2369,8 +2377,12 @@ function calculateGroup(
   );
 
 
-  let i =
-    0;
+  /*
+    동일 성적이 정확히 2명인 경우
+    상대전적 적용
+  */
+
+  let i = 0;
 
 
   while (
@@ -2401,9 +2413,12 @@ function calculateGroup(
     }
 
 
+    const size =
+      j - i;
+
+
     if (
-      j - i ===
-      2
+      size === 2
     ) {
 
       const a =
@@ -2430,7 +2445,6 @@ function calculateGroup(
         ranking[i] =
           b;
 
-
         ranking[i + 1] =
           a;
 
@@ -2439,18 +2453,19 @@ function calculateGroup(
     }
 
 
-    i =
-      j;
+    i = j;
 
   }
 
 
-  const tieGroups =
-    [];
+  /*
+    완전 동률 그룹 표시
+  */
+
+  const tieGroups = [];
 
 
-  i =
-    0;
+  i = 0;
 
 
   while (
@@ -2489,8 +2504,7 @@ function calculateGroup(
 
 
     if (
-      tied.length >=
-      3
+      tied.length >= 3
     ) {
 
       tieGroups.push(
@@ -2503,19 +2517,22 @@ function calculateGroup(
     }
 
 
-    i =
-      j;
+    i = j;
 
   }
 
+
+  /*
+    본선 커트라인에
+    완전 동률이 걸려있는지 확인
+  */
 
   let cutoffTie =
     false;
 
 
   if (
-    advanceCount > 0
-    &&
+    advanceCount > 0 &&
     ranking.length >
       advanceCount
   ) {
@@ -2673,8 +2690,7 @@ function buildEligibleRanking(
     );
 
 
-  let i =
-    0;
+  let i = 0;
 
 
   while (
@@ -2706,8 +2722,7 @@ function buildEligibleRanking(
 
 
     if (
-      j - i ===
-      2
+      j - i === 2
     ) {
 
       const a =
@@ -2749,12 +2764,10 @@ function buildEligibleRanking(
   }
 
 
-  const tieGroups =
-    [];
+  const tieGroups = [];
 
 
-  i =
-    0;
+  i = 0;
 
 
   while (
@@ -2786,8 +2799,7 @@ function buildEligibleRanking(
 
 
     if (
-      j - i >=
-      3
+      j - i >= 3
     ) {
 
       tieGroups.push(
@@ -2812,11 +2824,8 @@ function buildEligibleRanking(
 
 
   return {
-
     ranking,
-
     tieGroups
-
   };
 
 }
@@ -2863,14 +2872,11 @@ function hasUnresolvedEligibleCutoffTie(
 
 
   if (
-    upper.wins !==
-      lower.wins
+    upper.wins !== lower.wins
     ||
-    upper.diff !==
-      lower.diff
+    upper.diff !== lower.diff
     ||
-    upper.scored !==
-      lower.scored
+    upper.scored !== lower.scored
   ) {
 
     return false;
@@ -2907,28 +2913,17 @@ function calculateStandings() {
     );
 
 
-  qualifiers =
-    [];
+  qualifiers = [];
 
+  wildcardCandidates = [];
 
-  wildcardCandidates =
-    [];
+  wildcardCutoffTie = false;
 
+  wildcardTieCandidates = [];
 
-  wildcardCutoffTie =
-    false;
+  wildcardAutoSelected = [];
 
-
-  wildcardTieCandidates =
-    [];
-
-
-  wildcardAutoSelected =
-    [];
-
-
-  wildcardManualSlots =
-    0;
+  wildcardManualSlots = 0;
 
 
   standingsData.forEach(
@@ -2987,6 +2982,13 @@ function calculateStandings() {
             groupId:
               group.dbGroupId,
 
+            /*
+              rank는 "본선 진출 슬롯" 순위.
+              같은 조 차순위자가 승계하면
+              2위라도 1위 슬롯을 승계할 수 있음.
+              knockout-bracket의 기존 시드 로직도
+              이 값을 사용한다.
+            */
             rank:
               slotIndex + 1,
 
@@ -3026,6 +3028,11 @@ function calculateStandings() {
       );
 
 
+      /*
+        WC 후보는 기권/실격 선수를 제외한 뒤
+        자동 진출 슬롯 다음 순위의 선수.
+      */
+
       if (
         wildcardCount > 0
         &&
@@ -3061,6 +3068,10 @@ function calculateStandings() {
           groupId:
             group.dbGroupId,
 
+          /*
+            WC는 자동진출 다음 슬롯으로 취급.
+            실제 예선 순위는 originalRank에 별도 보존.
+          */
           rank:
             advanceCount + 1,
 
@@ -3294,9 +3305,7 @@ function calculateStandings() {
             effectiveCount
           );
 
-
-        wildcardManualSlots =
-          0;
+        wildcardManualSlots = 0;
 
       }
 
@@ -3308,8 +3317,7 @@ function calculateStandings() {
   clearInvalidManualWildcardSelections();
 
 
-  const selectedWildcardCandidates =
-    [];
+  const selectedWildcardCandidates = [];
 
 
   wildcardAutoSelected.forEach(
@@ -3318,10 +3326,8 @@ function calculateStandings() {
       candidate.isWildcard =
         true;
 
-
       candidate.selectionMode =
         "auto";
-
 
       selectedWildcardCandidates.push(
         candidate
@@ -3349,14 +3355,11 @@ function calculateStandings() {
         candidate.isWildcard =
           selected;
 
-
         candidate.selectionMode =
           "manual";
 
 
-        if (
-          selected
-        ) {
+        if (selected) {
 
           selectedWildcardCandidates.push(
             candidate
@@ -3450,8 +3453,7 @@ function saveCompatibilityData() {
 function allMatchesCompleted() {
 
   if (
-    matches.length ===
-    0
+    matches.length === 0
   ) {
 
     return false;
@@ -3574,10 +3576,6 @@ function canCreateKnockout() {
 }
 
 
-/* =====================================
-   WITHDRAWAL
-===================================== */
-
 async function toggleWithdrawal(
   entryIndex
 ) {
@@ -3629,7 +3627,6 @@ async function toggleWithdrawal(
       );
 
     }
-
 
     return;
 
@@ -3731,10 +3728,8 @@ async function toggleWithdrawal(
       await supabaseClient
         .from("entries")
         .update({
-
           status:
             nextStatus
-
         })
         .eq(
           "id",
@@ -3760,7 +3755,6 @@ async function toggleWithdrawal(
 
 
     await loadEntryStatuses();
-
 
     await loadKnockoutState();
 
@@ -3885,26 +3879,20 @@ function renderWildcards() {
 
 
   if (
-    wildcardCount <=
-    0
+    wildcardCount <= 0
   ) {
 
     panel.classList.remove(
       "show"
     );
 
-
-    list.innerHTML =
-      "";
-
+    list.innerHTML = "";
 
     warning.style.display =
       "none";
 
-
     manualNote.style.display =
       "none";
-
 
     return;
 
@@ -3916,8 +3904,7 @@ function renderWildcards() {
   );
 
 
-  list.innerHTML =
-    "";
+  list.innerHTML = "";
 
 
   wildcardCandidates.forEach(
@@ -3955,13 +3942,10 @@ function renderWildcards() {
         );
 
 
-      let actionHtml =
-        "";
+      let actionHtml = "";
 
 
-      if (
-        isManualCandidate
-      ) {
+      if (isManualCandidate) {
 
         actionHtml = `
 
@@ -3983,13 +3967,11 @@ function renderWildcards() {
                   : ""
               }
             >
-
               ${
                 candidate.isWildcard
-                  ? `WC${candidate.wildcardOrder || ""} 선택됨`
-                  : "WC 선택"
+                  ? `WC${candidate.wildcardOrder || ""}`
+                  : "선택"
               }
-
             </button>
 
           </div>
@@ -4028,9 +4010,7 @@ function renderWildcards() {
           ${candidate.wildcardRank}
         </div>
 
-
         <div class="wildcard-name">
-
           ${escapeHtml(
             shortEntryName(
               entries[
@@ -4038,44 +4018,32 @@ function renderWildcards() {
               ]
             )
           )}
-
         </div>
 
-
         <div class="wildcard-group">
-
           ${escapeHtml(
             candidate.groupName
           )}
-
         </div>
 
-
         <div class="wildcard-stat">
-
-          <strong>
-            ${candidate.wins}
-          </strong>
-
+          <strong>${candidate.wins}</strong>
           승
-
         </div>
-
 
         <div class="wildcard-stat">
-
-          <strong>
-            ${
-              candidate.diff > 0
-                ? "+"
-                : ""
-            }${candidate.diff}
-          </strong>
-
+          <strong>${
+            candidate.diff > 0
+              ? "+"
+              : ""
+          }${candidate.diff}</strong>
           득실
-
         </div>
 
+        <div class="wildcard-stat">
+          <strong>${candidate.scored}</strong>
+          득점
+        </div>
 
         ${actionHtml}
 
@@ -4088,9 +4056,7 @@ function renderWildcards() {
         );
 
 
-      if (
-        selectButton
-      ) {
+      if (selectButton) {
 
         selectButton.addEventListener(
           "click",
@@ -4121,14 +4087,11 @@ function renderWildcards() {
     warning.textContent =
       "와일드카드 후보가 되는 조 순위에 3명 이상 완전 동률이 있습니다. 해당 조 순위를 먼저 확정해야 합니다.";
 
-
     warning.style.display =
       "block";
 
-
     manualNote.style.display =
       "none";
-
 
     return;
 
@@ -4143,17 +4106,14 @@ function renderWildcards() {
       Math.max(
         0,
         wildcardManualSlots -
-          manualWildcardSelections.length
+        manualWildcardSelections.length
       );
 
 
     warning.textContent =
       remaining > 0
-
         ? `와일드카드 커트라인이 동률입니다. 아래 동률 후보 중 ${remaining}명을 직접 선택해주세요.`
-
-        : "와일드카드 동률 선택이 완료되었습니다. 잘못 선택했다면 다른 후보의 'WC 선택' 버튼을 누르면 바로 변경됩니다.";
-
+        : "와일드카드 동률 선택이 완료되었습니다. 잘못 선택했다면 다른 후보의 '선택' 버튼을 누르면 바로 변경됩니다.";
 
     warning.style.display =
       "block";
@@ -4162,10 +4122,8 @@ function renderWildcards() {
     manualNote.textContent =
       `자동으로 확정 가능한 선수는 그대로 유지됩니다. 동률 구간에서만 관리자가 ${wildcardManualSlots}명을 선택합니다. 본선 토너먼트 생성 전까지 선택은 언제든 변경할 수 있습니다.`;
 
-
     manualNote.style.display =
       "block";
-
 
     return;
 
@@ -4174,7 +4132,6 @@ function renderWildcards() {
 
   warning.style.display =
     "none";
-
 
   manualNote.style.display =
     "none";
@@ -4190,8 +4147,7 @@ function renderGroups() {
     );
 
 
-  box.innerHTML =
-    "";
+  box.innerHTML = "";
 
 
   standingsData.forEach(
@@ -4212,18 +4168,14 @@ function renderGroups() {
         <div class="group-head">
 
           <div class="group-name">
-
             ${escapeHtml(
               group.name
             )}
-
           </div>
 
 
           <div class="group-progress">
-
             ${group.completedMatches}/${group.totalMatches} 완료
-
           </div>
 
         </div>
@@ -4231,29 +4183,19 @@ function renderGroups() {
 
         <div class="table-head">
 
-          <div>
-            순위
-          </div>
+          <div>순위</div>
 
           <div class="name-head">
             참가자
           </div>
 
-          <div>
-            승
-          </div>
+          <div>승</div>
 
-          <div>
-            득점
-          </div>
+          <div>득점</div>
 
-          <div>
-            실점
-          </div>
+          <div>실점</div>
 
-          <div>
-            득실
-          </div>
+          <div>득실</div>
 
         </div>
 
@@ -4325,6 +4267,14 @@ function renderGroups() {
             );
 
 
+          const canManageWithdrawal =
+            allMatchesCompleted()
+            &&
+            !knockoutExists
+            &&
+            !disqualified;
+
+
           const rankRow =
             document.createElement(
               "div"
@@ -4357,11 +4307,9 @@ function renderGroups() {
           ) {
 
             qualifierLabel = `
-
               <div class="withdrawn-badge">
                 기권 · 본선 진출 제외
               </div>
-
             `;
 
           } else if (
@@ -4369,11 +4317,9 @@ function renderGroups() {
           ) {
 
             qualifierLabel = `
-
               <div class="withdrawn-badge">
                 실격 · 본선 진출 제외
               </div>
-
             `;
 
           } else if (
@@ -4381,17 +4327,13 @@ function renderGroups() {
           ) {
 
             qualifierLabel = `
-
               <div class="qualifier-label">
-
                 ${
                   autoQualifier.advancedByWithdrawal
                     ? "자동 진출 승계"
                     : "자동 진출"
                 }
-
               </div>
-
             `;
 
           } else if (
@@ -4399,11 +4341,9 @@ function renderGroups() {
           ) {
 
             qualifierLabel = `
-
               <div class="qualifier-label">
                 WC${selectedWildcard.wildcardOrder || ""}
               </div>
-
             `;
 
           } else if (
@@ -4411,11 +4351,9 @@ function renderGroups() {
           ) {
 
             qualifierLabel = `
-
               <div class="qualifier-label">
                 WC 후보
               </div>
-
             `;
 
           }
@@ -4434,7 +4372,6 @@ function renderGroups() {
             ) {
 
               actionHtml = `
-
                 <button
                   class="withdrawal-action"
                   type="button"
@@ -4445,28 +4382,23 @@ function renderGroups() {
                       : "본선 대진을 먼저 초기화해야 합니다."
                   }"
                 >
-
                   ${
                     withdrawn
                       ? "기권 취소"
                       : "기권 처리"
                   }
-
                 </button>
-
               `;
 
             } else if (
               disqualified
             ) {
 
-              actionHtml =
-                "";
+              actionHtml = "";
 
             } else {
 
               actionHtml = `
-
                 <button
                   class="withdrawal-action ${
                     withdrawn
@@ -4476,15 +4408,12 @@ function renderGroups() {
                   type="button"
                   data-entry-index="${row.entryIndex}"
                 >
-
                   ${
                     withdrawn
                       ? "기권 취소"
                       : "기권 처리"
                   }
-
                 </button>
-
               `;
 
             }
@@ -4502,7 +4431,6 @@ function renderGroups() {
             <div>
 
               <div class="player-name">
-
                 ${escapeHtml(
                   shortEntryName(
                     entries[
@@ -4510,9 +4438,7 @@ function renderGroups() {
                     ]
                   )
                 )}
-
               </div>
-
 
               <div class="player-meta">
 
@@ -4604,8 +4530,7 @@ function renderGroups() {
 
 
       if (
-        group.eligibleTieGroups?.length >
-        0
+        group.eligibleTieGroups?.length > 0
       ) {
 
         const warning =
@@ -4620,9 +4545,7 @@ function renderGroups() {
 
         warning.textContent =
           group.qualificationCutoffTie
-
             ? "현재 본선 진출 커트라인에 3명 이상 완전 동률이 있습니다. 순위를 직접 결정한 뒤 토너먼트를 생성해야 합니다."
-
             : "현재 유효 참가자 중 3명 이상 동일 성적 참가자가 있습니다. 표시 순위는 임시 순서입니다.";
 
 
@@ -4666,18 +4589,15 @@ function renderButtonState() {
 
 
   if (
-    matches.length ===
-    0
+    matches.length === 0
   ) {
 
     blocked.textContent =
       "저장된 조별 경기가 없습니다.";
 
-
     blocked.classList.add(
       "show"
     );
-
 
     return;
 
@@ -4704,11 +4624,9 @@ function renderButtonState() {
     blocked.textContent =
       `아직 ${remaining}경기가 완료되지 않았습니다. 모든 조별 예선이 끝나면 본선 토너먼트를 생성할 수 있습니다.`;
 
-
     blocked.classList.add(
       "show"
     );
-
 
     return;
 
@@ -4722,11 +4640,9 @@ function renderButtonState() {
     blocked.textContent =
       "조별 자동 진출 커트라인에 해결되지 않은 완전 동률이 있습니다.";
 
-
     blocked.classList.add(
       "show"
     );
-
 
     return;
 
@@ -4740,11 +4656,9 @@ function renderButtonState() {
     blocked.textContent =
       "와일드카드 후보가 되는 조 순위에 해결되지 않은 완전 동률이 있습니다.";
 
-
     blocked.classList.add(
       "show"
     );
-
 
     return;
 
@@ -4765,20 +4679,16 @@ function renderButtonState() {
     blocked.textContent =
       `와일드카드 동률 후보 중 ${remaining}명을 더 선택해야 합니다.`;
 
-
     blocked.classList.add(
       "show"
     );
-
 
     return;
 
   }
 
 
-  blocked.textContent =
-    "";
-
+  blocked.textContent = "";
 
   blocked.classList.remove(
     "show"
@@ -4795,15 +4705,11 @@ function renderAll() {
 
   calculateStandings();
 
-
   renderSummary();
-
 
   renderWildcards();
 
-
   renderGroups();
-
 
   renderButtonState();
 
@@ -4845,12 +4751,8 @@ function goKnockout() {
 
 async function refresh() {
 
-  if (
-    busy
-  ) {
-
+  if (busy) {
     return;
-
   }
 
 
@@ -4864,12 +4766,9 @@ async function refresh() {
 
     await loadDivisionConfig();
 
-
     await loadEntryStatuses();
 
-
     await loadKnockoutState();
-
 
     await loadMatches();
 
@@ -4877,16 +4776,12 @@ async function refresh() {
     renderAll();
 
 
-    setBusy(
-      false
-    );
+    setBusy(false);
 
 
   } catch(error) {
 
-    setBusy(
-      false
-    );
+    setBusy(false);
 
 
     alert(
@@ -4930,12 +4825,8 @@ async function start() {
     await checkLogin();
 
 
-  if (
-    !loggedIn
-  ) {
-
+  if (!loggedIn) {
     return;
-
   }
 
 
@@ -4949,12 +4840,9 @@ async function start() {
 
     await loadDivisionConfig();
 
-
     await loadEntryStatuses();
 
-
     await loadKnockoutState();
-
 
     await loadMatches();
 
@@ -4962,21 +4850,15 @@ async function start() {
     renderAll();
 
 
-    setBusy(
-      false
-    );
+    setBusy(false);
 
 
   } catch(error) {
 
-    console.error(
-      error
-    );
+    console.error(error);
 
 
-    setBusy(
-      false
-    );
+    setBusy(false);
 
 
     alert(
