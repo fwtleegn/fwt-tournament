@@ -801,7 +801,6 @@
   </style>
 </head>
 
-
 <body>
 
 <header class="topbar">
@@ -809,7 +808,6 @@
   <div class="fwt-logo">
     FW<span>T</span>
   </div>
-
 
   <div class="top-actions">
 
@@ -833,7 +831,6 @@
 
 </header>
 
-
 <main class="container">
 
   <div class="head">
@@ -853,7 +850,6 @@
       </p>
 
     </div>
-
 
     <div class="summary">
 
@@ -876,12 +872,10 @@
 
   </div>
 
-
   <div class="notice">
-    같은 조 1위와 2위는 가능한 한 서로 반대쪽 브래킷에 배치하여
-    결승 전 재대결 가능성을 최소화합니다.
+    같은 조에서 2명이 본선에 진출한 경우 서로 반대쪽 하프에 배치하여
+    8강·4강 재대결을 방지하고, 다시 만날 수 있는 시점은 결승으로 제한합니다.
   </div>
-
 
   <section class="qualifier-card">
 
@@ -898,14 +892,12 @@
 
     </div>
 
-
     <div
       class="qualifiers"
       id="qualifiers"
     ></div>
 
   </section>
-
 
   <section class="bracket-section">
 
@@ -921,7 +913,6 @@
 
     </div>
 
-
     <div class="bracket-scroll">
 
       <div
@@ -933,7 +924,6 @@
 
   </section>
 
-
   <div class="actions">
 
     <button
@@ -943,7 +933,6 @@
     >
       이전 단계
     </button>
-
 
     <button
       class="action-btn continue-btn"
@@ -955,7 +944,6 @@
     </button>
 
   </div>
-
 
   <footer class="footer">
 
@@ -972,7 +960,6 @@
   </footer>
 
 </main>
-
 
 <div
   class="loading-overlay"
@@ -1001,23 +988,19 @@
 
 </div>
 
-
 <script>
 
 const SUPABASE_URL =
   "https://opwuyqerisocqobbbisg.supabase.co";
 
-
 const SUPABASE_KEY =
   "sb_publishable_Eo_zfONeGLs9ATCVg2Fk_g_y_IAJFV-";
-
 
 const supabaseClient =
   window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
   );
-
 
 const tournament =
   JSON.parse(
@@ -1026,7 +1009,6 @@ const tournament =
     ) || "null"
   );
 
-
 const entries =
   JSON.parse(
     sessionStorage.getItem(
@@ -1034,14 +1016,12 @@ const entries =
     ) || "null"
   );
 
-
 const qualifiers =
   JSON.parse(
     sessionStorage.getItem(
       "fwtKnockoutQualifiers"
     ) || "null"
   );
-
 
 if (
   !tournament ||
@@ -1061,18 +1041,14 @@ if (
 
 }
 
-
 let busy =
   false;
-
 
 let bracketData =
   null;
 
-
 let bracketAlreadySaved =
   false;
-
 
 /* =========================
    HELPERS
@@ -1092,13 +1068,11 @@ function escapeHtml(value){
 
 }
 
-
 function shortEntryName(entry){
 
   if (!entry){
     return "알 수 없음";
   }
-
 
   if (
     entry.type ===
@@ -1113,23 +1087,19 @@ function shortEntryName(entry){
 
   }
 
-
   const p1 =
     entry.player1?.nickname ||
     entry.player1?.name ||
     "선수1";
-
 
   const p2 =
     entry.player2?.nickname ||
     entry.player2?.name ||
     "선수2";
 
-
   return `${p1}/${p2}`;
 
 }
-
 
 function entryName(index){
 
@@ -1140,13 +1110,11 @@ function entryName(index){
     return null;
   }
 
-
   return shortEntryName(
     entries[index]
   );
 
 }
-
 
 function entryIndexFromId(id){
 
@@ -1157,7 +1125,6 @@ function entryIndexFromId(id){
 
 }
 
-
 function entryIdFromIndex(index){
 
   if (
@@ -1167,7 +1134,6 @@ function entryIdFromIndex(index){
     return null;
   }
 
-
   return (
     entries[index]?.dbEntryId ||
     null
@@ -1175,11 +1141,9 @@ function entryIdFromIndex(index){
 
 }
 
-
 function nextPowerOfTwo(number){
 
   let value = 2;
-
 
   while (
     value < number
@@ -1187,11 +1151,9 @@ function nextPowerOfTwo(number){
     value *= 2;
   }
 
-
   return value;
 
 }
-
 
 function roundLabelBySize(size){
 
@@ -1215,11 +1177,9 @@ function roundLabelBySize(size){
     return "32강";
   }
 
-
   return `${size}강`;
 
 }
-
 
 function stageFromSize(size){
 
@@ -1243,7 +1203,6 @@ function stageFromSize(size){
 
 }
 
-
 function statusText(status){
 
   const map = {
@@ -1256,7 +1215,6 @@ function statusText(status){
     cancelled:"취소"
   };
 
-
   return (
     map[status] ||
     status ||
@@ -1264,7 +1222,6 @@ function statusText(status){
   );
 
 }
-
 
 /* =========================
    QUALIFIER HELPERS
@@ -1286,7 +1243,6 @@ function findQualifier(
 
 }
 
-
 function getGroupNames(){
 
   return [
@@ -1299,7 +1255,6 @@ function getGroupNames(){
   ];
 
 }
-
 
 /* =========================
    AUTH
@@ -1315,7 +1270,6 @@ async function checkLogin(){
       .auth
       .getSession();
 
-
   if (
     error ||
     !data.session
@@ -1328,11 +1282,9 @@ async function checkLogin(){
 
   }
 
-
   return true;
 
 }
-
 
 /* =========================
    BUSY
@@ -1347,7 +1299,6 @@ function setBusy(
   busy =
     state;
 
-
   document.getElementById(
     "loadingOverlay"
   ).classList.toggle(
@@ -1355,12 +1306,10 @@ function setBusy(
     state
   );
 
-
   document.getElementById(
     "continueButton"
   ).disabled =
     state;
-
 
   if (title){
 
@@ -1370,7 +1319,6 @@ function setBusy(
       title;
 
   }
-
 
   if (text){
 
@@ -1382,7 +1330,6 @@ function setBusy(
   }
 
 }
-
 
 /* =========================
    STANDARD 4 GROUP / TOP 2
@@ -1402,13 +1349,11 @@ function buildStandardEightBracket(){
   const groupNames =
     getGroupNames();
 
-
   if (
     groupNames.length !== 4
   ){
     return null;
   }
-
 
   const [
     A,
@@ -1417,7 +1362,6 @@ function buildStandardEightBracket(){
     D
   ] =
     groupNames;
-
 
   const A1 =
     findQualifier(A,1);
@@ -1443,7 +1387,6 @@ function buildStandardEightBracket(){
   const D2 =
     findQualifier(D,2);
 
-
   if (
     !A1 || !A2 ||
     !B1 || !B2 ||
@@ -1452,7 +1395,6 @@ function buildStandardEightBracket(){
   ){
     return null;
   }
-
 
   return [
     [A1,B2],
@@ -1463,6 +1405,221 @@ function buildStandardEightBracket(){
 
 }
 
+/* =========================
+   6 GROUP / TOP 1 + WC 2
+
+   예:
+   C조 1위 + C조 WC
+   F조 1위 + F조 WC
+
+   같은 조 1위와 WC는
+   반드시 서로 반대 half에 배치.
+
+   따라서 둘 다 승리해도
+   4강에서는 만날 수 없고,
+   재대결 가능 시점은 결승뿐.
+========================= */
+
+function isWildcardQualifier(
+  qualifier
+){
+
+  return (
+    qualifier?.isWildcard === true
+    ||
+    qualifier?.qualifierType ===
+      "wildcard"
+  );
+
+}
+
+function buildSixGroupWildcardEightBracket(){
+
+  const groupNames =
+    getGroupNames();
+
+  if (
+    groupNames.length !== 6
+  ){
+
+    return null;
+
+  }
+
+  const wildcards =
+    qualifiers
+      .filter(
+        qualifier =>
+          isWildcardQualifier(
+            qualifier
+          )
+      )
+      .sort(
+        (a,b) => {
+
+          const orderA =
+            Number(
+              a.wildcardOrder || 999
+            );
+
+          const orderB =
+            Number(
+              b.wildcardOrder || 999
+            );
+
+          if (
+            orderA !== orderB
+          ){
+
+            return (
+              orderA -
+              orderB
+            );
+
+          }
+
+          return String(
+            a.groupName
+          ).localeCompare(
+            String(
+              b.groupName
+            ),
+            "ko"
+          );
+
+        }
+      );
+
+  const groupWinners =
+    qualifiers
+      .filter(
+        qualifier =>
+          !isWildcardQualifier(
+            qualifier
+          )
+          &&
+          Number(
+            qualifier.rank
+          ) === 1
+      )
+      .sort(
+        (a,b) =>
+          String(
+            a.groupName
+          ).localeCompare(
+            String(
+              b.groupName
+            ),
+            "ko"
+          )
+      );
+
+  if (
+    wildcards.length !== 2
+    ||
+    groupWinners.length !== 6
+  ){
+
+    return null;
+
+  }
+
+  const wc1 =
+    wildcards[0];
+
+  const wc2 =
+    wildcards[1];
+
+  if (
+    wc1.groupName ===
+    wc2.groupName
+  ){
+
+    return null;
+
+  }
+
+  const wc1GroupWinner =
+    groupWinners.find(
+      qualifier =>
+        qualifier.groupName ===
+        wc1.groupName
+    );
+
+  const wc2GroupWinner =
+    groupWinners.find(
+      qualifier =>
+        qualifier.groupName ===
+        wc2.groupName
+    );
+
+  if (
+    !wc1GroupWinner
+    ||
+    !wc2GroupWinner
+  ){
+
+    return null;
+
+  }
+
+  const otherGroupWinners =
+    groupWinners.filter(
+      qualifier =>
+        qualifier.groupName !==
+          wc1.groupName
+        &&
+        qualifier.groupName !==
+          wc2.groupName
+    );
+
+  if (
+    otherGroupWinners.length !== 4
+  ){
+
+    return null;
+
+  }
+
+  /*
+    8강 1·2경기 = 상단 half
+    8강 3·4경기 = 하단 half
+
+    WC1의 조 1위는 상단,
+    WC1은 하단.
+
+    WC2의 조 1위는 하단,
+    WC2는 상단.
+
+    결과적으로 같은 조 1위와 WC는
+    결승 전에는 절대 만날 수 없음.
+  */
+
+  return [
+
+    [
+      wc1GroupWinner,
+      wc2
+    ],
+
+    [
+      otherGroupWinners[0],
+      otherGroupWinners[1]
+    ],
+
+    [
+      wc2GroupWinner,
+      wc1
+    ],
+
+    [
+      otherGroupWinners[2],
+      otherGroupWinners[3]
+    ]
+
+  ];
+
+}
 
 /* =========================
    GENERAL FALLBACK
@@ -1489,7 +1646,6 @@ function buildGeneralPairs(list){
             );
           }
 
-
           return String(
             a.groupName
           ).localeCompare(
@@ -1500,10 +1656,8 @@ function buildGeneralPairs(list){
         }
       );
 
-
   const pairCount =
     sorted.length / 2;
-
 
   const upper =
     sorted.slice(
@@ -1511,15 +1665,12 @@ function buildGeneralPairs(list){
       pairCount
     );
 
-
   const lower =
     sorted.slice(
       pairCount
     );
 
-
   const pairs = [];
-
 
   while (
     upper.length > 0
@@ -1528,7 +1679,6 @@ function buildGeneralPairs(list){
     const first =
       upper.shift();
 
-
     let index =
       lower.findIndex(
         opponent =>
@@ -1536,20 +1686,17 @@ function buildGeneralPairs(list){
           first.groupName
       );
 
-
     if (
       index < 0
     ){
       index = 0;
     }
 
-
     const opponent =
       lower.splice(
         index,
         1
       )[0];
-
 
     pairs.push([
       first,
@@ -1558,11 +1705,9 @@ function buildGeneralPairs(list){
 
   }
 
-
   return pairs;
 
 }
-
 
 /* =========================
    FIRST ROUND
@@ -1571,6 +1716,43 @@ function buildGeneralPairs(list){
 function buildFirstRound(
   bracketSize
 ){
+
+  /*
+    남자 FWT 형식:
+    6개조 × 조 1위 6명 + WC 2명 = 8명
+
+    같은 조 1위와 WC는
+    서로 반대 half에 배치해서
+    4강 재대결까지 방지.
+  */
+
+  if (
+    bracketSize === 8 &&
+    qualifiers.length === 8
+  ){
+
+    const sixGroupWildcard =
+      buildSixGroupWildcardEightBracket();
+
+    if (
+      sixGroupWildcard
+    ){
+
+      return sixGroupWildcard.map(
+        (
+          pair,
+          matchIndex
+        ) =>
+          makeFirstRoundMatch(
+            pair[0],
+            pair[1],
+            matchIndex
+          )
+      );
+
+    }
+
+  }
 
   /*
     가장 흔한 FWT 형식:
@@ -1584,7 +1766,6 @@ function buildFirstRound(
 
     const standard =
       buildStandardEightBracket();
-
 
     if (standard){
 
@@ -1603,7 +1784,6 @@ function buildFirstRound(
     }
 
   }
-
 
   /*
     그 외 인원은
@@ -1625,7 +1805,6 @@ function buildFirstRound(
             );
           }
 
-
           return String(
             a.groupName
           ).localeCompare(
@@ -1636,11 +1815,9 @@ function buildFirstRound(
         }
       );
 
-
   const byeCount =
     bracketSize -
     sorted.length;
-
 
   const byeEntrants =
     sorted.slice(
@@ -1648,28 +1825,23 @@ function buildFirstRound(
       byeCount
     );
 
-
   const playEntrants =
     sorted.slice(
       byeCount
     );
-
 
   const pairs =
     buildGeneralPairs(
       playEntrants
     );
 
-
   const firstRoundMatchCount =
     bracketSize / 2;
-
 
   const result =
     new Array(
       firstRoundMatchCount
     ).fill(null);
-
 
   /*
     BYE를 bracket 양쪽으로
@@ -1677,7 +1849,6 @@ function buildFirstRound(
   */
 
   const preferredByeSlots = [];
-
 
   for (
     let left = 0,
@@ -1693,7 +1864,6 @@ function buildFirstRound(
       left
     );
 
-
     if (
       right !== left
     ){
@@ -1706,7 +1876,6 @@ function buildFirstRound(
 
   }
 
-
   byeEntrants.forEach(
     (
       qualifier,
@@ -1718,7 +1887,6 @@ function buildFirstRound(
           index
         ];
 
-
       result[slot] =
         makeByeMatch(
           qualifier,
@@ -1728,9 +1896,7 @@ function buildFirstRound(
     }
   );
 
-
   let pairIndex = 0;
-
 
   for (
     let i = 0;
@@ -1744,17 +1910,14 @@ function buildFirstRound(
       continue;
     }
 
-
     const pair =
       pairs[
         pairIndex++
       ];
 
-
     if (!pair){
       continue;
     }
-
 
     result[i] =
       makeFirstRoundMatch(
@@ -1765,11 +1928,9 @@ function buildFirstRound(
 
   }
 
-
   return result;
 
 }
-
 
 /* =========================
    MATCH FACTORIES
@@ -1818,7 +1979,6 @@ function makeFirstRoundMatch(
 
 }
 
-
 function makeByeMatch(
   qualifier,
   matchIndex
@@ -1860,7 +2020,6 @@ function makeByeMatch(
 
 }
 
-
 /* =========================
    CREATE BRACKET
 ========================= */
@@ -1872,24 +2031,19 @@ function createBracket(){
       qualifiers.length
     );
 
-
   const rounds = [];
-
 
   const firstRound =
     buildFirstRound(
       bracketSize
     );
 
-
   rounds.push(
     firstRound
   );
 
-
   let currentSize =
     bracketSize;
-
 
   while (
     currentSize > 2
@@ -1898,21 +2052,16 @@ function createBracket(){
     const previousSize =
       currentSize;
 
-
     currentSize /=
       2;
-
 
     const roundIndex =
       rounds.length;
 
-
     const matchCount =
       currentSize / 2;
 
-
     const round = [];
-
 
     for (
       let i = 0;
@@ -1963,13 +2112,11 @@ function createBracket(){
 
     }
 
-
     rounds.push(
       round
     );
 
   }
-
 
   const data = {
 
@@ -1979,16 +2126,13 @@ function createBracket(){
 
   };
 
-
   propagateKnownWinners(
     data
   );
 
-
   return data;
 
 }
-
 
 /* =========================
    STATUS
@@ -2008,16 +2152,13 @@ function normalizeStatus(match){
     return;
   }
 
-
   const has1 =
     match.player1 !== null &&
     match.player1 !== undefined;
 
-
   const has2 =
     match.player2 !== null &&
     match.player2 !== undefined;
-
 
   if (
     has1 &&
@@ -2030,7 +2171,6 @@ function normalizeStatus(match){
     return;
 
   }
-
 
   if (
     match.roundIndex === 0 &&
@@ -2048,12 +2188,10 @@ function normalizeStatus(match){
 
   }
 
-
   match.status =
     "pending";
 
 }
-
 
 /* =========================
    WINNER PROPAGATION
@@ -2071,12 +2209,10 @@ function propagateKnownWinners(data){
     const current =
       data.rounds[r];
 
-
     const next =
       data.rounds[
         r + 1
       ];
-
 
     current.forEach(
       (
@@ -2096,14 +2232,12 @@ function propagateKnownWinners(data){
           return;
         }
 
-
         if (
           match.winner === null ||
           match.winner === undefined
         ){
           return;
         }
-
 
         const nextMatch =
           next[
@@ -2112,11 +2246,9 @@ function propagateKnownWinners(data){
             )
           ];
 
-
         if (!nextMatch){
           return;
         }
-
 
         if (
           index % 2 === 0
@@ -2132,7 +2264,6 @@ function propagateKnownWinners(data){
 
         }
 
-
         normalizeStatus(
           nextMatch
         );
@@ -2141,7 +2272,6 @@ function propagateKnownWinners(data){
     );
 
   }
-
 
   data.rounds.forEach(
     round => {
@@ -2160,7 +2290,6 @@ function propagateKnownWinners(data){
   );
 
 }
-
 
 /* =========================
    SESSION
@@ -2191,7 +2320,6 @@ function saveCompatibility(){
   );
 
 }
-
 
 /* =========================
    LOAD EXISTING DB
@@ -2229,7 +2357,6 @@ async function loadExistingBracket(){
         }
       );
 
-
   if (error){
 
     throw new Error(
@@ -2240,7 +2367,6 @@ async function loadExistingBracket(){
 
   }
 
-
   if (
     !rows ||
     rows.length === 0
@@ -2249,10 +2375,8 @@ async function loadExistingBracket(){
     bracketAlreadySaved =
       false;
 
-
     bracketData =
       createBracket();
-
 
     saveCompatibility();
 
@@ -2260,10 +2384,8 @@ async function loadExistingBracket(){
 
   }
 
-
   bracketAlreadySaved =
     true;
-
 
   const maxRound =
     Math.max(
@@ -2275,16 +2397,13 @@ async function loadExistingBracket(){
       )
     );
 
-
   const bracketSize =
     Math.pow(
       2,
       maxRound
     );
 
-
   const rounds = [];
-
 
   for (
     let r = 1;
@@ -2311,10 +2430,8 @@ async function loadExistingBracket(){
             )
         );
 
-
     const roundIndex =
       r - 1;
-
 
     rounds.push(
       roundRows.map(
@@ -2330,7 +2447,6 @@ async function loadExistingBracket(){
                 )
               : null;
 
-
           const p2 =
             row.entry2_id
               ? entryIndexFromId(
@@ -2338,14 +2454,12 @@ async function loadExistingBracket(){
                 )
               : null;
 
-
           const winner =
             row.winner_entry_id
               ? entryIndexFromId(
                   row.winner_entry_id
                 )
               : null;
-
 
           return {
 
@@ -2407,14 +2521,12 @@ async function loadExistingBracket(){
 
   }
 
-
   /*
     1라운드 출처 표시 복원
   */
 
   const qualifierMap =
     new Map();
-
 
   qualifiers.forEach(
     qualifier => {
@@ -2427,7 +2539,6 @@ async function loadExistingBracket(){
     }
   );
 
-
   rounds[0]?.forEach(
     match => {
 
@@ -2436,18 +2547,15 @@ async function loadExistingBracket(){
           match.player1
         );
 
-
       const q2 =
         qualifierMap.get(
           match.player2
         );
 
-
       match.source1 =
         q1
           ? `${q1.groupName} ${q1.rank}위`
           : "";
-
 
       match.source2 =
         q2
@@ -2461,7 +2569,6 @@ async function loadExistingBracket(){
     }
   );
 
-
   bracketData = {
 
     bracketSize,
@@ -2470,11 +2577,9 @@ async function loadExistingBracket(){
 
   };
 
-
   saveCompatibility();
 
 }
-
 
 /* =========================
    DELETE OLD KNOCKOUT
@@ -2497,7 +2602,6 @@ async function deleteExistingKnockout(){
         "group"
       );
 
-
   if (error){
 
     throw new Error(
@@ -2509,7 +2613,6 @@ async function deleteExistingKnockout(){
   }
 
 }
-
 
 /* =========================
    SAVE DB
@@ -2524,13 +2627,10 @@ async function saveBracketToDatabase(){
 
   await deleteExistingKnockout();
 
-
   const dbRounds = [];
-
 
   let globalSort =
     10000;
-
 
   for (
     let r = 0;
@@ -2542,7 +2642,6 @@ async function saveBracketToDatabase(){
     const round =
       bracketData.rounds[r];
 
-
     const roundSize =
       bracketData.bracketSize /
       Math.pow(
@@ -2550,12 +2649,10 @@ async function saveBracketToDatabase(){
         r
       );
 
-
     const stage =
       stageFromSize(
         roundSize
       );
-
 
     const rows =
       round.map(
@@ -2567,10 +2664,8 @@ async function saveBracketToDatabase(){
           let source1MatchId =
             null;
 
-
           let source2MatchId =
             null;
-
 
           if (
             r > 0
@@ -2583,7 +2678,6 @@ async function saveBracketToDatabase(){
                 matchIndex * 2
               ].id;
 
-
             source2MatchId =
               dbRounds[
                 r - 1
@@ -2592,7 +2686,6 @@ async function saveBracketToDatabase(){
               ].id;
 
           }
-
 
           return {
 
@@ -2651,7 +2744,6 @@ async function saveBracketToDatabase(){
         }
       );
 
-
     const {
       data:saved,
       error
@@ -2664,7 +2756,6 @@ async function saveBracketToDatabase(){
         .select(
           "id,round_number,match_number"
         );
-
 
     if (
       error ||
@@ -2684,7 +2775,6 @@ async function saveBracketToDatabase(){
 
     }
 
-
     saved.sort(
       (a,b) =>
         Number(
@@ -2696,13 +2786,11 @@ async function saveBracketToDatabase(){
         )
     );
 
-
     dbRounds.push(
       saved
     );
 
   }
-
 
   /*
     브라우저 객체에 DB UUID 부여
@@ -2723,10 +2811,8 @@ async function saveBracketToDatabase(){
           match.id =
             dbRounds[r][m].id;
 
-
           match.dbMatchId =
             dbRounds[r][m].id;
-
 
           if (
             r > 0
@@ -2738,7 +2824,6 @@ async function saveBracketToDatabase(){
               ][
                 m * 2
               ].id;
-
 
             match.source2MatchId =
               dbRounds[
@@ -2755,7 +2840,6 @@ async function saveBracketToDatabase(){
     }
   );
 
-
   /*
     BYE 진출자 다음 라운드 반영
   */
@@ -2770,7 +2854,6 @@ async function saveBracketToDatabase(){
     const round =
       bracketData.rounds[r];
 
-
     for (
       let m = 0;
       m < round.length;
@@ -2779,7 +2862,6 @@ async function saveBracketToDatabase(){
 
       const match =
         round[m];
-
 
       if (
         ![
@@ -2793,14 +2875,12 @@ async function saveBracketToDatabase(){
         continue;
       }
 
-
       if (
         match.winner === null ||
         match.winner === undefined
       ){
         continue;
       }
-
 
       const next =
         bracketData.rounds[
@@ -2811,11 +2891,9 @@ async function saveBracketToDatabase(){
           )
         ];
 
-
       if (!next){
         continue;
       }
-
 
       if (
         m % 2 === 0
@@ -2831,11 +2909,9 @@ async function saveBracketToDatabase(){
 
       }
 
-
       normalizeStatus(
         next
       );
-
 
       const {
         error
@@ -2863,7 +2939,6 @@ async function saveBracketToDatabase(){
             next.dbMatchId
           );
 
-
       if (error){
 
         throw new Error(
@@ -2878,15 +2953,12 @@ async function saveBracketToDatabase(){
 
   }
 
-
   bracketAlreadySaved =
     true;
-
 
   saveCompatibility();
 
 }
-
 
 /* =========================
    RENDER QUALIFIERS
@@ -2899,9 +2971,7 @@ function renderQualifiers(){
       "qualifiers"
     );
 
-
   box.innerHTML = "";
-
 
   qualifiers
     .slice()
@@ -2918,13 +2988,11 @@ function renderQualifiers(){
             "ko"
           );
 
-
         if (
           groupCompare !== 0
         ){
           return groupCompare;
         }
-
 
         return (
           Number(a.rank)
@@ -2942,10 +3010,8 @@ function renderQualifiers(){
             "div"
           );
 
-
         item.className =
           "qualifier";
-
 
         item.innerHTML = `
 
@@ -2968,7 +3034,6 @@ function renderQualifiers(){
 
         `;
 
-
         box.appendChild(
           item
         );
@@ -2977,7 +3042,6 @@ function renderQualifiers(){
     );
 
 }
-
 
 /* =========================
    SLOT
@@ -3014,7 +3078,6 @@ function slotHtml(
 
   }
 
-
   return `
 
     <div class="slot">
@@ -3040,7 +3103,6 @@ function slotHtml(
 
 }
 
-
 /* =========================
    BRACKET
 ========================= */
@@ -3052,9 +3114,7 @@ function renderBracket(){
       "bracket"
     );
 
-
   box.innerHTML = "";
-
 
   bracketData.rounds.forEach(
     (
@@ -3069,16 +3129,13 @@ function renderBracket(){
           roundIndex
         );
 
-
       const column =
         document.createElement(
           "section"
         );
 
-
       column.className =
         "round";
-
 
       column.innerHTML = `
 
@@ -3094,12 +3151,10 @@ function renderBracket(){
 
       `;
 
-
       const matchesBox =
         column.querySelector(
           ".round-matches"
         );
-
 
       round.forEach(
         match => {
@@ -3109,14 +3164,11 @@ function renderBracket(){
               "article"
             );
 
-
           card.className =
             "match";
 
-
           let statusClass =
             "";
-
 
           if (
             match.status ===
@@ -3126,7 +3178,6 @@ function renderBracket(){
               "waiting";
           }
 
-
           if (
             match.status ===
             "bye"
@@ -3135,10 +3186,8 @@ function renderBracket(){
               "bye";
           }
 
-
           let winnerHtml =
             "";
-
 
           if (
             match.winner !== null &&
@@ -3160,7 +3209,6 @@ function renderBracket(){
 
           }
 
-
           card.innerHTML = `
 
             <div class="match-top">
@@ -3181,7 +3229,6 @@ function renderBracket(){
 
             </div>
 
-
             <div class="slots">
 
               ${slotHtml(
@@ -3196,11 +3243,9 @@ function renderBracket(){
 
             </div>
 
-
             ${winnerHtml}
 
           `;
-
 
           matchesBox.appendChild(
             card
@@ -3208,7 +3253,6 @@ function renderBracket(){
 
         }
       );
-
 
       box.appendChild(
         column
@@ -3218,7 +3262,6 @@ function renderBracket(){
   );
 
 }
-
 
 /* =========================
    SUMMARY
@@ -3231,12 +3274,10 @@ function renderSummary(){
   ).textContent =
     qualifiers.length;
 
-
   document.getElementById(
     "bracketSize"
   ).textContent =
     bracketData.bracketSize;
-
 
   document.getElementById(
     "byeCount"
@@ -3245,7 +3286,6 @@ function renderSummary(){
     qualifiers.length;
 
 }
-
 
 /* =========================
    ALL
@@ -3259,7 +3299,6 @@ function renderAll(){
 
   renderBracket();
 
-
   document.getElementById(
     "continueButton"
   ).innerHTML =
@@ -3268,7 +3307,6 @@ function renderAll(){
       : `본선 대진 확정 · 경기 운영 <span>→</span>`;
 
 }
-
 
 /* =========================
    CONTINUE
@@ -3279,7 +3317,6 @@ async function continueTournament(){
   if (busy){
     return;
   }
-
 
   try{
 
@@ -3295,13 +3332,11 @@ async function continueTournament(){
         return;
       }
 
-
       setBusy(
         true,
         "본선 대진을 저장하고 있습니다",
         "본선 경기 정보를 FWT 데이터베이스에 저장 중입니다."
       );
-
 
       await saveBracketToDatabase();
 
@@ -3315,21 +3350,16 @@ async function continueTournament(){
 
     }
 
-
     saveCompatibility();
-
 
     location.href =
       "./knockout-control.html";
-
 
   } catch(error){
 
     console.error(error);
 
-
     setBusy(false);
-
 
     alert(
       "본선 대진을 저장하지 못했습니다.\n\n"
@@ -3344,7 +3374,6 @@ async function continueTournament(){
 
 }
 
-
 /* =========================
    EVENT
 ========================= */
@@ -3356,7 +3385,6 @@ document.getElementById(
   continueTournament
 );
 
-
 /* =========================
    START
 ========================= */
@@ -3366,11 +3394,9 @@ async function start(){
   const loggedIn =
     await checkLogin();
 
-
   if (!loggedIn){
     return;
   }
-
 
   try{
 
@@ -3380,23 +3406,17 @@ async function start(){
       "기존에 저장된 본선 경기가 있는지 확인 중입니다."
     );
 
-
     await loadExistingBracket();
-
 
     renderAll();
 
-
     setBusy(false);
-
 
   } catch(error){
 
     console.error(error);
 
-
     setBusy(false);
-
 
     alert(
       "본선 대진을 불러오지 못했습니다.\n\n"
@@ -3410,7 +3430,6 @@ async function start(){
   }
 
 }
-
 
 start();
 
