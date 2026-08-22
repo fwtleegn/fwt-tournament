@@ -919,7 +919,7 @@
         <div class="field">
 
           <label>
-            조별 본선 진출 인원
+            조별 자동 진출 인원
             <span class="required">*</span>
           </label>
 
@@ -929,6 +929,24 @@
             min="1"
             max="16"
             value="2"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            와일드카드 추가 진출 인원
+            <span class="required">*</span>
+          </label>
+
+          <input
+            type="number"
+            id="wildcardCount"
+            min="0"
+            max="32"
+            value="0"
           >
 
         </div>
@@ -1495,6 +1513,14 @@ function validateForm() {
     );
 
 
+  const wildcardCount =
+    Number(
+      document.getElementById(
+        "wildcardCount"
+      ).value
+    );
+
+
   if (!tournamentName) {
 
     alert(
@@ -1556,7 +1582,24 @@ function validateForm() {
     ) {
 
       alert(
-        "조별 본선 진출 인원을 올바르게 입력해주세요."
+        "조별 자동 진출 인원을 올바르게 입력해주세요."
+      );
+
+      return false;
+
+    }
+
+
+    if (
+      !Number.isInteger(
+        wildcardCount
+      )
+      ||
+      wildcardCount < 0
+    ) {
+
+      alert(
+        "와일드카드 추가 진출 인원을 올바르게 입력해주세요."
       );
 
       return false;
@@ -1783,6 +1826,17 @@ async function createTournament() {
       : 0;
 
 
+  const wildcardCount =
+    format ===
+      "group_knockout"
+      ? Number(
+          document.getElementById(
+            "wildcardCount"
+          ).value
+        )
+      : 0;
+
+
   let createdTournamentId =
     null;
 
@@ -1891,6 +1945,9 @@ async function createTournament() {
           advance_count:
             advanceCount,
 
+          wildcard_count:
+            wildcardCount,
+
           expected_match_minutes:
             matchDuration,
 
@@ -1899,7 +1956,7 @@ async function createTournament() {
 
         })
         .select(
-          "id,name,match_type,gender,format,group_count,advance_count,expected_match_minutes"
+          "id,name,match_type,gender,format,group_count,advance_count,wildcard_count,expected_match_minutes"
         )
         .single();
 
@@ -2046,6 +2103,9 @@ async function createTournament() {
 
       advanceCount:
         advanceCount,
+
+      wildcardCount:
+        wildcardCount,
 
       matchDuration:
         matchDuration,
