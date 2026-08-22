@@ -390,7 +390,7 @@
       display:grid;
 
       grid-template-columns:
-        repeat(3,minmax(0,1fr));
+        .8fr 1.25fr;
 
       gap:6px;
 
@@ -418,15 +418,6 @@
       color:white;
 
       font-size:12px;
-    }
-
-    .court-btn.withdraw{
-      border:1px solid #edcccc;
-
-      background:var(--red-soft);
-      color:#b34343;
-
-      font-size:11px;
     }
 
     /* READY */
@@ -532,19 +523,6 @@
       color:white;
 
       font-size:12px;
-      font-weight:900;
-    }
-
-    .withdraw-btn{
-      min-height:38px;
-
-      border:1px solid #edcccc;
-      border-radius:9px;
-
-      background:var(--red-soft);
-      color:#b34343;
-
-      font-size:11px;
       font-weight:900;
     }
 
@@ -4180,13 +4158,6 @@ function renderCourts(){
               </button>
 
               <button
-                class="court-btn withdraw"
-                type="button"
-              >
-                기권
-              </button>
-
-              <button
                 class="court-btn finish"
                 type="button"
               >
@@ -4209,22 +4180,6 @@ function renderCourts(){
             function(){
 
               returnToWaiting(
-                match.id
-              );
-
-            }
-          );
-
-
-        card
-          .querySelector(
-            ".withdraw"
-          )
-          .addEventListener(
-            "click",
-            function(){
-
-              openWithdrawModal(
                 match.id
               );
 
@@ -4401,32 +4356,9 @@ function renderReady(){
             코트 배정
           </button>
 
-          <button
-            class="withdraw-btn"
-            type="button"
-          >
-            기권 처리
-          </button>
-
         </div>
 
       `;
-
-
-      row
-        .querySelector(
-          ".withdraw-btn"
-        )
-        .addEventListener(
-          "click",
-          function(){
-
-            openWithdrawModal(
-              match.id
-            );
-
-          }
-        );
 
 
       if (!blocked){
