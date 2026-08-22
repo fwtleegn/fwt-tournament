@@ -223,46 +223,170 @@
 
     .champion{
       display:none;
+      position:relative;
+      overflow:hidden;
 
-      margin-bottom:17px;
+      margin-bottom:20px;
+      padding:30px 22px 28px;
 
-      padding:22px;
-
-      border:1px solid #eadc9d;
-      border-radius:17px;
+      border:1px solid #e4ca6a;
+      border-radius:20px;
 
       background:
+        radial-gradient(
+          circle at 18% 18%,
+          rgba(255,255,255,.95) 0 2px,
+          transparent 3px
+        ),
+        radial-gradient(
+          circle at 82% 24%,
+          rgba(255,255,255,.9) 0 2px,
+          transparent 3px
+        ),
+        radial-gradient(
+          circle at 72% 78%,
+          rgba(255,255,255,.7) 0 2px,
+          transparent 3px
+        ),
         linear-gradient(
-          120deg,
-          #fffdf4,
-          #fff8d9
+          135deg,
+          #fffdf4 0%,
+          #fff4bf 42%,
+          #f7dc72 100%
         );
 
       text-align:center;
 
-      box-shadow:var(--shadow);
+      box-shadow:
+        0 18px 45px rgba(150,108,18,.16),
+        inset 0 1px 0 rgba(255,255,255,.9);
+    }
+
+    .champion::before{
+      content:"";
+      position:absolute;
+      inset:-70% -20%;
+      pointer-events:none;
+
+      background:
+        linear-gradient(
+          115deg,
+          transparent 38%,
+          rgba(255,255,255,.5) 48%,
+          transparent 58%
+        );
+
+      transform:translateX(-55%);
+      animation:championShine 4.8s ease-in-out infinite;
+    }
+
+    .champion::after{
+      content:"✦  ·  ✧  ·  ✦";
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:9px;
+
+      color:rgba(133,94,11,.42);
+      font-size:11px;
+      font-weight:950;
+      letter-spacing:8px;
     }
 
     .champion.show{
       display:block;
+      animation:championReveal .55s ease both;
+    }
+
+    .champion-inner{
+      position:relative;
+      z-index:2;
+    }
+
+    .champion-tournament{
+      max-width:760px;
+      margin:0 auto;
+
+      color:#6f5312;
+
+      font-size:13px;
+      line-height:1.45;
+      font-weight:950;
+      letter-spacing:.2px;
+      word-break:keep-all;
+    }
+
+    .champion-trophy{
+      width:58px;
+      height:58px;
+
+      margin:13px auto 8px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      border:1px solid rgba(148,105,16,.24);
+      border-radius:50%;
+
+      background:
+        radial-gradient(
+          circle at 35% 25%,
+          #fff9d9,
+          #f7d660 72%
+        );
+
+      box-shadow:
+        0 9px 23px rgba(121,85,14,.18),
+        inset 0 1px 0 rgba(255,255,255,.8);
+
+      font-size:31px;
+      line-height:1;
     }
 
     .champion-label{
-      color:#967315;
+      color:#9a7217;
 
-      font-size:11px;
+      font-size:10px;
       font-weight:950;
-      letter-spacing:1.5px;
+      letter-spacing:2.4px;
     }
 
     .champion-name{
-      margin-top:7px;
+      margin-top:6px;
 
       color:var(--navy);
 
-      font-size:29px;
+      font-size:32px;
+      line-height:1.2;
       font-weight:950;
-      letter-spacing:-1px;
+      letter-spacing:-1.3px;
+      word-break:keep-all;
+    }
+
+    @keyframes championShine{
+      0%,55%{
+        transform:translateX(-58%);
+        opacity:0;
+      }
+      65%{
+        opacity:1;
+      }
+      82%,100%{
+        transform:translateX(58%);
+        opacity:0;
+      }
+    }
+
+    @keyframes championReveal{
+      from{
+        opacity:0;
+        transform:translateY(8px) scale(.985);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+      }
     }
 
     /* SECTION */
@@ -1120,8 +1244,22 @@
         font-size:12px;
       }
 
+      .champion{
+        padding:25px 15px 26px;
+      }
+
+      .champion-tournament{
+        font-size:12px;
+      }
+
+      .champion-trophy{
+        width:54px;
+        height:54px;
+        font-size:29px;
+      }
+
       .champion-name{
-        font-size:27px;
+        font-size:28px;
       }
 
       .section-title{
@@ -1339,14 +1477,32 @@
     id="champion"
   >
 
-    <div class="champion-label">
-      FWT CHAMPION
-    </div>
+    <div class="champion-inner">
 
-    <div
-      class="champion-name"
-      id="championName"
-    ></div>
+      <div
+        class="champion-tournament"
+        id="championTournamentName"
+      >
+        FWT TOURNAMENT
+      </div>
+
+      <div
+        class="champion-trophy"
+        aria-hidden="true"
+      >
+        🏆
+      </div>
+
+      <div class="champion-label">
+        CHAMPION
+      </div>
+
+      <div
+        class="champion-name"
+        id="championName"
+      ></div>
+
+    </div>
 
   </section>
 
@@ -1691,6 +1847,9 @@ let entries = [];
 
 let courts = [];
 
+let tournamentTitle =
+  "";
+
 let selectedCourtMatchId =
   null;
 
@@ -1906,6 +2065,46 @@ function setBusy(
     "refreshButton"
   ).disabled =
     state;
+
+}
+
+
+/* =====================================
+   LOAD TOURNAMENT INFO
+===================================== */
+
+async function loadTournamentInfo(){
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("tournaments")
+      .select(
+        "id,name"
+      )
+      .eq(
+        "id",
+        tournament.tournamentId
+      )
+      .single();
+
+
+  if (error){
+
+    throw new Error(
+      "대회명 조회 실패: "
+      +
+      error.message
+    );
+
+  }
+
+
+  tournamentTitle =
+    data?.name ||
+    "FWT TOURNAMENT";
 
 }
 
@@ -4010,6 +4209,13 @@ function renderChampion(){
   ){
 
     document.getElementById(
+      "championTournamentName"
+    ).textContent =
+      tournamentTitle ||
+      "FWT TOURNAMENT";
+
+
+    document.getElementById(
       "championName"
     ).textContent =
       entryName(
@@ -4921,6 +5127,7 @@ async function start(){
 
 
     await Promise.all([
+      loadTournamentInfo(),
       loadEntries(),
       loadCourts()
     ]);
