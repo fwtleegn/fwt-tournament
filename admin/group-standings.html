@@ -4,44 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>조별 순위 | FWT Tournament</title>
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    :root{
+    :root {
       --navy:#071a31;
       --navy2:#0c294a;
       --blue:#184a79;
       --lime:#c9df45;
-
       --bg:#f4f6f9;
-      --white:#fff;
+      --white:#ffffff;
       --text:#172033;
       --muted:#667386;
       --line:#dfe5eb;
-
       --green:#178b61;
       --green-soft:#edf8f3;
-
       --orange:#99631c;
       --orange-soft:#fff7eb;
-
       --red:#c64b4b;
       --red-soft:#fff2f2;
-
       --shadow:
         0 12px 35px rgba(20,35,55,.06);
     }
 
-    *{
+    * {
       box-sizing:border-box;
     }
 
     html,
-    body{
+    body {
       margin:0;
       min-height:100%;
-
       background:var(--bg);
       color:var(--text);
 
@@ -55,14 +48,13 @@
         sans-serif;
     }
 
-    button{
+    button {
       font:inherit;
       cursor:pointer;
     }
 
-    .topbar{
+    .topbar {
       min-height:72px;
-
       padding:0 20px;
 
       display:flex;
@@ -81,8 +73,8 @@
         0 5px 20px rgba(6,23,43,.16);
     }
 
-    .fwt-logo{
-      color:#fff;
+    .fwt-logo {
+      color:white;
 
       font-size:31px;
       line-height:1;
@@ -94,18 +86,17 @@
       transform:skew(-5deg);
     }
 
-    .fwt-logo span{
+    .fwt-logo span {
       color:var(--lime);
     }
 
-    .top-actions{
+    .top-actions {
       display:flex;
       gap:7px;
     }
 
-    .header-btn{
+    .header-btn {
       min-height:44px;
-
       padding:0 14px;
 
       border:
@@ -116,13 +107,13 @@
       background:
         rgba(255,255,255,.08);
 
-      color:#fff;
+      color:white;
 
       font-size:12px;
       font-weight:850;
     }
 
-    .container{
+    .container {
       width:
         min(
           1120px,
@@ -130,11 +121,10 @@
         );
 
       margin:0 auto;
-
       padding:32px 0 60px;
     }
 
-    .head{
+    .head {
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
@@ -144,7 +134,7 @@
       margin-bottom:18px;
     }
 
-    .kicker{
+    .kicker {
       margin-bottom:7px;
 
       color:var(--blue);
@@ -154,7 +144,7 @@
       letter-spacing:2px;
     }
 
-    h1{
+    h1 {
       margin:0;
 
       color:var(--navy);
@@ -164,7 +154,7 @@
       letter-spacing:-1.5px;
     }
 
-    .desc{
+    .desc {
       margin:8px 0 0;
 
       color:var(--muted);
@@ -173,26 +163,26 @@
       line-height:1.65;
     }
 
-    .summary{
+    .summary {
       display:flex;
       flex-wrap:wrap;
       gap:7px;
     }
 
-    .summary-chip{
+    .summary-chip {
       padding:9px 12px;
 
       border:1px solid var(--line);
       border-radius:999px;
 
-      background:#fff;
+      background:white;
       color:#526073;
 
       font-size:11px;
       font-weight:850;
     }
 
-    .summary-chip strong{
+    .summary-chip strong {
       margin-left:4px;
 
       color:var(--navy);
@@ -201,9 +191,8 @@
       font-weight:950;
     }
 
-    .notice{
+    .notice {
       margin-bottom:14px;
-
       padding:13px 14px;
 
       border:1px solid #dce8df;
@@ -217,11 +206,7 @@
       line-height:1.65;
     }
 
-    /* =========================
-       WILDCARD
-    ========================= */
-
-    .wildcard-panel{
+    .wildcard-panel {
       display:none;
 
       margin-bottom:14px;
@@ -229,18 +214,18 @@
       border:1px solid #dbe3ea;
       border-radius:15px;
 
-      background:#fff;
+      background:white;
 
       box-shadow:var(--shadow);
 
       overflow:hidden;
     }
 
-    .wildcard-panel.show{
+    .wildcard-panel.show {
       display:block;
     }
 
-    .wildcard-head{
+    .wildcard-head {
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -254,14 +239,14 @@
       background:#fafbfc;
     }
 
-    .wildcard-title{
+    .wildcard-title {
       color:var(--navy);
 
       font-size:17px;
       font-weight:950;
     }
 
-    .wildcard-sub{
+    .wildcard-sub {
       margin-top:3px;
 
       color:var(--muted);
@@ -270,7 +255,7 @@
       font-weight:750;
     }
 
-    .wildcard-count{
+    .wildcard-count {
       flex-shrink:0;
 
       padding:7px 10px;
@@ -278,47 +263,42 @@
       border-radius:999px;
 
       background:var(--navy);
-      color:#fff;
+      color:white;
 
       font-size:11px;
       font-weight:900;
     }
 
-    .wildcard-count strong{
+    .wildcard-count strong {
       color:var(--lime);
     }
 
-    .wildcard-list{
+    .wildcard-list {
       padding:8px 10px 10px;
     }
 
-    .wildcard-row{
+    .wildcard-row {
       display:grid;
 
       grid-template-columns:
-        48px
-        minmax(0,1fr)
-        48px
-        52px
-        52px
-        110px;
+        48px minmax(0,1fr) 48px 52px 52px 64px;
 
       align-items:center;
 
       gap:5px;
 
-      min-height:58px;
+      min-height:54px;
 
       padding:7px 8px;
 
       border-bottom:1px solid #e9edf1;
     }
 
-    .wildcard-row:last-child{
+    .wildcard-row:last-child {
       border-bottom:0;
     }
 
-    .wildcard-row.selected{
+    .wildcard-row.selected {
       border-radius:10px;
 
       background:
@@ -329,21 +309,7 @@
         );
     }
 
-    .wildcard-row.manual-choice{
-      background:#fff;
-    }
-
-    .wildcard-row.manual-choice.selected{
-      border-radius:10px;
-
-      background:#f7fbe8;
-
-      box-shadow:
-        inset 0 0 0 1px
-        rgba(141,164,26,.18);
-    }
-
-    .wildcard-rank{
+    .wildcard-rank {
       width:38px;
       height:34px;
 
@@ -360,13 +326,12 @@
       font-weight:950;
     }
 
-    .wildcard-row.selected
-    .wildcard-rank{
+    .wildcard-row.selected .wildcard-rank {
       background:var(--navy);
       color:var(--lime);
     }
 
-    .wildcard-name{
+    .wildcard-name {
       min-width:0;
 
       overflow:hidden;
@@ -380,7 +345,7 @@
       white-space:nowrap;
     }
 
-    .wildcard-group{
+    .wildcard-group {
       color:#687587;
 
       font-size:11px;
@@ -389,7 +354,7 @@
       text-align:center;
     }
 
-    .wildcard-stat{
+    .wildcard-stat {
       color:#556275;
 
       font-size:10px;
@@ -398,7 +363,7 @@
       text-align:center;
     }
 
-    .wildcard-stat strong{
+    .wildcard-stat strong {
       display:block;
 
       color:var(--navy);
@@ -407,8 +372,7 @@
       font-weight:950;
     }
 
-    .wildcard-badge,
-    .wildcard-auto-badge{
+    .wildcard-badge {
       color:#7e9414;
 
       font-size:10px;
@@ -417,37 +381,8 @@
       text-align:center;
     }
 
-    .wildcard-action{
-      display:flex;
-      justify-content:flex-end;
-    }
-
-    .wildcard-select-btn{
-      min-width:96px;
-      min-height:40px;
-
-      padding:0 10px;
-
-      border:1px solid #cfd8e2;
-      border-radius:9px;
-
-      background:#fff;
-      color:#34465b;
-
-      font-size:11px;
-      font-weight:900;
-    }
-
-    .wildcard-select-btn.selected{
-      border-color:var(--navy);
-
-      background:var(--navy);
-      color:#fff;
-    }
-
-    .wildcard-warning{
+    .wildcard-warning {
       margin:0 10px 10px;
-
       padding:11px 12px;
 
       border:1px solid #ecd7b9;
@@ -461,10 +396,60 @@
       line-height:1.55;
     }
 
-    .wildcard-manual-note{
-      margin:0 10px 10px;
+    .wildcard-row.manual-choice {
+      border-color:#c7d3df;
+      background:#fff;
+    }
 
-      padding:11px 12px;
+    .wildcard-row.manual-choice.selected {
+      border-color:#8da41a;
+      background:#f7fbe8;
+
+      box-shadow:
+        inset 0 0 0 1px
+        rgba(141,164,26,.18);
+    }
+
+    .wildcard-action {
+      display:flex;
+      justify-content:flex-end;
+    }
+
+    .wildcard-select-btn {
+      min-width:92px;
+      min-height:38px;
+
+      padding:0 12px;
+
+      border:1px solid #cfd8e2;
+      border-radius:9px;
+
+      background:white;
+      color:#34465b;
+
+      font-size:11px;
+      font-weight:900;
+    }
+
+    .wildcard-select-btn.selected {
+      border-color:var(--navy);
+
+      background:var(--navy);
+      color:white;
+    }
+
+    .wildcard-auto-badge {
+      color:#7e9414;
+
+      font-size:10px;
+      font-weight:950;
+
+      text-align:center;
+    }
+
+    .wildcard-manual-note {
+      margin:10px;
+      padding:12px 13px;
 
       border:1px solid #dce4eb;
       border-radius:10px;
@@ -477,11 +462,7 @@
       line-height:1.6;
     }
 
-    /* =========================
-       GROUPS
-    ========================= */
-
-    .groups{
+    .groups {
       display:grid;
 
       grid-template-columns:
@@ -493,18 +474,18 @@
       gap:12px;
     }
 
-    .group-card{
+    .group-card {
       overflow:hidden;
 
       border:1px solid var(--line);
       border-radius:17px;
 
-      background:#fff;
+      background:white;
 
       box-shadow:var(--shadow);
     }
 
-    .group-head{
+    .group-head {
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -516,61 +497,34 @@
       background:#fafbfc;
     }
 
-    .group-name{
+    .group-name {
       color:var(--navy);
 
       font-size:18px;
       font-weight:950;
     }
 
-    .group-progress{
+    .group-progress {
       color:#687587;
 
       font-size:11px;
       font-weight:800;
     }
 
-    .table-head,
-    .rank-row{
-      display:grid;
-
-      grid-template-columns:
-        42px
-        minmax(0,1fr)
-        44px
-        48px
-        48px
-        48px;
-
-      gap:5px;
-
-      align-items:center;
-    }
-
-    .table-head{
-      padding:8px 16px;
-
-      border-bottom:1px solid #e8ecf0;
-
-      background:#f4f6f8;
-
-      color:#718092;
-
-      font-size:9px;
-      font-weight:900;
-
-      text-align:center;
-    }
-
-    .table-head .name-head{
-      text-align:left;
-    }
-
-    .ranking{
+    .ranking {
       padding:9px;
     }
 
-    .rank-row{
+    .rank-row {
+      display:grid;
+
+      grid-template-columns:
+        42px minmax(0,1fr) 44px 48px 48px 48px;
+
+      align-items:center;
+
+      gap:5px;
+
       min-height:58px;
 
       padding:8px 7px;
@@ -578,11 +532,11 @@
       border-bottom:1px solid #e9edf1;
     }
 
-    .rank-row:last-child{
+    .rank-row:last-child {
       border-bottom:0;
     }
 
-    .rank-row.qualifier{
+    .rank-row.qualifier {
       border-radius:10px;
 
       background:
@@ -593,7 +547,7 @@
         );
     }
 
-    .rank-number{
+    .rank-number {
       width:36px;
       height:36px;
 
@@ -610,13 +564,12 @@
       font-weight:950;
     }
 
-    .qualifier
-    .rank-number{
+    .qualifier .rank-number {
       background:var(--navy);
-      color:#fff;
+      color:white;
     }
 
-    .player-name{
+    .player-name {
       min-width:0;
 
       overflow:hidden;
@@ -630,7 +583,7 @@
       white-space:nowrap;
     }
 
-    .qualifier-label{
+    .qualifier-label {
       margin-top:3px;
 
       color:#7e9414;
@@ -639,7 +592,78 @@
       font-weight:950;
     }
 
-    .stat-cell{
+    .player-meta {
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+
+      gap:5px;
+
+      margin-top:4px;
+    }
+
+    .withdrawn-badge {
+      display:inline-flex;
+      align-items:center;
+
+      min-height:20px;
+
+      padding:0 7px;
+
+      border-radius:999px;
+
+      background:#fff0f0;
+      color:#b54848;
+
+      font-size:9px;
+      font-weight:950;
+    }
+
+    .withdrawal-action {
+      min-height:28px;
+
+      padding:0 8px;
+
+      border:1px solid #d9e0e7;
+      border-radius:7px;
+
+      background:white;
+      color:#687587;
+
+      font-size:9px;
+      font-weight:900;
+    }
+
+    .withdrawal-action.danger {
+      border-color:#ead0d0;
+
+      background:#fff8f8;
+      color:#b54848;
+    }
+
+    .withdrawal-action.restore {
+      border-color:#cfe1d8;
+
+      background:#f4fbf7;
+      color:#177b57;
+    }
+
+    .withdrawal-action:disabled {
+      cursor:not-allowed;
+      opacity:.45;
+    }
+
+    .rank-row.withdrawn {
+      opacity:.7;
+      background:#fafafa;
+    }
+
+    .rank-row.withdrawn .player-name {
+      color:#8a949f;
+      text-decoration:line-through;
+    }
+
+    .stat-cell {
       text-align:center;
 
       color:#556275;
@@ -648,7 +672,7 @@
       font-weight:850;
     }
 
-    .stat-cell strong{
+    .stat-cell strong {
       display:block;
 
       color:var(--navy);
@@ -657,9 +681,33 @@
       font-weight:950;
     }
 
-    .tie-warning{
-      margin:10px;
+    .table-head {
+      display:grid;
 
+      grid-template-columns:
+        42px minmax(0,1fr) 44px 48px 48px 48px;
+
+      gap:5px;
+
+      padding:8px 16px;
+
+      border-bottom:1px solid #e8ecf0;
+
+      background:#f4f6f8;
+      color:#718092;
+
+      font-size:9px;
+      font-weight:900;
+
+      text-align:center;
+    }
+
+    .table-head .name-head {
+      text-align:left;
+    }
+
+    .tie-warning {
+      margin:10px;
       padding:11px 12px;
 
       border:1px solid #ecd7b9;
@@ -673,11 +721,7 @@
       line-height:1.55;
     }
 
-    /* =========================
-       BOTTOM
-    ========================= */
-
-    .bottom{
+    .bottom {
       display:flex;
 
       gap:10px;
@@ -686,7 +730,7 @@
     }
 
     .previous,
-    .next{
+    .next {
       height:56px;
       min-height:56px;
 
@@ -695,16 +739,16 @@
       font-weight:900;
     }
 
-    .previous{
+    .previous {
       width:190px;
 
       border:1px solid #d8dee5;
 
-      background:#fff;
+      background:white;
       color:#526073;
     }
 
-    .next{
+    .next {
       flex:1;
 
       border:0;
@@ -716,28 +760,26 @@
           #123e6c
         );
 
-      color:#fff;
+      color:white;
 
       font-size:14px;
     }
 
-    .next span{
+    .next span {
       margin-left:5px;
 
       color:var(--lime);
     }
 
-    .next:disabled{
+    .next:disabled {
       cursor:not-allowed;
-
       opacity:.48;
     }
 
-    .blocked-message{
+    .blocked-message {
       display:none;
 
       margin-top:11px;
-
       padding:12px 13px;
 
       border:1px solid #ecd7b9;
@@ -751,15 +793,11 @@
       line-height:1.6;
     }
 
-    .blocked-message.show{
+    .blocked-message.show {
       display:block;
     }
 
-    /* =========================
-       LOADING
-    ========================= */
-
-    .loading-overlay{
+    .loading-overlay {
       display:none;
 
       position:fixed;
@@ -776,27 +814,26 @@
         rgba(4,17,31,.62);
     }
 
-    .loading-overlay.show{
+    .loading-overlay.show {
       display:flex;
     }
 
-    .loading-box{
+    .loading-box {
       width:min(350px,100%);
 
       padding:25px;
 
       border-radius:17px;
 
-      background:#fff;
+      background:white;
 
       text-align:center;
 
       box-shadow:
-        0 30px 80px
-        rgba(0,0,0,.25);
+        0 30px 80px rgba(0,0,0,.25);
     }
 
-    .spinner{
+    .spinner {
       width:38px;
       height:38px;
 
@@ -811,20 +848,20 @@
         spin .8s linear infinite;
     }
 
-    @keyframes spin{
-      to{
+    @keyframes spin {
+      to {
         transform:rotate(360deg);
       }
     }
 
-    .loading-title{
+    .loading-title {
       color:var(--navy);
 
       font-size:16px;
       font-weight:900;
     }
 
-    .footer{
+    .footer {
       display:flex;
       justify-content:space-between;
 
@@ -839,33 +876,38 @@
       letter-spacing:1px;
     }
 
-    .footer strong{
+    .footer strong {
       color:var(--navy);
     }
 
-    .q{
+    .q {
       color:#91a719;
-
       font-weight:950;
     }
 
-    /* =========================
-       MOBILE
-    ========================= */
+    @media(max-width:700px) {
 
-    @media(max-width:700px){
+      .wildcard-select-btn {
+        min-width:82px;
+        min-height:42px;
 
-      .topbar{
+        font-size:12px;
+      }
+
+      .wildcard-manual-note {
+        font-size:12px;
+      }
+
+      .topbar {
         min-height:72px;
-
         padding:0 14px;
       }
 
-      .fwt-logo{
+      .fwt-logo {
         font-size:30px;
       }
 
-      .header-btn{
+      .header-btn {
         min-height:46px;
 
         padding:0 11px;
@@ -873,128 +915,138 @@
         font-size:11px;
       }
 
-      .container{
-        width:
-          calc(100% - 22px);
+      .container {
+        width:calc(100% - 22px);
 
-        padding:
-          24px 0 50px;
+        padding:24px 0 50px;
       }
 
-      .head{
+      .head {
         display:block;
       }
 
-      .summary{
+      .summary {
         margin-top:13px;
       }
 
-      h1{
+      h1 {
         font-size:30px;
       }
 
-      .desc{
+      .desc {
         font-size:14px;
       }
 
-      .notice{
+      .notice {
         font-size:13px;
       }
 
-      .groups{
+      .wildcard-head {
+        align-items:flex-start;
+      }
+
+      .wildcard-title {
+        font-size:18px;
+      }
+
+      .wildcard-sub {
+        font-size:11px;
+      }
+
+      .wildcard-row {
+        grid-template-columns:
+          42px minmax(0,1fr) 42px 45px 45px 58px;
+
+        gap:3px;
+
+        min-height:58px;
+      }
+
+      .wildcard-name {
+        font-size:14px;
+      }
+
+      .wildcard-stat {
+        font-size:9px;
+      }
+
+      .wildcard-stat strong {
+        font-size:13px;
+      }
+
+      .groups {
         grid-template-columns:1fr;
       }
 
-      .group-name{
+      .group-name {
         font-size:19px;
       }
 
-      .group-progress{
+      .group-progress {
         font-size:12px;
       }
 
       .table-head,
-      .rank-row{
+      .rank-row {
         grid-template-columns:
-          39px
-          minmax(0,1fr)
-          42px
-          44px
-          44px
-          44px;
+          39px minmax(0,1fr) 42px 44px 44px 44px;
 
         gap:3px;
       }
 
-      .rank-row{
+      .rank-row {
         min-height:64px;
       }
 
-      .rank-number{
+      .rank-number {
         width:36px;
         height:36px;
 
         font-size:14px;
       }
 
-      .player-name{
+      .player-name {
         font-size:15px;
       }
 
-      .stat-cell{
+      .player-meta {
+        gap:4px;
+      }
+
+      .withdrawal-action {
+        min-height:32px;
+
+        padding:0 8px;
+
         font-size:10px;
       }
 
-      .stat-cell strong{
+      .withdrawn-badge {
+        min-height:22px;
+
+        font-size:10px;
+      }
+
+      .stat-cell {
+        font-size:10px;
+      }
+
+      .stat-cell strong {
         font-size:14px;
       }
 
-      .tie-warning{
+      .tie-warning {
         font-size:12px;
       }
 
-      .wildcard-head{
-        align-items:flex-start;
-      }
-
-      .wildcard-row{
-        grid-template-columns:
-          40px
-          minmax(0,1fr)
-          40px
-          42px
-          42px
-          86px;
-
-        gap:3px;
-      }
-
-      .wildcard-name{
-        font-size:12px;
-      }
-
-      .wildcard-select-btn{
-        min-width:82px;
-        min-height:42px;
-
-        padding:0 7px;
-
-        font-size:11px;
-      }
-
-      .wildcard-warning,
-      .wildcard-manual-note{
-        font-size:12px;
-      }
-
-      .bottom{
+      .bottom {
         flex-direction:column-reverse;
 
         gap:9px;
       }
 
       .previous,
-      .next{
+      .next {
         width:100%;
 
         height:56px;
@@ -1005,11 +1057,12 @@
         font-size:15px;
       }
 
-      .blocked-message{
+      .blocked-message {
         font-size:13px;
       }
 
     }
+
   </style>
 </head>
 
@@ -1088,11 +1141,9 @@
 
 
   <div class="notice">
-    조별 순위:
-    승수 → 득실차 → 득점 → 2명 동률 시 상대전적
+    조별 순위: 승수 → 득실차 → 득점 → 2명 동률 시 상대전적
     <br>
-    와일드카드 순위:
-    승수 → 득실차 → 득점
+    와일드카드 순위: 승수 → 득실차 → 득점
   </div>
 
 
@@ -1117,13 +1168,9 @@
 
       <div class="wildcard-count">
         WC
-        <strong id="wildcardSelectedCount">
-          0
-        </strong>
+        <strong id="wildcardSelectedCount">0</strong>
         /
-        <span id="wildcardTargetCount">
-          0
-        </span>
+        <span id="wildcardTargetCount">0</span>
       </div>
 
     </div>
@@ -1172,7 +1219,6 @@
     >
       경기 운영으로
     </button>
-
 
     <button
       class="next"
@@ -1307,25 +1353,32 @@ let qualifiers = [];
 let wildcardCandidates = [];
 
 
-let wildcardAutoSelected = [];
+let wildcardCutoffTie = false;
 
 
 let wildcardTieCandidates = [];
 
 
-let wildcardCutoffTie =
-  false;
-
-
-let wildcardManualSlots =
-  0;
+let wildcardAutoSelected = [];
 
 
 let manualWildcardSelections = [];
 
 
-let busy =
-  false;
+let wildcardManualSlots = 0;
+
+
+let busy = false;
+
+
+const entryStatusById =
+  new Map();
+
+
+let knockoutExists = false;
+
+
+let knockoutStarted = false;
 
 
 /* =====================================
@@ -1389,9 +1442,7 @@ function shortEntryName(entry) {
 }
 
 
-function getEntryIndexById(
-  entryId
-) {
+function getEntryIndexById(entryId) {
 
   return entries.findIndex(
     entry =>
@@ -1402,9 +1453,7 @@ function getEntryIndexById(
 }
 
 
-function getGroupById(
-  groupId
-) {
+function getGroupById(groupId) {
 
   return groupData.find(
     group =>
@@ -1415,9 +1464,85 @@ function getGroupById(
 }
 
 
-/* =====================================
-   WC SELECTION STORAGE
-===================================== */
+function getEntryStatusByIndex(
+  entryIndex
+) {
+
+  const entryId =
+    entries[
+      entryIndex
+    ]?.dbEntryId;
+
+
+  if (
+    !entryId
+  ) {
+
+    return "active";
+
+  }
+
+
+  return (
+    entryStatusById.get(
+      entryId
+    )
+    ||
+    "active"
+  );
+
+}
+
+
+function isEntryEligible(
+  entryIndex
+) {
+
+  const status =
+    getEntryStatusByIndex(
+      entryIndex
+    );
+
+
+  return ![
+    "withdrawn",
+    "disqualified"
+  ].includes(
+    status
+  );
+
+}
+
+
+function isEntryWithdrawn(
+  entryIndex
+) {
+
+  return (
+    getEntryStatusByIndex(
+      entryIndex
+    )
+    ===
+    "withdrawn"
+  );
+
+}
+
+
+function isEntryDisqualified(
+  entryIndex
+) {
+
+  return (
+    getEntryStatusByIndex(
+      entryIndex
+    )
+    ===
+    "disqualified"
+  );
+
+}
+
 
 function wildcardSelectionStorageKey() {
 
@@ -1438,9 +1563,7 @@ function loadManualWildcardSelections() {
       JSON.parse(
         sessionStorage.getItem(
           wildcardSelectionStorageKey()
-        )
-        ||
-        "[]"
+        ) || "[]"
       );
 
 
@@ -1470,22 +1593,6 @@ function saveManualWildcardSelections() {
 }
 
 
-function sameWildcardScore(
-  a,
-  b
-) {
-
-  return (
-    !!a &&
-    !!b &&
-    a.wins === b.wins &&
-    a.diff === b.diff &&
-    a.scored === b.scored
-  );
-
-}
-
-
 function clearInvalidManualWildcardSelections() {
 
   const validIds =
@@ -1508,7 +1615,7 @@ function clearInvalidManualWildcardSelections() {
 
   if (
     manualWildcardSelections.length >
-    wildcardManualSlots
+      wildcardManualSlots
   ) {
 
     manualWildcardSelections =
@@ -1525,16 +1632,41 @@ function clearInvalidManualWildcardSelections() {
 }
 
 
-/* =====================================
-   WC MANUAL SELECT
-===================================== */
+function sameWildcardScore(a,b) {
+
+  return !!a && !!b
+    &&
+    a.wins === b.wins
+    &&
+    a.diff === b.diff
+    &&
+    a.scored === b.scored;
+
+}
+
 
 function selectManualWildcard(
   entryId
 ) {
 
   if (
-    !entryId ||
+    knockoutExists
+  ) {
+
+    alert(
+      knockoutStarted
+        ? "본선 경기가 이미 시작되어 WC 선택을 변경할 수 없습니다."
+        : "본선 대진이 이미 확정되어 있습니다. 먼저 본선 대진 화면에서 '본선 대진 초기화 · 예선 수정'을 실행해주세요."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    !entryId
+    ||
     wildcardManualSlots <= 0
   ) {
 
@@ -1551,54 +1683,43 @@ function selectManualWildcard(
 
   if (exists) {
 
-    /*
-      이미 선택된 선수를 다시 누르면
-      선택 해제
-    */
-
     manualWildcardSelections =
       manualWildcardSelections.filter(
         id =>
           id !== entryId
       );
 
-  } else if (
-    wildcardManualSlots === 1
-  ) {
-
-    /*
-      WC 자리가 1개라면
-      다른 선수를 누르는 즉시 교체.
-
-      잘못 눌러도 기존 선택 해제 절차 없이
-      바로 수정 가능.
-    */
-
-    manualWildcardSelections = [
-      entryId
-    ];
-
-  } else if (
-    manualWildcardSelections.length <
-    wildcardManualSlots
-  ) {
-
-    manualWildcardSelections.push(
-      entryId
-    );
-
   } else {
 
-    /*
-      여러 WC 자리가 모두 선택된 상태에서
-      다른 선수를 누르면
-      가장 마지막 선택 선수를 교체.
-    */
+    if (
+      wildcardManualSlots === 1
+    ) {
 
-    manualWildcardSelections[
-      manualWildcardSelections.length - 1
-    ] =
-      entryId;
+      manualWildcardSelections = [
+        entryId
+      ];
+
+    } else {
+
+      if (
+        manualWildcardSelections.length <
+          wildcardManualSlots
+      ) {
+
+        manualWildcardSelections.push(
+          entryId
+        );
+
+      } else {
+
+        manualWildcardSelections[
+          manualWildcardSelections.length - 1
+        ] =
+          entryId;
+
+      }
+
+    }
 
   }
 
@@ -1606,7 +1727,15 @@ function selectManualWildcard(
   saveManualWildcardSelections();
 
 
-  renderAll();
+  calculateStandings();
+
+  renderSummary();
+
+  renderWildcards();
+
+  renderGroups();
+
+  renderButtonState();
 
 }
 
@@ -1688,7 +1817,7 @@ function setBusy(
 
 
 /* =====================================
-   DIVISION CONFIG
+   DB LOAD
 ===================================== */
 
 async function loadDivisionConfig() {
@@ -1753,9 +1882,105 @@ async function loadDivisionConfig() {
 }
 
 
-/* =====================================
-   DB MATCH LOAD
-===================================== */
+async function loadEntryStatuses() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("entries")
+      .select(
+        "id,status"
+      )
+      .eq(
+        "division_id",
+        tournament.divisionId
+      );
+
+
+  if (error) {
+
+    throw new Error(
+      "참가자 상태 조회 실패: "
+      +
+      error.message
+    );
+
+  }
+
+
+  entryStatusById.clear();
+
+
+  (data || []).forEach(
+    row => {
+
+      entryStatusById.set(
+        row.id,
+        row.status || "active"
+      );
+
+    }
+  );
+
+}
+
+
+async function loadKnockoutState() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("matches")
+      .select(
+        "id,status"
+      )
+      .eq(
+        "division_id",
+        tournament.divisionId
+      )
+      .neq(
+        "stage",
+        "group"
+      );
+
+
+  if (error) {
+
+    throw new Error(
+      "본선 진행 상태 조회 실패: "
+      +
+      error.message
+    );
+
+  }
+
+
+  const rows =
+    data || [];
+
+
+  knockoutExists =
+    rows.length > 0;
+
+
+  knockoutStarted =
+    rows.some(
+      row =>
+        [
+          "playing",
+          "completed",
+          "walkover"
+        ].includes(
+          row.status
+        )
+    );
+
+}
+
 
 async function loadMatches() {
 
@@ -2096,11 +2321,6 @@ function calculateGroup(
   );
 
 
-  /*
-    1차 정렬
-    승수 → 득실차 → 득점
-  */
-
   ranking.sort(
     (a,b) => {
 
@@ -2148,11 +2368,6 @@ function calculateGroup(
     }
   );
 
-
-  /*
-    동일 성적이 정확히 2명일 때
-    상대전적 적용
-  */
 
   let i =
     0;
@@ -2230,11 +2445,8 @@ function calculateGroup(
   }
 
 
-  /*
-    3명 이상 완전 동률 그룹
-  */
-
-  const tieGroups = [];
+  const tieGroups =
+    [];
 
 
   i =
@@ -2297,17 +2509,13 @@ function calculateGroup(
   }
 
 
-  /*
-    조별 자동 진출 커트라인의
-    3명 이상 완전 동률 검사
-  */
-
   let cutoffTie =
     false;
 
 
   if (
-    advanceCount > 0 &&
+    advanceCount > 0
+    &&
     ranking.length >
       advanceCount
   ) {
@@ -2387,8 +2595,305 @@ function calculateGroup(
 }
 
 
+function buildEligibleRanking(
+  group
+) {
+
+  const ranking =
+    group.ranking
+      .filter(
+        row =>
+          isEntryEligible(
+            row.entryIndex
+          )
+      )
+      .map(
+        row => ({
+          ...row
+        })
+      );
+
+
+  ranking.sort(
+    (a,b) => {
+
+      if (
+        b.wins !==
+        a.wins
+      ) {
+
+        return (
+          b.wins -
+          a.wins
+        );
+
+      }
+
+
+      if (
+        b.diff !==
+        a.diff
+      ) {
+
+        return (
+          b.diff -
+          a.diff
+        );
+
+      }
+
+
+      if (
+        b.scored !==
+        a.scored
+      ) {
+
+        return (
+          b.scored -
+          a.scored
+        );
+
+      }
+
+
+      return 0;
+
+    }
+  );
+
+
+  const completedMatches =
+    matches.filter(
+      match =>
+        match.groupName ===
+          group.name
+        &&
+        match.status ===
+          "completed"
+    );
+
+
+  let i =
+    0;
+
+
+  while (
+    i <
+    ranking.length
+  ) {
+
+    let j =
+      i + 1;
+
+
+    while (
+      j <
+      ranking.length
+      &&
+      ranking[j].wins ===
+        ranking[i].wins
+      &&
+      ranking[j].diff ===
+        ranking[i].diff
+      &&
+      ranking[j].scored ===
+        ranking[i].scored
+    ) {
+
+      j++;
+
+    }
+
+
+    if (
+      j - i ===
+      2
+    ) {
+
+      const a =
+        ranking[i];
+
+
+      const b =
+        ranking[i + 1];
+
+
+      const winner =
+        getHeadToHeadWinner(
+          a.entryIndex,
+          b.entryIndex,
+          completedMatches
+        );
+
+
+      if (
+        winner ===
+        b.entryIndex
+      ) {
+
+        ranking[i] =
+          b;
+
+
+        ranking[i + 1] =
+          a;
+
+      }
+
+    }
+
+
+    i =
+      j;
+
+  }
+
+
+  const tieGroups =
+    [];
+
+
+  i =
+    0;
+
+
+  while (
+    i <
+    ranking.length
+  ) {
+
+    let j =
+      i + 1;
+
+
+    while (
+      j <
+      ranking.length
+      &&
+      ranking[j].wins ===
+        ranking[i].wins
+      &&
+      ranking[j].diff ===
+        ranking[i].diff
+      &&
+      ranking[j].scored ===
+        ranking[i].scored
+    ) {
+
+      j++;
+
+    }
+
+
+    if (
+      j - i >=
+      3
+    ) {
+
+      tieGroups.push(
+        ranking
+          .slice(
+            i,
+            j
+          )
+          .map(
+            row =>
+              row.entryIndex
+          )
+      );
+
+    }
+
+
+    i =
+      j;
+
+  }
+
+
+  return {
+
+    ranking,
+
+    tieGroups
+
+  };
+
+}
+
+
+function hasUnresolvedEligibleCutoffTie(
+  eligibleRanking,
+  eligibleTieGroups,
+  slotCount
+) {
+
+  if (
+    slotCount <= 0
+    ||
+    eligibleRanking.length <=
+      slotCount
+  ) {
+
+    return false;
+
+  }
+
+
+  const upper =
+    eligibleRanking[
+      slotCount - 1
+    ];
+
+
+  const lower =
+    eligibleRanking[
+      slotCount
+    ];
+
+
+  if (
+    !upper ||
+    !lower
+  ) {
+
+    return false;
+
+  }
+
+
+  if (
+    upper.wins !==
+      lower.wins
+    ||
+    upper.diff !==
+      lower.diff
+    ||
+    upper.scored !==
+      lower.scored
+  ) {
+
+    return false;
+
+  }
+
+
+  return eligibleTieGroups.some(
+    tiedIndexes =>
+      tiedIndexes.includes(
+        upper.entryIndex
+      )
+      &&
+      tiedIndexes.includes(
+        lower.entryIndex
+      )
+  );
+
+}
+
+
 /* =====================================
-   ALL STANDINGS + WILDCARD
+   ALL STANDINGS
 ===================================== */
 
 function calculateStandings() {
@@ -2402,101 +2907,150 @@ function calculateStandings() {
     );
 
 
-  qualifiers = [];
+  qualifiers =
+    [];
 
 
-  wildcardCandidates = [];
-
-
-  wildcardAutoSelected = [];
-
-
-  wildcardTieCandidates = [];
+  wildcardCandidates =
+    [];
 
 
   wildcardCutoffTie =
     false;
 
 
+  wildcardTieCandidates =
+    [];
+
+
+  wildcardAutoSelected =
+    [];
+
+
   wildcardManualSlots =
     0;
 
 
-  /*
-    먼저 각 조 자동진출자 생성
-  */
-
   standingsData.forEach(
     group => {
 
-      group.ranking
-        .slice(
-          0,
-          advanceCount
-        )
-        .forEach(
-          (
-            row,
-            index
-          ) => {
-
-            qualifiers.push({
-
-              groupName:
-                group.name,
-
-              groupId:
-                group.dbGroupId,
-
-              rank:
-                index + 1,
-
-              entryIndex:
-                row.entryIndex,
-
-              dbEntryId:
-                entries[
-                  row.entryIndex
-                ]?.dbEntryId ||
-                null,
-
-              wins:
-                row.wins,
-
-              diff:
-                row.diff,
-
-              scored:
-                row.scored,
-
-              qualifierType:
-                "auto",
-
-              isWildcard:
-                false
-
-            });
-
-          }
+      const eligible =
+        buildEligibleRanking(
+          group
         );
 
 
-      /*
-        WC 후보:
-        자동진출 다음 순위 1명
-      */
+      group.eligibleRanking =
+        eligible.ranking;
+
+
+      group.eligibleTieGroups =
+        eligible.tieGroups;
+
+
+      group.qualificationCutoffTie =
+        hasUnresolvedEligibleCutoffTie(
+          eligible.ranking,
+          eligible.tieGroups,
+          advanceCount
+        );
+
+
+      const autoRows =
+        eligible.ranking.slice(
+          0,
+          advanceCount
+        );
+
+
+      autoRows.forEach(
+        (
+          row,
+          slotIndex
+        ) => {
+
+          const originalRank =
+            group.ranking.findIndex(
+              original =>
+                original.entryIndex ===
+                row.entryIndex
+            )
+            +
+            1;
+
+
+          qualifiers.push({
+
+            groupName:
+              group.name,
+
+            groupId:
+              group.dbGroupId,
+
+            rank:
+              slotIndex + 1,
+
+            originalRank,
+
+            advancedByWithdrawal:
+              originalRank !==
+                slotIndex + 1,
+
+            entryIndex:
+              row.entryIndex,
+
+            dbEntryId:
+              entries[
+                row.entryIndex
+              ]?.dbEntryId ||
+                null,
+
+            wins:
+              row.wins,
+
+            diff:
+              row.diff,
+
+            scored:
+              row.scored,
+
+            qualifierType:
+              "auto",
+
+            isWildcard:
+              false
+
+          });
+
+        }
+      );
+
 
       if (
         wildcardCount > 0
         &&
-        group.ranking.length >
-        advanceCount
+        eligible.ranking.length >
+          advanceCount
       ) {
 
         const row =
-          group.ranking[
+          eligible.ranking[
             advanceCount
           ];
+
+
+        const originalRank =
+          group.ranking.findIndex(
+            original =>
+              original.entryIndex ===
+              row.entryIndex
+          )
+          +
+          1;
+
+
+        group.wildcardCandidateRow =
+          row;
 
 
         wildcardCandidates.push({
@@ -2510,6 +3064,8 @@ function calculateStandings() {
           rank:
             advanceCount + 1,
 
+          originalRank,
+
           entryIndex:
             row.entryIndex,
 
@@ -2517,7 +3073,7 @@ function calculateStandings() {
             entries[
               row.entryIndex
             ]?.dbEntryId ||
-            null,
+              null,
 
           wins:
             row.wins,
@@ -2539,16 +3095,16 @@ function calculateStandings() {
 
         });
 
+      } else {
+
+        group.wildcardCandidateRow =
+          null;
+
       }
 
     }
   );
 
-
-  /*
-    WC 전체 순위
-    승수 → 득실차 → 득점
-  */
 
   wildcardCandidates.sort(
     (a,b) => {
@@ -2592,13 +3148,6 @@ function calculateStandings() {
       }
 
 
-      /*
-        완전동률 시 화면 표시용 임시 순서만
-        조 이름 순으로 정렬.
-
-        이 순서로 WC를 자동 선정하지 않음.
-      */
-
       return (
         a.groupName
           .localeCompare(
@@ -2624,15 +3173,10 @@ function calculateStandings() {
   );
 
 
-  /*
-    WC 자동 / 수동 구간 계산
-  */
-
   if (
     wildcardCount > 0
     &&
-    wildcardCandidates.length >
-    0
+    wildcardCandidates.length > 0
   ) {
 
     const effectiveCount =
@@ -2642,14 +3186,9 @@ function calculateStandings() {
       );
 
 
-    /*
-      후보 자체가 WC 수보다 적거나 같으면
-      모두 자동진출
-    */
-
     if (
       wildcardCandidates.length <=
-      wildcardCount
+        wildcardCount
     ) {
 
       wildcardAutoSelected =
@@ -2663,10 +3202,6 @@ function calculateStandings() {
         ];
 
 
-      /*
-        커트라인과 완전히 같은 점수인 선수들
-      */
-
       const tiedAtCutoff =
         wildcardCandidates.filter(
           candidate =>
@@ -2677,18 +3212,13 @@ function calculateStandings() {
         );
 
 
-      /*
-        커트라인보다 확실히 위인 선수는
-        자동 확정
-      */
-
       const betterThanCutoff =
         wildcardCandidates.filter(
           candidate => {
 
             if (
               candidate.wins >
-              cutoff.wins
+                cutoff.wins
             ) {
 
               return true;
@@ -2698,7 +3228,7 @@ function calculateStandings() {
 
             if (
               candidate.wins <
-              cutoff.wins
+                cutoff.wins
             ) {
 
               return false;
@@ -2708,7 +3238,7 @@ function calculateStandings() {
 
             if (
               candidate.diff >
-              cutoff.diff
+                cutoff.diff
             ) {
 
               return true;
@@ -2718,7 +3248,7 @@ function calculateStandings() {
 
             if (
               candidate.diff <
-              cutoff.diff
+                cutoff.diff
             ) {
 
               return false;
@@ -2728,7 +3258,7 @@ function calculateStandings() {
 
             return (
               candidate.scored >
-              cutoff.scored
+                cutoff.scored
             );
 
           }
@@ -2739,23 +3269,14 @@ function calculateStandings() {
         betterThanCutoff;
 
 
-      /*
-        동률 그룹에서 실제 필요한 WC 자리수
-      */
-
       wildcardManualSlots =
         effectiveCount -
         wildcardAutoSelected.length;
 
 
-      /*
-        동률자 수가 남은 자리보다 많으면
-        관리자 수동선택 필요
-      */
-
       wildcardCutoffTie =
         tiedAtCutoff.length >
-        wildcardManualSlots;
+          wildcardManualSlots;
 
 
       if (
@@ -2766,11 +3287,6 @@ function calculateStandings() {
           tiedAtCutoff;
 
       } else {
-
-        /*
-          커트라인 동률 문제가 없으면
-          기존대로 상위 N명 자동선정
-        */
 
         wildcardAutoSelected =
           wildcardCandidates.slice(
@@ -2789,20 +3305,12 @@ function calculateStandings() {
   }
 
 
-  /*
-    이전에 저장된 수동 선택 중
-    현재 동률 후보가 아닌 값 제거
-  */
-
   clearInvalidManualWildcardSelections();
 
 
-  const selectedWildcardCandidates = [];
+  const selectedWildcardCandidates =
+    [];
 
-
-  /*
-    자동 WC
-  */
 
   wildcardAutoSelected.forEach(
     candidate => {
@@ -2823,15 +3331,10 @@ function calculateStandings() {
   );
 
 
-  /*
-    수동 WC
-  */
-
   if (
     wildcardCutoffTie
     &&
-    wildcardManualSlots >
-    0
+    wildcardManualSlots > 0
   ) {
 
     wildcardTieCandidates.forEach(
@@ -2851,7 +3354,9 @@ function calculateStandings() {
           "manual";
 
 
-        if (selected) {
+        if (
+          selected
+        ) {
 
           selectedWildcardCandidates.push(
             candidate
@@ -2864,10 +3369,6 @@ function calculateStandings() {
 
   }
 
-
-  /*
-    선택되지 않은 후보 초기화
-  */
 
   wildcardCandidates.forEach(
     candidate => {
@@ -2886,11 +3387,6 @@ function calculateStandings() {
     }
   );
 
-
-  /*
-    WC1 / WC2 / WC3...
-    최종 선택 순서 부여
-  */
 
   selectedWildcardCandidates.forEach(
     (
@@ -2982,16 +3478,11 @@ function hasCutoffTie() {
 
   return standingsData.some(
     group =>
-      group.cutoffTie
+      group.qualificationCutoffTie
   );
 
 }
 
-
-/*
-  각 조에서 WC 후보가 되는 순위 자체가
-  3명 이상 완전동률인 경우 검사
-*/
 
 function hasWildcardSourceTie() {
 
@@ -3007,15 +3498,12 @@ function hasWildcardSourceTie() {
   return standingsData.some(
     group => {
 
-      const candidateIndex =
-        advanceCount;
+      const candidate =
+        group.wildcardCandidateRow;
 
 
       if (
-        candidateIndex < 0
-        ||
-        candidateIndex >=
-        group.ranking.length
+        !candidate
       ) {
 
         return false;
@@ -3023,13 +3511,10 @@ function hasWildcardSourceTie() {
       }
 
 
-      const candidate =
-        group.ranking[
-          candidateIndex
-        ];
-
-
-      return group.tieGroups.some(
+      return (
+        group.eligibleTieGroups ||
+        []
+      ).some(
         tiedIndexes =>
           tiedIndexes.includes(
             candidate.entryIndex
@@ -3066,7 +3551,7 @@ function manualWildcardSelectionComplete() {
 
   return (
     manualWildcardSelections.length ===
-    wildcardManualSlots
+      wildcardManualSlots
   );
 
 }
@@ -3083,15 +3568,239 @@ function canCreateKnockout() {
     &&
     manualWildcardSelectionComplete()
     &&
-    qualifiers.length >
-    1
+    qualifiers.length > 1
   );
 
 }
 
 
 /* =====================================
-   SUMMARY
+   WITHDRAWAL
+===================================== */
+
+async function toggleWithdrawal(
+  entryIndex
+) {
+
+  if (
+    busy
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    !allMatchesCompleted()
+  ) {
+
+    alert(
+      "예선이 모두 끝난 뒤 본선 진출자 기권 처리를 할 수 있습니다."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    knockoutExists
+  ) {
+
+    if (
+      knockoutStarted
+    ) {
+
+      alert(
+        "본선 경기가 이미 시작되었습니다.\n\n"
+        +
+        "이 단계에서는 예선 진출자를 변경할 수 없습니다.\n"
+        +
+        "본선 경기 운영 화면에서 기권승으로 처리해야 합니다."
+      );
+
+    } else {
+
+      alert(
+        "본선 대진이 이미 확정되어 있습니다.\n\n"
+        +
+        "먼저 본선 대진 화면에서 '본선 대진 초기화 · 예선 수정'을 실행한 뒤 기권 처리해주세요."
+      );
+
+    }
+
+
+    return;
+
+  }
+
+
+  const entry =
+    entries[
+      entryIndex
+    ];
+
+
+  const entryId =
+    entry?.dbEntryId;
+
+
+  if (
+    !entryId
+  ) {
+
+    alert(
+      "참가자 DB 정보를 찾을 수 없습니다."
+    );
+
+    return;
+
+  }
+
+
+  const withdrawn =
+    isEntryWithdrawn(
+      entryIndex
+    );
+
+
+  const disqualified =
+    isEntryDisqualified(
+      entryIndex
+    );
+
+
+  if (
+    disqualified
+  ) {
+
+    alert(
+      "실격 처리된 참가자는 이 화면에서 상태를 변경할 수 없습니다."
+    );
+
+    return;
+
+  }
+
+
+  const name =
+    shortEntryName(
+      entry
+    );
+
+
+  const message =
+    withdrawn
+
+      ? `${name}님의 기권을 취소하고 본선 진출 대상에 다시 포함할까요?\n\n예선 경기 결과는 변경되지 않으며 조별 진출자와 WC가 다시 계산됩니다.`
+
+      : `${name}님을 본선 진출 대상에서 기권 처리할까요?\n\n예선 성적은 그대로 유지됩니다.\n같은 조의 다음 유효 순위자가 진출권을 승계하고 WC도 다시 계산됩니다.`;
+
+
+  if (
+    !confirm(
+      message
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  try {
+
+    setBusy(
+      true,
+      withdrawn
+        ? "기권을 취소하고 있습니다"
+        : "기권 처리하고 있습니다"
+    );
+
+
+    const nextStatus =
+      withdrawn
+        ? "active"
+        : "withdrawn";
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("entries")
+        .update({
+
+          status:
+            nextStatus
+
+        })
+        .eq(
+          "id",
+          entryId
+        )
+        .eq(
+          "division_id",
+          tournament.divisionId
+        );
+
+
+    if (
+      error
+    ) {
+
+      throw new Error(
+        "참가자 상태 변경 실패: "
+        +
+        error.message
+      );
+
+    }
+
+
+    await loadEntryStatuses();
+
+
+    await loadKnockoutState();
+
+
+    renderAll();
+
+
+    setBusy(
+      false
+    );
+
+
+  } catch(error) {
+
+    console.error(
+      error
+    );
+
+
+    setBusy(
+      false
+    );
+
+
+    alert(
+      "기권 상태를 변경하지 못했습니다.\n\n"
+      +
+      (
+        error?.message ||
+        "알 수 없는 오류"
+      )
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   RENDER
 ===================================== */
 
 function renderSummary() {
@@ -3100,13 +3809,13 @@ function renderSummary() {
     matches.filter(
       match =>
         match.status ===
-        "completed"
+          "completed"
         ||
         match.status ===
-        "bye"
+          "bye"
         ||
         match.status ===
-        "walkover"
+          "walkover"
     ).length;
 
 
@@ -3129,10 +3838,6 @@ function renderSummary() {
 
 }
 
-
-/* =====================================
-   RENDER WILDCARDS
-===================================== */
 
 function renderWildcards() {
 
@@ -3180,7 +3885,8 @@ function renderWildcards() {
 
 
   if (
-    wildcardCount <= 0
+    wildcardCount <=
+    0
   ) {
 
     panel.classList.remove(
@@ -3223,7 +3929,7 @@ function renderWildcards() {
         wildcardTieCandidates.some(
           tied =>
             tied.dbEntryId ===
-            candidate.dbEntryId
+              candidate.dbEntryId
         );
 
 
@@ -3253,10 +3959,6 @@ function renderWildcards() {
         "";
 
 
-      /*
-        동률 후보는 선택버튼 표시
-      */
-
       if (
         isManualCandidate
       ) {
@@ -3275,6 +3977,11 @@ function renderWildcards() {
               data-entry-id="${escapeHtml(
                 candidate.dbEntryId || ""
               )}"
+              ${
+                knockoutExists
+                  ? "disabled"
+                  : ""
+              }
             >
 
               ${
@@ -3292,10 +3999,6 @@ function renderWildcards() {
       } else if (
         candidate.isWildcard
       ) {
-
-        /*
-          자동 WC
-        */
 
         actionHtml = `
 
@@ -3327,6 +4030,7 @@ function renderWildcards() {
 
 
         <div class="wildcard-name">
+
           ${escapeHtml(
             shortEntryName(
               entries[
@@ -3334,13 +4038,16 @@ function renderWildcards() {
               ]
             )
           )}
+
         </div>
 
 
         <div class="wildcard-group">
+
           ${escapeHtml(
             candidate.groupName
           )}
+
         </div>
 
 
@@ -3407,10 +4114,6 @@ function renderWildcards() {
   );
 
 
-  /*
-    조 내부 3명 이상 동률
-  */
-
   if (
     hasWildcardSourceTie()
   ) {
@@ -3432,10 +4135,6 @@ function renderWildcards() {
   }
 
 
-  /*
-    WC 커트라인 동률
-  */
-
   if (
     hasWildcardCutoffTie()
   ) {
@@ -3444,7 +4143,7 @@ function renderWildcards() {
       Math.max(
         0,
         wildcardManualSlots -
-        manualWildcardSelections.length
+          manualWildcardSelections.length
       );
 
 
@@ -3453,7 +4152,7 @@ function renderWildcards() {
 
         ? `와일드카드 커트라인이 동률입니다. 아래 동률 후보 중 ${remaining}명을 직접 선택해주세요.`
 
-        : "와일드카드 동률 선택이 완료되었습니다. 잘못 선택했다면 다른 후보의 'WC 선택' 버튼을 누르면 즉시 변경됩니다.";
+        : "와일드카드 동률 선택이 완료되었습니다. 잘못 선택했다면 다른 후보의 'WC 선택' 버튼을 누르면 바로 변경됩니다.";
 
 
     warning.style.display =
@@ -3461,7 +4160,7 @@ function renderWildcards() {
 
 
     manualNote.textContent =
-      `자동으로 확정 가능한 선수는 그대로 유지됩니다. 동률 구간에서만 관리자 ${wildcardManualSlots}명 선택이 필요합니다. 본선 토너먼트 생성 전까지 언제든 선택을 바꿀 수 있습니다.`;
+      `자동으로 확정 가능한 선수는 그대로 유지됩니다. 동률 구간에서만 관리자가 ${wildcardManualSlots}명을 선택합니다. 본선 토너먼트 생성 전까지 선택은 언제든 변경할 수 있습니다.`;
 
 
     manualNote.style.display =
@@ -3482,10 +4181,6 @@ function renderWildcards() {
 
 }
 
-
-/* =====================================
-   RENDER GROUPS
-===================================== */
 
 function renderGroups() {
 
@@ -3517,14 +4212,18 @@ function renderGroups() {
         <div class="group-head">
 
           <div class="group-name">
+
             ${escapeHtml(
               group.name
             )}
+
           </div>
 
+
           <div class="group-progress">
-            ${group.completedMatches}/${group.totalMatches}
-            완료
+
+            ${group.completedMatches}/${group.totalMatches} 완료
+
           </div>
 
         </div>
@@ -3532,19 +4231,29 @@ function renderGroups() {
 
         <div class="table-head">
 
-          <div>순위</div>
+          <div>
+            순위
+          </div>
 
           <div class="name-head">
             참가자
           </div>
 
-          <div>승</div>
+          <div>
+            승
+          </div>
 
-          <div>득점</div>
+          <div>
+            득점
+          </div>
 
-          <div>실점</div>
+          <div>
+            실점
+          </div>
 
-          <div>득실</div>
+          <div>
+            득실
+          </div>
 
         </div>
 
@@ -3566,39 +4275,53 @@ function renderGroups() {
           index
         ) => {
 
-          const qualifier =
-            index <
-            advanceCount;
-
-
-          const wildcardCandidate =
-            wildcardCount > 0
-            &&
-            index ===
-            advanceCount;
+          const autoQualifier =
+            qualifiers.find(
+              qualifier =>
+                qualifier.groupId ===
+                  group.dbGroupId
+                &&
+                qualifier.entryIndex ===
+                  row.entryIndex
+                &&
+                qualifier.qualifierType ===
+                  "auto"
+            );
 
 
           const selectedWildcard =
-            wildcardCandidates.some(
+            wildcardCandidates.find(
               candidate =>
                 candidate.entryIndex ===
-                row.entryIndex
+                  row.entryIndex
                 &&
                 candidate.groupId ===
-                group.dbGroupId
+                  group.dbGroupId
                 &&
                 candidate.isWildcard
             );
 
 
-          const selectedCandidate =
+          const wildcardCandidate =
             wildcardCandidates.find(
               candidate =>
                 candidate.entryIndex ===
-                row.entryIndex
+                  row.entryIndex
                 &&
                 candidate.groupId ===
-                group.dbGroupId
+                  group.dbGroupId
+            );
+
+
+          const withdrawn =
+            isEntryWithdrawn(
+              row.entryIndex
+            );
+
+
+          const disqualified =
+            isEntryDisqualified(
+              row.entryIndex
             );
 
 
@@ -3612,13 +4335,161 @@ function renderGroups() {
             "rank-row"
             +
             (
-              qualifier ||
+              autoQualifier ||
               selectedWildcard
-
                 ? " qualifier"
-
+                : ""
+            )
+            +
+            (
+              withdrawn
+                ? " withdrawn"
                 : ""
             );
+
+
+          let qualifierLabel =
+            "";
+
+
+          if (
+            withdrawn
+          ) {
+
+            qualifierLabel = `
+
+              <div class="withdrawn-badge">
+                기권 · 본선 진출 제외
+              </div>
+
+            `;
+
+          } else if (
+            disqualified
+          ) {
+
+            qualifierLabel = `
+
+              <div class="withdrawn-badge">
+                실격 · 본선 진출 제외
+              </div>
+
+            `;
+
+          } else if (
+            autoQualifier
+          ) {
+
+            qualifierLabel = `
+
+              <div class="qualifier-label">
+
+                ${
+                  autoQualifier.advancedByWithdrawal
+                    ? "자동 진출 승계"
+                    : "자동 진출"
+                }
+
+              </div>
+
+            `;
+
+          } else if (
+            selectedWildcard
+          ) {
+
+            qualifierLabel = `
+
+              <div class="qualifier-label">
+                WC${selectedWildcard.wildcardOrder || ""}
+              </div>
+
+            `;
+
+          } else if (
+            wildcardCandidate
+          ) {
+
+            qualifierLabel = `
+
+              <div class="qualifier-label">
+                WC 후보
+              </div>
+
+            `;
+
+          }
+
+
+          let actionHtml =
+            "";
+
+
+          if (
+            allMatchesCompleted()
+          ) {
+
+            if (
+              knockoutExists
+            ) {
+
+              actionHtml = `
+
+                <button
+                  class="withdrawal-action"
+                  type="button"
+                  disabled
+                  title="${
+                    knockoutStarted
+                      ? "본선이 이미 시작되어 예선 진출자를 변경할 수 없습니다."
+                      : "본선 대진을 먼저 초기화해야 합니다."
+                  }"
+                >
+
+                  ${
+                    withdrawn
+                      ? "기권 취소"
+                      : "기권 처리"
+                  }
+
+                </button>
+
+              `;
+
+            } else if (
+              disqualified
+            ) {
+
+              actionHtml =
+                "";
+
+            } else {
+
+              actionHtml = `
+
+                <button
+                  class="withdrawal-action ${
+                    withdrawn
+                      ? "restore"
+                      : "danger"
+                  }"
+                  type="button"
+                  data-entry-index="${row.entryIndex}"
+                >
+
+                  ${
+                    withdrawn
+                      ? "기권 취소"
+                      : "기권 처리"
+                  }
+
+                </button>
+
+              `;
+
+            }
+
+          }
 
 
           rankRow.innerHTML = `
@@ -3631,6 +4502,7 @@ function renderGroups() {
             <div>
 
               <div class="player-name">
+
                 ${escapeHtml(
                   shortEntryName(
                     entries[
@@ -3638,36 +4510,17 @@ function renderGroups() {
                     ]
                   )
                 )}
+
               </div>
 
 
-              ${
-                qualifier
+              <div class="player-meta">
 
-                  ? `
-                    <div class="qualifier-label">
-                      자동 진출
-                    </div>
-                  `
+                ${qualifierLabel}
 
-                  : selectedWildcard
+                ${actionHtml}
 
-                    ? `
-                      <div class="qualifier-label">
-                        WC${selectedCandidate?.wildcardOrder || ""}
-                      </div>
-                    `
-
-                    : wildcardCandidate
-
-                      ? `
-                        <div class="qualifier-label">
-                          WC 후보
-                        </div>
-                      `
-
-                      : ""
-              }
+              </div>
 
             </div>
 
@@ -3716,6 +4569,32 @@ function renderGroups() {
           `;
 
 
+          const withdrawalButton =
+            rankRow.querySelector(
+              "[data-entry-index]"
+            );
+
+
+          if (
+            withdrawalButton
+          ) {
+
+            withdrawalButton.addEventListener(
+              "click",
+              function() {
+
+                toggleWithdrawal(
+                  Number(
+                    this.dataset.entryIndex
+                  )
+                );
+
+              }
+            );
+
+          }
+
+
           rankingBox.appendChild(
             rankRow
           );
@@ -3725,7 +4604,7 @@ function renderGroups() {
 
 
       if (
-        group.tieGroups.length >
+        group.eligibleTieGroups?.length >
         0
       ) {
 
@@ -3740,11 +4619,11 @@ function renderGroups() {
 
 
         warning.textContent =
-          group.cutoffTie
+          group.qualificationCutoffTie
 
-            ? "본선 자동 진출 커트라인에 3명 이상 완전 동률이 있습니다. 이 경우 해당 조 순위를 먼저 직접 확정해야 합니다."
+            ? "현재 본선 진출 커트라인에 3명 이상 완전 동률이 있습니다. 순위를 직접 결정한 뒤 토너먼트를 생성해야 합니다."
 
-            : "3명 이상 동일 성적 참가자가 있습니다. 현재 표시 순위는 임시 순서입니다.";
+            : "현재 유효 참가자 중 3명 이상 동일 성적 참가자가 있습니다. 표시 순위는 임시 순서입니다.";
 
 
         card.appendChild(
@@ -3765,7 +4644,7 @@ function renderGroups() {
 
 
 /* =====================================
-   BUTTON STATE
+   BUTTON
 ===================================== */
 
 function renderButtonState() {
@@ -3986,6 +4865,12 @@ async function refresh() {
     await loadDivisionConfig();
 
 
+    await loadEntryStatuses();
+
+
+    await loadKnockoutState();
+
+
     await loadMatches();
 
 
@@ -3995,6 +4880,7 @@ async function refresh() {
     setBusy(
       false
     );
+
 
   } catch(error) {
 
@@ -4064,6 +4950,12 @@ async function start() {
     await loadDivisionConfig();
 
 
+    await loadEntryStatuses();
+
+
+    await loadKnockoutState();
+
+
     await loadMatches();
 
 
@@ -4073,6 +4965,7 @@ async function start() {
     setBusy(
       false
     );
+
 
   } catch(error) {
 
