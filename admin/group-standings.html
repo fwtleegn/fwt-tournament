@@ -218,6 +218,197 @@
       line-height:1.65;
     }
 
+    .wildcard-panel {
+      display:none;
+
+      margin-bottom:14px;
+
+      border:1px solid #dbe3ea;
+      border-radius:15px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
+
+      overflow:hidden;
+    }
+
+    .wildcard-panel.show {
+      display:block;
+    }
+
+    .wildcard-head {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:12px;
+
+      padding:14px 16px;
+
+      border-bottom:1px solid #e8ecf0;
+
+      background:#fafbfc;
+    }
+
+    .wildcard-title {
+      color:var(--navy);
+
+      font-size:17px;
+      font-weight:950;
+    }
+
+    .wildcard-sub {
+      margin-top:3px;
+
+      color:var(--muted);
+
+      font-size:10px;
+      font-weight:750;
+    }
+
+    .wildcard-count {
+      flex-shrink:0;
+
+      padding:7px 10px;
+
+      border-radius:999px;
+
+      background:var(--navy);
+      color:white;
+
+      font-size:11px;
+      font-weight:900;
+    }
+
+    .wildcard-count strong {
+      color:var(--lime);
+    }
+
+    .wildcard-list {
+      padding:8px 10px 10px;
+    }
+
+    .wildcard-row {
+      display:grid;
+
+      grid-template-columns:
+        48px minmax(0,1fr) 48px 52px 52px 64px;
+
+      align-items:center;
+
+      gap:5px;
+
+      min-height:54px;
+
+      padding:7px 8px;
+
+      border-bottom:1px solid #e9edf1;
+    }
+
+    .wildcard-row:last-child {
+      border-bottom:0;
+    }
+
+    .wildcard-row.selected {
+      border-radius:10px;
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(201,223,69,.16),
+          rgba(201,223,69,.04)
+        );
+    }
+
+    .wildcard-rank {
+      width:38px;
+      height:34px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      border-radius:9px;
+
+      background:#eef2f5;
+      color:var(--navy);
+
+      font-size:12px;
+      font-weight:950;
+    }
+
+    .wildcard-row.selected .wildcard-rank {
+      background:var(--navy);
+      color:var(--lime);
+    }
+
+    .wildcard-name {
+      min-width:0;
+
+      overflow:hidden;
+
+      color:#263247;
+
+      font-size:13px;
+      font-weight:900;
+
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .wildcard-group {
+      color:#687587;
+
+      font-size:11px;
+      font-weight:850;
+
+      text-align:center;
+    }
+
+    .wildcard-stat {
+      color:#556275;
+
+      font-size:10px;
+      font-weight:800;
+
+      text-align:center;
+    }
+
+    .wildcard-stat strong {
+      display:block;
+
+      color:var(--navy);
+
+      font-size:13px;
+      font-weight:950;
+    }
+
+    .wildcard-badge {
+      color:#7e9414;
+
+      font-size:10px;
+      font-weight:950;
+
+      text-align:center;
+    }
+
+    .wildcard-warning {
+      margin:0 10px 10px;
+
+      padding:11px 12px;
+
+      border:1px solid #ecd7b9;
+      border-radius:10px;
+
+      background:var(--orange-soft);
+      color:#83561e;
+
+      font-size:11px;
+      font-weight:750;
+      line-height:1.55;
+    }
+
     .groups {
       display:grid;
 
@@ -618,6 +809,39 @@
         font-size:13px;
       }
 
+      .wildcard-head {
+        align-items:flex-start;
+      }
+
+      .wildcard-title {
+        font-size:18px;
+      }
+
+      .wildcard-sub {
+        font-size:11px;
+      }
+
+      .wildcard-row {
+        grid-template-columns:
+          42px minmax(0,1fr) 42px 45px 45px 58px;
+
+        gap:3px;
+
+        min-height:58px;
+      }
+
+      .wildcard-name {
+        font-size:14px;
+      }
+
+      .wildcard-stat {
+        font-size:9px;
+      }
+
+      .wildcard-stat strong {
+        font-size:13px;
+      }
+
       .groups {
         grid-template-columns:1fr;
       }
@@ -766,8 +990,49 @@
 
 
   <div class="notice">
-    순위 기준: 승수 → 득실차 → 득점 → 2명 동률 시 상대전적
+    조별 순위: 승수 → 득실차 → 득점 → 2명 동률 시 상대전적
+    <br>
+    와일드카드 순위: 승수 → 득실차 → 득점
   </div>
+
+
+  <section
+    class="wildcard-panel"
+    id="wildcardPanel"
+  >
+
+    <div class="wildcard-head">
+
+      <div>
+
+        <div class="wildcard-title">
+          와일드카드 순위
+        </div>
+
+        <div class="wildcard-sub">
+          각 조의 자동 진출 다음 순위 참가자를 같은 기준으로 비교합니다.
+        </div>
+
+      </div>
+
+      <div class="wildcard-count">
+        WC <strong id="wildcardSelectedCount">0</strong>/<span id="wildcardTargetCount">0</span>
+      </div>
+
+    </div>
+
+    <div
+      class="wildcard-list"
+      id="wildcardList"
+    ></div>
+
+    <div
+      class="wildcard-warning"
+      id="wildcardWarning"
+      style="display:none;"
+    ></div>
+
+  </section>
 
 
   <section
@@ -902,9 +1167,15 @@ if (
 }
 
 
-const advanceCount =
+let advanceCount =
   Number(
     tournament.advanceCount || 0
+  );
+
+
+let wildcardCount =
+  Number(
+    tournament.wildcardCount || 0
   );
 
 
@@ -915,6 +1186,12 @@ let standingsData = [];
 
 
 let qualifiers = [];
+
+
+let wildcardCandidates = [];
+
+
+let wildcardCutoffTie = false;
 
 
 let busy = false;
@@ -1079,6 +1356,65 @@ function setBusy(
 /* =====================================
    DB LOAD
 ===================================== */
+
+async function loadDivisionConfig() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("divisions")
+      .select(
+        "advance_count,wildcard_count"
+      )
+      .eq(
+        "id",
+        tournament.divisionId
+      )
+      .single();
+
+
+  if (error) {
+
+    throw new Error(
+      "부문 설정 조회 실패: "
+      +
+      error.message
+    );
+
+  }
+
+
+  advanceCount =
+    Number(
+      data?.advance_count ?? 0
+    );
+
+
+  wildcardCount =
+    Number(
+      data?.wildcard_count ?? 0
+    );
+
+
+  tournament.advanceCount =
+    advanceCount;
+
+
+  tournament.wildcardCount =
+    wildcardCount;
+
+
+  sessionStorage.setItem(
+    "fwtNewTournament",
+    JSON.stringify(
+      tournament
+    )
+  );
+
+}
+
 
 async function loadMatches() {
 
@@ -1723,6 +2059,10 @@ function calculateStandings() {
 
   qualifiers = [];
 
+  wildcardCandidates = [];
+
+  wildcardCutoffTie = false;
+
 
   standingsData.forEach(
     group => {
@@ -1765,12 +2105,227 @@ function calculateStandings() {
                 row.diff,
 
               scored:
-                row.scored
+                row.scored,
+
+              qualifierType:
+                "auto",
+
+              isWildcard:
+                false
 
             });
 
           }
         );
+
+
+      if (
+        wildcardCount > 0
+        &&
+        group.ranking.length >
+          advanceCount
+      ) {
+
+        const row =
+          group.ranking[
+            advanceCount
+          ];
+
+
+        wildcardCandidates.push({
+
+          groupName:
+            group.name,
+
+          groupId:
+            group.dbGroupId,
+
+          rank:
+            advanceCount + 1,
+
+          entryIndex:
+            row.entryIndex,
+
+          dbEntryId:
+            entries[
+              row.entryIndex
+            ]?.dbEntryId ||
+            null,
+
+          wins:
+            row.wins,
+
+          diff:
+            row.diff,
+
+          scored:
+            row.scored,
+
+          qualifierType:
+            "wildcard_candidate",
+
+          isWildcard:
+            false
+
+        });
+
+      }
+
+    }
+  );
+
+
+  wildcardCandidates.sort(
+    (a,b) => {
+
+      if (
+        b.wins !==
+        a.wins
+      ) {
+
+        return (
+          b.wins -
+          a.wins
+        );
+
+      }
+
+
+      if (
+        b.diff !==
+        a.diff
+      ) {
+
+        return (
+          b.diff -
+          a.diff
+        );
+
+      }
+
+
+      if (
+        b.scored !==
+        a.scored
+      ) {
+
+        return (
+          b.scored -
+          a.scored
+        );
+
+      }
+
+
+      return (
+        a.groupName
+          .localeCompare(
+            b.groupName,
+            "ko"
+          )
+      );
+
+    }
+  );
+
+
+  if (
+    wildcardCount > 0
+    &&
+    wildcardCandidates.length >
+      wildcardCount
+  ) {
+
+    const upper =
+      wildcardCandidates[
+        wildcardCount - 1
+      ];
+
+
+    const lower =
+      wildcardCandidates[
+        wildcardCount
+      ];
+
+
+    wildcardCutoffTie =
+      upper.wins === lower.wins
+      &&
+      upper.diff === lower.diff
+      &&
+      upper.scored === lower.scored;
+
+  }
+
+
+  wildcardCandidates.forEach(
+    (
+      candidate,
+      index
+    ) => {
+
+      candidate.wildcardOrder =
+        index + 1;
+
+
+      let selected =
+        index <
+        wildcardCount;
+
+
+      if (
+        selected
+        &&
+        wildcardCutoffTie
+      ) {
+
+        const cutoff =
+          wildcardCandidates[
+            wildcardCount - 1
+          ];
+
+
+        const sameAsCutoff =
+          candidate.wins === cutoff.wins
+          &&
+          candidate.diff === cutoff.diff
+          &&
+          candidate.scored === cutoff.scored;
+
+
+        if (
+          sameAsCutoff
+        ) {
+
+          selected =
+            false;
+
+        }
+
+      }
+
+
+      candidate.isWildcard =
+        selected;
+
+
+      if (
+        candidate.isWildcard
+      ) {
+
+        qualifiers.push({
+
+          ...candidate,
+
+          qualifierType:
+            "wildcard",
+
+          isWildcard:
+            true
+
+        });
+
+      }
 
     }
   );
@@ -1845,12 +2400,76 @@ function hasCutoffTie() {
 }
 
 
+function hasWildcardSourceTie() {
+
+  if (
+    wildcardCount <= 0
+  ) {
+
+    return false;
+
+  }
+
+
+  return standingsData.some(
+    group => {
+
+      const candidateIndex =
+        advanceCount;
+
+
+      if (
+        candidateIndex < 0
+        ||
+        candidateIndex >=
+          group.ranking.length
+      ) {
+
+        return false;
+
+      }
+
+
+      const candidate =
+        group.ranking[
+          candidateIndex
+        ];
+
+
+      return group.tieGroups.some(
+        tiedIndexes =>
+          tiedIndexes.includes(
+            candidate.entryIndex
+          )
+      );
+
+    }
+  );
+
+}
+
+
+function hasWildcardCutoffTie() {
+
+  return (
+    wildcardCount > 0
+    &&
+    wildcardCutoffTie
+  );
+
+}
+
+
 function canCreateKnockout() {
 
   return (
     allMatchesCompleted()
     &&
     !hasCutoffTie()
+    &&
+    !hasWildcardSourceTie()
+    &&
+    !hasWildcardCutoffTie()
     &&
     qualifiers.length > 1
   );
@@ -1894,6 +2513,181 @@ function renderSummary() {
     "qualifierCount"
   ).textContent =
     qualifiers.length;
+
+}
+
+
+function renderWildcards() {
+
+  const panel =
+    document.getElementById(
+      "wildcardPanel"
+    );
+
+
+  const list =
+    document.getElementById(
+      "wildcardList"
+    );
+
+
+  const warning =
+    document.getElementById(
+      "wildcardWarning"
+    );
+
+
+  document.getElementById(
+    "wildcardTargetCount"
+  ).textContent =
+    wildcardCount;
+
+
+  const selectedCount =
+    wildcardCandidates.filter(
+      candidate =>
+        candidate.isWildcard
+    ).length;
+
+
+  document.getElementById(
+    "wildcardSelectedCount"
+  ).textContent =
+    selectedCount;
+
+
+  if (
+    wildcardCount <= 0
+  ) {
+
+    panel.classList.remove(
+      "show"
+    );
+
+    list.innerHTML = "";
+
+    warning.style.display =
+      "none";
+
+    return;
+
+  }
+
+
+  panel.classList.add(
+    "show"
+  );
+
+
+  list.innerHTML = "";
+
+
+  wildcardCandidates.forEach(
+    candidate => {
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+
+      row.className =
+        "wildcard-row"
+        +
+        (
+          candidate.isWildcard
+            ? " selected"
+            : ""
+        );
+
+
+      row.innerHTML = `
+
+        <div class="wildcard-rank">
+          ${candidate.wildcardOrder}
+        </div>
+
+        <div class="wildcard-name">
+          ${escapeHtml(
+            shortEntryName(
+              entries[
+                candidate.entryIndex
+              ]
+            )
+          )}
+        </div>
+
+        <div class="wildcard-group">
+          ${escapeHtml(
+            candidate.groupName
+          )}
+        </div>
+
+        <div class="wildcard-stat">
+          <strong>${candidate.wins}</strong>
+          승
+        </div>
+
+        <div class="wildcard-stat">
+          <strong>${
+            candidate.diff > 0
+              ? "+"
+              : ""
+          }${candidate.diff}</strong>
+          득실
+        </div>
+
+        <div class="wildcard-badge">
+          ${
+            candidate.isWildcard
+              ? `WC${candidate.wildcardOrder}`
+              : "후보"
+          }
+        </div>
+
+      `;
+
+
+      list.appendChild(
+        row
+      );
+
+    }
+  );
+
+
+  if (
+    hasWildcardSourceTie()
+  ) {
+
+    warning.textContent =
+      "와일드카드 후보가 되는 조 순위에 3명 이상 완전 동률이 있습니다. 해당 조 순위를 먼저 확정해야 합니다.";
+
+    warning.style.display =
+      "block";
+
+    return;
+
+  }
+
+
+  if (
+    hasWildcardCutoffTie()
+  ) {
+
+    warning.textContent =
+      "와일드카드 커트라인에 승수·득실차·득점이 모두 같은 참가자가 있습니다. 현재는 자동 선정하지 않습니다. 다음 단계에서 관리자 수동 선택 기능으로 처리할 수 있습니다.";
+
+    warning.style.display =
+      "block";
+
+    return;
+
+  }
+
+
+  warning.style.display =
+    "none";
 
 }
 
@@ -1981,6 +2775,26 @@ function renderGroups() {
             advanceCount;
 
 
+          const wildcardCandidate =
+            wildcardCount > 0
+            &&
+            index ===
+              advanceCount;
+
+
+          const selectedWildcard =
+            wildcardCandidates.some(
+              candidate =>
+                candidate.entryIndex ===
+                  row.entryIndex
+                &&
+                candidate.groupId ===
+                  group.dbGroupId
+                &&
+                candidate.isWildcard
+            );
+
+
           const rankRow =
             document.createElement(
               "div"
@@ -1991,7 +2805,8 @@ function renderGroups() {
             "rank-row"
             +
             (
-              qualifier
+              qualifier ||
+              selectedWildcard
                 ? " qualifier"
                 : ""
             );
@@ -2020,10 +2835,27 @@ function renderGroups() {
                 qualifier
                   ? `
                     <div class="qualifier-label">
-                      본선권
+                      자동 진출
                     </div>
                   `
-                  : ""
+                  : selectedWildcard
+                    ? `
+                      <div class="qualifier-label">
+                        WC${wildcardCandidates.find(
+                          candidate =>
+                            candidate.entryIndex === row.entryIndex
+                            &&
+                            candidate.groupId === group.dbGroupId
+                        )?.wildcardOrder || ""}
+                      </div>
+                    `
+                    : wildcardCandidate
+                      ? `
+                        <div class="qualifier-label">
+                          WC 후보
+                        </div>
+                      `
+                      : ""
               }
 
             </div>
@@ -2190,7 +3022,39 @@ function renderButtonState() {
   ) {
 
     blocked.textContent =
-      "본선 진출 커트라인에 해결되지 않은 완전 동률이 있습니다.";
+      "조별 자동 진출 커트라인에 해결되지 않은 완전 동률이 있습니다.";
+
+    blocked.classList.add(
+      "show"
+    );
+
+    return;
+
+  }
+
+
+  if (
+    hasWildcardSourceTie()
+  ) {
+
+    blocked.textContent =
+      "와일드카드 후보가 되는 조 순위에 해결되지 않은 완전 동률이 있습니다.";
+
+    blocked.classList.add(
+      "show"
+    );
+
+    return;
+
+  }
+
+
+  if (
+    hasWildcardCutoffTie()
+  ) {
+
+    blocked.textContent =
+      "와일드카드 커트라인이 완전 동률입니다. 자동 선정할 수 없습니다.";
 
     blocked.classList.add(
       "show"
@@ -2219,6 +3083,8 @@ function renderAll() {
   calculateStandings();
 
   renderSummary();
+
+  renderWildcards();
 
   renderGroups();
 
@@ -2274,6 +3140,8 @@ async function refresh() {
       "DB 경기결과를 다시 불러오고 있습니다"
     );
 
+
+    await loadDivisionConfig();
 
     await loadMatches();
 
@@ -2342,6 +3210,8 @@ async function start() {
       "DB 경기결과를 불러오고 있습니다"
     );
 
+
+    await loadDivisionConfig();
 
     await loadMatches();
 
