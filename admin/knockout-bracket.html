@@ -60,7 +60,6 @@
 
     .topbar{
       min-height:72px;
-
       padding:0 20px;
 
       display:flex;
@@ -103,7 +102,6 @@
 
     .header-btn{
       min-height:44px;
-
       padding:0 14px;
 
       border:
@@ -128,7 +126,6 @@
         );
 
       margin:0 auto;
-
       padding:32px 0 60px;
     }
 
@@ -174,7 +171,6 @@
     .summary{
       display:flex;
       flex-wrap:wrap;
-
       gap:7px;
     }
 
@@ -202,7 +198,6 @@
 
     .notice{
       margin-bottom:15px;
-
       padding:14px 15px;
 
       border:1px solid #dce8df;
@@ -249,7 +244,6 @@
     .db-status{
       display:flex;
       align-items:center;
-
       gap:6px;
 
       color:var(--green);
@@ -277,7 +271,6 @@
         );
 
       gap:7px;
-
       padding:10px;
     }
 
@@ -351,7 +344,6 @@
       min-width:max-content;
 
       display:flex;
-
       gap:12px;
 
       align-items:stretch;
@@ -468,7 +460,6 @@
       justify-content:center;
 
       padding:8px 9px;
-
       margin-bottom:6px;
 
       border:1px solid #e5e9ed;
@@ -510,7 +501,6 @@
 
     .winner{
       margin:0 8px 8px;
-
       padding:7px 9px;
 
       border-radius:8px;
@@ -526,7 +516,7 @@
       display:grid;
 
       grid-template-columns:
-        190px minmax(0,1fr);
+        190px 230px minmax(0,1fr);
 
       gap:9px;
 
@@ -547,6 +537,21 @@
 
       background:white;
       color:#526073;
+    }
+
+    .reset-btn{
+      display:none;
+
+      border:1px solid #e2c6c6;
+
+      background:#fff7f7;
+      color:#a33f3f;
+
+      font-size:13px;
+    }
+
+    .reset-btn.show{
+      display:block;
     }
 
     .continue-btn{
@@ -831,6 +836,7 @@
 
 </header>
 
+
 <main class="container">
 
   <div class="head">
@@ -850,6 +856,7 @@
       </p>
 
     </div>
+
 
     <div class="summary">
 
@@ -872,10 +879,12 @@
 
   </div>
 
+
   <div class="notice">
     같은 조에서 2명이 본선에 진출한 경우 서로 반대쪽 하프에 배치하여
     8강·4강 재대결을 방지하고, 다시 만날 수 있는 시점은 결승으로 제한합니다.
   </div>
+
 
   <section class="qualifier-card">
 
@@ -892,12 +901,14 @@
 
     </div>
 
+
     <div
       class="qualifiers"
       id="qualifiers"
     ></div>
 
   </section>
+
 
   <section class="bracket-section">
 
@@ -913,6 +924,7 @@
 
     </div>
 
+
     <div class="bracket-scroll">
 
       <div
@@ -923,6 +935,7 @@
     </div>
 
   </section>
+
 
   <div class="actions">
 
@@ -935,6 +948,14 @@
     </button>
 
     <button
+      class="action-btn reset-btn"
+      id="resetBracketButton"
+      type="button"
+    >
+      본선 대진 초기화 · 예선 수정
+    </button>
+
+    <button
       class="action-btn continue-btn"
       id="continueButton"
       type="button"
@@ -944,6 +965,7 @@
     </button>
 
   </div>
+
 
   <footer class="footer">
 
@@ -960,6 +982,7 @@
   </footer>
 
 </main>
+
 
 <div
   class="loading-overlay"
@@ -988,19 +1011,23 @@
 
 </div>
 
+
 <script>
 
 const SUPABASE_URL =
   "https://opwuyqerisocqobbbisg.supabase.co";
 
+
 const SUPABASE_KEY =
   "sb_publishable_Eo_zfONeGLs9ATCVg2Fk_g_y_IAJFV-";
+
 
 const supabaseClient =
   window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
   );
+
 
 const tournament =
   JSON.parse(
@@ -1009,6 +1036,7 @@ const tournament =
     ) || "null"
   );
 
+
 const entries =
   JSON.parse(
     sessionStorage.getItem(
@@ -1016,12 +1044,14 @@ const entries =
     ) || "null"
   );
 
+
 const qualifiers =
   JSON.parse(
     sessionStorage.getItem(
       "fwtKnockoutQualifiers"
     ) || "null"
   );
+
 
 if (
   !tournament ||
@@ -1041,14 +1071,18 @@ if (
 
 }
 
+
 let busy =
   false;
+
 
 let bracketData =
   null;
 
+
 let bracketAlreadySaved =
   false;
+
 
 /* =========================
    HELPERS
@@ -1068,11 +1102,13 @@ function escapeHtml(value){
 
 }
 
+
 function shortEntryName(entry){
 
   if (!entry){
     return "알 수 없음";
   }
+
 
   if (
     entry.type ===
@@ -1087,19 +1123,23 @@ function shortEntryName(entry){
 
   }
 
+
   const p1 =
     entry.player1?.nickname ||
     entry.player1?.name ||
     "선수1";
+
 
   const p2 =
     entry.player2?.nickname ||
     entry.player2?.name ||
     "선수2";
 
+
   return `${p1}/${p2}`;
 
 }
+
 
 function entryName(index){
 
@@ -1110,11 +1150,13 @@ function entryName(index){
     return null;
   }
 
+
   return shortEntryName(
     entries[index]
   );
 
 }
+
 
 function entryIndexFromId(id){
 
@@ -1125,6 +1167,7 @@ function entryIndexFromId(id){
 
 }
 
+
 function entryIdFromIndex(index){
 
   if (
@@ -1134,6 +1177,7 @@ function entryIdFromIndex(index){
     return null;
   }
 
+
   return (
     entries[index]?.dbEntryId ||
     null
@@ -1141,9 +1185,11 @@ function entryIdFromIndex(index){
 
 }
 
+
 function nextPowerOfTwo(number){
 
   let value = 2;
+
 
   while (
     value < number
@@ -1151,9 +1197,11 @@ function nextPowerOfTwo(number){
     value *= 2;
   }
 
+
   return value;
 
 }
+
 
 function roundLabelBySize(size){
 
@@ -1177,9 +1225,11 @@ function roundLabelBySize(size){
     return "32강";
   }
 
+
   return `${size}강`;
 
 }
+
 
 function stageFromSize(size){
 
@@ -1203,6 +1253,7 @@ function stageFromSize(size){
 
 }
 
+
 function statusText(status){
 
   const map = {
@@ -1215,6 +1266,7 @@ function statusText(status){
     cancelled:"취소"
   };
 
+
   return (
     map[status] ||
     status ||
@@ -1222,6 +1274,7 @@ function statusText(status){
   );
 
 }
+
 
 /* =========================
    QUALIFIER HELPERS
@@ -1243,6 +1296,7 @@ function findQualifier(
 
 }
 
+
 function getGroupNames(){
 
   return [
@@ -1255,6 +1309,7 @@ function getGroupNames(){
   ];
 
 }
+
 
 /* =========================
    AUTH
@@ -1270,6 +1325,7 @@ async function checkLogin(){
       .auth
       .getSession();
 
+
   if (
     error ||
     !data.session
@@ -1282,9 +1338,11 @@ async function checkLogin(){
 
   }
 
+
   return true;
 
 }
+
 
 /* =========================
    BUSY
@@ -1299,6 +1357,7 @@ function setBusy(
   busy =
     state;
 
+
   document.getElementById(
     "loadingOverlay"
   ).classList.toggle(
@@ -1306,10 +1365,18 @@ function setBusy(
     state
   );
 
+
   document.getElementById(
     "continueButton"
   ).disabled =
     state;
+
+
+  document.getElementById(
+    "resetBracketButton"
+  ).disabled =
+    state;
+
 
   if (title){
 
@@ -1319,6 +1386,7 @@ function setBusy(
       title;
 
   }
+
 
   if (text){
 
@@ -1331,17 +1399,9 @@ function setBusy(
 
 }
 
+
 /* =========================
    STANDARD 4 GROUP / TOP 2
-
-   A1-B2
-   C1-D2
-   ----------
-   B1-A2
-   D1-C2
-
-   같은 조 1·2위는
-   서로 반대 half 배치.
 ========================= */
 
 function buildStandardEightBracket(){
@@ -1349,11 +1409,13 @@ function buildStandardEightBracket(){
   const groupNames =
     getGroupNames();
 
+
   if (
     groupNames.length !== 4
   ){
     return null;
   }
+
 
   const [
     A,
@@ -1362,6 +1424,7 @@ function buildStandardEightBracket(){
     D
   ] =
     groupNames;
+
 
   const A1 =
     findQualifier(A,1);
@@ -1387,6 +1450,7 @@ function buildStandardEightBracket(){
   const D2 =
     findQualifier(D,2);
 
+
   if (
     !A1 || !A2 ||
     !B1 || !B2 ||
@@ -1395,6 +1459,7 @@ function buildStandardEightBracket(){
   ){
     return null;
   }
+
 
   return [
     [A1,B2],
@@ -1405,19 +1470,9 @@ function buildStandardEightBracket(){
 
 }
 
+
 /* =========================
    6 GROUP / TOP 1 + WC 2
-
-   예:
-   C조 1위 + C조 WC
-   F조 1위 + F조 WC
-
-   같은 조 1위와 WC는
-   반드시 서로 반대 half에 배치.
-
-   따라서 둘 다 승리해도
-   4강에서는 만날 수 없고,
-   재대결 가능 시점은 결승뿐.
 ========================= */
 
 function isWildcardQualifier(
@@ -1433,10 +1488,12 @@ function isWildcardQualifier(
 
 }
 
+
 function buildSixGroupWildcardEightBracket(){
 
   const groupNames =
     getGroupNames();
+
 
   if (
     groupNames.length !== 6
@@ -1445,6 +1502,7 @@ function buildSixGroupWildcardEightBracket(){
     return null;
 
   }
+
 
   const wildcards =
     qualifiers
@@ -1462,10 +1520,12 @@ function buildSixGroupWildcardEightBracket(){
               a.wildcardOrder || 999
             );
 
+
           const orderB =
             Number(
               b.wildcardOrder || 999
             );
+
 
           if (
             orderA !== orderB
@@ -1478,6 +1538,7 @@ function buildSixGroupWildcardEightBracket(){
 
           }
 
+
           return String(
             a.groupName
           ).localeCompare(
@@ -1489,6 +1550,7 @@ function buildSixGroupWildcardEightBracket(){
 
         }
       );
+
 
   const groupWinners =
     qualifiers
@@ -1514,6 +1576,7 @@ function buildSixGroupWildcardEightBracket(){
           )
       );
 
+
   if (
     wildcards.length !== 2
     ||
@@ -1524,11 +1587,14 @@ function buildSixGroupWildcardEightBracket(){
 
   }
 
+
   const wc1 =
     wildcards[0];
 
+
   const wc2 =
     wildcards[1];
+
 
   if (
     wc1.groupName ===
@@ -1539,12 +1605,14 @@ function buildSixGroupWildcardEightBracket(){
 
   }
 
+
   const wc1GroupWinner =
     groupWinners.find(
       qualifier =>
         qualifier.groupName ===
         wc1.groupName
     );
+
 
   const wc2GroupWinner =
     groupWinners.find(
@@ -1553,15 +1621,16 @@ function buildSixGroupWildcardEightBracket(){
         wc2.groupName
     );
 
+
   if (
-    !wc1GroupWinner
-    ||
+    !wc1GroupWinner ||
     !wc2GroupWinner
   ){
 
     return null;
 
   }
+
 
   const otherGroupWinners =
     groupWinners.filter(
@@ -1573,6 +1642,7 @@ function buildSixGroupWildcardEightBracket(){
           wc2.groupName
     );
 
+
   if (
     otherGroupWinners.length !== 4
   ){
@@ -1581,19 +1651,6 @@ function buildSixGroupWildcardEightBracket(){
 
   }
 
-  /*
-    8강 1·2경기 = 상단 half
-    8강 3·4경기 = 하단 half
-
-    WC1의 조 1위는 상단,
-    WC1은 하단.
-
-    WC2의 조 1위는 하단,
-    WC2는 상단.
-
-    결과적으로 같은 조 1위와 WC는
-    결승 전에는 절대 만날 수 없음.
-  */
 
   return [
 
@@ -1621,12 +1678,9 @@ function buildSixGroupWildcardEightBracket(){
 
 }
 
+
 /* =========================
    GENERAL FALLBACK
-
-   4조 8강이 아닌 경우에도
-   같은 조끼리 1R 재대결을
-   최대한 피하는 방식.
 ========================= */
 
 function buildGeneralPairs(list){
@@ -1646,6 +1700,7 @@ function buildGeneralPairs(list){
             );
           }
 
+
           return String(
             a.groupName
           ).localeCompare(
@@ -1656,8 +1711,10 @@ function buildGeneralPairs(list){
         }
       );
 
+
   const pairCount =
     sorted.length / 2;
+
 
   const upper =
     sorted.slice(
@@ -1665,12 +1722,15 @@ function buildGeneralPairs(list){
       pairCount
     );
 
+
   const lower =
     sorted.slice(
       pairCount
     );
 
+
   const pairs = [];
+
 
   while (
     upper.length > 0
@@ -1679,6 +1739,7 @@ function buildGeneralPairs(list){
     const first =
       upper.shift();
 
+
     let index =
       lower.findIndex(
         opponent =>
@@ -1686,17 +1747,20 @@ function buildGeneralPairs(list){
           first.groupName
       );
 
+
     if (
       index < 0
     ){
       index = 0;
     }
 
+
     const opponent =
       lower.splice(
         index,
         1
       )[0];
+
 
     pairs.push([
       first,
@@ -1705,9 +1769,11 @@ function buildGeneralPairs(list){
 
   }
 
+
   return pairs;
 
 }
+
 
 /* =========================
    FIRST ROUND
@@ -1717,15 +1783,6 @@ function buildFirstRound(
   bracketSize
 ){
 
-  /*
-    남자 FWT 형식:
-    6개조 × 조 1위 6명 + WC 2명 = 8명
-
-    같은 조 1위와 WC는
-    서로 반대 half에 배치해서
-    4강 재대결까지 방지.
-  */
-
   if (
     bracketSize === 8 &&
     qualifiers.length === 8
@@ -1733,6 +1790,7 @@ function buildFirstRound(
 
     const sixGroupWildcard =
       buildSixGroupWildcardEightBracket();
+
 
     if (
       sixGroupWildcard
@@ -1754,10 +1812,6 @@ function buildFirstRound(
 
   }
 
-  /*
-    가장 흔한 FWT 형식:
-    4개조 × 각 2명 = 8명
-  */
 
   if (
     bracketSize === 8 &&
@@ -1766,6 +1820,7 @@ function buildFirstRound(
 
     const standard =
       buildStandardEightBracket();
+
 
     if (standard){
 
@@ -1785,10 +1840,6 @@ function buildFirstRound(
 
   }
 
-  /*
-    그 외 인원은
-    BYE + 일반 회피 방식 사용
-  */
 
   const sorted =
     [...qualifiers]
@@ -1805,6 +1856,7 @@ function buildFirstRound(
             );
           }
 
+
           return String(
             a.groupName
           ).localeCompare(
@@ -1815,9 +1867,11 @@ function buildFirstRound(
         }
       );
 
+
   const byeCount =
     bracketSize -
     sorted.length;
+
 
   const byeEntrants =
     sorted.slice(
@@ -1825,30 +1879,31 @@ function buildFirstRound(
       byeCount
     );
 
+
   const playEntrants =
     sorted.slice(
       byeCount
     );
+
 
   const pairs =
     buildGeneralPairs(
       playEntrants
     );
 
+
   const firstRoundMatchCount =
     bracketSize / 2;
+
 
   const result =
     new Array(
       firstRoundMatchCount
     ).fill(null);
 
-  /*
-    BYE를 bracket 양쪽으로
-    최대한 분산
-  */
 
   const preferredByeSlots = [];
+
 
   for (
     let left = 0,
@@ -1864,6 +1919,7 @@ function buildFirstRound(
       left
     );
 
+
     if (
       right !== left
     ){
@@ -1876,6 +1932,7 @@ function buildFirstRound(
 
   }
 
+
   byeEntrants.forEach(
     (
       qualifier,
@@ -1887,6 +1944,7 @@ function buildFirstRound(
           index
         ];
 
+
       result[slot] =
         makeByeMatch(
           qualifier,
@@ -1896,7 +1954,9 @@ function buildFirstRound(
     }
   );
 
+
   let pairIndex = 0;
+
 
   for (
     let i = 0;
@@ -1910,14 +1970,17 @@ function buildFirstRound(
       continue;
     }
 
+
     const pair =
       pairs[
         pairIndex++
       ];
 
+
     if (!pair){
       continue;
     }
+
 
     result[i] =
       makeFirstRoundMatch(
@@ -1928,9 +1991,11 @@ function buildFirstRound(
 
   }
 
+
   return result;
 
 }
+
 
 /* =========================
    MATCH FACTORIES
@@ -1979,6 +2044,7 @@ function makeFirstRoundMatch(
 
 }
 
+
 function makeByeMatch(
   qualifier,
   matchIndex
@@ -2020,6 +2086,7 @@ function makeByeMatch(
 
 }
 
+
 /* =========================
    CREATE BRACKET
 ========================= */
@@ -2031,19 +2098,24 @@ function createBracket(){
       qualifiers.length
     );
 
+
   const rounds = [];
+
 
   const firstRound =
     buildFirstRound(
       bracketSize
     );
 
+
   rounds.push(
     firstRound
   );
 
+
   let currentSize =
     bracketSize;
+
 
   while (
     currentSize > 2
@@ -2052,16 +2124,21 @@ function createBracket(){
     const previousSize =
       currentSize;
 
+
     currentSize /=
       2;
+
 
     const roundIndex =
       rounds.length;
 
+
     const matchCount =
       currentSize / 2;
 
+
     const round = [];
+
 
     for (
       let i = 0;
@@ -2112,11 +2189,13 @@ function createBracket(){
 
     }
 
+
     rounds.push(
       round
     );
 
   }
+
 
   const data = {
 
@@ -2126,13 +2205,16 @@ function createBracket(){
 
   };
 
+
   propagateKnownWinners(
     data
   );
 
+
   return data;
 
 }
+
 
 /* =========================
    STATUS
@@ -2152,13 +2234,16 @@ function normalizeStatus(match){
     return;
   }
 
+
   const has1 =
     match.player1 !== null &&
     match.player1 !== undefined;
 
+
   const has2 =
     match.player2 !== null &&
     match.player2 !== undefined;
+
 
   if (
     has1 &&
@@ -2171,6 +2256,7 @@ function normalizeStatus(match){
     return;
 
   }
+
 
   if (
     match.roundIndex === 0 &&
@@ -2188,10 +2274,12 @@ function normalizeStatus(match){
 
   }
 
+
   match.status =
     "pending";
 
 }
+
 
 /* =========================
    WINNER PROPAGATION
@@ -2209,10 +2297,12 @@ function propagateKnownWinners(data){
     const current =
       data.rounds[r];
 
+
     const next =
       data.rounds[
         r + 1
       ];
+
 
     current.forEach(
       (
@@ -2232,12 +2322,14 @@ function propagateKnownWinners(data){
           return;
         }
 
+
         if (
           match.winner === null ||
           match.winner === undefined
         ){
           return;
         }
+
 
         const nextMatch =
           next[
@@ -2246,9 +2338,11 @@ function propagateKnownWinners(data){
             )
           ];
 
+
         if (!nextMatch){
           return;
         }
+
 
         if (
           index % 2 === 0
@@ -2264,6 +2358,7 @@ function propagateKnownWinners(data){
 
         }
 
+
         normalizeStatus(
           nextMatch
         );
@@ -2272,6 +2367,7 @@ function propagateKnownWinners(data){
     );
 
   }
+
 
   data.rounds.forEach(
     round => {
@@ -2290,6 +2386,7 @@ function propagateKnownWinners(data){
   );
 
 }
+
 
 /* =========================
    SESSION
@@ -2320,6 +2417,7 @@ function saveCompatibility(){
   );
 
 }
+
 
 /* =========================
    LOAD EXISTING DB
@@ -2357,6 +2455,7 @@ async function loadExistingBracket(){
         }
       );
 
+
   if (error){
 
     throw new Error(
@@ -2367,6 +2466,7 @@ async function loadExistingBracket(){
 
   }
 
+
   if (
     !rows ||
     rows.length === 0
@@ -2375,17 +2475,22 @@ async function loadExistingBracket(){
     bracketAlreadySaved =
       false;
 
+
     bracketData =
       createBracket();
 
+
     saveCompatibility();
+
 
     return;
 
   }
 
+
   bracketAlreadySaved =
     true;
+
 
   const maxRound =
     Math.max(
@@ -2397,13 +2502,16 @@ async function loadExistingBracket(){
       )
     );
 
+
   const bracketSize =
     Math.pow(
       2,
       maxRound
     );
 
+
   const rounds = [];
+
 
   for (
     let r = 1;
@@ -2430,8 +2538,10 @@ async function loadExistingBracket(){
             )
         );
 
+
     const roundIndex =
       r - 1;
+
 
     rounds.push(
       roundRows.map(
@@ -2447,6 +2557,7 @@ async function loadExistingBracket(){
                 )
               : null;
 
+
           const p2 =
             row.entry2_id
               ? entryIndexFromId(
@@ -2454,12 +2565,14 @@ async function loadExistingBracket(){
                 )
               : null;
 
+
           const winner =
             row.winner_entry_id
               ? entryIndexFromId(
                   row.winner_entry_id
                 )
               : null;
+
 
           return {
 
@@ -2521,12 +2634,10 @@ async function loadExistingBracket(){
 
   }
 
-  /*
-    1라운드 출처 표시 복원
-  */
 
   const qualifierMap =
     new Map();
+
 
   qualifiers.forEach(
     qualifier => {
@@ -2539,6 +2650,7 @@ async function loadExistingBracket(){
     }
   );
 
+
   rounds[0]?.forEach(
     match => {
 
@@ -2547,15 +2659,18 @@ async function loadExistingBracket(){
           match.player1
         );
 
+
       const q2 =
         qualifierMap.get(
           match.player2
         );
 
+
       match.source1 =
         q1
           ? `${q1.groupName} ${q1.rank}위`
           : "";
+
 
       match.source2 =
         q2
@@ -2569,6 +2684,7 @@ async function loadExistingBracket(){
     }
   );
 
+
   bracketData = {
 
     bracketSize,
@@ -2577,9 +2693,11 @@ async function loadExistingBracket(){
 
   };
 
+
   saveCompatibility();
 
 }
+
 
 /* =========================
    DELETE OLD KNOCKOUT
@@ -2602,6 +2720,7 @@ async function deleteExistingKnockout(){
         "group"
       );
 
+
   if (error){
 
     throw new Error(
@@ -2614,23 +2733,231 @@ async function deleteExistingKnockout(){
 
 }
 
+
+/* =========================
+   RESET BRACKET SAFELY
+========================= */
+
+async function getKnockoutProgressState(){
+
+  const {
+    data:rows,
+    error
+  } =
+    await supabaseClient
+      .from("matches")
+      .select(
+        "id,stage,status,score1,score2,winner_entry_id"
+      )
+      .eq(
+        "division_id",
+        tournament.divisionId
+      )
+      .neq(
+        "stage",
+        "group"
+      );
+
+
+  if (error){
+
+    throw new Error(
+      "본선 진행 상태 확인 실패: "
+      +
+      error.message
+    );
+
+  }
+
+
+  const knockoutRows =
+    rows || [];
+
+
+  const startedRows =
+    knockoutRows.filter(
+      row =>
+        [
+          "playing",
+          "completed",
+          "walkover"
+        ].includes(
+          row.status
+        )
+    );
+
+
+  return {
+
+    rows:
+      knockoutRows,
+
+    startedRows,
+
+    hasStarted:
+      startedRows.length > 0
+
+  };
+
+}
+
+
+async function resetBracketForPreliminaryEdit(){
+
+  if (busy){
+    return;
+  }
+
+
+  if (
+    !bracketAlreadySaved
+  ){
+
+    location.href =
+      "./group-standings.html";
+
+    return;
+
+  }
+
+
+  try{
+
+    setBusy(
+      true,
+      "본선 진행 상태를 확인하고 있습니다",
+      "이미 시작된 본선 경기가 있는지 확인 중입니다."
+    );
+
+
+    const progress =
+      await getKnockoutProgressState();
+
+
+    if (
+      progress.hasStarted
+    ){
+
+      setBusy(false);
+
+
+      alert(
+        "본선 경기가 이미 시작되었습니다.\n\n"
+        +
+        "경기중·완료·기권승 처리된 본선 경기가 하나라도 있으면 본선 대진을 초기화할 수 없습니다.\n\n"
+        +
+        "이 경우 기존 본선 대진을 유지하고 본선 경기 운영 화면에서 기권·결과 수정 방식으로 처리해야 합니다."
+      );
+
+
+      return;
+
+    }
+
+
+    setBusy(false);
+
+
+    const firstConfirm =
+      confirm(
+        "본선 대진을 초기화하고 예선 수정 단계로 돌아갈까요?\n\n"
+        +
+        "예선 경기 결과와 조별 데이터는 삭제되지 않습니다.\n"
+        +
+        "현재 저장된 본선 대진만 삭제됩니다."
+      );
+
+
+    if (
+      !firstConfirm
+    ){
+      return;
+    }
+
+
+    const secondConfirm =
+      confirm(
+        "마지막 확인입니다.\n\n"
+        +
+        "현재 본선 대진을 삭제합니다.\n"
+        +
+        "이후 조별 순위·WC를 수정한 뒤 새 본선 대진을 다시 생성해야 합니다.\n\n"
+        +
+        "계속하시겠습니까?"
+      );
+
+
+    if (
+      !secondConfirm
+    ){
+      return;
+    }
+
+
+    setBusy(
+      true,
+      "본선 대진을 초기화하고 있습니다",
+      "예선 데이터는 유지하고 본선 경기 데이터만 삭제 중입니다."
+    );
+
+
+    await deleteExistingKnockout();
+
+
+    sessionStorage.removeItem(
+      "fwtKnockoutBracket"
+    );
+
+
+    bracketAlreadySaved =
+      false;
+
+
+    bracketData =
+      null;
+
+
+    location.href =
+      "./group-standings.html";
+
+
+  } catch(error){
+
+    console.error(error);
+
+
+    setBusy(false);
+
+
+    alert(
+      "본선 대진을 초기화하지 못했습니다.\n\n"
+      +
+      (
+        error?.message ||
+        "알 수 없는 오류"
+      )
+    );
+
+  }
+
+}
+
+
 /* =========================
    SAVE DB
 ========================= */
 
 async function saveBracketToDatabase(){
 
-  /*
-    현재 페이지에서 확정하는 시점에만
-    기존 본선 데이터를 교체.
-  */
-
   await deleteExistingKnockout();
+
 
   const dbRounds = [];
 
+
   let globalSort =
     10000;
+
 
   for (
     let r = 0;
@@ -2642,6 +2969,7 @@ async function saveBracketToDatabase(){
     const round =
       bracketData.rounds[r];
 
+
     const roundSize =
       bracketData.bracketSize /
       Math.pow(
@@ -2649,10 +2977,12 @@ async function saveBracketToDatabase(){
         r
       );
 
+
     const stage =
       stageFromSize(
         roundSize
       );
+
 
     const rows =
       round.map(
@@ -2664,8 +2994,10 @@ async function saveBracketToDatabase(){
           let source1MatchId =
             null;
 
+
           let source2MatchId =
             null;
+
 
           if (
             r > 0
@@ -2678,6 +3010,7 @@ async function saveBracketToDatabase(){
                 matchIndex * 2
               ].id;
 
+
             source2MatchId =
               dbRounds[
                 r - 1
@@ -2686,6 +3019,7 @@ async function saveBracketToDatabase(){
               ].id;
 
           }
+
 
           return {
 
@@ -2744,6 +3078,7 @@ async function saveBracketToDatabase(){
         }
       );
 
+
     const {
       data:saved,
       error
@@ -2756,6 +3091,7 @@ async function saveBracketToDatabase(){
         .select(
           "id,round_number,match_number"
         );
+
 
     if (
       error ||
@@ -2775,6 +3111,7 @@ async function saveBracketToDatabase(){
 
     }
 
+
     saved.sort(
       (a,b) =>
         Number(
@@ -2786,15 +3123,13 @@ async function saveBracketToDatabase(){
         )
     );
 
+
     dbRounds.push(
       saved
     );
 
   }
 
-  /*
-    브라우저 객체에 DB UUID 부여
-  */
 
   bracketData.rounds.forEach(
     (
@@ -2811,8 +3146,10 @@ async function saveBracketToDatabase(){
           match.id =
             dbRounds[r][m].id;
 
+
           match.dbMatchId =
             dbRounds[r][m].id;
+
 
           if (
             r > 0
@@ -2824,6 +3161,7 @@ async function saveBracketToDatabase(){
               ][
                 m * 2
               ].id;
+
 
             match.source2MatchId =
               dbRounds[
@@ -2840,9 +3178,6 @@ async function saveBracketToDatabase(){
     }
   );
 
-  /*
-    BYE 진출자 다음 라운드 반영
-  */
 
   for (
     let r = 0;
@@ -2854,6 +3189,7 @@ async function saveBracketToDatabase(){
     const round =
       bracketData.rounds[r];
 
+
     for (
       let m = 0;
       m < round.length;
@@ -2862,6 +3198,7 @@ async function saveBracketToDatabase(){
 
       const match =
         round[m];
+
 
       if (
         ![
@@ -2875,12 +3212,14 @@ async function saveBracketToDatabase(){
         continue;
       }
 
+
       if (
         match.winner === null ||
         match.winner === undefined
       ){
         continue;
       }
+
 
       const next =
         bracketData.rounds[
@@ -2891,9 +3230,11 @@ async function saveBracketToDatabase(){
           )
         ];
 
+
       if (!next){
         continue;
       }
+
 
       if (
         m % 2 === 0
@@ -2909,9 +3250,11 @@ async function saveBracketToDatabase(){
 
       }
 
+
       normalizeStatus(
         next
       );
+
 
       const {
         error
@@ -2939,6 +3282,7 @@ async function saveBracketToDatabase(){
             next.dbMatchId
           );
 
+
       if (error){
 
         throw new Error(
@@ -2953,12 +3297,15 @@ async function saveBracketToDatabase(){
 
   }
 
+
   bracketAlreadySaved =
     true;
+
 
   saveCompatibility();
 
 }
+
 
 /* =========================
    RENDER QUALIFIERS
@@ -2971,7 +3318,9 @@ function renderQualifiers(){
       "qualifiers"
     );
 
+
   box.innerHTML = "";
+
 
   qualifiers
     .slice()
@@ -2988,11 +3337,13 @@ function renderQualifiers(){
             "ko"
           );
 
+
         if (
           groupCompare !== 0
         ){
           return groupCompare;
         }
+
 
         return (
           Number(a.rank)
@@ -3010,8 +3361,10 @@ function renderQualifiers(){
             "div"
           );
 
+
         item.className =
           "qualifier";
+
 
         item.innerHTML = `
 
@@ -3034,6 +3387,7 @@ function renderQualifiers(){
 
         `;
 
+
         box.appendChild(
           item
         );
@@ -3042,6 +3396,7 @@ function renderQualifiers(){
     );
 
 }
+
 
 /* =========================
    SLOT
@@ -3078,6 +3433,7 @@ function slotHtml(
 
   }
 
+
   return `
 
     <div class="slot">
@@ -3103,6 +3459,7 @@ function slotHtml(
 
 }
 
+
 /* =========================
    BRACKET
 ========================= */
@@ -3114,7 +3471,9 @@ function renderBracket(){
       "bracket"
     );
 
+
   box.innerHTML = "";
+
 
   bracketData.rounds.forEach(
     (
@@ -3129,13 +3488,16 @@ function renderBracket(){
           roundIndex
         );
 
+
       const column =
         document.createElement(
           "section"
         );
 
+
       column.className =
         "round";
+
 
       column.innerHTML = `
 
@@ -3151,10 +3513,12 @@ function renderBracket(){
 
       `;
 
+
       const matchesBox =
         column.querySelector(
           ".round-matches"
         );
+
 
       round.forEach(
         match => {
@@ -3164,11 +3528,14 @@ function renderBracket(){
               "article"
             );
 
+
           card.className =
             "match";
 
+
           let statusClass =
             "";
+
 
           if (
             match.status ===
@@ -3178,6 +3545,7 @@ function renderBracket(){
               "waiting";
           }
 
+
           if (
             match.status ===
             "bye"
@@ -3186,8 +3554,10 @@ function renderBracket(){
               "bye";
           }
 
+
           let winnerHtml =
             "";
+
 
           if (
             match.winner !== null &&
@@ -3209,6 +3579,7 @@ function renderBracket(){
 
           }
 
+
           card.innerHTML = `
 
             <div class="match-top">
@@ -3229,6 +3600,7 @@ function renderBracket(){
 
             </div>
 
+
             <div class="slots">
 
               ${slotHtml(
@@ -3243,9 +3615,11 @@ function renderBracket(){
 
             </div>
 
+
             ${winnerHtml}
 
           `;
+
 
           matchesBox.appendChild(
             card
@@ -3253,6 +3627,7 @@ function renderBracket(){
 
         }
       );
+
 
       box.appendChild(
         column
@@ -3262,6 +3637,7 @@ function renderBracket(){
   );
 
 }
+
 
 /* =========================
    SUMMARY
@@ -3274,10 +3650,12 @@ function renderSummary(){
   ).textContent =
     qualifiers.length;
 
+
   document.getElementById(
     "bracketSize"
   ).textContent =
     bracketData.bracketSize;
+
 
   document.getElementById(
     "byeCount"
@@ -3287,6 +3665,7 @@ function renderSummary(){
 
 }
 
+
 /* =========================
    ALL
 ========================= */
@@ -3295,9 +3674,12 @@ function renderAll(){
 
   renderQualifiers();
 
+
   renderSummary();
 
+
   renderBracket();
+
 
   document.getElementById(
     "continueButton"
@@ -3306,7 +3688,16 @@ function renderAll(){
       ? `본선 경기 운영 <span>→</span>`
       : `본선 대진 확정 · 경기 운영 <span>→</span>`;
 
+
+  document.getElementById(
+    "resetBracketButton"
+  ).classList.toggle(
+    "show",
+    bracketAlreadySaved
+  );
+
 }
+
 
 /* =========================
    CONTINUE
@@ -3317,6 +3708,7 @@ async function continueTournament(){
   if (busy){
     return;
   }
+
 
   try{
 
@@ -3332,15 +3724,19 @@ async function continueTournament(){
         return;
       }
 
+
       setBusy(
         true,
         "본선 대진을 저장하고 있습니다",
         "본선 경기 정보를 FWT 데이터베이스에 저장 중입니다."
       );
 
+
       await saveBracketToDatabase();
 
+
     } else {
+
 
       setBusy(
         true,
@@ -3350,16 +3746,21 @@ async function continueTournament(){
 
     }
 
+
     saveCompatibility();
+
 
     location.href =
       "./knockout-control.html";
+
 
   } catch(error){
 
     console.error(error);
 
+
     setBusy(false);
+
 
     alert(
       "본선 대진을 저장하지 못했습니다.\n\n"
@@ -3374,6 +3775,7 @@ async function continueTournament(){
 
 }
 
+
 /* =========================
    EVENT
 ========================= */
@@ -3385,6 +3787,15 @@ document.getElementById(
   continueTournament
 );
 
+
+document.getElementById(
+  "resetBracketButton"
+).addEventListener(
+  "click",
+  resetBracketForPreliminaryEdit
+);
+
+
 /* =========================
    START
 ========================= */
@@ -3394,9 +3805,11 @@ async function start(){
   const loggedIn =
     await checkLogin();
 
+
   if (!loggedIn){
     return;
   }
+
 
   try{
 
@@ -3406,17 +3819,23 @@ async function start(){
       "기존에 저장된 본선 경기가 있는지 확인 중입니다."
     );
 
+
     await loadExistingBracket();
+
 
     renderAll();
 
+
     setBusy(false);
+
 
   } catch(error){
 
     console.error(error);
 
+
     setBusy(false);
+
 
     alert(
       "본선 대진을 불러오지 못했습니다.\n\n"
@@ -3430,6 +3849,7 @@ async function start(){
   }
 
 }
+
 
 start();
 
