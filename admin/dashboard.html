@@ -4,43 +4,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>참가자 등록 | FWT Tournament</title>
+  <title>FWT Tournament Admin</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    :root {
+    :root{
       --navy:#071a31;
       --navy2:#0c294a;
       --blue:#184a79;
       --lime:#c9df45;
 
-      --bg:#f4f6f9;
-      --white:#ffffff;
-
+      --bg:#f3f6f9;
+      --white:#fff;
       --text:#172033;
-      --muted:#5f6d7e;
+      --muted:#687587;
       --line:#dfe5eb;
 
       --green:#178b61;
       --green-soft:#edf8f3;
 
-      --red:#c64b4b;
-      --red-soft:#fff2f2;
-
-      --orange:#99631c;
+      --orange:#9a671e;
       --orange-soft:#fff7eb;
+
+      --red:#c64b4b;
 
       --shadow:
         0 12px 35px rgba(20,35,55,.06);
     }
 
-    * {
+    *{
       box-sizing:border-box;
     }
 
     html,
-    body {
+    body{
       margin:0;
       min-height:100%;
 
@@ -57,125 +55,140 @@
         sans-serif;
     }
 
-    button,
-    input {
+    button{
       font:inherit;
-    }
-
-    button {
       cursor:pointer;
     }
 
-    .topbar {
-      height:68px;
+    button:disabled{
+      cursor:not-allowed;
+      opacity:.5;
+    }
 
-      padding:0 24px;
+    /* =========================
+       HEADER
+    ========================= */
+
+    .topbar{
+      min-height:74px;
 
       display:flex;
       align-items:center;
       justify-content:space-between;
 
-      color:white;
+      padding:0 20px;
 
       background:
         linear-gradient(
           110deg,
-          #07182d,
-          #0b2848 60%,
-          #10375f
+          #06172b,
+          #0a2848 62%,
+          #103b67
         );
 
       box-shadow:
-        0 4px 18px rgba(6,23,43,.14);
+        0 5px 20px rgba(6,23,43,.16);
     }
 
-    .brand {
+    .logo-wrap{
       display:flex;
       align-items:center;
-      gap:22px;
+
+      gap:12px;
     }
 
-    .fwt {
-      font-size:29px;
+    .fwt-logo{
+      color:white;
+
+      font-size:31px;
+      line-height:1;
+
       font-weight:950;
       font-style:italic;
-      letter-spacing:-3px;
+
+      letter-spacing:-4px;
+
+      transform:skew(-5deg);
     }
 
-    .fwt span {
+    .fwt-logo span{
       color:var(--lime);
     }
 
-    .top-title {
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:1.8px;
+    .admin-label{
+      color:rgba(255,255,255,.58);
 
-      color:rgba(255,255,255,.72);
+      font-size:10px;
+      font-weight:850;
+      letter-spacing:1.5px;
     }
 
-    .back-btn {
-      min-height:40px;
+    .logout-btn{
+      min-height:44px;
 
-      padding:0 14px;
+      padding:0 15px;
 
       border:
-        1px solid rgba(255,255,255,.16);
+        1px solid rgba(255,255,255,.15);
 
       border-radius:10px;
 
       background:
-        rgba(255,255,255,.07);
+        rgba(255,255,255,.08);
 
       color:white;
 
       font-size:12px;
-      font-weight:800;
+      font-weight:850;
     }
 
-    .container {
+    /* =========================
+       PAGE
+    ========================= */
+
+    .container{
       width:
         min(
-          980px,
+          1160px,
           calc(100% - 34px)
         );
 
       margin:0 auto;
 
-      padding:34px 0 64px;
+      padding:34px 0 60px;
     }
 
-    .head {
+    .page-head{
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
 
-      gap:20px;
+      gap:18px;
 
       margin-bottom:20px;
     }
 
-    .kicker {
+    .kicker{
       margin-bottom:7px;
 
       color:var(--blue);
 
       font-size:11px;
-      font-weight:900;
-      letter-spacing:1.8px;
+      font-weight:950;
+      letter-spacing:2px;
     }
 
-    h1 {
+    h1{
       margin:0;
 
       color:var(--navy);
 
-      font-size:34px;
-      font-weight:900;
+      font-size:35px;
+      font-weight:950;
       letter-spacing:-1.5px;
     }
 
-    .desc {
+    .desc{
       margin:8px 0 0;
 
       color:var(--muted);
@@ -184,413 +197,14 @@
       line-height:1.65;
     }
 
-    .counter {
-      flex-shrink:0;
+    .create-btn{
+      min-width:190px;
 
-      padding:10px 14px;
-
-      border:1px solid var(--line);
-      border-radius:999px;
-
-      background:white;
-
-      color:#526073;
-
-      font-size:12px;
-      font-weight:850;
-    }
-
-    .counter strong {
-      margin-left:4px;
-
-      color:var(--navy);
-
-      font-size:16px;
-      font-weight:950;
-    }
-
-    /* =================================
-       TOURNAMENT INFO
-    ================================= */
-
-    .tournament-info {
-      display:flex;
-      flex-wrap:wrap;
-      gap:7px;
-
-      margin-bottom:14px;
-    }
-
-    .info-chip {
-      padding:8px 11px;
-
-      border:1px solid var(--line);
-      border-radius:999px;
-
-      background:white;
-
-      color:#536174;
-
-      font-size:11px;
-      font-weight:800;
-    }
-
-    .info-chip strong {
-      color:var(--navy);
-    }
-
-    /* =================================
-       CARD
-    ================================= */
-
-    .card {
-      overflow:hidden;
-
-      border:1px solid var(--line);
-      border-radius:18px;
-
-      background:white;
-
-      box-shadow:var(--shadow);
-    }
-
-    .card-head {
-      padding:18px 20px;
-
-      border-bottom:
-        1px solid #e8ecf0;
-    }
-
-    .card-title {
-      color:var(--navy);
-
-      font-size:17px;
-      font-weight:900;
-    }
-
-    .card-desc {
-      margin-top:5px;
-
-      color:#687587;
-
-      font-size:11px;
-      line-height:1.6;
-    }
-
-    .form-area {
-      padding:20px;
-    }
-
-    .grid {
-      display:grid;
-
-      grid-template-columns:
-        repeat(2,minmax(0,1fr));
-
-      gap:14px;
-    }
-
-    .field.full {
-      grid-column:1 / -1;
-    }
-
-    .player-block {
-      padding:16px;
-
-      border:1px solid #e2e7ec;
-      border-radius:13px;
-
-      background:#fafbfc;
-    }
-
-    .player-block-title {
-      margin-bottom:13px;
-
-      color:var(--navy);
-
-      font-size:14px;
-      font-weight:900;
-    }
-
-    label {
-      display:block;
-
-      margin-bottom:7px;
-
-      color:#38475a;
-
-      font-size:12px;
-      font-weight:850;
-    }
-
-    input {
-      width:100%;
-      height:49px;
-
-      padding:0 13px;
-
-      border:1px solid #d7dee5;
-      border-radius:10px;
-
-      outline:none;
-
-      background:white;
-      color:#263247;
-
-      font-size:14px;
-      font-weight:650;
-    }
-
-    input:focus {
-      border-color:#6587a7;
-
-      box-shadow:
-        0 0 0 4px rgba(24,74,121,.06);
-    }
-
-    input::placeholder {
-      color:#a1aab4;
-    }
-
-    .form-note {
-      margin-top:11px;
-
-      color:#697688;
-
-      font-size:11px;
-      line-height:1.6;
-    }
-
-    /* =================================
-       ADD BUTTON
-    ================================= */
-
-    .add-button {
-      width:100%;
-      min-height:52px;
-
-      margin-top:15px;
+      height:54px;
+      min-height:54px;
 
       border:0;
       border-radius:11px;
-
-      background:var(--navy);
-      color:white;
-
-      font-size:14px;
-      font-weight:900;
-    }
-
-    .add-button span {
-      color:var(--lime);
-      margin-right:5px;
-    }
-
-    .add-button:disabled {
-      cursor:not-allowed;
-      opacity:.55;
-    }
-
-    /* =================================
-       PARTICIPANTS
-    ================================= */
-
-    .list-card {
-      margin-top:14px;
-
-      overflow:hidden;
-
-      border:1px solid var(--line);
-      border-radius:18px;
-
-      background:white;
-
-      box-shadow:var(--shadow);
-    }
-
-    .list-head {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-
-      padding:17px 20px;
-
-      border-bottom:
-        1px solid #e8ecf0;
-    }
-
-    .list-title {
-      color:var(--navy);
-
-      font-size:17px;
-      font-weight:900;
-    }
-
-    .db-status {
-      display:flex;
-      align-items:center;
-      gap:6px;
-
-      color:var(--green);
-
-      font-size:10px;
-      font-weight:850;
-    }
-
-    .db-dot {
-      width:7px;
-      height:7px;
-
-      border-radius:50%;
-
-      background:var(--green);
-    }
-
-    .entry-list {
-      padding:10px;
-    }
-
-    .entry {
-      display:grid;
-
-      grid-template-columns:
-        45px minmax(0,1fr) auto;
-
-      align-items:center;
-
-      gap:11px;
-
-      min-height:70px;
-
-      padding:10px 11px;
-
-      margin-bottom:7px;
-
-      border:1px solid #e2e7ec;
-      border-radius:12px;
-
-      background:#fff;
-    }
-
-    .entry:last-child {
-      margin-bottom:0;
-    }
-
-    .entry-number {
-      width:38px;
-      height:38px;
-
-      display:flex;
-      align-items:center;
-      justify-content:center;
-
-      border-radius:10px;
-
-      background:#eef2f6;
-
-      color:var(--navy);
-
-      font-size:13px;
-      font-weight:950;
-    }
-
-    .entry-main {
-      min-width:0;
-    }
-
-    .entry-name {
-      overflow:hidden;
-
-      color:#263247;
-
-      font-size:14px;
-      font-weight:900;
-
-      text-overflow:ellipsis;
-      white-space:nowrap;
-    }
-
-    .entry-sub {
-      margin-top:4px;
-
-      color:#687587;
-
-      font-size:10px;
-      font-weight:700;
-    }
-
-    .entry-actions {
-      display:flex;
-      gap:6px;
-    }
-
-    .entry-btn {
-      min-height:36px;
-
-      padding:0 10px;
-
-      border:1px solid #dce2e8;
-      border-radius:8px;
-
-      background:white;
-      color:#536174;
-
-      font-size:10px;
-      font-weight:850;
-    }
-
-    .entry-btn.delete {
-      border-color:#eed0d0;
-
-      background:var(--red-soft);
-      color:var(--red);
-    }
-
-    .empty-list {
-      padding:35px 15px;
-
-      text-align:center;
-
-      color:#697688;
-
-      font-size:13px;
-      line-height:1.7;
-    }
-
-    /* =================================
-       BOTTOM
-    ================================= */
-
-    .bottom {
-      display:flex;
-      gap:10px;
-
-      margin-top:17px;
-    }
-
-    .previous,
-    .next {
-      height:55px;
-      min-height:55px;
-
-      border-radius:11px;
-
-      font-weight:900;
-    }
-
-    .previous {
-      width:175px;
-
-      border:1px solid #d8dee5;
-
-      background:white;
-      color:#526073;
-    }
-
-    .next {
-      flex:1;
-
-      border:0;
 
       background:
         linear-gradient(
@@ -601,48 +215,315 @@
 
       color:white;
 
-      font-size:14px;
+      font-size:13px;
+      font-weight:950;
     }
 
-    .next span {
+    .create-btn span{
       margin-left:5px;
 
       color:var(--lime);
     }
 
-    .previous:disabled,
-    .next:disabled {
-      cursor:not-allowed;
+    /* =========================
+       STATS
+    ========================= */
 
-      opacity:.55;
+    .stats{
+      display:grid;
+
+      grid-template-columns:
+        repeat(4,minmax(0,1fr));
+
+      gap:9px;
+
+      margin-bottom:20px;
     }
 
-    /* =================================
-       LOADING
-    ================================= */
+    .stat-card{
+      padding:17px;
 
-    .loading-overlay {
+      border:1px solid var(--line);
+      border-radius:14px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
+    }
+
+    .stat-label{
+      color:#718092;
+
+      font-size:10px;
+      font-weight:850;
+    }
+
+    .stat-value{
+      margin-top:5px;
+
+      color:var(--navy);
+
+      font-size:27px;
+      font-weight:950;
+    }
+
+    /* =========================
+       LIST
+    ========================= */
+
+    .section-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:10px;
+
+      margin:7px 0 11px;
+    }
+
+    .section-title{
+      color:var(--navy);
+
+      font-size:19px;
+      font-weight:950;
+    }
+
+    .section-sub{
+      color:#778394;
+
+      font-size:11px;
+      font-weight:750;
+    }
+
+    .tournament-list{
+      display:flex;
+      flex-direction:column;
+
+      gap:11px;
+    }
+
+    .tournament-card{
+      overflow:hidden;
+
+      border:1px solid var(--line);
+      border-radius:17px;
+
+      background:white;
+
+      box-shadow:var(--shadow);
+    }
+
+    .tournament-main{
+      display:grid;
+
+      grid-template-columns:
+        minmax(0,1fr) auto;
+
+      gap:16px;
+
+      padding:18px;
+    }
+
+    .tournament-name{
+      color:var(--navy);
+
+      font-size:20px;
+      font-weight:950;
+      letter-spacing:-.5px;
+    }
+
+    .tournament-meta{
+      display:flex;
+      flex-wrap:wrap;
+
+      gap:6px;
+
+      margin-top:9px;
+    }
+
+    .chip{
+      min-height:27px;
+
+      display:inline-flex;
+      align-items:center;
+
+      padding:0 9px;
+
+      border-radius:999px;
+
+      background:#f0f3f6;
+      color:#586678;
+
+      font-size:10px;
+      font-weight:850;
+    }
+
+    .chip.active{
+      background:var(--green-soft);
+      color:var(--green);
+    }
+
+    .chip.completed{
+      background:#edf3fb;
+      color:#285c91;
+    }
+
+    .chip.draft{
+      background:var(--orange-soft);
+      color:var(--orange);
+    }
+
+    .progress-wrap{
+      margin-top:14px;
+    }
+
+    .progress-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:10px;
+
+      margin-bottom:6px;
+    }
+
+    .progress-label{
+      color:#596779;
+
+      font-size:11px;
+      font-weight:850;
+    }
+
+    .progress-count{
+      color:var(--navy);
+
+      font-size:11px;
+      font-weight:950;
+    }
+
+    .progress{
+      height:7px;
+
+      overflow:hidden;
+
+      border-radius:999px;
+
+      background:#ebeff3;
+    }
+
+    .progress-bar{
+      height:100%;
+
+      border-radius:999px;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--navy),
+          #35658e
+        );
+    }
+
+    .card-actions{
+      min-width:165px;
+
+      display:flex;
+      flex-direction:column;
+
+      gap:7px;
+    }
+
+    .manage-btn,
+    .participant-btn,
+    .delete-btn{
+      width:100%;
+      min-height:47px;
+
+      border-radius:10px;
+
+      font-size:12px;
+      font-weight:900;
+    }
+
+    .manage-btn{
+      border:0;
+
+      background:var(--navy);
+      color:white;
+    }
+
+    .manage-btn span{
+      margin-left:4px;
+
+      color:var(--lime);
+    }
+
+    .participant-btn{
+      border:1px solid #cfd9e3;
+
+      background:#f7fafc;
+      color:var(--navy);
+    }
+
+    .delete-btn{
+      border:1px solid #ead5d5;
+
+      background:white;
+      color:var(--red);
+    }
+
+    .empty{
+      padding:50px 20px;
+
+      border:1px dashed #ced6de;
+      border-radius:16px;
+
+      background:white;
+
+      text-align:center;
+    }
+
+    .empty-title{
+      color:var(--navy);
+
+      font-size:18px;
+      font-weight:950;
+    }
+
+    .empty-text{
+      margin-top:7px;
+
+      color:#718092;
+
+      font-size:12px;
+      line-height:1.6;
+    }
+
+    /* =========================
+       LOADING
+    ========================= */
+
+    .loading-overlay{
       display:none;
 
       position:fixed;
       inset:0;
 
-      z-index:200;
+      z-index:500;
 
       align-items:center;
       justify-content:center;
 
       padding:20px;
 
-      background:
-        rgba(4,17,31,.62);
+      background:rgba(4,17,31,.62);
     }
 
-    .loading-overlay.show {
+    .loading-overlay.show{
       display:flex;
     }
 
-    .loading-box {
+    .loading-box{
       width:min(350px,100%);
 
       padding:25px;
@@ -652,12 +533,9 @@
       background:white;
 
       text-align:center;
-
-      box-shadow:
-        0 30px 80px rgba(0,0,0,.25);
     }
 
-    .spinner {
+    .spinner{
       width:38px;
       height:38px;
 
@@ -671,20 +549,20 @@
       animation:spin .8s linear infinite;
     }
 
-    @keyframes spin {
-      to {
+    @keyframes spin{
+      to{
         transform:rotate(360deg);
       }
     }
 
-    .loading-title {
+    .loading-title{
       color:var(--navy);
 
       font-size:16px;
-      font-weight:900;
+      font-weight:950;
     }
 
-    .loading-text {
+    .loading-text{
       margin-top:6px;
 
       color:#657184;
@@ -693,15 +571,15 @@
       line-height:1.6;
     }
 
-    /* =================================
+    /* =========================
        FOOTER
-    ================================= */
+    ========================= */
 
-    .footer {
+    .footer{
       display:flex;
       justify-content:space-between;
 
-      margin-top:26px;
+      margin-top:28px;
       padding-top:17px;
 
       border-top:1px solid #e2e6eb;
@@ -712,229 +590,162 @@
       letter-spacing:1px;
     }
 
-    .footer strong {
+    .footer strong{
       color:var(--navy);
     }
 
-    .q {
+    .q{
       color:#91a719;
-      font-weight:900;
+      font-weight:950;
     }
 
-    /* =================================
+    /* =========================
        MOBILE
-    ================================= */
+    ========================= */
 
-    @media(max-width:700px) {
+    @media(max-width:700px){
 
-      .topbar {
-        height:64px;
+      .topbar{
+        min-height:72px;
 
         padding:0 14px;
       }
 
-      .top-title {
-        display:none;
-      }
-
-      .back-btn {
-        min-height:44px;
-
-        padding:0 12px;
-
-        font-size:12px;
-      }
-
-      .container {
-        width:
-          calc(100% - 22px);
-
-        padding:
-          24px 0 50px;
-      }
-
-      .head {
-        display:block;
-      }
-
-      .counter {
-        display:inline-block;
-
-        margin-top:13px;
-
-        font-size:13px;
-      }
-
-      h1 {
+      .fwt-logo{
         font-size:30px;
       }
 
-      .desc {
+      .admin-label{
+        display:none;
+      }
+
+      .logout-btn{
+        height:46px;
+        min-height:46px;
+      }
+
+      .container{
+        width:calc(100% - 22px);
+
+        padding:25px 0 50px;
+      }
+
+      .page-head{
+        display:block;
+      }
+
+      h1{
+        font-size:31px;
+      }
+
+      .desc{
         font-size:14px;
       }
 
-      .info-chip {
-        font-size:12px;
-      }
-
-      .card-title,
-      .list-title {
-        font-size:19px;
-      }
-
-      .card-desc {
-        font-size:13px;
-      }
-
-      .card-head,
-      .form-area {
-        padding:
-          17px 14px;
-      }
-
-      .grid {
-        grid-template-columns:1fr;
-      }
-
-      .field.full {
-        grid-column:auto;
-      }
-
-      .player-block {
-        padding:14px 12px;
-      }
-
-      .player-block-title {
-        font-size:16px;
-      }
-
-      label {
-        font-size:13px;
-      }
-
-      input {
-        height:52px;
-        min-height:52px;
-
-        font-size:15px;
-      }
-
-      .form-note {
-        font-size:12px;
-      }
-
-      /*
-        핵심 액션 버튼 모바일 고정
-      */
-
-      .add-button {
+      .create-btn{
         width:100%;
 
         height:56px;
         min-height:56px;
 
-        flex:none;
+        margin-top:15px;
 
         font-size:15px;
       }
 
-      .entry {
+      .stats{
         grid-template-columns:
-          42px minmax(0,1fr);
-
-        gap:9px;
-
-        min-height:78px;
-
-        padding:10px;
-      }
-
-      .entry-number {
-        width:40px;
-        height:40px;
-
-        font-size:14px;
-      }
-
-      .entry-name {
-        font-size:15px;
-      }
-
-      .entry-sub {
-        font-size:12px;
-      }
-
-      .entry-actions {
-        grid-column:
-          1 / -1;
-
-        display:grid;
-
-        grid-template-columns:
-          1fr 1fr;
+          repeat(2,minmax(0,1fr));
 
         gap:7px;
       }
 
-      .entry-btn {
-        width:100%;
+      .stat-card{
+        padding:14px;
+      }
 
-        height:44px;
-        min-height:44px;
+      .stat-label{
+        font-size:11px;
+      }
 
+      .stat-value{
+        font-size:25px;
+      }
+
+      .section-title{
+        font-size:20px;
+      }
+
+      .tournament-main{
+        grid-template-columns:1fr;
+
+        gap:14px;
+
+        padding:15px;
+      }
+
+      .tournament-name{
+        font-size:20px;
+      }
+
+      .chip{
+        min-height:29px;
+
+        font-size:11px;
+      }
+
+      .progress-label,
+      .progress-count{
         font-size:12px;
       }
 
-      /*
-        모바일 하단:
-        얇아지지 않게 flex:none 강제
-      */
+      .card-actions{
+        min-width:0;
 
-      .bottom {
-        flex-direction:column-reverse;
+        display:grid;
 
-        gap:9px;
+        grid-template-columns:
+          1fr .55fr;
+
+        gap:7px;
       }
 
-      .previous,
-      .next {
-        width:100%;
+      .manage-btn,
+      .participant-btn,
+      .delete-btn{
+        height:54px;
+        min-height:54px;
 
-        height:56px;
-        min-height:56px;
-
-        flex:none;
-
-        font-size:15px;
+        font-size:14px;
       }
 
     }
   </style>
 </head>
 
-
 <body>
 
 <header class="topbar">
 
-  <div class="brand">
+  <div class="logo-wrap">
 
-    <div class="fwt">
+    <div class="fwt-logo">
       FW<span>T</span>
     </div>
 
-    <div class="top-title">
-      PARTICIPANT REGISTRATION
+    <div class="admin-label">
+      TOURNAMENT ADMIN
     </div>
 
   </div>
 
+
   <button
-    class="back-btn"
-    id="backButton"
+    class="logout-btn"
+    id="logoutButton"
     type="button"
   >
-    ← 대회 설정
+    로그아웃
   </button>
 
 </header>
@@ -942,286 +753,79 @@
 
 <main class="container">
 
-  <div class="head">
+  <div class="page-head">
 
     <div>
 
       <div class="kicker">
-        PARTICIPANTS
+        TOURNAMENT DASHBOARD
       </div>
 
       <h1>
-        참가자 등록
+        대회 관리
       </h1>
 
-      <p class="desc" id="pageDescription">
-        대회에 참가할 선수를 등록합니다.
+      <p class="desc">
+        저장된 경기 상태를 확인해 현재 진행 중인 단계로 복귀합니다.
       </p>
 
     </div>
 
 
-    <div class="counter">
-      등록
-      <strong id="entryCount">0</strong>
-    </div>
+    <button
+      class="create-btn"
+      type="button"
+      onclick="location.href='./create-tournament.html'"
+    >
+      새 대회 만들기
+      <span>+</span>
+    </button>
 
   </div>
 
 
-  <div
-    class="tournament-info"
-    id="tournamentInfo"
-  ></div>
+  <section class="stats">
+
+    <div class="stat-card">
+      <div class="stat-label">전체 대회</div>
+      <div class="stat-value" id="totalStat">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">준비중</div>
+      <div class="stat-value" id="draftStat">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">진행중</div>
+      <div class="stat-value" id="activeStat">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">완료</div>
+      <div class="stat-value" id="completedStat">0</div>
+    </div>
+
+  </section>
 
 
-  <!-- ===============================
-       참가자 입력
-  ================================ -->
+  <div class="section-head">
+
+    <div class="section-title">
+      저장된 대회
+    </div>
+
+    <div class="section-sub">
+      SUPABASE DATABASE
+    </div>
+
+  </div>
+
 
   <section
-    class="card"
-    id="entryInputCard"
-  >
-
-    <div class="card-head">
-
-      <div class="card-title">
-        참가자 추가
-      </div>
-
-      <div
-        class="card-desc"
-        id="registrationGuide"
-      ></div>
-
-    </div>
-
-
-    <div class="form-area">
-
-      <!-- 단식 -->
-
-      <div
-        id="singlesForm"
-      >
-
-        <div class="grid">
-
-          <div class="field">
-
-            <label>
-              이름
-            </label>
-
-            <input
-              id="singleName"
-              type="text"
-              maxlength="50"
-              placeholder="예: 이규남"
-            >
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              닉네임
-            </label>
-
-            <input
-              id="singleNickname"
-              type="text"
-              maxlength="50"
-              placeholder="예: Q"
-            >
-
-          </div>
-
-        </div>
-
-        <div class="form-note">
-          이름 또는 닉네임 중 하나 이상 입력하면 됩니다.
-        </div>
-
-      </div>
-
-
-      <!-- 복식 -->
-
-      <div
-        id="doublesForm"
-        style="display:none;"
-      >
-
-        <div class="grid">
-
-          <div class="player-block">
-
-            <div class="player-block-title">
-              선수 1
-            </div>
-
-            <div class="grid">
-
-              <div class="field">
-
-                <label>
-                  이름
-                </label>
-
-                <input
-                  id="player1Name"
-                  type="text"
-                  maxlength="50"
-                  placeholder="이름"
-                >
-
-              </div>
-
-              <div class="field">
-
-                <label>
-                  닉네임
-                </label>
-
-                <input
-                  id="player1Nickname"
-                  type="text"
-                  maxlength="50"
-                  placeholder="닉네임"
-                >
-
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <div class="player-block">
-
-            <div class="player-block-title">
-              선수 2
-            </div>
-
-            <div class="grid">
-
-              <div class="field">
-
-                <label>
-                  이름
-                </label>
-
-                <input
-                  id="player2Name"
-                  type="text"
-                  maxlength="50"
-                  placeholder="이름"
-                >
-
-              </div>
-
-              <div class="field">
-
-                <label>
-                  닉네임
-                </label>
-
-                <input
-                  id="player2Nickname"
-                  type="text"
-                  maxlength="50"
-                  placeholder="닉네임"
-                >
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="form-note">
-          각 선수마다 이름 또는 닉네임 중 하나 이상 입력해야 합니다.
-        </div>
-
-      </div>
-
-
-      <button
-        class="add-button"
-        id="addEntryButton"
-        type="button"
-      >
-        <span>＋</span>
-        참가자 등록
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <!-- ===============================
-       참가자 목록
-  ================================ -->
-
-  <section class="list-card">
-
-    <div class="list-head">
-
-      <div class="list-title">
-        등록된 참가자
-      </div>
-
-
-      <div class="db-status">
-
-        <div class="db-dot"></div>
-
-        DB 저장
-
-      </div>
-
-    </div>
-
-
-    <div
-      class="entry-list"
-      id="entryList"
-    ></div>
-
-  </section>
-
-
-  <!-- ===============================
-       NEXT
-  ================================ -->
-
-  <div class="bottom">
-
-    <button
-      class="previous"
-      id="previousButton"
-      type="button"
-    >
-      이전 단계
-    </button>
-
-
-    <button
-      class="next"
-      id="nextButton"
-      type="button"
-    >
-      참가자 등록 완료 · 다음 단계
-      <span>→</span>
-    </button>
-
-  </div>
+    class="tournament-list"
+    id="tournamentList"
+  ></section>
 
 
   <footer class="footer">
@@ -1241,10 +845,6 @@
 </main>
 
 
-<!-- ===============================
-     LOADING
-================================ -->
-
 <div
   class="loading-overlay"
   id="loadingOverlay"
@@ -1258,14 +858,14 @@
       class="loading-title"
       id="loadingTitle"
     >
-      참가자를 저장하고 있습니다
+      대회 정보를 불러오고 있습니다
     </div>
 
     <div
       class="loading-text"
       id="loadingText"
     >
-      FWT 데이터베이스와 동기화 중입니다.
+      FWT 데이터베이스를 확인 중입니다.
     </div>
 
   </div>
@@ -1290,183 +890,18 @@ const supabaseClient =
   );
 
 
-const tournament =
-  JSON.parse(
-    sessionStorage.getItem(
-      "fwtNewTournament"
-    ) || "null"
-  );
+let tournaments = [];
 
+let tournamentSummaries = [];
 
-if (
-  !tournament ||
-  !tournament.tournamentId ||
-  !tournament.divisionId
-) {
-
-  alert(
-    "대회 데이터가 없습니다.\n새 대회를 먼저 생성해주세요."
-  );
-
-  location.href =
-    "./create-tournament.html";
-
-}
-
-
-let currentSession =
-  null;
-
-
-let entries = [];
-
-
-let busy =
-  false;
-
-
-let lockedForExistingSchedule =
-  false;
+let busy = false;
 
 
 /* =====================================
    HELPERS
 ===================================== */
 
-function cleanText(value) {
-
-  const text =
-    String(
-      value ?? ""
-    ).trim();
-
-
-  return text || null;
-
-}
-
-
-function hasPlayerName(
-  name,
-  nickname
-) {
-
-  return Boolean(
-    cleanText(name)
-    ||
-    cleanText(nickname)
-  );
-
-}
-
-
-function playerDisplayName(
-  player
-) {
-
-  if (!player) {
-
-    return "이름 없음";
-
-  }
-
-
-  return (
-    player.nickname ||
-    player.name ||
-    "이름 없음"
-  );
-
-}
-
-
-function fullPlayerDisplay(
-  player
-) {
-
-  if (!player) {
-
-    return "이름 없음";
-
-  }
-
-
-  if (
-    player.nickname &&
-    player.name
-  ) {
-
-    return (
-      `${player.nickname} (${player.name})`
-    );
-
-  }
-
-
-  return (
-    player.nickname ||
-    player.name ||
-    "이름 없음"
-  );
-
-}
-
-
-function entryDisplayName(
-  entry
-) {
-
-  if (
-    entry.type ===
-    "singles"
-  ) {
-
-    return fullPlayerDisplay(
-      entry
-    );
-
-  }
-
-
-  return (
-    `${fullPlayerDisplay(
-      entry.player1
-    )} / ${fullPlayerDisplay(
-      entry.player2
-    )}`
-  );
-
-}
-
-
-function entryShortName(
-  entry
-) {
-
-  if (
-    entry.type ===
-    "singles"
-  ) {
-
-    return playerDisplayName(
-      entry
-    );
-
-  }
-
-
-  return (
-    `${playerDisplayName(
-      entry.player1
-    )} / ${playerDisplayName(
-      entry.player2
-    )}`
-  );
-
-}
-
-
-function escapeHtml(value) {
+function escapeHtml(value){
 
   const div =
     document.createElement(
@@ -1481,11 +916,106 @@ function escapeHtml(value) {
 }
 
 
+function formatDate(value){
+
+  if (!value){
+    return "날짜 미정";
+  }
+
+
+  const date =
+    new Date(
+      `${value}T00:00:00`
+    );
+
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+    return value;
+  }
+
+
+  return new Intl.DateTimeFormat(
+    "ko-KR",
+    {
+      year:"numeric",
+      month:"long",
+      day:"numeric"
+    }
+  ).format(date);
+
+}
+
+
+function formatLabel(value){
+
+  const map = {
+
+    group_knockout:
+      "조별예선 + 본선",
+
+    knockout:
+      "토너먼트",
+
+    singles:
+      "단식",
+
+    doubles:
+      "복식",
+
+    male:
+      "남자",
+
+    female:
+      "여자",
+
+    mixed:
+      "혼합",
+
+    open:
+      "오픈"
+
+  };
+
+
+  return (
+    map[value] ||
+    value ||
+    "-"
+  );
+
+}
+
+
+function statusLabel(status){
+
+  const map = {
+
+    draft:"준비중",
+    active:"진행중",
+    completed:"완료",
+    archived:"보관"
+
+  };
+
+
+  return (
+    map[status] ||
+    status ||
+    "준비중"
+  );
+
+}
+
+
 /* =====================================
    AUTH
 ===================================== */
 
-async function checkLogin() {
+async function checkLogin(){
 
   const {
     data,
@@ -1499,17 +1029,14 @@ async function checkLogin() {
   if (
     error ||
     !data.session
-  ) {
+  ){
 
-    location.href = "./";
+    location.href =
+      "./";
 
     return false;
 
   }
-
-
-  currentSession =
-    data.session;
 
 
   return true;
@@ -1518,35 +1045,16 @@ async function checkLogin() {
 
 
 /* =====================================
-   BUSY UI
+   BUSY
 ===================================== */
 
 function setBusy(
   state,
   title = "",
   text = ""
-) {
+){
 
-  busy =
-    state;
-
-
-  document.getElementById(
-    "addEntryButton"
-  ).disabled =
-    state;
-
-
-  document.getElementById(
-    "nextButton"
-  ).disabled =
-    state;
-
-
-  document.getElementById(
-    "previousButton"
-  ).disabled =
-    state;
+  busy = state;
 
 
   document.getElementById(
@@ -1557,7 +1065,13 @@ function setBusy(
   );
 
 
-  if (title) {
+  document.getElementById(
+    "logoutButton"
+  ).disabled =
+    state;
+
+
+  if (title){
 
     document.getElementById(
       "loadingTitle"
@@ -1567,7 +1081,7 @@ function setBusy(
   }
 
 
-  if (text) {
+  if (text){
 
     document.getElementById(
       "loadingText"
@@ -1580,601 +1094,359 @@ function setBusy(
 
 
 /* =====================================
-   TOURNAMENT INFO
+   CLEAR SESSION
 ===================================== */
 
-function renderTournamentInfo() {
+function clearCurrentTournamentSession(){
 
-  const box =
-    document.getElementById(
-      "tournamentInfo"
-    );
-
-
-  const matchTypeText =
-    tournament.matchType ===
-      "doubles"
-      ? "복식"
-      : "단식";
-
-
-  const genderNames = {
-
-    male:"남자",
-    female:"여자",
-    mixed:"혼합",
-    open:"오픈"
-
-  };
-
-
-  box.innerHTML = `
-
-    <div class="info-chip">
-      <strong>
-        ${escapeHtml(
-          tournament.tournamentName
-        )}
-      </strong>
-    </div>
-
-    <div class="info-chip">
-      ${escapeHtml(
-        tournament.divisionName ||
-        `${genderNames[
-          tournament.gender
-        ] || ""} ${matchTypeText}`
-      )}
-    </div>
-
-    <div class="info-chip">
-      ${escapeHtml(
-        tournament.tournamentDate
-      )}
-    </div>
-
-  `;
-
-
-  if (
-    tournament.matchType ===
-    "doubles"
-  ) {
-
-    document.getElementById(
-      "pageDescription"
-    ).textContent =
-      "복식 참가 팀을 등록합니다.";
-
-
-    document.getElementById(
-      "registrationGuide"
-    ).textContent =
-      "한 팀에 두 명의 선수를 등록합니다.";
-
-
-    document.getElementById(
-      "singlesForm"
-    ).style.display =
-      "none";
-
-
-    document.getElementById(
-      "doublesForm"
-    ).style.display =
-      "block";
-
-  } else {
-
-    document.getElementById(
-      "pageDescription"
-    ).textContent =
-      "단식 참가자를 등록합니다.";
-
-
-    document.getElementById(
-      "registrationGuide"
-    ).textContent =
-      "이름 또는 닉네임 중 하나 이상 입력하세요.";
-
-
-    document.getElementById(
-      "singlesForm"
-    ).style.display =
-      "block";
-
-
-    document.getElementById(
-      "doublesForm"
-    ).style.display =
-      "none";
-
-  }
-
-}
-
-
-/* =====================================
-   SAVE SESSION COMPATIBILITY
-
-   기존 group-setup 등 다음 페이지가
-   그대로 작동하도록 sessionStorage에도
-   현재 참가자 배열을 유지한다.
-===================================== */
-
-function saveEntriesToSession() {
-
-  sessionStorage.setItem(
+  [
+    "fwtNewTournament",
     "fwtNewTournamentEntries",
-    JSON.stringify(
-      entries
-    )
-  );
+    "fwtGroupAssignments",
+    "fwtGroupData",
+    "fwtGroupMatches",
+    "fwtMatchControlState",
+    "fwtStandingsData",
+    "fwtKnockoutQualifiers",
+    "fwtKnockoutBracket"
+  ]
+    .forEach(
+      key =>
+        sessionStorage.removeItem(
+          key
+        )
+    );
 
 }
 
 
 /* =====================================
-   EXISTING GROUP / MATCH CHECK
+   DASHBOARD LOAD
 ===================================== */
 
-async function detectExistingSchedule() {
-
-  const [
-    groupResult,
-    matchResult
-  ] =
-    await Promise.all([
-
-      supabaseClient
-        .from("groups")
-        .select("id")
-        .eq(
-          "division_id",
-          tournament.divisionId
-        )
-        .limit(1),
-
-      supabaseClient
-        .from("matches")
-        .select("id")
-        .eq(
-          "division_id",
-          tournament.divisionId
-        )
-        .limit(1)
-
-    ]);
-
-
-  if (groupResult.error) {
-
-    throw new Error(
-      "조편성 상태 확인 실패: "
-      +
-      groupResult.error.message
-    );
-
-  }
-
-
-  if (matchResult.error) {
-
-    throw new Error(
-      "경기 상태 확인 실패: "
-      +
-      matchResult.error.message
-    );
-
-  }
-
-
-  lockedForExistingSchedule =
-    (groupResult.data || []).length > 0
-    ||
-    (matchResult.data || []).length > 0;
-
-}
-
-
-function applyRegistrationMode() {
-
-  const inputCard =
-    document.getElementById(
-      "entryInputCard"
-    );
-
-
-  const backButton =
-    document.getElementById(
-      "backButton"
-    );
-
-
-  const previousButton =
-    document.getElementById(
-      "previousButton"
-    );
-
-
-  const nextButton =
-    document.getElementById(
-      "nextButton"
-    );
-
-
-  if (lockedForExistingSchedule) {
-
-    inputCard.style.display =
-      "none";
-
-
-    document.getElementById(
-      "pageDescription"
-    ).textContent =
-      "조편성과 경기표를 유지한 채 기존 참가자의 이름과 닉네임만 수정합니다.";
-
-
-    backButton.textContent =
-      "← 대회 관리";
-
-
-    previousButton.textContent =
-      "대회 관리로 돌아가기";
-
-
-    nextButton.textContent =
-      "수정 완료 · 대회 관리로 돌아가기";
-
-  } else {
-
-    inputCard.style.display =
-      "block";
-
-  }
-
-
-  const returnPath =
-    lockedForExistingSchedule
-      ? "./dashboard.html"
-      : "./create-tournament.html";
-
-
-  backButton.onclick =
-    function() {
-
-      location.href =
-        returnPath;
-
-    };
-
-
-  previousButton.onclick =
-    function() {
-
-      location.href =
-        returnPath;
-
-    };
-
-}
-
-
-/* =====================================
-   LOAD ENTRIES FROM DATABASE
-===================================== */
-
-async function loadEntriesFromDatabase() {
-
-  const divisionId =
-    tournament.divisionId;
-
+async function loadDashboard(){
 
   const {
-    data:entryRows,
-    error:entryError
+    data:tournamentRows,
+    error:tournamentError
   } =
     await supabaseClient
-      .from("entries")
+      .from("tournaments")
       .select(
-        "id,display_name,seed,status,sort_order"
-      )
-      .eq(
-        "division_id",
-        divisionId
+        "id,name,tournament_date,status,is_public,created_at"
       )
       .order(
-        "sort_order",
+        "tournament_date",
         {
-          ascending:true
+          ascending:false,
+          nullsFirst:false
+        }
+      )
+      .order(
+        "created_at",
+        {
+          ascending:false
         }
       );
 
 
-  if (entryError) {
+  if (tournamentError){
 
     throw new Error(
-      "참가자 목록 조회 실패: "
-      +
-      entryError.message
+      tournamentError.message
     );
 
   }
 
 
+  tournaments =
+    tournamentRows || [];
+
+
   if (
-    !entryRows ||
-    entryRows.length === 0
-  ) {
+    tournaments.length === 0
+  ){
 
-    entries = [];
+    tournamentSummaries = [];
 
-    saveEntriesToSession();
-
-    renderEntries();
+    renderDashboard();
 
     return;
 
   }
 
 
-  const entryIds =
-    entryRows.map(
-      row =>
-        row.id
+  const tournamentIds =
+    tournaments.map(
+      row => row.id
     );
 
 
-  const {
-    data:memberRows,
-    error:memberError
-  } =
-    await supabaseClient
-      .from("entry_members")
-      .select(
-        "id,entry_id,player_id,member_order"
-      )
-      .in(
-        "entry_id",
-        entryIds
-      );
+  const [
+    divisionResult,
+    courtResult
+  ] =
+    await Promise.all([
+
+      supabaseClient
+        .from("divisions")
+        .select(
+          "id,tournament_id,name,match_type,gender,format,group_count,advance_count,expected_match_minutes,sort_order"
+        )
+        .in(
+          "tournament_id",
+          tournamentIds
+        )
+        .order(
+          "sort_order",
+          {
+            ascending:true
+          }
+        ),
+
+      supabaseClient
+        .from("courts")
+        .select(
+          "id,tournament_id,is_active"
+        )
+        .in(
+          "tournament_id",
+          tournamentIds
+        )
+
+    ]);
 
 
-  if (memberError) {
-
+  if (divisionResult.error){
     throw new Error(
-      "참가자 연결정보 조회 실패: "
-      +
-      memberError.message
+      divisionResult.error.message
     );
-
   }
 
 
-  const playerIds =
-    [
-      ...new Set(
-        (memberRows || [])
-          .map(
-            row =>
-              row.player_id
-          )
-      )
-    ];
+  if (courtResult.error){
+    throw new Error(
+      courtResult.error.message
+    );
+  }
 
 
-  let playerRows = [];
+  const divisions =
+    divisionResult.data || [];
+
+
+  const divisionIds =
+    divisions.map(
+      row => row.id
+    );
+
+
+  let entries = [];
+
+  let groups = [];
+
+  let matches = [];
 
 
   if (
-    playerIds.length > 0
-  ) {
+    divisionIds.length > 0
+  ){
 
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .from("players")
-        .select(
-          "id,name,nickname"
-        )
-        .in(
-          "id",
-          playerIds
-        );
+    const [
+      entryResult,
+      groupResult,
+      matchResult
+    ] =
+      await Promise.all([
+
+        supabaseClient
+          .from("entries")
+          .select(
+            "id,division_id,status"
+          )
+          .in(
+            "division_id",
+            divisionIds
+          ),
+
+        supabaseClient
+          .from("groups")
+          .select(
+            "id,division_id"
+          )
+          .in(
+            "division_id",
+            divisionIds
+          ),
+
+        supabaseClient
+          .from("matches")
+          .select(
+            "id,division_id,stage,status"
+          )
+          .in(
+            "division_id",
+            divisionIds
+          )
+
+      ]);
 
 
-    if (error) {
-
+    if (entryResult.error){
       throw new Error(
-        "선수 정보 조회 실패: "
-        +
-        error.message
+        entryResult.error.message
       );
-
     }
 
 
-    playerRows =
-      data || [];
+    if (groupResult.error){
+      throw new Error(
+        groupResult.error.message
+      );
+    }
+
+
+    if (matchResult.error){
+      throw new Error(
+        matchResult.error.message
+      );
+    }
+
+
+    entries =
+      entryResult.data || [];
+
+
+    groups =
+      groupResult.data || [];
+
+
+    matches =
+      matchResult.data || [];
 
   }
 
 
-  const playerMap =
-    new Map();
+  tournamentSummaries =
+    tournaments.map(
+      tournament => {
+
+        const division =
+          divisions.find(
+            row =>
+              row.tournament_id ===
+              tournament.id
+          ) || null;
 
 
-  playerRows.forEach(
-    player => {
-
-      playerMap.set(
-        player.id,
-        player
-      );
-
-    }
-  );
+        const divisionId =
+          division?.id ||
+          null;
 
 
-  const memberMap =
-    new Map();
-
-
-  (memberRows || [])
-    .forEach(
-      member => {
-
-        if (
-          !memberMap.has(
-            member.entry_id
-          )
-        ) {
-
-          memberMap.set(
-            member.entry_id,
-            []
-          );
-
-        }
-
-
-        memberMap
-          .get(
-            member.entry_id
-          )
-          .push(
-            member
-          );
-
-      }
-    );
-
-
-  entries =
-    entryRows.map(
-      entryRow => {
-
-        const members =
-          (
-            memberMap.get(
-              entryRow.id
-            ) || []
-          )
-          .sort(
-            (a,b) =>
-              a.member_order -
-              b.member_order
+        const divisionEntries =
+          entries.filter(
+            row =>
+              row.division_id ===
+              divisionId
           );
 
 
-        if (
-          tournament.matchType ===
-          "doubles"
-        ) {
-
-          const member1 =
-            members.find(
-              member =>
-                member.member_order === 1
-            );
+        const divisionGroups =
+          groups.filter(
+            row =>
+              row.division_id ===
+              divisionId
+          );
 
 
-          const member2 =
-            members.find(
-              member =>
-                member.member_order === 2
-            );
+        const divisionMatches =
+          matches.filter(
+            row =>
+              row.division_id ===
+              divisionId
+          );
 
 
-          const player1 =
-            member1
-              ? playerMap.get(
-                  member1.player_id
-                )
-              : null;
+        const groupMatches =
+          divisionMatches.filter(
+            row =>
+              row.stage ===
+              "group"
+          );
 
 
-          const player2 =
-            member2
-              ? playerMap.get(
-                  member2.player_id
-                )
-              : null;
+        const knockoutMatches =
+          divisionMatches.filter(
+            row =>
+              row.stage !==
+              "group"
+          );
 
 
-          return {
-
-            type:"doubles",
-
-            dbEntryId:
-              entryRow.id,
-
-            sortOrder:
-              entryRow.sort_order,
-
-            player1: {
-
-              dbPlayerId:
-                player1?.id || null,
-
-              name:
-                player1?.name || "",
-
-              nickname:
-                player1?.nickname || ""
-
-            },
-
-            player2: {
-
-              dbPlayerId:
-                player2?.id || null,
-
-              name:
-                player2?.name || "",
-
-              nickname:
-                player2?.nickname || ""
-
-            }
-
-          };
-
-        }
-
-
-        const member =
-          members[0];
-
-
-        const player =
-          member
-            ? playerMap.get(
-                member.player_id
+        const completedMatches =
+          divisionMatches.filter(
+            row =>
+              [
+                "completed",
+                "bye",
+                "walkover"
+              ].includes(
+                row.status
               )
-            : null;
+          ).length;
+
+
+        const courtCount =
+          (courtResult.data || [])
+            .filter(
+              row =>
+                row.tournament_id ===
+                tournament.id
+                &&
+                row.is_active !== false
+            )
+            .length;
+
+
+        const progress =
+          getProgressInfo({
+
+            division,
+
+            entryCount:
+              divisionEntries.length,
+
+            groupCount:
+              divisionGroups.length,
+
+            groupMatches,
+
+            knockoutMatches
+
+          });
 
 
         return {
 
-          type:"singles",
+          tournament,
 
-          dbEntryId:
-            entryRow.id,
+          division,
 
-          dbPlayerId:
-            player?.id || null,
+          entryCount:
+            divisionEntries.length,
 
-          sortOrder:
-            entryRow.sort_order,
+          groupCount:
+            divisionGroups.length,
 
-          name:
-            player?.name || "",
+          matchCount:
+            divisionMatches.length,
 
-          nickname:
-            player?.nickname || ""
+          completedMatches,
+
+          courtCount,
+
+          progress
 
         };
 
@@ -2182,1459 +1454,274 @@ async function loadEntriesFromDatabase() {
     );
 
 
-  saveEntriesToSession();
-
-  renderEntries();
+  renderDashboard();
 
 }
 
 
 /* =====================================
-   CREATE PLAYER
+   PROGRESS
 ===================================== */
 
-async function createPlayer(
-  name,
-  nickname
-) {
+function getProgressInfo({
+  division,
+  entryCount,
+  groupCount,
+  groupMatches,
+  knockoutMatches
+}){
 
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("players")
-      .insert({
+  if (!division){
 
-        name:
-          cleanText(name),
+    return {
+      label:"부문 설정 필요",
+      percent:5
+    };
 
-        nickname:
-          cleanText(nickname)
-
-      })
-      .select(
-        "id,name,nickname"
-      )
-      .single();
+  }
 
 
   if (
-    error ||
-    !data
-  ) {
+    entryCount === 0
+  ){
 
-    throw new Error(
-      "선수 저장 실패: "
-      +
-      (
-        error?.message ||
-        "알 수 없는 오류"
-      )
-    );
+    return {
+      label:"참가자 등록",
+      percent:10
+    };
 
   }
-
-
-  return data;
-
-}
-
-
-/* =====================================
-   CLEANUP PLAYER
-===================================== */
-
-async function cleanupPlayer(
-  playerId
-) {
-
-  if (!playerId) {
-
-    return;
-
-  }
-
-
-  try {
-
-    await supabaseClient
-      .from("players")
-      .delete()
-      .eq(
-        "id",
-        playerId
-      );
-
-  } catch(e) {
-
-    console.error(
-      "player cleanup error",
-      e
-    );
-
-  }
-
-}
-
-
-/* =====================================
-   CLEANUP ENTRY
-===================================== */
-
-async function cleanupEntry(
-  entryId
-) {
-
-  if (!entryId) {
-
-    return;
-
-  }
-
-
-  try {
-
-    await supabaseClient
-      .from("entries")
-      .delete()
-      .eq(
-        "id",
-        entryId
-      );
-
-  } catch(e) {
-
-    console.error(
-      "entry cleanup error",
-      e
-    );
-
-  }
-
-}
-
-
-/* =====================================
-   CREATE SINGLE ENTRY
-===================================== */
-
-async function createSinglesEntry() {
-
-  const name =
-    cleanText(
-      document.getElementById(
-        "singleName"
-      ).value
-    );
-
-
-  const nickname =
-    cleanText(
-      document.getElementById(
-        "singleNickname"
-      ).value
-    );
 
 
   if (
-    !hasPlayerName(
-      name,
-      nickname
-    )
-  ) {
-
-    alert(
-      "이름 또는 닉네임 중 하나 이상 입력해주세요."
-    );
-
-    document.getElementById(
-      "singleName"
-    ).focus();
-
-    return;
-
-  }
-
-
-  let createdPlayer =
-    null;
-
-
-  let createdEntry =
-    null;
-
-
-  try {
-
-    setBusy(
-      true,
-      "참가자 등록 중",
-      "선수 정보를 FWT 데이터베이스에 저장하고 있습니다."
-    );
-
-
-    /*
-      1. PLAYER
-    */
-
-    createdPlayer =
-      await createPlayer(
-        name,
-        nickname
-      );
-
-
-    /*
-      2. ENTRY
-    */
-
-    const sortOrder =
-      entries.length === 0
-        ? 0
-        : Math.max(
-            ...entries.map(
-              entry =>
-                Number(
-                  entry.sortOrder || 0
-                )
-            )
-          ) + 1;
-
-
-    const displayName =
-      nickname ||
-      name;
-
-
-    const {
-      data:entryRow,
-      error:entryError
-    } =
-      await supabaseClient
-        .from("entries")
-        .insert({
-
-          division_id:
-            tournament.divisionId,
-
-          display_name:
-            displayName,
-
-          status:
-            "active",
-
-          sort_order:
-            sortOrder
-
-        })
-        .select(
-          "id,sort_order"
-        )
-        .single();
-
+    division.format ===
+    "knockout"
+  ){
 
     if (
-      entryError ||
-      !entryRow
-    ) {
+      knockoutMatches.length > 0
+    ){
 
-      throw new Error(
-        "출전 정보 저장 실패: "
-        +
+      const finished =
+        knockoutMatches.filter(
+          row =>
+            [
+              "completed",
+              "bye",
+              "walkover"
+            ].includes(
+              row.status
+            )
+        ).length;
+
+
+      return {
+        label:
+          `본선 경기 ${finished}/${knockoutMatches.length}`,
+        percent:
+          50 +
+          (
+            knockoutMatches.length
+              ? (
+                  finished /
+                  knockoutMatches.length
+                ) * 50
+              : 0
+          )
+      };
+
+    }
+
+
+    return {
+      label:"본선 대진 준비",
+      percent:35
+    };
+
+  }
+
+
+  if (
+    groupCount === 0
+  ){
+
+    return {
+      label:"조편성",
+      percent:25
+    };
+
+  }
+
+
+  if (
+    groupMatches.length === 0
+  ){
+
+    return {
+      label:"예선 대진 생성",
+      percent:38
+    };
+
+  }
+
+
+  const groupFinished =
+    groupMatches.filter(
+      row =>
+        [
+          "completed",
+          "bye",
+          "walkover"
+        ].includes(
+          row.status
+        )
+    ).length;
+
+
+  /*
+    예선이 아직 안 끝났다면
+    DB에 과거 본선 행이 있더라도
+    진행표시는 무조건 예선 기준.
+  */
+
+  if (
+    groupFinished <
+    groupMatches.length
+  ){
+
+    return {
+      label:
+        `예선 ${groupFinished}/${groupMatches.length}`,
+      percent:
+        40 +
         (
-          entryError?.message ||
-          "알 수 없는 오류"
+          groupMatches.length
+            ? (
+                groupFinished /
+                groupMatches.length
+              ) * 30
+            : 0
         )
-      );
+    };
 
-    }
-
-
-    createdEntry =
-      entryRow;
+  }
 
 
-    /*
-      3. ENTRY MEMBER
-    */
+  /*
+    예선 완료 이후에만
+    본선 상태를 표시.
+  */
 
-    const {
-      error:memberError
-    } =
-      await supabaseClient
-        .from("entry_members")
-        .insert({
+  if (
+    knockoutMatches.length === 0
+  ){
 
-          entry_id:
-            createdEntry.id,
+    return {
+      label:
+        "예선 완료 · 본선 준비",
+      percent:72
+    };
 
-          player_id:
-            createdPlayer.id,
-
-          member_order:
-            1
-
-        });
+  }
 
 
-    if (
-      memberError
-    ) {
-
-      throw new Error(
-        "선수 연결정보 저장 실패: "
-        +
-        memberError.message
-      );
-
-    }
-
-
-    entries.push({
-
-      type:"singles",
-
-      dbEntryId:
-        createdEntry.id,
-
-      dbPlayerId:
-        createdPlayer.id,
-
-      sortOrder:
-        createdEntry.sort_order,
-
-      name:
-        createdPlayer.name || "",
-
-      nickname:
-        createdPlayer.nickname || ""
-
-    });
+  const knockoutFinished =
+    knockoutMatches.filter(
+      row =>
+        [
+          "completed",
+          "bye",
+          "walkover"
+        ].includes(
+          row.status
+        )
+    ).length;
 
 
-    saveEntriesToSession();
-
-
-    document.getElementById(
-      "singleName"
-    ).value = "";
-
-
-    document.getElementById(
-      "singleNickname"
-    ).value = "";
-
-
-    setBusy(false);
-
-
-    renderEntries();
-
-
-    document.getElementById(
-      "singleName"
-    ).focus();
-
-
-  } catch(error) {
-
-    /*
-      중간 실패 시 생성 데이터 정리
-    */
-
-    if (
-      createdEntry?.id
-    ) {
-
-      await cleanupEntry(
-        createdEntry.id
-      );
-
-    }
-
-
-    if (
-      createdPlayer?.id
-    ) {
-
-      await cleanupPlayer(
-        createdPlayer.id
-      );
-
-    }
-
-
-    setBusy(false);
-
-
-    alert(
-      "참가자를 등록하지 못했습니다.\n\n"
-      +
+  return {
+    label:
+      `본선 ${knockoutFinished}/${knockoutMatches.length}`,
+    percent:
+      75 +
       (
-        error?.message ||
-        "알 수 없는 오류가 발생했습니다."
+        knockoutMatches.length
+          ? (
+              knockoutFinished /
+              knockoutMatches.length
+            ) * 25
+          : 0
       )
-    );
-
-  }
+  };
 
 }
 
 
 /* =====================================
-   CREATE DOUBLES ENTRY
+   RENDER
 ===================================== */
 
-async function createDoublesEntry() {
-
-  const p1Name =
-    cleanText(
-      document.getElementById(
-        "player1Name"
-      ).value
-    );
-
-
-  const p1Nickname =
-    cleanText(
-      document.getElementById(
-        "player1Nickname"
-      ).value
-    );
-
-
-  const p2Name =
-    cleanText(
-      document.getElementById(
-        "player2Name"
-      ).value
-    );
-
-
-  const p2Nickname =
-    cleanText(
-      document.getElementById(
-        "player2Nickname"
-      ).value
-    );
-
-
-  if (
-    !hasPlayerName(
-      p1Name,
-      p1Nickname
-    )
-  ) {
-
-    alert(
-      "선수 1의 이름 또는 닉네임을 입력해주세요."
-    );
-
-    document.getElementById(
-      "player1Name"
-    ).focus();
-
-    return;
-
-  }
-
-
-  if (
-    !hasPlayerName(
-      p2Name,
-      p2Nickname
-    )
-  ) {
-
-    alert(
-      "선수 2의 이름 또는 닉네임을 입력해주세요."
-    );
-
-    document.getElementById(
-      "player2Name"
-    ).focus();
-
-    return;
-
-  }
-
-
-  let player1 =
-    null;
-
-
-  let player2 =
-    null;
-
-
-  let createdEntry =
-    null;
-
-
-  try {
-
-    setBusy(
-      true,
-      "복식 팀 등록 중",
-      "두 선수와 출전 팀 정보를 저장하고 있습니다."
-    );
-
-
-    player1 =
-      await createPlayer(
-        p1Name,
-        p1Nickname
-      );
-
-
-    player2 =
-      await createPlayer(
-        p2Name,
-        p2Nickname
-      );
-
-
-    const sortOrder =
-      entries.length === 0
-        ? 0
-        : Math.max(
-            ...entries.map(
-              entry =>
-                Number(
-                  entry.sortOrder || 0
-                )
-            )
-          ) + 1;
-
-
-    const displayName =
-      `${playerDisplayName(
-        player1
-      )} / ${playerDisplayName(
-        player2
-      )}`;
-
-
-    const {
-      data:entryRow,
-      error:entryError
-    } =
-      await supabaseClient
-        .from("entries")
-        .insert({
-
-          division_id:
-            tournament.divisionId,
-
-          display_name:
-            displayName,
-
-          status:
-            "active",
-
-          sort_order:
-            sortOrder
-
-        })
-        .select(
-          "id,sort_order"
-        )
-        .single();
-
-
-    if (
-      entryError ||
-      !entryRow
-    ) {
-
-      throw new Error(
-        "복식 출전정보 저장 실패: "
-        +
-        (
-          entryError?.message ||
-          "알 수 없는 오류"
-        )
-      );
-
-    }
-
-
-    createdEntry =
-      entryRow;
-
-
-    const {
-      error:memberError
-    } =
-      await supabaseClient
-        .from("entry_members")
-        .insert([
-          {
-
-            entry_id:
-              createdEntry.id,
-
-            player_id:
-              player1.id,
-
-            member_order:
-              1
-
-          },
-          {
-
-            entry_id:
-              createdEntry.id,
-
-            player_id:
-              player2.id,
-
-            member_order:
-              2
-
-          }
-        ]);
-
-
-    if (
-      memberError
-    ) {
-
-      throw new Error(
-        "복식 선수 연결정보 저장 실패: "
-        +
-        memberError.message
-      );
-
-    }
-
-
-    entries.push({
-
-      type:"doubles",
-
-      dbEntryId:
-        createdEntry.id,
-
-      sortOrder:
-        createdEntry.sort_order,
-
-      player1: {
-
-        dbPlayerId:
-          player1.id,
-
-        name:
-          player1.name || "",
-
-        nickname:
-          player1.nickname || ""
-
-      },
-
-      player2: {
-
-        dbPlayerId:
-          player2.id,
-
-        name:
-          player2.name || "",
-
-        nickname:
-          player2.nickname || ""
-
-      }
-
-    });
-
-
-    saveEntriesToSession();
-
-
-    [
-      "player1Name",
-      "player1Nickname",
-      "player2Name",
-      "player2Nickname"
-    ]
-      .forEach(
-        id => {
-
-          document.getElementById(
-            id
-          ).value = "";
-
-        }
-      );
-
-
-    setBusy(false);
-
-
-    renderEntries();
-
-
-    document.getElementById(
-      "player1Name"
-    ).focus();
-
-
-  } catch(error) {
-
-    if (
-      createdEntry?.id
-    ) {
-
-      await cleanupEntry(
-        createdEntry.id
-      );
-
-    }
-
-
-    if (
-      player1?.id
-    ) {
-
-      await cleanupPlayer(
-        player1.id
-      );
-
-    }
-
-
-    if (
-      player2?.id
-    ) {
-
-      await cleanupPlayer(
-        player2.id
-      );
-
-    }
-
-
-    setBusy(false);
-
-
-    alert(
-      "복식 팀을 등록하지 못했습니다.\n\n"
-      +
-      (
-        error?.message ||
-        "알 수 없는 오류가 발생했습니다."
-      )
-    );
-
-  }
-
-}
-
-
-/* =====================================
-   ADD ENTRY
-===================================== */
-
-async function addEntry() {
-
-  if (busy) {
-
-    return;
-
-  }
-
-
-  if (
-    tournament.matchType ===
-    "doubles"
-  ) {
-
-    await createDoublesEntry();
-
-  } else {
-
-    await createSinglesEntry();
-
-  }
-
-}
-
-
-/* =====================================
-   EDIT SINGLE
-===================================== */
-
-async function editSinglesEntry(
-  index
-) {
-
-  const entry =
-    entries[index];
-
-
-  const newName =
-    prompt(
-      "이름",
-      entry.name || ""
-    );
-
-
-  if (
-    newName === null
-  ) {
-
-    return;
-
-  }
-
-
-  const newNickname =
-    prompt(
-      "닉네임",
-      entry.nickname || ""
-    );
-
-
-  if (
-    newNickname === null
-  ) {
-
-    return;
-
-  }
-
-
-  if (
-    !hasPlayerName(
-      newName,
-      newNickname
-    )
-  ) {
-
-    alert(
-      "이름 또는 닉네임 중 하나 이상 입력해야 합니다."
-    );
-
-    return;
-
-  }
-
-
-  try {
-
-    setBusy(
-      true,
-      "참가자 수정 중",
-      "변경된 정보를 데이터베이스에 저장하고 있습니다."
-    );
-
-
-    const {
-      error:playerError
-    } =
-      await supabaseClient
-        .from("players")
-        .update({
-
-          name:
-            cleanText(
-              newName
-            ),
-
-          nickname:
-            cleanText(
-              newNickname
-            )
-
-        })
-        .eq(
-          "id",
-          entry.dbPlayerId
-        );
-
-
-    if (
-      playerError
-    ) {
-
-      throw new Error(
-        playerError.message
-      );
-
-    }
-
-
-    const displayName =
-      cleanText(
-        newNickname
-      )
-      ||
-      cleanText(
-        newName
-      );
-
-
-    const {
-      error:entryError
-    } =
-      await supabaseClient
-        .from("entries")
-        .update({
-
-          display_name:
-            displayName
-
-        })
-        .eq(
-          "id",
-          entry.dbEntryId
-        );
-
-
-    if (
-      entryError
-    ) {
-
-      throw new Error(
-        entryError.message
-      );
-
-    }
-
-
-    entry.name =
-      cleanText(
-        newName
-      ) || "";
-
-
-    entry.nickname =
-      cleanText(
-        newNickname
-      ) || "";
-
-
-    saveEntriesToSession();
-
-
-    setBusy(false);
-
-    renderEntries();
-
-
-  } catch(error) {
-
-    setBusy(false);
-
-
-    alert(
-      "수정하지 못했습니다.\n\n"
-      +
-      error.message
-    );
-
-  }
-
-}
-
-
-/* =====================================
-   EDIT DOUBLES
-===================================== */
-
-async function editDoublesEntry(
-  index
-) {
-
-  const entry =
-    entries[index];
-
-
-  const p1Name =
-    prompt(
-      "선수 1 이름",
-      entry.player1.name || ""
-    );
-
-
-  if (
-    p1Name === null
-  ) {
-    return;
-  }
-
-
-  const p1Nickname =
-    prompt(
-      "선수 1 닉네임",
-      entry.player1.nickname || ""
-    );
-
-
-  if (
-    p1Nickname === null
-  ) {
-    return;
-  }
-
-
-  const p2Name =
-    prompt(
-      "선수 2 이름",
-      entry.player2.name || ""
-    );
-
-
-  if (
-    p2Name === null
-  ) {
-    return;
-  }
-
-
-  const p2Nickname =
-    prompt(
-      "선수 2 닉네임",
-      entry.player2.nickname || ""
-    );
-
-
-  if (
-    p2Nickname === null
-  ) {
-    return;
-  }
-
-
-  if (
-    !hasPlayerName(
-      p1Name,
-      p1Nickname
-    )
-  ) {
-
-    alert(
-      "선수 1의 이름 또는 닉네임이 필요합니다."
-    );
-
-    return;
-
-  }
-
-
-  if (
-    !hasPlayerName(
-      p2Name,
-      p2Nickname
-    )
-  ) {
-
-    alert(
-      "선수 2의 이름 또는 닉네임이 필요합니다."
-    );
-
-    return;
-
-  }
-
-
-  try {
-
-    setBusy(
-      true,
-      "복식 팀 수정 중",
-      "변경된 선수 정보를 저장하고 있습니다."
-    );
-
-
-    const {
-      error:error1
-    } =
-      await supabaseClient
-        .from("players")
-        .update({
-
-          name:
-            cleanText(
-              p1Name
-            ),
-
-          nickname:
-            cleanText(
-              p1Nickname
-            )
-
-        })
-        .eq(
-          "id",
-          entry.player1.dbPlayerId
-        );
-
-
-    if (error1) {
-
-      throw new Error(
-        error1.message
-      );
-
-    }
-
-
-    const {
-      error:error2
-    } =
-      await supabaseClient
-        .from("players")
-        .update({
-
-          name:
-            cleanText(
-              p2Name
-            ),
-
-          nickname:
-            cleanText(
-              p2Nickname
-            )
-
-        })
-        .eq(
-          "id",
-          entry.player2.dbPlayerId
-        );
-
-
-    if (error2) {
-
-      throw new Error(
-        error2.message
-      );
-
-    }
-
-
-    const displayName =
-      `${
-        cleanText(
-          p1Nickname
-        )
-        ||
-        cleanText(
-          p1Name
-        )
-      } / ${
-        cleanText(
-          p2Nickname
-        )
-        ||
-        cleanText(
-          p2Name
-        )
-      }`;
-
-
-    const {
-      error:entryError
-    } =
-      await supabaseClient
-        .from("entries")
-        .update({
-
-          display_name:
-            displayName
-
-        })
-        .eq(
-          "id",
-          entry.dbEntryId
-        );
-
-
-    if (
-      entryError
-    ) {
-
-      throw new Error(
-        entryError.message
-      );
-
-    }
-
-
-    entry.player1.name =
-      cleanText(
-        p1Name
-      ) || "";
-
-
-    entry.player1.nickname =
-      cleanText(
-        p1Nickname
-      ) || "";
-
-
-    entry.player2.name =
-      cleanText(
-        p2Name
-      ) || "";
-
-
-    entry.player2.nickname =
-      cleanText(
-        p2Nickname
-      ) || "";
-
-
-    saveEntriesToSession();
-
-
-    setBusy(false);
-
-    renderEntries();
-
-
-  } catch(error) {
-
-    setBusy(false);
-
-
-    alert(
-      "수정하지 못했습니다.\n\n"
-      +
-      error.message
-    );
-
-  }
-
-}
-
-
-/* =====================================
-   EDIT ENTRY
-===================================== */
-
-async function editEntry(
-  index
-) {
-
-  if (busy) {
-
-    return;
-
-  }
-
-
-  if (
-    entries[index].type ===
-    "doubles"
-  ) {
-
-    await editDoublesEntry(
-      index
-    );
-
-  } else {
-
-    await editSinglesEntry(
-      index
-    );
-
-  }
-
-}
-
-
-/* =====================================
-   DELETE ENTRY
-===================================== */
-
-async function deleteEntry(
-  index
-) {
-
-  if (busy) {
-
-    return;
-
-  }
-
-
-  const entry =
-    entries[index];
-
-
-  const name =
-    entryShortName(
-      entry
-    );
-
-
-  const ok =
-    confirm(
-      `${name}\n\n이 참가자를 삭제할까요?`
-    );
-
-
-  if (!ok) {
-
-    return;
-
-  }
-
-
-  const playerIds =
-    entry.type ===
-    "doubles"
-      ? [
-          entry.player1.dbPlayerId,
-          entry.player2.dbPlayerId
-        ]
-      : [
-          entry.dbPlayerId
-        ];
-
-
-  try {
-
-    setBusy(
-      true,
-      "참가자 삭제 중",
-      "데이터베이스에서 참가자 정보를 삭제하고 있습니다."
-    );
-
-
-    /*
-      entry를 먼저 삭제하면
-      entry_members는 FK cascade로 제거됨.
-    */
-
-    const {
-      error:entryError
-    } =
-      await supabaseClient
-        .from("entries")
-        .delete()
-        .eq(
-          "id",
-          entry.dbEntryId
-        );
-
-
-    if (
-      entryError
-    ) {
-
-      throw new Error(
-        entryError.message
-      );
-
-    }
-
-
-    /*
-      이 앱에서는 현재 참가 등록 때
-      player도 새로 생성하므로
-      연결 해제 후 player도 정리한다.
-    */
-
-    for (
-      const playerId
-      of playerIds
-    ) {
-
-      if (!playerId) {
-        continue;
-      }
-
-
-      const {
-        error:playerError
-      } =
-        await supabaseClient
-          .from("players")
-          .delete()
-          .eq(
-            "id",
-            playerId
-          );
-
-
-      if (
-        playerError
-      ) {
-
-        console.warn(
-          "player cleanup warning",
-          playerError
-        );
-
-      }
-
-    }
-
-
-    entries.splice(
-      index,
-      1
-    );
-
-
-    saveEntriesToSession();
-
-
-    setBusy(false);
-
-    renderEntries();
-
-
-  } catch(error) {
-
-    setBusy(false);
-
-
-    alert(
-      "참가자를 삭제하지 못했습니다.\n\n"
-      +
-      error.message
-    );
-
-  }
-
-}
-
-
-/* =====================================
-   RENDER ENTRIES
-===================================== */
-
-function renderEntries() {
-
-  const box =
-    document.getElementById(
-      "entryList"
-    );
+function renderDashboard(){
+
+  document.getElementById(
+    "totalStat"
+  ).textContent =
+    tournaments.length;
 
 
   document.getElementById(
-    "entryCount"
+    "draftStat"
   ).textContent =
-    entries.length;
+    tournaments.filter(
+      row =>
+        row.status ===
+        "draft"
+    ).length;
+
+
+  document.getElementById(
+    "activeStat"
+  ).textContent =
+    tournaments.filter(
+      row =>
+        row.status ===
+        "active"
+    ).length;
+
+
+  document.getElementById(
+    "completedStat"
+  ).textContent =
+    tournaments.filter(
+      row =>
+        row.status ===
+        "completed"
+    ).length;
+
+
+  const box =
+    document.getElementById(
+      "tournamentList"
+    );
 
 
   box.innerHTML = "";
 
 
   if (
-    entries.length === 0
-  ) {
+    tournamentSummaries.length === 0
+  ){
 
     box.innerHTML = `
 
-      <div class="empty-list">
+      <div class="empty">
 
-        아직 등록된 참가자가 없습니다.<br>
-        위에서 참가자를 추가해주세요.
+        <div class="empty-title">
+          아직 저장된 대회가 없습니다.
+        </div>
+
+        <div class="empty-text">
+          새 대회를 생성하면 이곳에서 계속 관리할 수 있습니다.
+        </div>
 
       </div>
 
@@ -3645,130 +1732,213 @@ function renderEntries() {
   }
 
 
-  entries.forEach(
-    (
-      entry,
-      index
-    ) => {
+  tournamentSummaries.forEach(
+    summary => {
 
-      const row =
+      const tournament =
+        summary.tournament;
+
+
+      const division =
+        summary.division;
+
+
+      const status =
+        tournament.status ||
+        "draft";
+
+
+      const card =
         document.createElement(
-          "div"
+          "article"
         );
 
 
-      row.className =
-        "entry";
+      card.className =
+        "tournament-card";
 
 
-      let subText =
-        tournament.matchType ===
-        "doubles"
-          ? "복식 팀"
-          : "단식 참가자";
+      card.innerHTML = `
+
+        <div class="tournament-main">
+
+          <div>
+
+            <div class="tournament-name">
+              ${escapeHtml(
+                tournament.name
+              )}
+            </div>
 
 
-      if (
-        entry.dbEntryId
-      ) {
+            <div class="tournament-meta">
 
-        subText +=
-          " · DB 저장됨";
+              <span class="chip ${escapeHtml(status)}">
+                ${escapeHtml(
+                  statusLabel(status)
+                )}
+              </span>
 
-      }
+              <span class="chip">
+                ${escapeHtml(
+                  formatDate(
+                    tournament.tournament_date
+                  )
+                )}
+              </span>
+
+              ${
+                division
+                  ? `
+                    <span class="chip">
+                      ${escapeHtml(
+                        division.name
+                      )}
+                    </span>
+
+                    <span class="chip">
+                      ${escapeHtml(
+                        formatLabel(
+                          division.match_type
+                        )
+                      )}
+                    </span>
+
+                    <span class="chip">
+                      참가 ${summary.entryCount}
+                    </span>
+
+                    <span class="chip">
+                      코트 ${summary.courtCount}
+                    </span>
+                  `
+                  : ""
+              }
+
+            </div>
 
 
-      row.innerHTML = `
+            <div class="progress-wrap">
 
-        <div class="entry-number">
-          ${index + 1}
-        </div>
+              <div class="progress-top">
+
+                <div class="progress-label">
+                  ${escapeHtml(
+                    summary.progress.label
+                  )}
+                </div>
+
+                <div class="progress-count">
+                  경기
+                  ${summary.completedMatches}/${summary.matchCount}
+                </div>
+
+              </div>
 
 
-        <div class="entry-main">
+              <div class="progress">
 
-          <div class="entry-name">
+                <div
+                  class="progress-bar"
+                  style="width:${Math.max(
+                    0,
+                    Math.min(
+                      100,
+                      summary.progress.percent
+                    )
+                  )}%"
+                ></div>
 
-            ${escapeHtml(
-              entryDisplayName(
-                entry
-              )
-            )}
+              </div>
+
+            </div>
 
           </div>
 
-          <div class="entry-sub">
-            ${escapeHtml(
-              subText
-            )}
+
+          <div class="card-actions">
+
+            <button
+              class="manage-btn"
+              type="button"
+            >
+              계속 관리
+              <span>→</span>
+            </button>
+
+            <button
+              class="participant-btn"
+              type="button"
+            >
+              참가자 수정
+            </button>
+
+            <button
+              class="delete-btn"
+              type="button"
+            >
+              삭제
+            </button>
+
           </div>
-
-        </div>
-
-
-        <div class="entry-actions">
-
-          <button
-            class="entry-btn edit"
-            type="button"
-          >
-            수정
-          </button>
-
-          ${
-            lockedForExistingSchedule
-              ? ""
-              : `
-                <button
-                  class="entry-btn delete"
-                  type="button"
-                >
-                  삭제
-                </button>
-              `
-          }
 
         </div>
 
       `;
 
 
-      row
+      card
         .querySelector(
-          ".edit"
+          ".manage-btn"
         )
         .addEventListener(
           "click",
-          function() {
+          function(){
 
-            editEntry(index);
+            continueTournament(
+              tournament.id
+            );
 
           }
         );
 
 
-      const deleteButton =
-        row.querySelector(
-          ".delete"
-        );
-
-
-      if (deleteButton) {
-
-        deleteButton.addEventListener(
+      card
+        .querySelector(
+          ".participant-btn"
+        )
+        .addEventListener(
           "click",
-          function() {
+          function(){
 
-            deleteEntry(index);
+            continueTournament(
+              tournament.id,
+              "participants"
+            );
 
           }
         );
 
-      }
+
+      card
+        .querySelector(
+          ".delete-btn"
+        )
+        .addEventListener(
+          "click",
+          function(){
+
+            deleteTournament(
+              tournament.id,
+              tournament.name
+            );
+
+          }
+        );
 
 
       box.appendChild(
-        row
+        card
       );
 
     }
@@ -3778,84 +1948,991 @@ function renderEntries() {
 
 
 /* =====================================
-   NEXT STEP
+   RESTORE TOURNAMENT
 ===================================== */
 
-function goNext() {
+async function continueTournament(
+  tournamentId,
+  destination = "continue"
+){
 
-  if (busy) {
-
+  if (busy){
     return;
-
   }
 
 
-  if (
-    entries.length < 2
-  ) {
+  try{
 
-    alert(
-      "참가자를 최소 2명 이상 등록해주세요."
+    setBusy(
+      true,
+      "대회 진행상태를 복원하고 있습니다",
+      "Supabase의 실제 경기 상태를 기준으로 현재 단계를 확인합니다."
     );
 
-    return;
 
-  }
-
-
-  /*
-    기존 다음 페이지들과 호환
-  */
-
-  saveEntriesToSession();
+    clearCurrentTournamentSession();
 
 
-  /*
-    참가자 구성이 바뀌었으므로
-    이후 단계 데이터 초기화
-  */
+    /* =========================
+       TOURNAMENT
+    ========================= */
 
-  sessionStorage.removeItem(
-    "fwtGroupAssignments"
-  );
-
-  sessionStorage.removeItem(
-    "fwtGroupData"
-  );
-
-  sessionStorage.removeItem(
-    "fwtGroupMatches"
-  );
-
-  sessionStorage.removeItem(
-    "fwtMatchControlState"
-  );
-
-  sessionStorage.removeItem(
-    "fwtStandingsData"
-  );
-
-  sessionStorage.removeItem(
-    "fwtKnockoutQualifiers"
-  );
-
-  sessionStorage.removeItem(
-    "fwtKnockoutBracket"
-  );
+    const {
+      data:tournament,
+      error:tournamentError
+    } =
+      await supabaseClient
+        .from("tournaments")
+        .select(
+          "id,name,tournament_date,status,is_public"
+        )
+        .eq(
+          "id",
+          tournamentId
+        )
+        .single();
 
 
-  if (
-    tournament.format ===
-    "group_knockout"
-  ) {
+    if (
+      tournamentError ||
+      !tournament
+    ){
+
+      throw new Error(
+        "대회 정보를 불러오지 못했습니다."
+      );
+
+    }
+
+
+    /* =========================
+       DIVISION
+    ========================= */
+
+    const {
+      data:divisions,
+      error:divisionError
+    } =
+      await supabaseClient
+        .from("divisions")
+        .select(
+          "id,tournament_id,name,match_type,gender,format,group_count,advance_count,expected_match_minutes,sort_order"
+        )
+        .eq(
+          "tournament_id",
+          tournamentId
+        )
+        .order(
+          "sort_order",
+          {
+            ascending:true
+          }
+        );
+
+
+    if (divisionError){
+
+      throw new Error(
+        "부문 정보를 불러오지 못했습니다."
+      );
+
+    }
+
+
+    const division =
+      divisions?.[0];
+
+
+    if (!division){
+
+      throw new Error(
+        "등록된 부문이 없습니다."
+      );
+
+    }
+
+
+    /* =========================
+       COURTS
+    ========================= */
+
+    const {
+      data:courtRows,
+      error:courtError
+    } =
+      await supabaseClient
+        .from("courts")
+        .select(
+          "id,name,sort_order,is_active"
+        )
+        .eq(
+          "tournament_id",
+          tournamentId
+        )
+        .order(
+          "sort_order",
+          {
+            ascending:true
+          }
+        );
+
+
+    if (courtError){
+
+      throw new Error(
+        "코트 정보를 불러오지 못했습니다."
+      );
+
+    }
+
+
+    const courts =
+      (courtRows || [])
+        .filter(
+          row =>
+            row.is_active !== false
+        );
+
+
+    const tournamentSession = {
+
+      tournamentId:
+        tournament.id,
+
+      id:
+        tournament.id,
+
+      tournamentName:
+        tournament.name,
+
+      name:
+        tournament.name,
+
+      tournamentDate:
+        tournament.tournament_date,
+
+      date:
+        tournament.tournament_date,
+
+      status:
+        tournament.status,
+
+      isPublic:
+        tournament.is_public,
+
+      divisionId:
+        division.id,
+
+      divisionName:
+        division.name,
+
+      format:
+        division.format,
+
+      matchType:
+        division.match_type,
+
+      gender:
+        division.gender,
+
+      groupCount:
+        Number(
+          division.group_count || 0
+        ),
+
+      advanceCount:
+        Number(
+          division.advance_count || 0
+        ),
+
+      matchDuration:
+        division.expected_match_minutes,
+
+      courts:
+        courts.map(
+          row =>
+            row.name
+        ),
+
+      courtRecords:
+        courts.map(
+          row => ({
+
+            id:
+              row.id,
+
+            name:
+              row.name,
+
+            sortOrder:
+              row.sort_order
+
+          })
+        )
+
+    };
+
+
+    sessionStorage.setItem(
+      "fwtNewTournament",
+      JSON.stringify(
+        tournamentSession
+      )
+    );
+
+
+    /* =========================
+       ENTRIES
+    ========================= */
+
+    const {
+      data:entryRows,
+      error:entryError
+    } =
+      await supabaseClient
+        .from("entries")
+        .select(
+          "id,display_name,seed,status,sort_order"
+        )
+        .eq(
+          "division_id",
+          division.id
+        )
+        .order(
+          "sort_order",
+          {
+            ascending:true
+          }
+        );
+
+
+    if (entryError){
+
+      throw new Error(
+        "참가자 정보를 불러오지 못했습니다."
+      );
+
+    }
+
+
+    const activeEntryRows =
+      (entryRows || [])
+        .filter(
+          row =>
+            ![
+              "withdrawn",
+              "disqualified"
+            ].includes(
+              row.status
+            )
+        );
+
+
+    /*
+      참가자가 없다면
+      참가자 등록.
+    */
+
+    if (
+      activeEntryRows.length === 0
+    ){
+
+      sessionStorage.setItem(
+        "fwtNewTournamentEntries",
+        JSON.stringify([])
+      );
+
+
+      setBusy(false);
+
+
+      location.href =
+        "./participant-registration.html";
+
+
+      return;
+
+    }
+
+
+    const entryIds =
+      activeEntryRows.map(
+        row => row.id
+      );
+
+
+    const {
+      data:memberRows,
+      error:memberError
+    } =
+      await supabaseClient
+        .from("entry_members")
+        .select(
+          "entry_id,player_id,member_order"
+        )
+        .in(
+          "entry_id",
+          entryIds
+        )
+        .order(
+          "member_order",
+          {
+            ascending:true
+          }
+        );
+
+
+    if (memberError){
+
+      throw new Error(
+        "참가자 구성정보를 불러오지 못했습니다."
+      );
+
+    }
+
+
+    const playerIds =
+      [
+        ...new Set(
+          (memberRows || [])
+            .map(
+              row =>
+                row.player_id
+            )
+        )
+      ];
+
+
+    let playerRows = [];
+
+
+    if (
+      playerIds.length > 0
+    ){
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("players")
+          .select(
+            "id,name,nickname"
+          )
+          .in(
+            "id",
+            playerIds
+          );
+
+
+      if (error){
+
+        throw new Error(
+          "선수 정보를 불러오지 못했습니다."
+        );
+
+      }
+
+
+      playerRows =
+        data || [];
+
+    }
+
+
+    const playerMap =
+      new Map(
+        playerRows.map(
+          player => [
+            player.id,
+            player
+          ]
+        )
+      );
+
+
+    const restoredEntries =
+      activeEntryRows.map(
+        entry => {
+
+          const members =
+            (memberRows || [])
+              .filter(
+                row =>
+                  row.entry_id ===
+                  entry.id
+              )
+              .sort(
+                (a,b) =>
+                  Number(
+                    a.member_order
+                  )
+                  -
+                  Number(
+                    b.member_order
+                  )
+              );
+
+
+          if (
+            division.match_type ===
+            "doubles"
+          ){
+
+            const member1 =
+              members[0];
+
+            const member2 =
+              members[1];
+
+
+            const player1 =
+              member1
+                ? playerMap.get(
+                    member1.player_id
+                  )
+                : null;
+
+
+            const player2 =
+              member2
+                ? playerMap.get(
+                    member2.player_id
+                  )
+                : null;
+
+
+            return {
+
+              type:
+                "doubles",
+
+              dbEntryId:
+                entry.id,
+
+              displayName:
+                entry.display_name,
+
+              seed:
+                entry.seed,
+
+              player1:{
+
+                dbPlayerId:
+                  player1?.id ||
+                  null,
+
+                name:
+                  player1?.name ||
+                  "",
+
+                nickname:
+                  player1?.nickname ||
+                  ""
+
+              },
+
+              player2:{
+
+                dbPlayerId:
+                  player2?.id ||
+                  null,
+
+                name:
+                  player2?.name ||
+                  "",
+
+                nickname:
+                  player2?.nickname ||
+                  ""
+
+              }
+
+            };
+
+          }
+
+
+          const member =
+            members[0];
+
+
+          const player =
+            member
+              ? playerMap.get(
+                  member.player_id
+                )
+              : null;
+
+
+          return {
+
+            type:
+              "singles",
+
+            dbEntryId:
+              entry.id,
+
+            dbPlayerId:
+              player?.id ||
+              null,
+
+            displayName:
+              entry.display_name,
+
+            seed:
+              entry.seed,
+
+            name:
+              player?.name ||
+              entry.display_name ||
+              "",
+
+            nickname:
+              player?.nickname ||
+              ""
+
+          };
+
+        }
+      );
+
+
+    sessionStorage.setItem(
+      "fwtNewTournamentEntries",
+      JSON.stringify(
+        restoredEntries
+      )
+    );
+
+
+    /* =========================
+       PARTICIPANT EDIT MODE
+    ========================= */
+
+    if (
+      destination ===
+      "participants"
+    ){
+
+      setBusy(false);
+
+      location.href =
+        "./participant-registration.html";
+
+      return;
+
+    }
+
+
+    /* =========================
+       KNOCKOUT ONLY
+    ========================= */
+
+    if (
+      division.format ===
+      "knockout"
+    ){
+
+      setBusy(false);
+
+
+      alert(
+        "토너먼트 단독 대회 설정 기능은 아직 연결 작업 중입니다."
+      );
+
+
+      location.href =
+        "./participant-registration.html";
+
+
+      return;
+
+    }
+
+
+    /* =========================
+       GROUPS
+    ========================= */
+
+    const {
+      data:groupRows,
+      error:groupError
+    } =
+      await supabaseClient
+        .from("groups")
+        .select(
+          "id,name,sort_order"
+        )
+        .eq(
+          "division_id",
+          division.id
+        )
+        .order(
+          "sort_order",
+          {
+            ascending:true
+          }
+        );
+
+
+    if (groupError){
+
+      throw new Error(
+        "조편성 정보를 불러오지 못했습니다."
+      );
+
+    }
+
+
+    /*
+      조가 없으면 조편성.
+    */
+
+    if (
+      !groupRows ||
+      groupRows.length === 0
+    ){
+
+      setBusy(false);
+
+
+      location.href =
+        "./group-setup.html";
+
+
+      return;
+
+    }
+
+
+    const groupIds =
+      groupRows.map(
+        row => row.id
+      );
+
+
+    const {
+      data:groupEntryRows,
+      error:groupEntryError
+    } =
+      await supabaseClient
+        .from("group_entries")
+        .select(
+          "group_id,entry_id,seed_order"
+        )
+        .in(
+          "group_id",
+          groupIds
+        )
+        .order(
+          "seed_order",
+          {
+            ascending:true
+          }
+        );
+
+
+    if (groupEntryError){
+
+      throw new Error(
+        "조 참가자 정보를 불러오지 못했습니다."
+      );
+
+    }
+
+
+    const entryIndexMap =
+      new Map();
+
+
+    restoredEntries.forEach(
+      (
+        entry,
+        index
+      ) => {
+
+        entryIndexMap.set(
+          entry.dbEntryId,
+          index
+        );
+
+      }
+    );
+
+
+    const restoredGroupData =
+      groupRows.map(
+        group => {
+
+          const members =
+            (groupEntryRows || [])
+              .filter(
+                row =>
+                  row.group_id ===
+                  group.id
+              )
+              .sort(
+                (a,b) =>
+                  Number(
+                    a.seed_order || 0
+                  )
+                  -
+                  Number(
+                    b.seed_order || 0
+                  )
+              )
+              .map(
+                row =>
+                  entryIndexMap.get(
+                    row.entry_id
+                  )
+              )
+              .filter(
+                index =>
+                  index !== undefined
+              );
+
+
+          return {
+
+            name:
+              group.name,
+
+            dbGroupId:
+              group.id,
+
+            members
+
+          };
+
+        }
+      );
+
+
+    sessionStorage.setItem(
+      "fwtGroupData",
+      JSON.stringify(
+        restoredGroupData
+      )
+    );
+
+
+    const assignments =
+      new Array(
+        restoredEntries.length
+      ).fill(null);
+
+
+    restoredGroupData.forEach(
+      (
+        group,
+        groupIndex
+      ) => {
+
+        group.members.forEach(
+          entryIndex => {
+
+            assignments[
+              entryIndex
+            ] =
+              groupIndex;
+
+          }
+        );
+
+      }
+    );
+
+
+    sessionStorage.setItem(
+      "fwtGroupAssignments",
+      JSON.stringify(
+        assignments
+      )
+    );
+
+
+    /* =========================
+       MATCHES
+    ========================= */
+
+    const {
+      data:matchRows,
+      error:matchError
+    } =
+      await supabaseClient
+        .from("matches")
+        .select(
+          "id,group_id,court_id,stage,round_number,match_number,entry1_id,entry2_id,source1_match_id,source2_match_id,status,score1,score2,winner_entry_id,started_at,completed_at,sort_order"
+        )
+        .eq(
+          "division_id",
+          division.id
+        )
+        .order(
+          "sort_order",
+          {
+            ascending:true
+          }
+        );
+
+
+    if (matchError){
+
+      throw new Error(
+        "경기 정보를 불러오지 못했습니다."
+      );
+
+    }
+
+
+    const allMatches =
+      matchRows || [];
+
+
+    const groupMatches =
+      allMatches.filter(
+        row =>
+          row.stage ===
+          "group"
+      );
+
+
+    const knockoutMatches =
+      allMatches.filter(
+        row =>
+          row.stage !==
+          "group"
+      );
+
+
+    /* =========================
+       ROUTING
+    ========================= */
+
+
+    /*
+      1.
+      조는 있지만 예선 경기 자체가 없음
+      → 예선 대진 확인/생성
+    */
+
+    if (
+      groupMatches.length === 0
+    ){
+
+      setBusy(false);
+
+
+      location.href =
+        "./group-matches.html";
+
+
+      return;
+
+    }
+
+
+    /*
+      2.
+      예선 완료 여부를
+      가장 먼저 판단.
+
+      waiting / playing / pending이
+      하나라도 있으면 현재 스테이지는
+      예선 경기 운영이다.
+
+      DB에 과거 본선 경기행이
+      남아 있어도 여기서는 무시한다.
+    */
+
+    const groupAllFinished =
+      groupMatches.every(
+        row =>
+          [
+            "completed",
+            "bye",
+            "walkover"
+          ].includes(
+            row.status
+          )
+      );
+
+
+    if (
+      !groupAllFinished
+    ){
+
+      setBusy(false);
+
+
+      location.href =
+        "./match-control.html";
+
+
+      return;
+
+    }
+
+
+    /*
+      여기까지 왔다는 것은
+      예선이 실제로 모두 끝난 상태.
+    */
+
+
+    /*
+      3.
+      예선 완료 + 본선 경기 존재
+      → 본선 경기운영
+    */
+
+    if (
+      knockoutMatches.length > 0
+    ){
+
+      setBusy(false);
+
+
+      location.href =
+        "./knockout-control.html";
+
+
+      return;
+
+    }
+
+
+    /*
+      4.
+      예선 완료 + 본선 없음
+      → 순위 / 본선 진출자 계산
+    */
+
+    setBusy(false);
+
 
     location.href =
-      "./group-setup.html";
+      "./group-standings.html";
 
-  } else {
 
-    location.href =
-      "./knockout-setup.html";
+  } catch(error){
+
+    console.error(error);
+
+
+    setBusy(false);
+
+
+    alert(
+      "대회 정보를 복원하지 못했습니다.\n\n"
+      +
+      (
+        error?.message ||
+        "알 수 없는 오류가 발생했습니다."
+      )
+    );
 
   }
 
@@ -3863,56 +2940,156 @@ function goNext() {
 
 
 /* =====================================
-   KEYBOARD
+   DELETE
 ===================================== */
 
-function setupEnterKeys() {
+async function deleteTournament(
+  tournamentId,
+  tournamentName
+){
+
+  if (busy){
+    return;
+  }
+
 
   if (
-    tournament.matchType ===
-    "doubles"
-  ) {
+    !confirm(
+      `"${tournamentName}" 대회를 삭제할까요?`
+    )
+  ){
+    return;
+  }
 
-    document.getElementById(
-      "player2Nickname"
-    ).addEventListener(
-      "keydown",
-      function(event) {
 
-        if (
-          event.key ===
-          "Enter"
-        ) {
+  if (
+    !confirm(
+      "참가자, 조편성, 경기 결과와 본선 데이터까지 모두 삭제됩니다.\n\n정말 삭제하시겠습니까?"
+    )
+  ){
+    return;
+  }
 
-          event.preventDefault();
 
-          addEntry();
+  try{
 
-        }
-
-      }
+    setBusy(
+      true,
+      "대회를 삭제하고 있습니다",
+      "연결된 데이터를 정리 중입니다."
     );
 
-  } else {
 
-    document.getElementById(
-      "singleNickname"
-    ).addEventListener(
-      "keydown",
-      function(event) {
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("tournaments")
+        .delete()
+        .eq(
+          "id",
+          tournamentId
+        );
 
-        if (
-          event.key ===
-          "Enter"
-        ) {
 
-          event.preventDefault();
+    if (error){
 
-          addEntry();
+      throw new Error(
+        error.message
+      );
 
-        }
+    }
 
-      }
+
+    const current =
+      JSON.parse(
+        sessionStorage.getItem(
+          "fwtNewTournament"
+        ) || "null"
+      );
+
+
+    if (
+      current?.tournamentId ===
+      tournamentId
+    ){
+
+      clearCurrentTournamentSession();
+
+    }
+
+
+    await loadDashboard();
+
+
+    setBusy(false);
+
+
+  } catch(error){
+
+    setBusy(false);
+
+
+    alert(
+      "대회를 삭제하지 못했습니다.\n\n"
+      +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   LOGOUT
+===================================== */
+
+async function logout(){
+
+  if (busy){
+    return;
+  }
+
+
+  try{
+
+    setBusy(
+      true,
+      "로그아웃하고 있습니다",
+      ""
+    );
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .auth
+        .signOut();
+
+
+    if (error){
+      throw error;
+    }
+
+
+    clearCurrentTournamentSession();
+
+
+    location.href =
+      "./";
+
+
+  } catch(error){
+
+    setBusy(false);
+
+
+    alert(
+      "로그아웃하지 못했습니다.\n\n"
+      +
+      error.message
     );
 
   }
@@ -3925,32 +3102,10 @@ function setupEnterKeys() {
 ===================================== */
 
 document.getElementById(
-  "addEntryButton"
+  "logoutButton"
 ).addEventListener(
   "click",
-  addEntry
-);
-
-
-document.getElementById(
-  "nextButton"
-).addEventListener(
-  "click",
-  function() {
-
-    if (lockedForExistingSchedule) {
-
-      location.href =
-        "./dashboard.html";
-
-      return;
-
-    }
-
-
-    goNext();
-
-  }
+  logout
 );
 
 
@@ -3958,57 +3113,47 @@ document.getElementById(
    START
 ===================================== */
 
-async function start() {
+async function start(){
 
   const loggedIn =
     await checkLogin();
 
 
-  if (!loggedIn) {
-
+  if (!loggedIn){
     return;
-
   }
 
 
-  renderTournamentInfo();
-
-  setupEnterKeys();
-
-
-  try {
+  try{
 
     setBusy(
       true,
-      "참가자 목록 확인 중",
-      "데이터베이스에 저장된 참가자를 불러오고 있습니다."
+      "대회 정보를 불러오고 있습니다",
+      "Supabase의 실제 진행상태를 확인 중입니다."
     );
 
 
-    await detectExistingSchedule();
-
-
-    await loadEntriesFromDatabase();
-
-
-    applyRegistrationMode();
+    await loadDashboard();
 
 
     setBusy(false);
 
 
-  } catch(error) {
-
-    setBusy(false);
-
+  } catch(error){
 
     console.error(error);
 
 
+    setBusy(false);
+
+
     alert(
-      "참가자 정보를 불러오지 못했습니다.\n\n"
+      "대시보드를 불러오지 못했습니다.\n\n"
       +
-      error.message
+      (
+        error?.message ||
+        "알 수 없는 오류"
+      )
     );
 
   }
