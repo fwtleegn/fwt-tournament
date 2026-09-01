@@ -931,7 +931,8 @@
 
   <button
     class="back-btn"
-    onclick="location.href='./create-tournament.html'"
+    id="backButton"
+    type="button"
   >
     ← 대회 설정
   </button>
@@ -978,7 +979,10 @@
        참가자 입력
   ================================ -->
 
-  <section class="card">
+  <section
+    class="card"
+    id="entryInputCard"
+  >
 
     <div class="card-head">
 
@@ -1203,7 +1207,6 @@
       class="previous"
       id="previousButton"
       type="button"
-      onclick="location.href='./create-tournament.html'"
     >
       이전 단계
     </button>
@@ -1319,6 +1322,10 @@ let entries = [];
 
 
 let busy =
+  false;
+
+
+let lockedForExistingSchedule =
   false;
 
 
@@ -1703,6 +1710,152 @@ function saveEntriesToSession() {
       entries
     )
   );
+
+}
+
+
+/* =====================================
+   EXISTING GROUP / MATCH CHECK
+===================================== */
+
+async function detectExistingSchedule() {
+
+  const [
+    groupResult,
+    matchResult
+  ] =
+    await Promise.all([
+
+      supabaseClient
+        .from("groups")
+        .select("id")
+        .eq(
+          "division_id",
+          tournament.divisionId
+        )
+        .limit(1),
+
+      supabaseClient
+        .from("matches")
+        .select("id")
+        .eq(
+          "division_id",
+          tournament.divisionId
+        )
+        .limit(1)
+
+    ]);
+
+
+  if (groupResult.error) {
+
+    throw new Error(
+      "조편성 상태 확인 실패: "
+      +
+      groupResult.error.message
+    );
+
+  }
+
+
+  if (matchResult.error) {
+
+    throw new Error(
+      "경기 상태 확인 실패: "
+      +
+      matchResult.error.message
+    );
+
+  }
+
+
+  lockedForExistingSchedule =
+    (groupResult.data || []).length > 0
+    ||
+    (matchResult.data || []).length > 0;
+
+}
+
+
+function applyRegistrationMode() {
+
+  const inputCard =
+    document.getElementById(
+      "entryInputCard"
+    );
+
+
+  const backButton =
+    document.getElementById(
+      "backButton"
+    );
+
+
+  const previousButton =
+    document.getElementById(
+      "previousButton"
+    );
+
+
+  const nextButton =
+    document.getElementById(
+      "nextButton"
+    );
+
+
+  if (lockedForExistingSchedule) {
+
+    inputCard.style.display =
+      "none";
+
+
+    document.getElementById(
+      "pageDescription"
+    ).textContent =
+      "조편성과 경기표를 유지한 채 기존 참가자의 이름과 닉네임만 수정합니다.";
+
+
+    backButton.textContent =
+      "← 대회 관리";
+
+
+    previousButton.textContent =
+      "대회 관리로 돌아가기";
+
+
+    nextButton.textContent =
+      "수정 완료 · 대회 관리로 돌아가기";
+
+  } else {
+
+    inputCard.style.display =
+      "block";
+
+  }
+
+
+  const returnPath =
+    lockedForExistingSchedule
+      ? "./dashboard.html"
+      : "./create-tournament.html";
+
+
+  backButton.onclick =
+    function() {
+
+      location.href =
+        returnPath;
+
+    };
+
+
+  previousButton.onclick =
+    function() {
+
+      location.href =
+        returnPath;
+
+    };
 
 }
 
@@ -3562,12 +3715,18 @@ function renderEntries() {
             수정
           </button>
 
-          <button
-            class="entry-btn delete"
-            type="button"
-          >
-            삭제
-          </button>
+          ${
+            lockedForExistingSchedule
+              ? ""
+              : `
+                <button
+                  class="entry-btn delete"
+                  type="button"
+                >
+                  삭제
+                </button>
+              `
+          }
 
         </div>
 
@@ -3588,11 +3747,15 @@ function renderEntries() {
         );
 
 
-      row
-        .querySelector(
+      const deleteButton =
+        row.querySelector(
           ".delete"
-        )
-        .addEventListener(
+        );
+
+
+      if (deleteButton) {
+
+        deleteButton.addEventListener(
           "click",
           function() {
 
@@ -3600,6 +3763,8 @@ function renderEntries() {
 
           }
         );
+
+      }
 
 
       box.appendChild(
@@ -3771,7 +3936,21 @@ document.getElementById(
   "nextButton"
 ).addEventListener(
   "click",
-  goNext
+  function() {
+
+    if (lockedForExistingSchedule) {
+
+      location.href =
+        "./dashboard.html";
+
+      return;
+
+    }
+
+
+    goNext();
+
+  }
 );
 
 
@@ -3806,7 +3985,13 @@ async function start() {
     );
 
 
+    await detectExistingSchedule();
+
+
     await loadEntriesFromDatabase();
+
+
+    applyRegistrationMode();
 
 
     setBusy(false);
