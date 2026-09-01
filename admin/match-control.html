@@ -4097,10 +4097,18 @@ function renderAll() {
     ).length;
 
 
-  document.getElementById(
-    "waitingToggleCount"
-  ).textContent =
-    waiting;
+  const waitingToggleCountElement =
+    document.getElementById(
+      "waitingToggleCount"
+    );
+
+
+  if (waitingToggleCountElement) {
+
+    waitingToggleCountElement.textContent =
+      waiting;
+
+  }
 
 }
 
@@ -4115,6 +4123,14 @@ function toggleWaiting() {
     !waitingOpen;
 
 
+  const waitingCount =
+    matches.filter(
+      match =>
+        match.status ===
+        "waiting"
+    ).length;
+
+
   document.getElementById(
     "fullWaiting"
   ).classList.toggle(
@@ -4127,8 +4143,8 @@ function toggleWaiting() {
     "waitingToggle"
   ).innerHTML =
     waitingOpen
-      ? `전체 대기 경기 <span>${matches.filter(m => m.status === "waiting").length}</span>개 닫기`
-      : `전체 대기 경기 <span>${matches.filter(m => m.status === "waiting").length}</span>개 보기`;
+      ? `전체 대기 경기 <span id="waitingToggleCount">${waitingCount}</span>개 닫기`
+      : `전체 대기 경기 <span id="waitingToggleCount">${waitingCount}</span>개 보기`;
 
 }
 
