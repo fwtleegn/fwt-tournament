@@ -880,7 +880,7 @@
   </div>
 
 
-  <div class="notice">
+  <div class="notice" id="groupQualificationNotice" hidden>
     같은 조에서 2명이 본선에 진출한 경우 서로 반대쪽 하프에 배치하여
     8강·4강 재대결을 방지하고, 다시 만날 수 있는 시점은 결승으로 제한합니다.
   </div>
@@ -1046,6 +1046,7 @@ const entries =
 
 
 const directKnockout = tournament?.format === 'knockout';
+document.getElementById('groupQualificationNotice').hidden = directKnockout;
 const qualifiers = directKnockout && Array.isArray(entries)
   ? entries.map((entry,entryIndex)=>({entryIndex,groupName:'등록',rank:entryIndex+1}))
   : JSON.parse(sessionStorage.getItem('fwtKnockoutQualifiers') || 'null');
@@ -1782,6 +1783,16 @@ function buildGeneralPairs(list){
 function buildFirstRound(
   bracketSize
 ){
+  if(directKnockout){
+    // Put played matches first, then BYE matches; preserve registration order.
+    const byeCount=bracketSize-qualifiers.length;
+    const playedCount=bracketSize/2-byeCount;
+    const matches=[];let cursor=0;
+    for(let i=0;i<playedCount;i++) matches.push(makeFirstRoundMatch(qualifiers[cursor++],qualifiers[cursor++],i));
+    for(let i=0;i<byeCount;i++) matches.push(makeByeMatch(qualifiers[cursor++],matches.length));
+    return matches;
+  }
+
 
   if (
     !directKnockout && bracketSize === 8 &&
@@ -3819,7 +3830,8 @@ async function start(){
 
 
     if(directKnockout){
-      document.querySelector('.desc').textContent='등록 순서로 대진을 배치합니다. 참가 수가 2의 거듭제곱이 아니면 앞 등록자부터 BYE를 배정합니다. 확정 전에 대진을 확인해주세요.';
+      document.querySelector('.notice').hidden=true;
+      document.querySelector('.desc').textContent='등록 순서대로 실제 경기를 먼저 배치하고, 남는 BYE 대진은 뒤쪽에 배치합니다. 예: 15팀이면 마지막 15번 팀의 상대인 16번 자리가 BYE입니다. 확정된 기존 대진은 유지됩니다.';
       for(const button of document.querySelectorAll('button[onclick]')){
         if(button.getAttribute('onclick').includes('group-standings.html')){button.textContent=button.classList.contains('back-btn')?'이전 단계':'참가자 목록';button.onclick=()=>{location.href='./participant-registration.html';};}
       }
