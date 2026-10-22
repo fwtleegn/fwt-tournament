@@ -37,8 +37,9 @@
   function setMode(next, internal = false) {
     if (!internal && ($('request-form').dataset.busy || $('verify-form').dataset.busy)) return;
     mode = next;
-    $('signup-fields').hidden = next !== 'signup';
-    $('signup-fields').querySelectorAll('input,select').forEach(e => e.disabled = next !== 'signup');
+    const collectProfile = next === 'signup' && !!user;
+    $('signup-fields').hidden = !collectProfile;
+    $('signup-fields').querySelectorAll('input,select').forEach(e => e.disabled = !collectProfile);
     $('signup-tab').setAttribute('aria-pressed', String(next === 'signup'));
     $('login-tab').setAttribute('aria-pressed', String(next === 'login'));
     $('page-title').textContent = next === 'signup' ? 'FWT와 함께 시작하세요' : '다시 만나 반갑습니다';
@@ -79,7 +80,7 @@
     event.preventDefault(); if (!config.enabled || !client) return;
     run(event.currentTarget, async () => {
       let profile;
-      if (mode === 'signup') { try { profile = profileValues(); } catch (error) { notice(error.message,true); return; } }
+      if (mode === 'signup' && user) { try { profile = profileValues(); } catch (error) { notice(error.message,true); return; } }
       if (user) {
         const { error } = await client.from('member_profiles').insert({ id:user.id, ...profile });
         if (error) throw error; await showProfile(); return;
@@ -115,6 +116,7 @@
     catch(error) {notice(friendly(error),true);$('logout').disabled=false;}
   };
   async function start() {
+    setMode('signup');
     if (!config?.enabled) { $('fields').disabled = true; notice('회원가입을 준비하고 있습니다. 대회는 가입 없이 둘러볼 수 있습니다.'); return; }
     if (!window.supabase) { $('fields').disabled = true; notice('로그인 서비스를 불러오지 못했습니다. 인터넷 연결을 확인하고 새로고침해주세요.',true); return; }
     // Isolates browser session state from legacy admin screens; DB policies enforce authorization.
