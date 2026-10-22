@@ -718,6 +718,8 @@
 
       <div class="grid">
 
+        <div class="field full"><label for="tournamentVenue">개최 장소</label><input type="text" id="tournamentVenue" maxlength="150" placeholder="예: ○○테니스장 · 경기 ○○시 (미입력 시 장소 미등록)"></div>
+
         <div class="field full">
 
           <label>
@@ -1866,6 +1868,8 @@ async function createTournament() {
 
           tournament_date:
             tournamentDate,
+
+          venue: cleanText(document.getElementById("tournamentVenue").value) || null,
 
           status:
             "draft",
