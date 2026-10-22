@@ -4,3 +4,7 @@
 
 /* Native date controls must fit the card on narrow mobile screens. */
 main{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}main>*,fieldset,label,.row>*{min-width:0}.row{grid-template-columns:repeat(2,minmax(0,1fr))}input,select{max-width:100%;min-inline-size:0}input[type=date],input[type=month]{width:100%;min-height:48px}#notice{overflow-wrap:anywhere}@media(max-width:800px){main{grid-template-columns:minmax(0,1fr)}}@media(max-width:640px){.row{grid-template-columns:minmax(0,1fr);gap:0}input,select{font-size:16px}.card{min-width:0}}
+
+#member-home{padding:20px 0 30px}#member-home h2{font-size:27px;margin:12px 0}#member-home>p:not(.eyebrow){font-size:13px;line-height:1.8;color:#637267}.tournament-cta{text-align:center;margin-top:24px;font-size:17px;padding:20px;text-decoration:none}.member-dashboard #profile{border-top:1px solid #dce5d7;padding-top:26px}.member-dashboard #profile-name{margin:10px 0;font-size:22px}.member-dashboard #page-title{font-size:18px}.member-dashboard #description{margin-bottom:0}
+
+main.signed-in{display:block;max-width:800px}main.signed-in>.intro{display:none}.signed-in #member-home{padding:20px 0 36px}.signed-in #profile h2{font-size:18px;margin:8px 0}

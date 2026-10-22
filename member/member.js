@@ -11,7 +11,7 @@
     return value;
   }
   function passwordScreen() {
-    recovery = true; $('request-form').hidden = $('verify-form').hidden = $('profile').hidden = $('forgot-button').hidden = true;
+    $('member-home').hidden = true; recovery = true; $('request-form').hidden = $('verify-form').hidden = $('profile').hidden = $('forgot-button').hidden = true;
     document.querySelector('.tabs').hidden = true; $('password-form').hidden = false;
     $('page-title').textContent = '비밀번호 설정'; $('description').textContent = '저장 후 이메일과 비밀번호로 로그인할 수 있습니다.';
   }
@@ -68,7 +68,7 @@
     if (!internal && ($('request-form').dataset.busy || $('verify-form').dataset.busy)) return;
     mode = next;
     const collectProfile = next === 'signup' && !!user;
-    $('profile').hidden = $('password-form').hidden = true;
+    $('member-home').hidden = $('profile').hidden = $('password-form').hidden = true;
     document.querySelector('.tabs').hidden = false;
     $('password-fields').hidden = collectProfile || next === 'reset';
     $('password').disabled = collectProfile || next === 'reset';
@@ -107,8 +107,10 @@
       setMode('signup', true); $('login-tab').disabled = true; notice('이메일 인증이 완료되었습니다. 프로필 내용을 확인하고 저장해주세요.'); return;
     }
     $('request-form').hidden = $('verify-form').hidden = $('forgot-button').hidden = true;
-    $('profile').hidden = false; document.querySelector('.tabs').hidden = true;
-    $('page-title').textContent = '나의 FWT 프로필'; $('description').textContent = '회원 정보는 언제든 수정할 수 있습니다.';
+    $('profile').hidden = $('member-home').hidden = false; document.querySelector('.tabs').hidden = true;
+    document.querySelector('.card').classList.add('member-dashboard');
+    document.querySelector('main').classList.add('signed-in');
+    $('page-title').textContent = 'FWT에 오신 것을 환영합니다'; $('description').textContent = '대회를 둘러보고 나의 경기를 확인하세요.';
     $('profile-name').textContent = data.nickname;
     $('edit-nickname').value = data.nickname; $('edit-birth-date').value = data.birth_date; $('edit-since').value = data.tennis_since.slice(0,7);
     notice('');
