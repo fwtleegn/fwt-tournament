@@ -1,0 +1,8 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert/strict');const html=fs.readFileSync(__dirname+'/../admin/knockout-bracket.html','utf8');let code=[...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].map(m=>m[1]).find(x=>x.includes('function createBracket'));code=code.replace(/\nstart\(\);/,'');new vm.Script(code);
+for(const n of [2,3,4,5,7,8,9,15,16,17,31,32,33,64]){
+const entries=Array.from({length:n},(_,i)=>({dbEntryId:'entry-'+i,type:'singles',nickname:'TEST '+i}));const values={fwtNewTournament:JSON.stringify({format:'knockout',tournamentId:'t',divisionId:'d'}),fwtNewTournamentEntries:JSON.stringify(entries)};const el={addEventListener(){}};
+const ctx={window:{supabase:{createClient:()=>({})}},sessionStorage:{getItem:k=>values[k],setItem(){},removeItem(){}},document:{getElementById:()=>el},location:{},alert:m=>{throw Error(m)},console};
+const data=vm.runInNewContext(code+';JSON.stringify(createBracket());',ctx);const b=JSON.parse(data),first=b.rounds[0];const entrants=first.flatMap(m=>[m.player1,m.player2]).filter(x=>x!==null);assert.equal(entrants.length,n);assert.equal(new Set(entrants).size,n);assert.equal(first.filter(m=>m.status==='bye').length,b.bracketSize-n);assert.equal(b.rounds.at(-1).length,1);assert.equal(b.rounds.flat().length,b.bracketSize-1);
+}
+for(const file of ['dashboard.html','participant-registration.html','knockout-setup.html']){for(const m of fs.readFileSync(__dirname+'/../admin/'+file,'utf8').matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g))new vm.Script(m[1]);}
+console.log('PASS: direct knockout brackets for 2–64 entrants (14 sizes), every entrant once, BYEs, round counts and route syntax');
