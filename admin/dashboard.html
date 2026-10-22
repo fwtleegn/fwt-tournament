@@ -720,7 +720,8 @@
       }
 
     }
-  </style>
+  .venue-editor{margin:12px 0;font-size:12px}.venue-editor summary{cursor:pointer;overflow-wrap:anywhere}.venue-form{display:flex;align-items:end;flex-wrap:wrap;gap:10px;padding:12px 0}.venue-form label{display:block;flex:1;min-width:160px}.venue-form input{display:block;width:100%;box-sizing:border-box;padding:10px;border:1px solid var(--line);border-radius:8px;margin-top:6px;font:inherit}.venue-notice{width:100%;margin:0;font-size:12px}
+</style>
 </head>
 
 <body>
@@ -1134,7 +1135,7 @@ async function loadDashboard(){
     await supabaseClient
       .from("tournaments")
       .select(
-        "id,name,tournament_date,status,is_public,created_at"
+        "id,name,tournament_date,venue,status,is_public,created_at"
       )
       .order(
         "tournament_date",
@@ -1819,6 +1820,7 @@ function renderDashboard(){
             </div>
 
 
+            <details class="venue-editor"><summary>개최 장소 수정 · ${escapeHtml(tournament.venue || '장소 미등록')}</summary><form class="venue-form"><label>개최 장소<input name="venue" type="text" maxlength="150" value="${escapeHtml(tournament.venue || '')}" placeholder="테니스장 이름과 위치"></label><button type="submit" class="participant-btn">장소 저장</button><p class="venue-notice" role="status"></p></form></details>
             <div class="progress-wrap">
 
               <div class="progress-top">
@@ -1938,6 +1940,17 @@ function renderDashboard(){
         );
 
 
+      card.querySelector('.venue-form').addEventListener('submit', async event => {
+        event.preventDefault(); const form=event.currentTarget, button=form.querySelector('button'), message=form.querySelector('.venue-notice');
+        if(button.disabled) return;button.disabled=true;message.textContent='저장 중…';
+        try {
+          const venue=form.elements.venue.value.trim();
+          const {data,error}=await supabaseClient.from('tournaments').update({venue:venue||null}).eq('id',tournament.id).select('id,venue').single();
+          if(error || !data) throw error || new Error('저장 권한을 확인해주세요.');
+          tournament.venue=data.venue;form.closest('details').querySelector('summary').textContent='개최 장소 수정 · '+(data.venue||'장소 미등록');message.textContent='저장했습니다. 대회 목록에도 반영됩니다.';
+        } catch(error) {message.textContent='저장하지 못했습니다. 관리자 로그인과 연결 상태를 확인해주세요.';}
+        finally{button.disabled=false;}
+      });
       box.appendChild(
         card
       );
