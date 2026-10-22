@@ -1452,7 +1452,8 @@
         grid-template-columns:1fr;
       }
     }
-  </style>
+  .awards-stack{display:grid;gap:14px;margin-bottom:24px}.awards-stack .champion{margin-bottom:0}.award-runner{text-align:center;padding:24px 20px;border:1px solid #cdd8e4;border-radius:18px;background:linear-gradient(135deg,#f8fbff,#e4ebf4);box-shadow:0 8px 22px #52698010}.award-icon{width:52px;height:58px;margin:0 auto 8px}.award-icon svg{display:block;width:100%;height:100%}.award-rank{color:#506a83;font-size:13px;font-weight:950}.award-rank span,.award-semifinalists h3 span{display:block;margin-top:4px;font-size:9px;letter-spacing:2px;font-weight:750}.award-name{font-size:24px;font-weight:950;line-height:1.4;letter-spacing:-.6px;margin-top:9px;word-break:keep-all;overflow-wrap:anywhere}.award-semifinalists{border:1px solid #e6d8c8;border-radius:18px;padding:22px;background:#fbf7f1}.award-semifinalists h3{text-align:center;margin:0 0 16px;font-size:14px;color:#92603c}.award-bronze-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.award-bronze{padding:16px;text-align:center;min-width:0;background:#fffdf9;border:1px solid #eadfce;border-radius:12px}.award-bronze .award-icon{width:45px;height:45px}.award-bronze .award-name{font-size:19px;color:#66472f}@media(max-width:520px){.award-name{font-size:21px}.award-semifinalists{padding:18px 14px}.award-bronze-grid{grid-template-columns:minmax(0,1fr);gap:10px}.award-bronze{display:flex;align-items:center;text-align:left;gap:14px;padding:14px}.award-bronze .award-icon{margin:0;flex-shrink:0}.award-bronze .award-name{margin:0;font-size:17px}}@media(prefers-reduced-motion:reduce){.champion,.champion::before{animation:none}}
+</style>
 </head>
 
 
@@ -3237,67 +3238,33 @@ function renderKnockout(){
    CHAMPION
 ============================== */
 
-function championHtml(){
-
-  const final =
-    matches.find(
-      match =>
-        match.stage ===
-        "final"
-    );
-
-
-  if (
-    !final
-    ||
-    !finished(final)
-    ||
-    !final.winner_entry_id
-  ){
-
-    return "";
+function tournamentAwards(rows){
+  const final=rows.find(match=>match.stage==='final');
+  if(!final||!finished(final)||!final.winner_entry_id)return null;
+  const finalists=[final.entry1_id,final.entry2_id].filter(Boolean);
+  if(!finalists.includes(final.winner_entry_id))return null;
+  const runnerUp=finalists.find(id=>id!==final.winner_entry_id)||null;
+  const semifinalists=[];
+  for(const match of rows.filter(match=>match.stage==='semifinal')){
+    if(!finished(match)||!match.winner_entry_id||!finalists.includes(match.winner_entry_id))continue;
+    const pair=[match.entry1_id,match.entry2_id].filter(Boolean);
+    if(!pair.includes(match.winner_entry_id))continue;
+    const loser=pair.find(id=>id!==match.winner_entry_id);
+    if(loser&&!finalists.includes(loser)&&!semifinalists.includes(loser))semifinalists.push(loser);
   }
-
-
-  return `
-
-    <section class="champion">
-
-      <div class="champion-inner">
-
-        <div class="champion-tournament">
-          ${escapeHtml(
-            tournament?.name ||
-            "FWT TOURNAMENT"
-          )}
-        </div>
-
-        <div
-          class="champion-trophy"
-          aria-hidden="true"
-        >
-          🏆
-        </div>
-
-        <div class="champion-label">
-          CHAMPION
-        </div>
-
-        <div class="champion-name">
-          ${escapeHtml(
-            entryName(
-              final.winner_entry_id
-            )
-          )}
-        </div>
-
-      </div>
-
-    </section>
-
-  `;
+  return {champion:final.winner_entry_id,runnerUp,semifinalists};
 }
-
+function awardGraphic(type){
+  if(type==='silver')return '<svg viewBox="0 0 64 72" aria-hidden="true"><path d="M15 3h14l8 25-12 7z" fill="#8399b3"/><path d="M35 3h14L39 35l-12-7z" fill="#b4c4d4"/><circle cx="32" cy="45" r="23" fill="#e5ecf3" stroke="#8d9eaf" stroke-width="3"/><circle cx="32" cy="45" r="17" fill="#f8fbff" stroke="#c5d1dc" stroke-width="2"/><text x="32" y="53" text-anchor="middle" font-size="24" font-weight="900" fill="#60778f">2</text></svg>';
+  return '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M28 56C8 46 7 24 20 10M36 56c20-10 21-32 8-46" fill="none" stroke="#a66b3e" stroke-width="3" stroke-linecap="round"/><g fill="#c38c57"><ellipse cx="13" cy="37" rx="4" ry="8" transform="rotate(-35 13 37)"/><ellipse cx="13" cy="23" rx="4" ry="8" transform="rotate(-10 13 23)"/><ellipse cx="20" cy="46" rx="4" ry="8" transform="rotate(-50 20 46)"/><ellipse cx="51" cy="37" rx="4" ry="8" transform="rotate(35 51 37)"/><ellipse cx="51" cy="23" rx="4" ry="8" transform="rotate(10 51 23)"/><ellipse cx="44" cy="46" rx="4" ry="8" transform="rotate(50 44 46)"/></g><path d="m32 17 4 9 10 1-8 7 2 10-8-5-8 5 2-10-8-7 10-1z" fill="#d6a16c" stroke="#a66b3e" stroke-width="1.5"/></svg>';
+}
+function championHtml(){
+  const awards=tournamentAwards(matches);
+  if(!awards)return '';
+  const runner=awards.runnerUp?'<section class="award-runner" aria-label="준우승"><div class="award-icon">'+awardGraphic('silver')+'</div><div class="award-rank">준우승 <span>RUNNER-UP</span></div><div class="award-name">'+escapeHtml(entryName(awards.runnerUp))+'</div></section>':'';
+  const semifinal=awards.semifinalists.length?'<section class="award-semifinalists" aria-label="4강 입상자"><h3>4강 입상 <span>SEMIFINALISTS</span></h3><div class="award-bronze-grid">'+awards.semifinalists.map(id=>'<div class="award-bronze"><div class="award-icon">'+awardGraphic('bronze')+'</div><div class="award-name">'+escapeHtml(entryName(id))+'</div></div>').join('')+'</div></section>':'';
+  return '<div class="awards-stack"><section class="champion" aria-label="우승"><div class="champion-inner"><div class="champion-tournament">'+escapeHtml(tournament?.name||'FWT TOURNAMENT')+'</div><div class="champion-trophy" aria-hidden="true">🏆</div><div class="champion-label">우승 · CHAMPION</div><div class="champion-name">'+escapeHtml(entryName(awards.champion))+'</div></div></section>'+runner+semifinal+'</div>';
+}
 
 /* ==============================
    LIVE
