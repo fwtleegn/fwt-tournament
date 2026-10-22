@@ -1820,7 +1820,7 @@ function renderDashboard(){
             </div>
 
 
-            <details class="venue-editor"><summary>개최 장소 수정 · ${escapeHtml(tournament.venue || '장소 미등록')}</summary><form class="venue-form"><label>개최 장소<input name="venue" type="text" maxlength="150" value="${escapeHtml(tournament.venue || '')}" placeholder="테니스장 이름과 위치"></label><button type="submit" class="participant-btn">장소 저장</button><p class="venue-notice" role="status"></p></form></details>
+            <details class="venue-editor"><summary>개최 장소 수정 · ${escapeHtml(tournament.venue || '장소 미등록')}</summary><form class="venue-form"><label>개최 장소<input name="venue" type="text" maxlength="150" value="" placeholder="테니스장 이름과 위치"></label><button type="submit" class="participant-btn">장소 저장</button><p class="venue-notice" role="status"></p></form></details>
             <div class="progress-wrap">
 
               <div class="progress-top">
@@ -1940,6 +1940,7 @@ function renderDashboard(){
         );
 
 
+      card.querySelector('.venue-form').elements.venue.value = tournament.venue || '';
       card.querySelector('.venue-form').addEventListener('submit', async event => {
         event.preventDefault(); const form=event.currentTarget, button=form.querySelector('button'), message=form.querySelector('.venue-notice');
         if(button.disabled) return;button.disabled=true;message.textContent='저장 중…';
