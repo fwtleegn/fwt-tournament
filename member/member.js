@@ -5,18 +5,31 @@
   let mode = 'signup', pendingEmail = '', user = null, client;
   const now = new Date();
   const maxMonth = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const maxDate = `${maxMonth}-${String(now.getDate()).padStart(2,'0')}`;
   $('tennis-since').max = $('edit-since').max = maxMonth;
-  $('edit-age').replaceChildren(...Array.from($('age-band').options).map(o => o.cloneNode(true)));
-  $('edit-age').required = true;
+  $('birth-date').max = $('edit-birth-date').max = maxDate;
   function notice(message, error = false) { $('notice').textContent = message; $('notice').className = error ? 'error' : ''; }
   function profileValues(edit = false) {
     const nickname = $(edit ? 'edit-nickname' : 'nickname').value.trim();
-    const age_band = $(edit ? 'edit-age' : 'age-band').value;
+    const birth_date = $(edit ? 'edit-birth-date' : 'birth-date').value;
     const month = $(edit ? 'edit-since' : 'tennis-since').value;
     if (nickname.length < 2 || nickname.length > 24) throw new Error('별명은 2~24자로 입력해주세요.');
-    if (!['under20','20s','30s','40s','50s','60plus','private'].includes(age_band)) throw new Error('연령대를 선택해주세요.');
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(birth_date) || birth_date < '1900-01-01' || birth_date > maxDate) throw new Error('생년월일을 확인해주세요.');
+    const parsedBirth = new Date(`${birth_date}T00:00:00Z`);
+    if (Number.isNaN(parsedBirth.getTime()) || parsedBirth.toISOString().slice(0,10) !== birth_date) throw new Error('올바른 생년월일을 입력해주세요.');
     if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(month) || month > maxMonth || month < '1900-01') throw new Error('테니스 시작 연월을 확인해주세요.');
-    return { nickname, age_band, tennis_since: `${month}-01`, directory_consent: true };
+    return { nickname, birth_date, tennis_since: `${month}-01`, directory_consent: true };
+  }
+  async function saveMemberProfile(values) {
+    const { data, error } = await client.rpc('fwt_save_member_profile', {
+      p_nickname: values.nickname,
+      p_birth_date: values.birth_date,
+      p_tennis_since: values.tennis_since,
+      p_directory_consent: values.directory_consent
+    });
+    if (error) throw error;
+    if (!data?.id) throw new Error('No profile saved');
+    return data;
   }
   function friendly(error) {
     const code = error?.code;
@@ -51,13 +64,13 @@
     const { data: authData, error: authError } = await client.auth.getUser();
     if (authError || !authData.user?.email_confirmed_at) throw authError || new Error('Email verification required');
     user = authData.user;
-    let { data, error } = await client.from('member_profiles').select('nickname,age_band,tennis_since').eq('id', user.id).maybeSingle();
+    const { data, error } = await client.rpc('fwt_member_profile');
     if (error) throw error;
-    if (!data) {
-      const initial = user.user_metadata?.fwt_profile;
+    if (!data?.birth_date) {
+      const initial = data || user.user_metadata?.fwt_profile;
       if (initial) {
         $('nickname').value = initial.nickname || '';
-        $('age-band').value = initial.age_band || '';
+        $('birth-date').value = initial.birth_date || '';
         $('tennis-since').value = initial.tennis_since?.slice(0,7) || '';
       }
       $('email').value = user.email || ''; $('email').readOnly = true;
@@ -68,7 +81,7 @@
     $('profile').hidden = false; document.querySelector('.tabs').hidden = true;
     $('page-title').textContent = '나의 FWT 프로필'; $('description').textContent = '회원 정보는 언제든 수정할 수 있습니다.';
     $('profile-name').textContent = data.nickname;
-    $('edit-nickname').value = data.nickname; $('edit-age').value = data.age_band; $('edit-since').value = data.tennis_since.slice(0,7);
+    $('edit-nickname').value = data.nickname; $('edit-birth-date').value = data.birth_date; $('edit-since').value = data.tennis_since.slice(0,7);
     notice('');
     window.FWT_MEMBER_RUNTIME = {client,user};
     window.dispatchEvent(new CustomEvent('fwt-member-ready',{detail:window.FWT_MEMBER_RUNTIME}));
@@ -82,8 +95,7 @@
       let profile;
       if (mode === 'signup' && user) { try { profile = profileValues(); } catch (error) { notice(error.message,true); return; } }
       if (user) {
-        const { error } = await client.from('member_profiles').insert({ id:user.id, ...profile });
-        if (error) throw error; await showProfile(); return;
+        await saveMemberProfile(profile); await showProfile(); return;
       }
       pendingEmail = $('email').value.trim();
       const { error } = await client.auth.signInWithOtp({email: pendingEmail, options: {
@@ -105,8 +117,7 @@
   $('profile-form').onsubmit = event => {
     event.preventDefault(); run(event.currentTarget, async () => {
       let values; try { values = profileValues(true); } catch(error) {notice(error.message,true);return;}
-      const {data, error} = await client.from('member_profiles').update(values).eq('id',user.id).select('id').single();
-      if (error || !data) throw error || new Error('No profile updated');
+      await saveMemberProfile(values);
       $('profile-name').textContent = values.nickname; notice('프로필을 저장했습니다.');
     });
   };
