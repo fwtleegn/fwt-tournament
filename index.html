@@ -947,7 +947,9 @@
         padding:21px 0 29px;
       }
     }
-  </style>
+  /* Compact month-based tournament list */
+.tournament-grid{display:block}.list-tools{display:grid;grid-template-columns:180px minmax(0,1fr);gap:12px;margin:0 0 26px}.list-tools label{font-size:11px;font-weight:800;color:var(--muted)}.list-tools input,.list-tools select{display:block;box-sizing:border-box;width:100%;min-width:0;margin-top:7px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--text);font:inherit;font-size:14px}.month-group{margin-bottom:32px}.month-heading{display:flex;align-items:center;gap:12px;margin:0 0 10px;font-size:22px;letter-spacing:-.8px}.month-heading span{font-size:11px;font-weight:500;letter-spacing:0;color:var(--muted)}.event-row{display:grid;grid-template-columns:76px minmax(0,1fr) auto;align-items:center;gap:20px;min-height:100px;padding:16px 18px;background:#fff;border:1px solid var(--line);border-bottom:0;color:inherit;text-decoration:none;transition:background .15s}.month-group .event-row:nth-child(2){border-radius:12px 12px 0 0}.month-group .event-row:last-child{border-bottom:1px solid var(--line);border-radius:0 0 12px 12px}.month-group .event-row:nth-child(2):last-child{border-radius:12px}.event-row:hover{background:#f5f7ef}.event-row:focus-visible{outline:3px solid #829d36;outline-offset:2px;position:relative;z-index:1}.event-date{text-align:center;border-right:1px solid var(--line);padding-right:18px}.event-date strong{display:block;font-size:38px;line-height:1.1;font-weight:900;letter-spacing:-2px}.event-date span{display:block;font-size:11px;margin-top:5px;color:var(--muted)}.event-info{min-width:0}.event-info h4{font-size:16px;line-height:1.5;margin:0 0 4px;overflow-wrap:anywhere}.event-info p{margin:2px 0;font-size:12px;line-height:1.5;color:var(--muted);overflow-wrap:anywhere}.event-info .event-division{font-size:10px;color:#839086}.event-end{display:flex;align-items:center;gap:18px}.event-arrow{font-size:22px;color:#70805e}@media(max-width:600px){.list-tools{grid-template-columns:110px minmax(0,1fr);gap:10px}.list-tools input,.list-tools select{font-size:16px;padding:11px 9px}.event-row{grid-template-columns:56px minmax(0,1fr) auto;gap:12px;padding:14px 12px;min-height:94px}.event-date{padding-right:12px}.event-date strong{font-size:34px}.event-info h4{font-size:13px}.event-info p{font-size:11px}.event-end{align-self:start;padding-top:2px}.event-end .status{font-size:9px;padding:0 6px;min-height:23px}.event-arrow{display:none}.month-heading{font-size:21px}}
+</style>
 </head>
 
 <body>
@@ -1081,6 +1083,7 @@
   </div>
 
 
+  <div class="list-tools"><label for="monthFilter">개최 월<select id="monthFilter"><option value="all">전체 월</option></select></label><label for="tournamentSearch">대회 찾기<input id="tournamentSearch" type="search" placeholder="대회 이름 또는 장소" maxlength="150"></label></div>
   <section
     class="tournament-grid"
     id="tournamentGrid"
@@ -1373,7 +1376,7 @@ async function loadTournaments(){
     await supabaseClient
       .from("tournaments")
       .select(
-        "id,name,tournament_date,created_at"
+        "id,name,tournament_date,venue,created_at"
       )
       .order(
         "tournament_date",
@@ -1688,295 +1691,49 @@ function renderSummary(){
 ============================== */
 
 function render(){
-
   renderSummary();
-
-
-  const grid =
-    document.getElementById(
-      "tournamentGrid"
-    );
-
-
-  grid.innerHTML = "";
-
-
-  const filtered =
-    tournaments.filter(
-      tournament => {
-
-        if (
-          currentFilter ===
-          "all"
-        ){
-
-          return true;
-        }
-
-
-        return (
-          tournament.viewStatus ===
-          currentFilter
-        );
-      }
-    );
-
-
-  if (
-    filtered.length === 0
-  ){
-
-    const title =
-      tournaments.length === 0
-        ? "아직 등록된 대회가 없습니다."
-        : "해당하는 대회가 없습니다.";
-
-
-    grid.innerHTML = `
-
-      <div class="state-box">
-
-        <div class="state-icon">
-          F
-        </div>
-
-        <div class="state-title">
-          ${escapeHtml(title)}
-        </div>
-
-        <div class="state-desc">
-          FWT 대회가 생성되면 이곳에서 경기 현황과 결과를 확인할 수 있습니다.
-        </div>
-
-      </div>
-
-    `;
-
-
-    return;
+  const grid = document.getElementById('tournamentGrid');
+  const monthSelect = document.getElementById('monthFilter');
+  const chosen = monthSelect.value;
+  const monthOf = item => /^\d{4}-\d{2}-\d{2}$/.test(item.tournament_date || '') ? item.tournament_date.slice(0,7) : 'undated';
+  const monthLabel = month => month === 'undated' ? '날짜 미정' : month.slice(0,4)+'년 '+Number(month.slice(5))+'월';
+  const months = [...new Set(tournaments.map(monthOf))].sort((a,b)=>a==='undated'?1:b==='undated'?-1:b.localeCompare(a));
+  monthSelect.replaceChildren(new Option('전체 월','all'), ...months.map(month=>new Option(monthLabel(month),month)));
+  monthSelect.value = months.includes(chosen) ? chosen : 'all';
+  const query = document.getElementById('tournamentSearch').value.trim().toLocaleLowerCase('ko');
+  const filtered = tournaments.filter(item => (currentFilter === 'all' || item.viewStatus === currentFilter)
+    && (monthSelect.value === 'all' || monthOf(item) === monthSelect.value)
+    && (!query || [item.name,item.venue].some(value=>(value||'').toLocaleLowerCase('ko').includes(query))));
+  grid.replaceChildren();
+  if(!filtered.length){
+    const empty = document.createElement('p'); empty.className='state-box';
+    empty.textContent = tournaments.length ? '조건에 맞는 대회가 없습니다. 월·상태·검색어를 확인해주세요.' : '아직 등록된 대회가 없습니다.';
+    grid.appendChild(empty); return;
   }
-
-
-  filtered.forEach(
-    tournament => {
-
-      const status =
-        tournament.viewStatus;
-
-
-      const division =
-        tournament.division;
-
-
-      const card =
-        document.createElement(
-          "article"
-        );
-
-
-      card.className =
-        `tournament-card ${cardClass(status)}`;
-
-
-      card.setAttribute(
-        "tabindex",
-        "0"
-      );
-
-
-      card.setAttribute(
-        "role",
-        "link"
-      );
-
-
-      const meta = [];
-
-
-      if (
-        division?.gender
-      ){
-
-        meta.push(
-          formatGender(
-            division.gender
-          )
-        );
-      }
-
-
-      if (
-        division?.match_type
-      ){
-
-        meta.push(
-          formatMatchType(
-            division.match_type
-          )
-        );
-      }
-
-
-      if (
-        division?.format
-      ){
-
-        meta.push(
-          formatFormat(
-            division.format
-          )
-        );
-      }
-
-
-      card.innerHTML = `
-
-        <div class="card-accent"></div>
-
-        <div class="card-body">
-
-          <div class="card-top">
-
-            <span
-              class="status ${escapeHtml(status)}"
-            >
-              ${escapeHtml(
-                statusText(status)
-              )}
-            </span>
-
-            <span class="date">
-              ${escapeHtml(
-                formatDate(
-                  tournament.tournament_date
-                )
-              )}
-            </span>
-
-          </div>
-
-
-          <div class="event-name">
-            ${escapeHtml(
-              tournament.name
-            )}
-          </div>
-
-
-          ${
-            division?.name
-              ? `
-                <div class="division-name">
-                  ${escapeHtml(
-                    division.name
-                  )}
-                </div>
-              `
-              : ""
-          }
-
-
-          ${
-            meta.length > 0
-              ? `
-                <div class="meta">
-
-                  ${
-                    meta
-                      .filter(Boolean)
-                      .map(
-                        item => `
-
-                          <span class="meta-chip">
-                            ${escapeHtml(item)}
-                          </span>
-
-                        `
-                      )
-                      .join("")
-                  }
-
-                </div>
-              `
-              : ""
-          }
-
-
-          <div class="card-footer">
-
-            <div class="view-text">
-
-              ${
-                status ===
-                "completed"
-
-                  ? "대회 결과 보기"
-
-                  : status ===
-                    "active"
-
-                    ? "LIVE 대회 현황 보기"
-
-                    : "대회 정보 보기"
-              }
-
-            </div>
-
-
-            <div class="view-arrow">
-              →
-            </div>
-
-          </div>
-
-        </div>
-
-      `;
-
-
-      const openTournament =
-        function(){
-
-          location.href =
-            `./tournament.html?id=${
-              encodeURIComponent(
-                tournament.id
-              )
-            }`;
-        };
-
-
-      card.addEventListener(
-        "click",
-        openTournament
-      );
-
-
-      card.addEventListener(
-        "keydown",
-        function(event){
-
-          if (
-            event.key === "Enter"
-            ||
-            event.key === " "
-          ){
-
-            event.preventDefault();
-
-            openTournament();
-          }
-        }
-      );
-
-
-      grid.appendChild(
-        card
-      );
+  for(const month of months){
+    const items = filtered.filter(item=>monthOf(item)===month).sort((a,b)=>(b.tournament_date||'').localeCompare(a.tournament_date||'') || a.name.localeCompare(b.name,'ko'));
+    if(!items.length) continue;
+    const section=document.createElement('section');section.className='month-group';
+    const heading=document.createElement('h3');heading.className='month-heading';heading.textContent=monthLabel(month);
+    const count=document.createElement('span');count.textContent=items.length+'개 대회';heading.appendChild(count);section.appendChild(heading);
+    for(const item of items){
+      const day=month==='undated'?'—':String(Number(item.tournament_date.slice(8,10))).padStart(2,'0');
+      const date=month==='undated'?null:new Date(item.tournament_date+'T12:00:00+09:00');
+      const weekday=date?new Intl.DateTimeFormat('ko-KR',{weekday:'short',timeZone:'Asia/Seoul'}).format(date):'미정';
+      const row=document.createElement('a');row.className='event-row '+cardClass(item.viewStatus);
+      row.href='./tournament.html?id='+encodeURIComponent(item.id);
+      row.innerHTML='<div class="event-date"><strong>'+escapeHtml(day)+'</strong><span>'+escapeHtml(weekday)+'</span></div>'
+        +'<div class="event-info"><h4>'+escapeHtml(item.name)+'</h4><p class="event-venue">'+escapeHtml(item.venue?.trim() || '장소 미등록')+'</p>'
+        +(item.division?.name?'<p class="event-division">'+escapeHtml(item.division.name)+'</p>':'')+'</div>'
+        +'<div class="event-end"><span class="status '+escapeHtml(item.viewStatus)+'">'+escapeHtml(statusText(item.viewStatus))+'</span><span class="event-arrow" aria-hidden="true">↗</span></div>';
+      row.setAttribute('aria-label',formatDate(item.tournament_date)+' '+item.name+' · '+(item.venue?.trim()||'장소 미등록')+' · '+statusText(item.viewStatus));
+      section.appendChild(row);
     }
-  );
+    grid.appendChild(section);
+  }
 }
-
+document.getElementById('monthFilter').addEventListener('change',render);
+document.getElementById('tournamentSearch').addEventListener('input',render);
 
 /* ==============================
    FILTER
