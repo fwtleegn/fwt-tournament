@@ -880,7 +880,7 @@
   </div>
 
 
-  <div class="notice" id="groupQualificationNotice">
+  <div class="notice" id="groupQualificationNotice" hidden>
     같은 조에서 2명이 본선에 진출한 경우 서로 반대쪽 하프에 배치하여
     8강·4강 재대결을 방지하고, 다시 만날 수 있는 시점은 결승으로 제한합니다.
   </div>
@@ -1046,6 +1046,7 @@ const entries =
 
 
 const directKnockout = tournament?.format === 'knockout';
+document.getElementById('groupQualificationNotice').hidden = directKnockout;
 const qualifiers = directKnockout && Array.isArray(entries)
   ? entries.map((entry,entryIndex)=>({entryIndex,groupName:'등록',rank:entryIndex+1}))
   : JSON.parse(sessionStorage.getItem('fwtKnockoutQualifiers') || 'null');
