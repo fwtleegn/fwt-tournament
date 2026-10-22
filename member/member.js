@@ -2,7 +2,19 @@
 (() => {
   const $ = id => document.getElementById(id);
   const config = window.FWT_MEMBER_CONFIG;
-  let mode = 'signup', pendingEmail = '', user = null, client;
+  let mode = 'signup', pendingEmail = '', user = null, client, recovery = new URLSearchParams(location.hash.slice(1)).get('type') === 'recovery';
+  const redirectTo = new URL('./index.html', location.href).href;
+  function passwordValue(id, confirmation) {
+    const value = $(id).value;
+    if (value.length < 8 || value.length > 128) throw new Error('비밀번호는 8~128자로 입력해주세요.');
+    if (value !== $(confirmation).value) throw new Error('비밀번호 확인이 일치하지 않습니다.');
+    return value;
+  }
+  function passwordScreen() {
+    recovery = true; $('request-form').hidden = $('verify-form').hidden = $('profile').hidden = $('forgot-button').hidden = true;
+    document.querySelector('.tabs').hidden = true; $('password-form').hidden = false;
+    $('page-title').textContent = '비밀번호 설정'; $('description').textContent = '저장 후 이메일과 비밀번호로 로그인할 수 있습니다.';
+  }
   const now = new Date();
   const maxMonth = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
   const maxDate = `${maxMonth}-${String(now.getDate()).padStart(2,'0')}`;
@@ -33,6 +45,11 @@
   }
   function friendly(error) {
     const code = error?.code;
+    if (error instanceof Error && /비밀번호는|비밀번호 확인/.test(error.message)) return error.message;
+    if (code === 'invalid_credentials') return '이메일 또는 비밀번호가 올바르지 않습니다. 기존 이메일 인증 가입자는 비밀번호 설정 / 찾기를 이용해주세요.';
+    if (code === 'email_not_confirmed') return '가입 인증 이메일의 링크를 먼저 눌러주세요. 회원가입 화면에서 인증 이메일을 다시 받을 수 있습니다.';
+    if (code === 'weak_password') return '더 안전한 비밀번호를 입력해주세요. 8자 이상이며 영문·숫자·기호 조합을 권장합니다.';
+    if (code === 'same_password') return '현재와 다른 새 비밀번호를 입력해주세요.';
     if (code === 'over_email_send_rate_limit' || error?.status === 429) return '요청이 많습니다. 잠시 후 다시 시도해주세요.';
     if (code === 'otp_expired') return '인증번호가 만료되었거나 올바르지 않습니다. 다시 확인하거나 새 이메일을 받아주세요.';
     if (code === 'user_not_found' || code === 'signup_disabled') return '로그인할 수 없습니다. 가입 여부를 확인하거나 운영자에게 문의해주세요.';
@@ -51,12 +68,23 @@
     if (!internal && ($('request-form').dataset.busy || $('verify-form').dataset.busy)) return;
     mode = next;
     const collectProfile = next === 'signup' && !!user;
+    $('profile').hidden = $('password-form').hidden = true;
+    document.querySelector('.tabs').hidden = false;
+    $('password-fields').hidden = collectProfile || next === 'reset';
+    $('password').disabled = collectProfile || next === 'reset';
+    $('password-confirm').disabled = collectProfile || next !== 'signup';
+    $('confirm-label').hidden = next !== 'signup';
+    $('password').autocomplete = next === 'signup' ? 'new-password' : 'current-password';
+    $('password').value = $('password-confirm').value = '';
+    $('forgot-button').hidden = collectProfile || next === 'reset';
+    $('send-button').textContent = collectProfile ? '프로필 완성하기' : next === 'signup' ? '가입 인증 이메일 받기' : next === 'reset' ? '비밀번호 설정 이메일 받기' : '로그인';
     $('signup-fields').hidden = !collectProfile;
     $('signup-fields').querySelectorAll('input,select').forEach(e => e.disabled = !collectProfile);
     $('signup-tab').setAttribute('aria-pressed', String(next === 'signup'));
     $('login-tab').setAttribute('aria-pressed', String(next === 'login'));
     $('page-title').textContent = next === 'signup' ? 'FWT와 함께 시작하세요' : '다시 만나 반갑습니다';
-    $('description').textContent = '이메일로 본인 확인 후 이용할 수 있습니다.';
+    $('description').textContent = collectProfile ? '회원 프로필을 완성해주세요.' : next === 'signup' ? '이메일과 비밀번호를 입력하고 가입 인증을 완료해주세요.' : next === 'reset' ? '가입한 이메일로 비밀번호 설정 링크를 보내드립니다.' : '이메일과 비밀번호로 로그인하세요.';
+    if(next === 'reset') $('page-title').textContent = '비밀번호 설정 / 찾기';
     $('request-form').hidden = false; $('verify-form').hidden = true;
     if (config.enabled) notice('');
   }
@@ -64,6 +92,7 @@
     const { data: authData, error: authError } = await client.auth.getUser();
     if (authError || !authData.user?.email_confirmed_at) throw authError || new Error('Email verification required');
     user = authData.user;
+    if (recovery) { passwordScreen(); return; }
     const { data, error } = await client.rpc('fwt_member_profile');
     if (error) throw error;
     if (!data?.birth_date) {
@@ -77,7 +106,7 @@
       $('send-button').textContent = '프로필 완성하기';
       setMode('signup', true); $('login-tab').disabled = true; notice('이메일 인증이 완료되었습니다. 프로필 내용을 확인하고 저장해주세요.'); return;
     }
-    $('request-form').hidden = $('verify-form').hidden = true;
+    $('request-form').hidden = $('verify-form').hidden = $('forgot-button').hidden = true;
     $('profile').hidden = false; document.querySelector('.tabs').hidden = true;
     $('page-title').textContent = '나의 FWT 프로필'; $('description').textContent = '회원 정보는 언제든 수정할 수 있습니다.';
     $('profile-name').textContent = data.nickname;
@@ -88,30 +117,50 @@
   }
   $('signup-tab').onclick = () => setMode('signup');
   $('login-tab').onclick = () => setMode('login');
-  $('back-button').onclick = () => { $('request-form').hidden = false; $('verify-form').hidden = true; $('token').value = ''; notice(''); };
+  $('back-button').onclick = () => setMode('login');
+  $('forgot-button').onclick = () => setMode('reset');
+  $('set-password').onclick = () => { passwordScreen(); notice('새 비밀번호를 직접 입력하고 저장해주세요.'); };
+  $('resend-button').onclick = () => run($('verify-form'), async () => {
+    const {error} = await client.auth.resend({type:'signup',email:pendingEmail,options:{emailRedirectTo:redirectTo}});
+    if(error) throw error; notice('인증 이메일을 다시 요청했습니다. 받은편지함과 스팸함을 확인해주세요.');
+  });
   $('request-form').onsubmit = event => {
     event.preventDefault(); if (!config.enabled || !client) return;
     run(event.currentTarget, async () => {
-      let profile;
-      if (mode === 'signup' && user) { try { profile = profileValues(); } catch (error) { notice(error.message,true); return; } }
       if (user) {
+        let profile; try { profile = profileValues(); } catch(error) {notice(error.message,true);return;}
         await saveMemberProfile(profile); await showProfile(); return;
       }
       pendingEmail = $('email').value.trim();
-      const { error } = await client.auth.signInWithOtp({email: pendingEmail, options: {
-        shouldCreateUser: mode === 'signup',
-        emailRedirectTo: new URL('./index.html', location.href).href,
-        ...(profile ? {data: {fwt_profile: profile}} : {})
-      }});
-      if (error) throw error;
-      $('request-form').hidden = true; $('verify-form').hidden = false;
-      notice('인증 이메일을 요청했습니다. 이메일의 인증 링크 또는 인증번호로 본인 확인을 진행해주세요. 스팸함도 확인해주세요.'); $('token').focus();
+      if (mode === 'reset') {
+        const {error} = await client.auth.resetPasswordForEmail(pendingEmail,{redirectTo});
+        if(error) throw error; notice('가입한 이메일이라면 비밀번호 설정 링크가 발송됩니다. 링크를 열어 새 비밀번호를 직접 저장해주세요.'); return;
+      }
+      if (mode === 'signup') {
+        const password = passwordValue('password','password-confirm');
+        const {data,error} = await client.auth.signUp({email:pendingEmail,password,options:{emailRedirectTo:redirectTo}});
+        $('password').value = $('password-confirm').value = '';
+        if(error) throw error;
+        if(data?.session) { await showProfile(); return; }
+        $('request-form').hidden = $('forgot-button').hidden = true; $('verify-form').hidden = false;
+        notice('가입 인증 이메일을 요청했습니다. 링크를 눌러 인증해주세요. 이미 가입했다면 로그인 또는 비밀번호 설정 / 찾기를 이용해주세요.');
+      } else {
+        const password = $('password').value;
+        const {error} = await client.auth.signInWithPassword({email:pendingEmail,password});
+        $('password').value = '';
+        if(error) throw error; await showProfile();
+      }
     });
   };
-  $('verify-form').onsubmit = event => {
+  $('password-form').onsubmit = event => {
     event.preventDefault(); run(event.currentTarget, async () => {
-      const {error} = await client.auth.verifyOtp({email:pendingEmail, token:$('token').value.trim(), type:'email'});
-      if (error) throw error; $('token').value = ''; await showProfile();
+      const password = passwordValue('new-password','new-password-confirm');
+      const {error} = await client.auth.updateUser({password});
+      $('new-password').value = $('new-password-confirm').value = '';
+      if(error) throw error;
+      recovery = false; history.replaceState(null,'',redirectTo);
+      $('password-form').hidden = true; await showProfile();
+      notice('비밀번호를 저장했습니다. 다음부터 이메일과 비밀번호로 로그인하세요.');
     });
   };
   $('profile-form').onsubmit = event => {
@@ -132,9 +181,13 @@
     if (!window.supabase) { $('fields').disabled = true; notice('로그인 서비스를 불러오지 못했습니다. 인터넷 연결을 확인하고 새로고침해주세요.',true); return; }
     // Isolates browser session state from legacy admin screens; DB policies enforce authorization.
     client = window.supabase.createClient(config.url, config.key, {auth:{storageKey:'fwt-member-session-v1'}});
+    client.auth.onAuthStateChange((event) => {
+      if(event === 'PASSWORD_RECOVERY') { recovery = true; passwordScreen(); }
+      if(event === 'SIGNED_OUT') location.replace('./index.html');
+    });
     try { const {data,error} = await client.auth.getSession(); if(error) throw error; if(data.session) await showProfile(); }
     catch(error) { notice(friendly(error),true); }
-    client.auth.onAuthStateChange((event) => { if(event === 'SIGNED_OUT') location.replace('./index.html'); });
+
   }
   start();
 })();
