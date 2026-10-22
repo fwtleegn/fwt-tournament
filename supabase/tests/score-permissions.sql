@@ -32,12 +32,17 @@ reset role;
 set local role authenticated;
 select set_config('request.jwt.claims','{"sub":"a1111111-1111-4111-8111-111111111111","role":"authenticated"}',true);
 select set_config('request.jwt.claim.sub','a1111111-1111-4111-8111-111111111111',true);
-insert into public.member_profiles(id,nickname,age_band,tennis_since,directory_consent)
-values('a1111111-1111-4111-8111-111111111111','FWT_TEST_MEMBER_20261022','30s','2020-01-01',true);
+select public.fwt_save_member_profile('FWT_TEST_MEMBER_20261022','1990-05-10','2020-01-01',true);
+do $$ begin
+ if public.fwt_member_profile()->>'birth_date'<>'1990-05-10' then raise exception 'FAIL own birth date read';end if;
+ begin perform birth_date from public.member_profiles;raise exception 'FAIL directory birthday leak';exception when insufficient_privilege then null;end;
+ begin perform public.fwt_member_profile('a2222222-2222-4222-8222-222222222222');raise exception 'FAIL other private profile read';exception when insufficient_privilege then null;end;
+ begin perform public.fwt_save_member_profile('FWT_TEST_MEMBER_20261022','2999-01-01','2020-01-01',true);raise exception 'FAIL future birthday';exception when others then if sqlerrm<>'FWT_INVALID_BIRTH_DATE' then raise;end if;end;
+end $$;
+
 do $$ declare count_changed int;begin
  if (select count(*) from public.member_profiles where id='a2222222-2222-4222-8222-222222222222')<>1 then raise exception 'FAIL verified directory read';end if;
- update public.member_profiles set nickname='UNAUTHORIZED' where id='a2222222-2222-4222-8222-222222222222';get diagnostics count_changed=row_count;
- if count_changed<>0 then raise exception 'FAIL other profile update';end if;
+ begin update public.member_profiles set nickname='UNAUTHORIZED' where id='a2222222-2222-4222-8222-222222222222';raise exception 'FAIL direct profile update';exception when insufficient_privilege then null;end;
  update public.matches set score1=99 where id='e1111111-1111-4111-8111-111111111111';get diagnostics count_changed=row_count;
  if count_changed<>0 then raise exception 'FAIL member official score update';end if;
  begin perform public.fwt_submit_score('e1111111-1111-4111-8111-111111111111',6,2,'f1111111-1111-4111-8111-111111111111');raise exception 'FAIL unlinked submit';exception when insufficient_privilege then null;end;
