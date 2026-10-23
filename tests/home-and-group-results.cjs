@@ -1,0 +1,10 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert/strict');const root=__dirname+'/../';
+const files=['index.html','tournament.html',...fs.readdirSync(root+'admin').filter(f=>f.endsWith('.html')).map(f=>'admin/'+f),'member/index.html'];
+for(const file of files){const h=fs.readFileSync(root+file,'utf8');assert.match(h,/<a[^>]*href="(?:\.\/|\.\.\/)home.html"[^>]*aria-label="FWT 홈으로"/);for(const script of h.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g))new vm.Script(script[1]);}
+const html=fs.readFileSync(root+'tournament.html','utf8'),helper=html.slice(html.indexOf('function groupResultHtml('),html.indexOf('function renderPreliminary('));
+const context={escapeHtml:s=>String(s).replaceAll('<','&lt;'),entryName:id=>id==='a'?'블루':'성호84'};
+const result=vm.runInNewContext(helper+`;groupResultHtml({entry1_id:'a',entry2_id:'b',score1:3,score2:6})`,context);
+assert.ok(result.indexOf('>3</span>')<result.indexOf('블루'));assert.ok(result.indexOf('블루')<result.indexOf('성호84'));assert.ok(result.indexOf('성호84')<result.indexOf('>6</span>'));
+assert.ok(vm.runInNewContext(helper+`;groupResultHtml({entry1_id:'a',entry2_id:'b',score1:0,score2:null})`,context).includes('>0</span>'));
+async function route(sessions){let destination;const script=fs.readFileSync(root+'home.js','utf8');await vm.runInNewContext(script,{window:{FWT_MEMBER_CONFIG:{url:'test',key:'test'},supabase:{createClient:(_u,_k,options)=>({auth:{getSession:async()=>({data:{session:sessions[options.auth.storageKey]||null}})}})}},location:{replace:to=>destination=to},document:{getElementById:()=>({})}});return destination;}
+(async()=>{const valid={user:{email_confirmed_at:'2026-10-01'}};assert.equal(await route({}),'member/index.html?mode=login');assert.equal(await route({'fwt-member-session-v1':valid}),'index.html');assert.equal(await route({'sb-opwuyqerisocqobbbisg-auth-token':valid}),'index.html');assert.equal(await route({'fwt-member-session-v1':{user:{}}}),'member/index.html?mode=login');console.log('PASS: home links on all 17 pages, member/admin/guest routing, score-name-name-score order and zero score');})();
