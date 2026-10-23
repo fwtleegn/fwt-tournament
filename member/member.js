@@ -178,7 +178,7 @@
     catch(error) {notice(friendly(error),true);$('logout').disabled=false;}
   };
   async function start() {
-    setMode('signup');
+    setMode(new URLSearchParams(location.search).get('mode')==='login'?'login':'signup');
     if (!config?.enabled) { $('fields').disabled = true; notice('회원가입을 준비하고 있습니다. 대회는 가입 없이 둘러볼 수 있습니다.'); return; }
     if (!window.supabase) { $('fields').disabled = true; notice('로그인 서비스를 불러오지 못했습니다. 인터넷 연결을 확인하고 새로고침해주세요.',true); return; }
     // Isolates browser session state from legacy admin screens; DB policies enforce authorization.
