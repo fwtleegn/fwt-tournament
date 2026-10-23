@@ -3609,8 +3609,8 @@ function openScoreModal(
     mode === "edit"
       ? (
           match.status === "walkover"
-            ? "기권승을 실제 점수 결과로 변경할 수 있습니다. 이후 라운드 결과가 초기화될 수 있습니다."
-            : "결과를 수정하면 이후 라운드 결과가 초기화될 수 있습니다."
+            ? "기권승을 실제 점수로 변경합니다. 승자가 같으면 다음 경기를 유지하고, 바뀌면 영향받는 대진을 확인한 뒤 반영합니다."
+            : "승자가 같으면 점수만 수정합니다. 승자가 바뀌면 영향받는 다음 대진을 확인한 뒤 반영합니다."
         )
       : "최종 점수를 입력하면 승자가 다음 라운드로 진출합니다.";
 
@@ -3680,6 +3680,17 @@ function closeScoreModal(){
 /* =====================================
    SAVE SCORE
 ===================================== */
+
+function scoreCorrectionPreview(match,newWinner,score1,score2){
+  const stages={round32:'32강',round16:'16강',quarterfinal:'8강',semifinal:'4강',final:'결승'};
+  const affected=getDescendants(match.id).slice().sort((a,b)=>Number(a.round_number)-Number(b.round_number)||Number(a.match_number)-Number(b.match_number));
+  const lines=affected.map(child=>{
+    const score=child.score1!==null&&child.score1!==undefined&&child.score2!==null&&child.score2!==undefined?' · 점수 '+child.score1+' : '+child.score2:'';
+    const court=child.court_id?' · 코트 '+(courts.find(c=>c.id===child.court_id)?.name||'배정됨'):'';
+    return (stages[child.stage]||'본선')+' '+child.match_number+'경기: '+entryName(child.entry1_id)+' vs '+entryName(child.entry2_id)+' ['+statusLabel(child.status)+']'+score+court;
+  });
+  return '승자 변경 확인\n'+entryName(match.entry1_id)+' '+score1+' : '+score2+' '+entryName(match.entry2_id)+'\n승자: '+entryName(match.winner_entry_id)+' → '+entryName(newWinner)+'\n\n'+(lines.length?'영향받는 다음 경기 '+lines.length+'개 (현재 대진·결과)\n'+lines.join('\n')+'\n\n위 경기의 점수·승자·경기 시간·코트 배정을 초기화하고 대진을 다시 계산합니다. 다른 경기 결과는 유지합니다.':'영향받는 다음 경기는 없습니다. 우승 및 입상 이력이 변경될 수 있습니다.')+'\n\n이 변경을 반영할까요? 취소하면 저장하지 않습니다.';
+}
 
 async function saveScore(){
 
@@ -3772,58 +3783,9 @@ async function saveScore(){
     match.winner_entry_id;
 
 
-  /*
-    완료된 경기 결과를 수정하면서
-    승자가 바뀌는 경우,
-    이후 라운드를 그대로 두면 안 된다.
-  */
-
-  if (
-    scoreMode === "edit"
-    &&
-    oldWinner
-    &&
-    oldWinner !==
-      newWinner
-  ){
-
-    const descendants =
-      getDescendants(
-        match.id
-      );
-
-
-    const progressed =
-      descendants.some(
-        child =>
-          [
-            "playing",
-            "completed",
-            "walkover"
-          ].includes(
-            child.status
-          )
-      );
-
-
-    let message =
-      "승자가 변경됩니다. 이후 라운드의 대진을 다시 계산합니다.";
-
-
-    if (progressed){
-
-      message +=
-        "\n\n이미 진행 또는 완료된 다음 라운드 결과도 초기화됩니다.";
-
-    }
-
-
-    if (
-      !confirm(message)
-    ){
-      return;
-    }
-
+  const winnerChanged = scoreMode === "edit" && oldWinner !== newWinner;
+  if (winnerChanged && !confirm(scoreCorrectionPreview(match,newWinner,score1,score2))){
+    return;
   }
 
 
@@ -3837,14 +3799,23 @@ async function saveScore(){
     );
 
 
+    // A score-only correction must not touch any downstream match or metadata.
+    if (scoreMode === "edit" && !winnerChanged && match.status === "completed"){
+      await updateMatch(match.id,{score1,score2});
+      match.score1=score1;match.score2=score2;
+      closeScoreModal();
+      await loadMatches();
+      renderAll();
+      setBusy(false);
+      return;
+    }
+
     /*
       수정이면 이 경기를 기반으로 한
       이후 라운드를 먼저 초기화.
     */
 
-    if (
-      scoreMode === "edit"
-    ){
+    if (winnerChanged){
 
       await resetDescendants(
         match.id
@@ -3905,7 +3876,7 @@ async function saveScore(){
       다음 라운드 슬롯 재계산
     */
 
-    await repairPropagation();
+    if (scoreMode !== "edit" || winnerChanged) await repairPropagation();
 
 
     /*
