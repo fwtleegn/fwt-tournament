@@ -1395,16 +1395,16 @@
 /* Compact podium; equal visual weight for both doubles partners. */
 .awards-stack .champion{padding:16px 20px 20px;min-height:0}.awards-stack .champion-trophy{width:40px;height:40px;font-size:23px;margin:7px auto 5px}.awards-stack .champion-tournament{font-size:11px}.awards-stack .champion-name{font-size:27px;margin-top:6px}.awards-stack .award-runner{padding:14px 20px}.award-runner .award-icon{width:34px;height:38px;margin-bottom:4px}.award-runner .award-name{margin-top:6px}.award-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;max-width:600px;margin:0 auto;gap:0}.award-person{display:flex;align-items:center;justify-content:center;min-width:0;padding:5px 16px;line-height:1.35;overflow-wrap:anywhere;word-break:keep-all}.award-person+ .award-person{border-left:1px solid currentColor}.award-person:only-child{grid-column:1/-1}.award-bronze .award-pair{width:100%}@media(max-width:520px){.awards-stack .champion{padding:14px 12px 19px}.awards-stack .champion-name{font-size:24px}.award-person{padding:5px 10px}.award-bronze .award-name{flex:1}.award-runner .award-name{font-size:22px}}
 </style>
-</head>
+<style>.fwt-home-link{color:inherit;text-decoration:none;cursor:pointer}.fwt-home-link:focus-visible{outline:3px solid #a3bd42;outline-offset:5px;border-radius:4px}</style></head>
 
 
 <body>
 
 <header class="topbar">
 
-  <div class="fwt-logo">
+  <a class="fwt-logo fwt-home-link" href="../home.html" aria-label="FWT 홈으로">
     FW<span>T</span>
-  </div>
+  </a>
 
 
   <div class="top-actions"><button class="header-btn" type="button" onclick="location.href='./knockout-edit.html?division='+encodeURIComponent(JSON.parse(sessionStorage.getItem('fwtNewTournament')||'{}').divisionId||'')">대진 수정</button>
