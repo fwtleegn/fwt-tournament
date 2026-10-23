@@ -5,13 +5,15 @@
  function fail(e){const msg=e?.message||'';$('admin-notice').textContent=msg.includes('FWT_MATCH_CHANGED')?'경기 상태가 변경되어 승인하지 않았습니다. 제출을 반려한 뒤 참가자에게 다시 제출하도록 안내하세요.':msg.includes('FWT_PLAYER_ALREADY_LINKED')?'이미 다른 회원에게 연결된 선수입니다. 기존 연결을 확인하세요.':'처리하지 못했습니다. 권한 또는 최신 경기 상태를 확인해주세요.';}
  function options(){
   const q=$('player-search').value.trim().toLocaleLowerCase();const own=new Map(links.map(l=>[l.player_id,l.user_id]));
-  $('player-select').replaceChildren(new Option('선수를 선택해주세요',''),...players.filter(p=>!own.has(p.id)&&p.label.toLocaleLowerCase().includes(q)).map(p=>new Option(p.label,p.id)));
+  $('player-select').replaceChildren(new Option('선수를 선택해주세요',''),...players.filter(p=>p.hasParticipation&&!own.has(p.id)&&p.label.toLocaleLowerCase().includes(q)).map(p=>new Option(p.label,p.id)));
  }
  async function load(){if(loading)return;loading=true;$('refresh-reviews').disabled=true;
   try{
    const results=await Promise.all([client.from('member_profiles').select('id,nickname').order('nickname'),client.from('players').select('id,name,nickname').order('created_at'),client.from('player_accounts').select('player_id,user_id'),client.from('entry_members').select('player_id,entry_id'),client.from('entries').select('id,division_id,display_name'),client.from('divisions').select('id,tournament_id,name'),client.from('tournaments').select('id,name'),client.from('score_submissions').select('id,match_id,submitted_by,score1,score2,submitted_at').eq('status','submitted').order('submitted_at'),client.from('matches').select('id,division_id,entry1_id,entry2_id,status')]);
    for(const r of results)if(r.error)throw r.error;
    members=results[0].data;players=results[1].data;links=results[2].data;const em=results[3].data,es=new Map(results[4].data.map(x=>[x.id,x])),ds=new Map(results[5].data.map(x=>[x.id,x])),ts=new Map(results[6].data.map(x=>[x.id,x.name])),ms=new Map(results[8].data.map(x=>[x.id,x])),names=new Map(members.map(x=>[x.id,x.nickname]));
+   const participatingPlayers=new Set(em.filter(x=>ts.has(ds.get(es.get(x.entry_id)?.division_id)?.tournament_id)).map(x=>x.player_id));
+   players=players.map(p=>({...p,hasParticipation:participatingPlayers.has(p.id)}));
    const oldMember=$('member-select').value;$('member-select').replaceChildren(new Option('회원을 선택해주세요',''),...members.map(m=>new Option(m.nickname,m.id)));$('member-select').value=oldMember;
    players=players.map(p=>({...p,label:`${p.nickname||p.name} (${p.name}) · ${[...new Set(em.filter(x=>x.player_id===p.id).map(x=>ts.get(ds.get(es.get(x.entry_id)?.division_id)?.tournament_id)).filter(Boolean))].join(', ')||'출전 기록 없음'} · ${p.id.slice(0,8)}`}));options();
    $('linked-list').replaceChildren(...links.map(link=>n('p',`${names.get(link.user_id)||'회원'} ← ${players.find(p=>p.id===link.player_id)?.label||link.player_id}`)));
